@@ -100,3 +100,5 @@ replay_pid*
 .classpath
 .gitignore
 /Semi_proj/src/main/webapp/WEB-INF/Command.properties
+/Semi_proj/src/main/webapp/WEB-INF/web.xml
+/Semi_proj/src/main/java/common/controller/FrontController.java
