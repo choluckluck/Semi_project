@@ -99,3 +99,4 @@ replay_pid*
 ##### commit 제외파일 #####
 .classpath
 .gitignore
+/Semi_proj/src/main/webapp/WEB-INF/Command.properties
