@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	어쩌구
-	
-	머지테스트 해봅니다...ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄹ머지전 푸시
+	혜리니 푸시함
 </body>
 </html>
