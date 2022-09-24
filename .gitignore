@@ -102,3 +102,6 @@ replay_pid*
 /Semi_proj/src/main/webapp/WEB-INF/Command.properties
 /Semi_proj/src/main/webapp/WEB-INF/web.xml
 /Semi_proj/src/main/java/common/controller/FrontController.java
+/Semi_proj/src/main/webapp/bootstrap-4.6.0-dist
+/Semi_proj/src/main/webapp/jquery-ui-1.13.1.custom
+/Semi_proj/src/main/webapp/js
