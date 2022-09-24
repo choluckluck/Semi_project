@@ -3,32 +3,8 @@
 <%
     String ctxPath = request.getContextPath();
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>가입완료</title>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-
-<!-- Font Awesome 5 Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-<!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/hyerin_style.css" />
-
-<!-- Optional JavaScript -->
-<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
-
-<!-- jQueryUI CSS-->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
-<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
-
+<jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 <script>
 	$(document).ready(function(){
 		// 완료 버튼 클릭시 메인페이지로 이동하는 이벤트
@@ -39,8 +15,6 @@
 	});
 </script>
 
-</head>
-<body>
 	<div id="registerwrite_container" class="container-fluid row mt-5">
 		<div class="col-3"></div>
 		<div class="col-6">
@@ -102,6 +76,4 @@
 		</div>
 		<div class="col-3"></div>
 	</div>
-	
-</body>
-</html>
+<jsp:include page="/WEB-INF/hyerin/footer.jsp"/>
