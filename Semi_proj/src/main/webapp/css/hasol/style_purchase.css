@@ -1,0 +1,243 @@
+@charset "UTF-8";
+
+.container {
+    padding: 5%;
+}
+
+a {
+	text-decoration: none;
+}
+
+/* 혜택정보 */
+.pur_benefit_info {
+    border: solid 1px lightgray;
+    padding:5px;
+}
+
+.tbl_pur_benefit_info {
+    width: 100%;
+}
+
+.tbl_pur_benefit_info tr:first-child td:first-child {
+    border-right: solid 1px lightgray;
+    width:14%;
+    font-weight: bold;
+    text-align: center;
+    margin-left: 10%;
+}
+
+
+.tbl_pur_benefit_info tr td:nth-child(3) {
+    padding: 10px 0;
+    border-bottom: solid 1px lightgray;
+    font-size: 12px;
+}
+
+
+.tbl_pur_benefit_info tr:last-child td {
+    padding: 10px 0;
+    font-size: 12px;
+}
+
+
+
+
+/* 주문상품 정보 */
+
+.order_prod_detail {
+    margin: 5% auto;
+}
+
+.order_prod_detail_title {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.order_prod_detail_tab{
+    margin-top: 5px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
+}
+
+.order_prod_detail_tab thead {
+    border-top: solid 2px black;
+    border-bottom: solid 2px lightgray;
+    font-weight: bold;
+}
+
+.order_prod_detail_tab tbody {
+    font-size: 13px;
+}
+
+
+.order_prod_detail_tab tbody tr td {
+    border-bottom: solid 1px lightgray;
+}
+
+.order_prod_detail_tab tbody tr td:nth-child(2),
+.order_prod_detail_tab tbody tr:nth-child(2) td:nth-child(1)  {
+    text-align: left;
+}
+
+.order_prod_detail_tab tbody tr:nth-child(2) td:last-child {
+    text-align: right;
+}
+
+.order_prod_detail_tab tbody tr td p {
+    margin: 5px;
+}
+
+
+/* 배송정보 */
+.delivery_info_title {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.deliver_info_tbl {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+    border-top: solid 1px black;
+    border-bottom: solid 2px lightgray;
+}
+
+
+.deliver_info_tbl td {
+    height:60px;
+    border-bottom: solid 1px lightgray;
+}
+
+.deliver_info_tbl tr td:first-child {
+    width: 30px;
+}
+
+/* 이거 보더 왜 안없어지냐고..... */
+/* .deliver_info_tbl tr:nth-child(4) td:last-child {
+    border:none;
+} */
+
+.deliver_info_tbl input,textarea,button {
+    border: solid 1px lightgrey;
+    padding: 4px;
+}
+
+
+
+/* 주문금액 정보 */
+.amount_info {
+    margin: 5% auto;
+}
+
+.tbl_amount_info_title {
+    margin-top: 5px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+    border-top: solid 1px black;
+    border-bottom: solid 1px lightgray;
+}
+
+.tbl_amount_info_title tr td span {
+    display: block;
+    margin: 10px;
+}
+
+.btn_show_detail {
+    font-size: 5px;
+    padding: 2px;
+}
+
+
+
+
+.tbl_amount_info_body {
+    margin-top: 5px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+    border-bottom: solid 1px lightgray;
+}
+
+.tbl_amount_info_body tr {
+    border-bottom: solid 1px lightgray;
+}
+
+.tbl_amount_info_body tr td {
+    height:50px;
+    border-bottom: solid 1px lightgray;
+}
+
+.tbl_amount_info_name1 {
+    width: 140px;
+    font-weight: bold; 
+}
+
+.btn_tbl_amount_info {
+    font-size: 8px;
+    background-color:rgb(4, 4, 58);
+    color: white;
+    border-radius:10%;
+    padding: 5px;
+}
+
+
+
+/* 결제수단 */
+.pay_method {
+    margin-top: 10px;
+}
+
+.tbl_pay_method {
+    margin-top: 5px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+    border-top: solid 1px black;
+}
+
+.tbl_pay_method tr:first-child {
+    height: 40px;
+}
+.label_pay {
+    margin-right: 40px;
+}
+
+.tbl_pay_method p {
+    font-size: 14px;
+    margin: 14px 0;
+}
+
+.tbl_pay_method strong {
+    margin: 0;
+}
+
+.tbl_pay_method button {
+    width:100%;
+    height: 40px;
+    background-color: rgb(4, 4, 58);
+    color: white;
+}
+
+.p_tbl_pay_method {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+
+/* 결제수단-무통장입금 */
+.pay_method_nonaccount {
+    width: 100%;
+}
+.pay_method_nonaccount tr td:first-child {
+    width: 15%;
+    height:40px;
+}
