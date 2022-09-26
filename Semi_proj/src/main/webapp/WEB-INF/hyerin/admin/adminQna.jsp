@@ -6,9 +6,6 @@
 
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 <style>
-	form[name='productQna_search_form']{
-		float:right;
-	}
 	
 	.qna_search{
 		border: none;
@@ -16,9 +13,14 @@
 		width : 100px;
 	}
 	
+	form[name='productQna_search_form']{
+		font-size: 10pt;
+	}
+	
 	.productqna_sort{
 		border: solid 1px #d9d9d9;
 		height: 30px;
+		font-size: 10pt;
 	}
 	
 	.admin_qna_th{
@@ -31,6 +33,7 @@
 		border-bottom: solid 1px #d9d9d9;
 	}
 	
+	
 	#admin_qna_btn{
 		float: right;
 		width:150px;
@@ -38,7 +41,7 @@
 	}
 	
 	.admin_answer_btn{
-		width: 90%;
+		width: 80%;
 		height:30px;
 	}
 	
@@ -73,6 +76,42 @@
 		$(".ui-datepicker-trigger").hide();
 		
 	});
+	
+	
+	
+	function qna_answer(){
+		// 나의 정보 수정하기 팝업창 띄우기
+		const url = "<%= ctxPath%>/hyerin/admin/adminQnaAnswer.sue";
+		
+		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
+		
+		const pop_width = 800; //팝업 px은 생략가능 (더하기 할 경우 => 생략)
+		const pop_height = 600;
+		const pop_left = Math.ceil( (window.screen.width - pop_width)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
+		const pop_top = Math.ceil( (window.screen.height - pop_height)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
+		
+		
+		window.open(url, "qnaAnswer",
+				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
+		
+	}
+	
+	function qna_answerEdit(){
+		// 나의 정보 수정하기 팝업창 띄우기
+		const url = "<%= ctxPath%>/hyerin/admin/adminQnaAnswer.sue";
+		
+		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
+		
+		const pop_width = 800; //팝업 px은 생략가능 (더하기 할 경우 => 생략)
+		const pop_height = 600;
+		const pop_left = Math.ceil( (window.screen.width - pop_width)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
+		const pop_top = Math.ceil( (window.screen.height - pop_height)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
+		
+		
+		window.open(url, "qnaAnswer",
+				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
+		
+	}
 
 </script>
 
@@ -81,12 +120,13 @@
 	<div id="contents" class="col-9 ml-5 mt-3 mb-5">
 		<div id="productqna">
 			<div style="font-weight:bold;">
-				<span class="mr-3 mt-1" style="font-size:20pt;">상품리뷰</span>
+				<span class="mr-3 mt-1" style="font-size:20pt;">문의관리</span>
 				<span>
 					<select class="mt-1 mr-2 productqna_sort" >
 						<option value="adminQna_all" selected>전체</option>
-						<option value="adminQna_productKind">상품종류</option>
-						<option value="adminQna_productName" selected>상품명</option>
+						<option value="adminQna_answer_y">답변완료</option>
+						<option value="adminQna_answer_n">답변대기</option>
+						<option value="adminQna_answer_n">작성일자</option>
 					</select>
 				</span>
 				<form name="productQna_search_form" class="mt-2" style="display:inline-block;">
@@ -104,23 +144,26 @@
 						<tr>
 							<th width="5%" class="admin_qna_th text-center" ><input type="checkbox" id=""/></th>
 							<th width="5%" height="50px" class="admin_qna_th text-center">No</th>
-							<th width="15%" class="admin_qna_th text-center">상품 이미지</th>
-							<th width="10%" class="admin_qna_th text-center">상품명</th>
-							<th width="10%" class="admin_qna_th text-center">회원명</th>
-							<th width="30%" class="admin_qna_th text-center">제목</th>
+							<th width="15%" class="admin_qna_th text-center">상품정보</th>
+							<th width="10%" class="admin_qna_th text-center">카테고리</th>
+							<th width="5%" class="admin_qna_th text-center">회원명</th>
+							<th width="25%" class="admin_qna_th text-center">제목</th>
 							<th width="10%" class="admin_qna_th text-center">작성일자</th>
 							<th width="5%" class="admin_qna_th text-center">답변상태</th>
-							<th width="5%" class="admin_qna_th text-center">답변</th>
-							<th width="5%" class="admin_qna_th text-center">삭제</th>
+							<th width="10%" class="admin_qna_th text-center">답변</th>
+							<th width="10%" class="admin_qna_th text-center">삭제</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td class="admin_qna_tbody text-center" style="border-top:none;"><input type="checkbox" id=""/></td>
 							<td height="160px" class="admin_qna_tbody text-center">!상품코드</td>
-							<td class="text-center admin_qna_tbody"><img id="admin_product_img_1" height="150px" src="<%= ctxPath%>/images/hyerin/best_img_2.jpg"></td>
-							<td class="text-center admin_qna_tbody">!상품명</td>
-							<td class="text-center admin_qna_tbody">!회원명</td>
+							<td class="admin_qna_tbody" >
+								<img id="admin_product_img_1" class="ml-4" height="100px" src="<%= ctxPath%>/images/hyerin/best_img_2.jpg">
+								<span class="ml-2">!상품명</span>
+							</td>
+							<td class="text-center admin_qna_tbody">!카테고리</td>
+							<td class="text-center admin_qna_tbody">!회원명</td>	
 							<td class="text-center admin_qna_tbody">
 								<div>!제목</div>
 								<div>!내용</div>
@@ -128,15 +171,14 @@
 							<td class="text-center admin_qna_tbody">!작성일자</td>
 							<td class="text-center admin_qna_tbody">!Y/N</td>
 							<td class="text-center admin_qna_tbody">
-								<button type="button" class="white admin_answer_btn">답변</button>
-								<button type="button" class="white admin_answer_btn">답변수정</button>
+								<button type="button" class="white admin_answer_btn" onclick="qna_answer();">답변</button>
+								<button type="button" class="white admin_answer_btn" onclick="qna_answerEdit();">답변수정</button>
 							</td>
 							<td class="text-center admin_qna_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;">삭제</button></td>
 						</tr>
 					</tbody>
 				</table>
 				<div class="mt-3">
-					<span class="mr-2"><button type="button" id="" class="white" style="height:30px;">선택확인</button></span>
 					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
 				</div>
 			</form>

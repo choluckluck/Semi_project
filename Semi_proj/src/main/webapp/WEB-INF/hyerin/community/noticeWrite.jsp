@@ -44,9 +44,6 @@
 			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
 		});
 		
-		
-		
-		
 	});
 	
 </script>
