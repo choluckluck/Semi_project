@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+        <%
+    	String ctxPath = request.getContextPath();
+    	// ctxPath ==> /JSPServletBegin
+	
+     %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,9 +49,34 @@
 <script type="text/javascript">
 
 	$(document).ready (function(){
+		$("button#mypagemain").click(function(){
+			location.href= "<%= ctxPath%>/seongmin/member/mypage_Main.up";
+		});
 		
+		$("button#orderView").click(function(){
+			location.href= "<%= ctxPath%>/seongmin/member/orderView.up";
+		});
 
-	});
+		$("button#interestPrd").click(function(){
+			location.href= "<%= ctxPath%>/seongmin/member/interestPrd.up";
+		});
+
+		$("button#point").click(function(){
+			location.href= "<%= ctxPath%>/seongmin/member/point.up";
+		});
+
+		$("button#coupon").click(function(){
+			location.href= "<%= ctxPath%>/seongmin/member/coupon.up";
+		});
+
+		$("button#infoChange").click(function(){
+			location.href= "<%= ctxPath%>/seongmin/member/infoChange.up";
+		});
+
+		$("button#reviewManage").click(function(){
+			location.href= "<%= ctxPath%>/seongmin/member/reviewManage.up";
+		});
+});
 	
 
 
@@ -69,13 +100,12 @@
 		   <h2 style="text-align:center;"><button type="button" id="mypagemain" style="border:none; background-color: white;">마이페이지</button></h2>
 		    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 		    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-			  <button type="button" class="btn btn-gray">주문조회</button>
-			  <button type="button" class="btn btn-gray">관심 상품</button>
-			  <button type="button" class="btn btn-gray">적립금</button>
-			  <button type="button" class="btn btn-gray">쿠폰</button>
-			  <button type="button" class="btn btn-gray">회원정보 수정</button>
-			  <button type="button" class="btn btn-gray">리뷰 & 문의내역 관리</button>
-			  <button type="button" class="btn btn-gray">회원정보수청</button>
+			  <button id="orderView" type="button" class="btn btn-gray">주문조회</button>
+			  <button id="interestPrd" type="button" class="btn btn-gray">관심 상품</button>
+			  <button id="point" type="button" class="btn btn-gray">적립금</button>
+			  <button id="coupon" type="button" class="btn btn-gray">쿠폰</button>
+			  <button id="infoChange" type="button" class="btn btn-gray">회원정보 수정</button>
+			  <button id="reviewManage" type="button" class="btn btn-gray">리뷰 & 문의내역 관리</button>
 			</div>
 	   </div>
 	   

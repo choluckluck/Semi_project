@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+        <%
+    	String ctxPath = request.getContextPath();
+    	// ctxPath ==> /JSPServletBegin
+	
+     %>
+     
 <!DOCTYPE html>
 <html>
 <head>
@@ -150,24 +157,9 @@
 </head>
 <body>
 
-
 <jsp:include page="../hyerin/header.jsp"></jsp:include>  
-  <div id="container">
- 	<div class="row">
- 	   <div class="col-2">
- 	   <br><br>
-		   <h2 style="text-align:center;">마이페이지</h2>
-		    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-		    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-			  <button type="button" class="btn btn-gray">주문조회</button>
-			  <button type="button" class="btn btn-gray">관심 상품</button>
-			  <button type="button" class="btn btn-gray">적립금</button>
-			  <button type="button" class="btn btn-gray">쿠폰</button>
-			  <button type="button" class="btn btn-gray">회원정보 수정</button>
-			  <button type="button" class="btn btn-gray">리뷰 & 문의내역 관리</button>
-			  <button type="button" class="btn btn-gray">회원정보수청</button>
-			</div>
-	   </div>
+<jsp:include page="sideMenu.jsp" />
+ 
 	   <div class="col-10">
 	   	  <br><br>
 	      <h5>주문조회</h5>
