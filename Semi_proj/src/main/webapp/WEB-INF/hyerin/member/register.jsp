@@ -8,7 +8,7 @@
 <script>
 	$(document).ready(function(){
 		$("button#register_button").click(function(){
-			location.href="<%= ctxPath%>/hyerin/member/agreement.up"
+			location.href="<%= ctxPath%>/hyerin/member/agreement.sue";
 		});
 		
 	});

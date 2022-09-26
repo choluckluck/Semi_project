@@ -11,14 +11,14 @@
 		//글쓰기 글씨 클릭 이벤트
 		$("button#notice_write").click(function(){
 			const frm = document.notice_form;
-			frm.action="<%= ctxPath%>/hyerin/community/noticeWrite.up";
+			frm.action="<%= ctxPath%>/hyerin/community/noticeWrite.sue";
 			frm.method = "get";
 			frm.submit();
 		});
 		
 		//커뮤니티사이드바_공지사항 클릭 이벤트
 		$("div#sidebar_notice").click(function(){
-			location.href="<%= ctxPath%>/hyerin/community/notice.up";
+			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
 		});
 		
 		

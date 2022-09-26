@@ -11,23 +11,23 @@
 		
 		//로그인 버튼 클릭이벤트
 		$("button#login_button").click(function(){
-			location.href="<%= ctxPath%>/main.up";
+			location.href="<%= ctxPath%>/main.sue";
 		});
 		
 		
 		//회원가입 버튼 클릭이벤트
 		$("button#register_button").click(function(){
-			location.href="<%= ctxPath%>/hyerin/member/agreement.up";
+			location.href="<%= ctxPath%>/hyerin/member/agreement.sue";
 		});
 		
 		//아이디찾기 클릭이벤트
 		$("span#login_idfind").click(function(){
-			location.href="<%= ctxPath%>/hyerin/login/idFind.up";
+			location.href="<%= ctxPath%>/hyerin/login/idFind.sue";
 		});
 		
 		//비밀번호찾기 클릭이벤트
 		$("span#login_pwdfind").click(function(){
-			location.href="<%= ctxPath%>/hyerin/login/pwdFind.up";
+			location.href="<%= ctxPath%>/hyerin/login/pwdFind.sue";
 		});
 		
 	});

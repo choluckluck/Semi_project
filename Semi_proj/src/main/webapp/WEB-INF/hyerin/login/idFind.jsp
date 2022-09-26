@@ -10,7 +10,7 @@
 	$(document).ready(function(){
 		//확인버튼 클릭이벤트
 		$("button#idfind_submit").click(function(){
-			location.href="<%= ctxPath%>/hyerin/login/idFindResult.up";
+			location.href="<%= ctxPath%>/hyerin/login/idFindResult.sue";
 			
 			/* const frm = document.idfind_form;
 			frm.action = "idFindResult.up";
@@ -20,7 +20,7 @@
 		
 		//취소버튼 클릭이벤트
 		$("button#idfind_cancel").click(function(){
-			location.href="<%= ctxPath%>/main.up";
+			location.href="<%= ctxPath%>/main.sue";
 		});
 		
 	});

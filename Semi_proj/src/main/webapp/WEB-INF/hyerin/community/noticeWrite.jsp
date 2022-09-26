@@ -13,7 +13,7 @@
 		
 		//커뮤니티사이드바_공지사항 클릭 이벤트
 		$("div#sidebar_notice").click(function(){
-			location.href="<%= ctxPath%>/hyerin/community/notice.up";
+			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
 		});
 		
 		
@@ -22,14 +22,14 @@
 		$("button#notice_list").click(function(){
 			
 			frm.reset();
-			location.href="<%= ctxPath%>/hyerin/community/notice.up";
+			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
 			
 		});
 		
 		//등록버튼 클릭이벤트 => 자기가 작성한 글 페이지로
 		$("button#notice_submit").click(function(){
 			
-			location.href="<%= ctxPath%>/hyerin/community/noticeView.up";
+			location.href="<%= ctxPath%>/hyerin/community/noticeView.sue";
 			/* 
 				frm.action = " 오류나서 여기 일단 제대로 안썼응..  ctxPath  /community/noticeView.up";
 				frm.method = "post";
@@ -42,7 +42,7 @@
 		//취소버튼 클릭이벤트
 		$("button#notice_reset").click(function(){
 			frm.reset();
-			location.href="<%= ctxPath%>/hyerin/community/notice.up";
+			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
 		});
 		
 		

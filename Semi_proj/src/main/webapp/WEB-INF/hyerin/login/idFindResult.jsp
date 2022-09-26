@@ -10,17 +10,17 @@
 	$(document).ready(function(){
 		//로그인버튼 클릭이벤트
 		$("button#idfindResult_login").click(function(){
-			location.href="<%= ctxPath%>/hyerin/login/login.up";
+			location.href="<%= ctxPath%>/hyerin/login/login.sue";
 			
 			/* const frm = document.idfind_form;
-			frm.action = "idFindResult.up";
+			frm.action = "idFindResult.sue";
 			frm.method = "post";
 			frm.submit(); */
 		});
 		
 		//비밀번호찾기 버튼 클릭이벤트
 		$("button#idfindResult_pwdfind").click(function(){
-			location.href="<%= ctxPath%>/hyerin/login/pwdFind.up";
+			location.href="<%= ctxPath%>/hyerin/login/pwdFind.sue";
 		});
 		
 	});

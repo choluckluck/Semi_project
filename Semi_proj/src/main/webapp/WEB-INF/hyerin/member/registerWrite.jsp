@@ -22,9 +22,9 @@
 		
 		// 가입버튼 클릭이벤트
 		$("button#join_btn").click(function(){
-			location.href = "<%= ctxPath%>/hyerin/member/registerResult.up";
+			location.href = "<%= ctxPath%>/hyerin/member/registerResult.sue";
 			/* const frm = document.registerForm;
-			frm.action = "registerResult.up";
+			frm.action = "registerResult.sue";
 			frm.method = "post";
 			frm.submit(); */
 		});
