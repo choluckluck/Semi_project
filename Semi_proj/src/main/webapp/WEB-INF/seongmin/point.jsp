@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+        <%
+    	String ctxPath = request.getContextPath();
+    	// ctxPath ==> /JSPServletBegin
+	
+     %>
 <jsp:include page="../hyerin/header.jsp"></jsp:include>
 <jsp:include page="sideMenu.jsp" />
 

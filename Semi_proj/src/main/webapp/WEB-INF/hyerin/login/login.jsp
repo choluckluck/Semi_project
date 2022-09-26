@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
+    
 <%
     String ctxPath = request.getContextPath();
 %>
@@ -11,28 +15,67 @@
 		
 		//로그인 버튼 클릭이벤트
 		$("button#login_button").click(function(){
-			location.href="<%= ctxPath%>/main.up";
+			goLogin(); //로그인 시도
+			
+		});
+		$("input#logininput_pwd").bind("keydown", function(event){
+			if(event.keyCode == 13) { // 암호입력란에 엔터를 했을 경우 
+				goLogin(); // 로그인 시도한다.
+			}
 		});
 		
 		
 		//회원가입 버튼 클릭이벤트
 		$("button#register_button").click(function(){
-			location.href="<%= ctxPath%>/hyerin/member/agreement.up";
+			location.href="<%= ctxPath%>/hyerin/member/agreement.sue";
 		});
 		
 		//아이디찾기 클릭이벤트
 		$("span#login_idfind").click(function(){
-			location.href="<%= ctxPath%>/hyerin/login/idFind.up";
+			location.href="<%= ctxPath%>/hyerin/login/idFind.sue";
 		});
 		
 		//비밀번호찾기 클릭이벤트
 		$("span#login_pwdfind").click(function(){
-			location.href="<%= ctxPath%>/hyerin/login/pwdFind.up";
+			location.href="<%= ctxPath%>/hyerin/login/pwdFind.sue";
 		});
 		
 	});
 	
+	function goLogin(){
+		//	alert("로그인 시도함");
+		
+			const loginUserid = $("input#logininput_id").val().trim();
+		    const loginPwd = $("input#logininput_pwd").val().trim();
+		    
+		    if(loginUserid == "") {
+		    	alert("아이디를 입력하세요!!");
+		    	$("input#logininput_id").val("");
+		    	$("input#logininput_id").focus();
+		    	return; // goLogin() 함수 종료
+		    }
+		    
+		    if(loginPwd == "") {
+		    	alert("암호를 입력하세요!!");
+		    	$("input#logininput_pwd").val("");
+		    	$("input#logininput_pwd").focus();
+		    	return; // goLogin() 함수 종료
+		    }
+		    
+		    if( $("input:checkbox[id='id_save']").prop("checked") ){
+		    	localStorage.setItem('id_save', $("input#logininput_id").val());	
+		    }
+		    else{
+		    	localStorage.removeItem('id_save');
+		    }
+		    
 
+		    
+		    
+	}
+	
+	
+	
 </script>
 
 <div id="container" class="container-fluid">
