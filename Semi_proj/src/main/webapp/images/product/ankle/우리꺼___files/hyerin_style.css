@@ -1,0 +1,338 @@
+@charset "UTF-8";
+	
+	/* communitySidebar.jsp */
+	
+	
+	/* notice.jsp */
+	table#notice_list{
+		font-size:10pt;
+		border-collapse: collapse;
+		border: solid 1px #d9d9d9;
+	}
+	
+	table#notice_list th, table#notice_list td{
+		border-bottom: solid 1px #d9d9d9;
+	}
+	
+	button#notice_write:hover, div#sidebar_notice:hover{
+		cursor: pointer;
+	}
+	
+	.notice_th{
+		border-top : solid 1px black;
+		border-bottom: solid 1px black;
+		font-weight: normal;
+	}
+	
+	.notice_td{
+		border-bottom : solid 1px #d9d9d9;
+	}
+	
+	
+	tbody#notice_tbody > tr > td:nth-child(2):hover {
+		cursor: pointer;
+	}
+	
+	.page-link {
+	  color: #000; 
+	  background-color: #fff;
+	  border: 1px solid #ccc; 
+	}
+	
+	.page-item.active .page-link {
+	 z-index: 1;
+	 color: #555;
+	 font-weight:bold;
+	 background-color: #f1f1f1;
+	 border-color: #ccc;
+	 
+	}
+	
+	.page-link:focus, .page-link:hover {
+	  color: #000;
+	  background-color: #fafafa; 
+	  border-color: #ccc;
+	}
+	
+	
+	/* noticeWrtie.jsp */
+	.black{
+		background-color: black;
+		border: solid 1px black;
+		color: white;
+		font-size: 10pt;
+		height: 50px;
+		width: 100px;
+	}
+	.white{
+		background-color: white;
+		border: solid 1px black;
+		font-size: 10pt;
+		height: 50px;
+		width: 100px;
+	}
+	
+	/* noticeView.jsp */
+	#Viewother_post_table > tr:first-child > td{
+		border-bottom: solid 1px black;
+	}
+	#Viewother_post_table > tr > td:first-child{
+		border-right: solid 1px black;
+	}
+	
+	span#previous_post:hover, span#next_post:hover{
+		cursor: pointer;
+	}
+	
+	
+	/* login.jsp */
+	
+	table#login{
+		border-collapse: separate;
+		border-spacing: 10px 15px;
+		font-size: 10pt;
+	}
+	
+	input#logininput_id, input#logininput_pwd{
+		border: none;
+		height: 40px;
+	}
+	
+	img.login_img{
+		width: 30px;
+	}
+	
+	td.kakao_log{
+		background-color: #FFEB04;
+		height: 50px;
+		font-size: 10pt;
+	}
+	
+	td.naver_log{
+		background-color: #00bf18;
+	}
+	td.apple_log{
+		background-color: black;
+	}
+	
+	span.login_box{
+		display: inline-block;
+	}
+	
+	td#login_text, td#idfind_text, td#pwdfind_text, td#register_text{
+		font-weight: bold;
+		font-size:20pt; 
+	}
+	
+	.login_input{
+		width: 100%;
+		border:none;
+	}
+	
+	.login_box{
+		height: 40px;
+		font-size: 10pt;
+	}
+	
+	tr.naver_apple{
+		color: white;
+	}
+	
+	.description_text{
+		color: gray;
+	}
+	
+	input#id_save{
+		position: relative;
+		top: 2px;
+	}
+	
+	
+	/* idFind.jsp */
+	table#idfind_table, table#pwdfind_table{
+		border-collapse: separate;
+		border-spacing: 0 10px;
+		font-size: 10pt;
+	}
+	
+	select#member_category{
+		border: solid 1px #d9d9d9;
+		height: 40px;
+	}
+	
+	.idfind_input_text, .pwdfind_input_text{
+		border: solid 1px #d9d9d9;
+		height: 40px;
+		width: 100%;
+	}
+	
+	
+	/* IdFIndResult.jsp */
+	table#idfindResult_table, table#pwdfindResult_table{
+		border-collapse: separate;
+		border-spacing: 0 10px;
+		font-size: 11pt;
+	}
+	
+	
+	/*  */
+	
+	
+	
+	/* agreement.jsp */
+	td#Allagree{
+		font-size: 10pt;
+	}
+	
+	iframe.agree{
+		border: none;
+		font-size: 5pt;
+	}
+	
+	.agreebox{
+		border: solid 1px #d9d9d9;
+		width: 100%;
+	}
+	
+	/* registerWrite.jsp */
+	.register_table{
+		font-size: 10pt;
+	}
+	
+	
+	table#register_table{
+		border: none;
+	}
+	
+	td#necessary_index{
+		border-bottom: solid 1px black;
+	}
+	
+	.necessary{
+		color: red;
+	}
+	
+	button.zipcode_btn{
+		border: solid 1px #d9d9d9;
+		height: 40px;
+		background-color: white;
+		color: #a6a6a6;
+	}
+	
+	.zipcode_input{
+		border: solid 1px #d9d9d9;
+		height: 40px;
+	}
+	
+	
+	input.register_input{
+		border: solid 1px #d9d9d9;
+		height: 40px;
+	}
+	
+	.register_description{
+		color:#a6a6a6;
+		font-size: 10pt;
+	}
+	
+	select.register_phoneselect, select.idfind_phonselect, select.pwdfind_phonselect{
+		border: solid 1px #d9d9d9;
+		height: 40px;
+		width: 25%;
+	}
+	
+	.register_input_phone, .idfind_input_phone, .pwdfind_input_phone{
+		border: solid 1px #d9d9d9;
+		height: 40px;
+	}
+	
+	.register_approval{
+		color: black;
+		font-size: 10pt;
+		font-weight: bold;
+	}
+	
+	.register_warning, .id_warning{
+		color: black;
+		font-size: 10pt;
+		font-weight: bold;
+	}
+	
+	.division{
+		color: #a6a6a6;
+		padding: 0 10px 0 10px;
+	}
+	
+	select.region{
+		border: solid 1px #d9d9d9;
+		height: 40px;
+	}
+	
+	table#register_table, table#register_table_2{
+		border-collapse: separate;
+		border-spacing: 0 15px;
+	}
+	
+	div#registerwrite_container{
+		padding-left:0; padding-right:0;
+		margin-left:0; margin-right:0;
+	}
+	
+	input.agree_chx, input.agree_radio{
+		width: 13px;
+		height: 13px;
+		cursor: pointer;
+		position: relative;
+		top: 2px;
+		margin-right: 2px;
+	}
+	
+	
+	
+	/* registerResult.jsp */
+	table#register_result_table{
+		border-collapse: separate;
+		border-spacing: 0 10px;
+	}
+	
+	
+	.register_result_text{
+		font-size: 11pt;
+	}
+	
+	.registermember_infobox{
+		border: solid 1px #d9d9d9;
+		font-size: 11pt;
+		border-collapse: separate;
+		border-spacing: 0 5px;
+	}
+	
+	.register_finish_btn{
+		border: solid 1px #d9d9d9;
+		background-color: white;
+		font-size: 11pt;
+		color: #8c8c8c;
+		width: 100%;
+		height: 50px;
+	}
+	
+	.coupon_subject{
+		font-size: 9pt;
+		font-weight : bold;
+	}
+	
+	.coupon_info{
+		font-size: 9pt;
+		color: #ff6666;
+	}
+	
+	.coupon_due{
+		font-size: 9pt;
+		color: #a6a6a6;
+	}
+	
+	
+	
+	
+	
+	
