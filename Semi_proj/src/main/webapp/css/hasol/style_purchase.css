@@ -8,6 +8,10 @@ a {
 	text-decoration: none;
 }
 
+label {
+	margin-bottom: 0;
+}
+
 /* 혜택정보 */
 .pur_benefit_info {
     border: solid 1px lightgray;
@@ -124,6 +128,7 @@ a {
     border: solid 1px lightgrey;
     padding: 4px;
 }
+
 
 
 

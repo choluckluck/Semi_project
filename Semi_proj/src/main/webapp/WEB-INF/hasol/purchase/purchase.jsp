@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <%
@@ -20,7 +20,8 @@ $(document).ready(function(){
 	
 	// 결제 방식 자동 설정
 	$("input:radio[name='pay_method']:radio[value='credit']").prop("checked", true);
-	
+	$("table#info_radio_nonaccount").hide();
+ 	$("span#info_radio_credit").show();  
 	
 	//************** default 설정 끝 **************//
 	
@@ -82,6 +83,10 @@ $(document).ready(function(){
 
 				
     });
+	
+	
+
+	 
 }); //
 
 // ********* 팝업창 크기 설정 ***********
@@ -100,17 +105,47 @@ const pop_top = Math.ceil( (window.screen.height - pop_height)/2 );
     
  } --%>
  
+ 
  // 쿠폰적용 팝업창 띄우기
  function selectCoupon() {
-	 const url = "<%= request.getContextPath()%>/hasol/purchase/purchase_popup.up";
+	 const url = "<%= request.getContextPath()%>/hasol/purchase/purchase_popup.sue";
 	 
 	window.open(url,"selectCoupon",
-            width="600", height="800");
+            width="800", height="800");
  }
  
  
  // 수정 팝업창 띄우기
 
+ 
+ 
+ // 결제수단 선택 영역
+ function selectPay_method(){
+     if($("input:radio[id=pay_credit]").is(":checked")){
+		$("table#info_radio_nonaccount").hide();
+	 	$("span#info_radio_credit").show();   
+	 }
+ 	 else{
+ 		$("span#info_radio_credit").hide();
+ 		$("table#info_radio_nonaccount").show();      
+ 	 }
+ }
+
+ 
+ // 결제하기
+ function goPurchase(userid) {
+	
+	 if(!$("input:checkbox[agree_purchase]").is("checked")) {
+		 alert("결제 진행 약관에 동의가 필요합니다!");
+	 }
+	 else {
+		 const userid = "${sessionScope.loginuser.userid}"; 
+	     const url = "<%= request.getContextPath()%>/hasol/purchase/purchaseEnd.sue";
+		
+		 window.open(url, "coinPurchaseEnd",
+				    "left=350px, top=100px, width=1000px, height=600px");
+	 }
+ }
 
 </script>
 
@@ -291,17 +326,17 @@ const pop_top = Math.ceil( (window.screen.height - pop_height)/2 );
 
                 <table class="tbl_pay_method">
                     <tr style="border-bottom: solid 1px lightgray">
-                        <td style="width: 930px;">
-                            <input type="radio" name="pay_method" value="credit"/><label for="credit" >신용카드</label>
-                            <input type="radio" name="pay_method" value="non-account"/><label for="non-account" >무통장입금</label>
+                        <td style="width: 700px;">
+                            <input type="radio" id="pay_credit" name="pay_method" value="credit" onchange="selectPay_method()"/><label for="credit" >신용카드</label>
+                            <input type="radio" id="pay_nonaccount"name="pay_method" value="non-account" onchange="selectPay_method()"/><label for="non-account" >무통장입금</label>
                         </td>
                         <td rowspan="2" style="padding: 30px;">
                             <p style="margin: 0;"><strong>최종결제금액</strong></p>
                             <strong style="font-size:30px;">60,000원</strong>
                             <br>
                             <br>
-                            <p><input type="checkbox"/><label>결제정보를 확인하였으며, 구매진행에 동의합니다.</label></p>
-                            <p><button type="button">결제하기</button></p>
+                            <p><input type="checkbox" id="agree_purchase"/><label>결제정보를 확인하였으며, 구매진행에 동의합니다.</label></p>
+                            <p><button type="button" onClick="goPurchase('${(sessionScope.loginuser).userid}')">결제하기</button></p>
                             <p class="p_tbl_pay_method"><b>총 적립예정금액</b><span>0원</span></p>
                             <p class="p_tbl_pay_method"><b>상품별 적립금</b><span>0원</span></p>
                             <p class="p_tbl_pay_method"><b>회원적립금</b><span>0원</span></p>

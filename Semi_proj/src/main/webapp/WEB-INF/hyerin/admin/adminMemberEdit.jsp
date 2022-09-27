@@ -1,56 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-    String ctxPath = request.getContextPath();
+<% 
+	String ctxPath = request.getContextPath(); 
 %>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>회원정보 수정</title>
 
-<jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
-
-<script>
-	$(document).ready(function(){
-		// 문서로딩시 경고 메시지는 숨김
-		$(".register_warning").hide();
-		
-		// 문서로딩시 가능하다는 메시지는 숨김
-		$(".register_approval").hide();
-		
-		// 취소버튼 클릭시 메인페이지로 이동
-		$("button#cancel_btn").click(function(){
-			location.href="메인페이지경로";
-		});
-		
-		
-		// 가입버튼 클릭이벤트
-		$("button#join_btn").click(function(){
-			location.href = "<%= ctxPath%>/hyerin/member/registerResult.sue";
-			/* const frm = document.registerForm;
-			frm.action = "registerResult.sue";
-			frm.method = "post";
-			frm.submit(); */
-		});
-		
-	});
+	<%-- Bootstrap CSS --%>
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 	
+	<%-- Font Awesome 5 Icons --%>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	
+	<%-- 직접 만든 CSS --%>
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/hyerin_style.css" />
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/main_style.css" />
 	
-</script>
-
+	<%-- Optional JavaScript --%>
+	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
+	
+	<%-- jQueryUI CSS--%>
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
+	<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
+</head>
+<body>
 	<div id="registerwrite_container" class="container-fluid row mt-5">
-		<div class="col-3"></div>
-		<div class="col-6">
+		<div class="col-1"></div>
+		<div class="col-10">
 			<form name="registerForm">
 				<table id="register_table" class="container register_table">
 						<tr>
-							<td colspan="4" id="register_text">회원가입</td>
+							<td colspan="4" id="register_text">회원정보수정</td>
 						</tr>
 						<tr>
 							<td colspan="4" id="necessary_index" class="text-right">
-								<span class="necessary">*</span><span class="font-weight-bold">필수</span>
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline w-25 pt-2">
-								아이디<span class="necessary">*</span>
+								아이디 
 							</td>
 							<td>
 								<input type="text" name="member_id" class="register_input w-100"/>
@@ -61,7 +53,7 @@
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								비밀번호<span class="necessary">*</span>
+								비밀번호 
 							</td>
 							<td>
 								<input type="text" name="member_pwd" class="register_input w-100"/>
@@ -71,7 +63,7 @@
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								비밀번호 확인<span class="necessary">*</span>
+								비밀번호 확인 
 							</td>
 							<td>
 								<input type="text" name="member_pwdcheck" class="register_input w-100"/>
@@ -80,7 +72,7 @@
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								이름<span class="necessary">*</span>
+								이름 
 							</td>
 							<td>
 								<input type="text" name="member_name" class="register_input w-100"/>
@@ -89,7 +81,7 @@
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								주소<span class="necessary">*</span>
+								주소 
 							</td>
 							<td>
 								<input type="text" name="member_zipcode" class="zipcode_input w-25"/>
@@ -106,24 +98,24 @@
 								일반전화
 							</td>
 							<td>
-								<select class="register_phoneselect">
+								<select class="register_phoneselect" style="width:24%;">
 									<option selected>02</option>
 									<option value="1">031</option>
 									<option value="2">032</option>
 									<option value="3">033</option>
 								</select>
 								<span class="division">-</span>
-								<input type="text" name="telephone_middle" class="register_input_phone"/>
+								<input type="text" name="telephone_middle" class="register_input_phone" style="width:24%;"/>
 								<span class="division">-</span>
-								<input type="text" name="telephone_last" class="register_input_phone"/>
+								<input type="text" name="telephone_last" class="register_input_phone" style="width:24%;"/>
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								휴대전화<span class="necessary">*</span>
+								휴대전화 
 							</td>
 							<td>
-								<select class="register_phoneselect">
+								<select class="register_phoneselect" style="width:24%;">
 									<option selected>010</option>
 									<option value="1">011</option>
 									<option value="2">016</option>
@@ -132,15 +124,15 @@
 									<option value="5">019</option>
 								</select>
 								<span class="division">-</span>
-								<input type="text" name="cellphone_middle" class="register_input_phone"/>
+								<input type="text" name="cellphone_middle" class="register_input_phone" style="width:24%;"/>
 								<span class="division">-</span>
-								<input type="text" name="cellphone_last" class="register_input_phone"/>
+								<input type="text" name="cellphone_last" class="register_input_phone" style="width:24%;"/>
 								<div id="phone_warning" class="register_warning">휴대전화번호를 입력해주세요.</div>
 							</td>
 						</tr>
 						<tr>
 							<td class="font-weight-bold align-baseline pt-2">
-								이메일<span class="necessary">*</span>
+								이메일 
 							</td>
 							<td>
 								<input type="text" name="memeber_email" class="register_input w-100"/>
@@ -156,7 +148,6 @@
 								<label for="agree_sms" class="mr-5">SMS</label>
 								<input type="checkbox" id="agree_email" class="agree_chx pt-4"/>
 								<label for="agree_email">이메일</label>
-								<div class="register_description">쇼핑몰에서 제공하는 신상품 소식/할인쿠폰을 무상으로 보내드립니다.</div>
 							</td>
 						</tr>
 					</table>
@@ -214,7 +205,7 @@
 							<td><input type="text" class="register_input w-100"/></td>
 						</tr>
 						<tr>
-							<td colspan="2" class="pt-5 pb-2"><button type="button" id="join_btn" class="black" style="width:100%;">가입</button></td>
+							<td colspan="2" class="pt-5 pb-2"><button type="button" id="join_btn" class="black" style="width:100%;">수정</button></td>
 						</tr>
 						<tr>
 							<td colspan="2" class="pb-5"><button type="button" id="cancel_btn" class="white" style="width:100%;">취소</button></td>
@@ -222,7 +213,7 @@
 					</table>
 			</form>
 		</div>
-		<div class="col-3"></div>
+		<div class="col-1"></div>
 	</div>
-	
-<jsp:include page="/WEB-INF/hyerin/footer.jsp"/>
+</body>
+</html>

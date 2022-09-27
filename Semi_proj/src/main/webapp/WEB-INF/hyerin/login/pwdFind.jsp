@@ -10,11 +10,11 @@
 	$(document).ready(function(){
 		//확인버튼 클릭이벤트
 		$("button#pwdfind_submit").click(function(){
-			location.href="pwdFindSendEmail.up";
+			location.href="pwdFindSendEmail.sue";
 			
 			
 			/* const frm = document.pwdfind_form;
-			frm.action = "pwdFindSendEmail.up";
+			frm.action = "pwdFindSendEmail.sue";
 			frm.method = "post";
 			frm.submit(); */
 		});
