@@ -13,7 +13,7 @@ public class ProductVO {
 	 private int prod_price;	 // 상품 가격    
 	 private String prod_stock; // 상품 재고
 	 private String prod_registerday; // 상품
-	 
+	 private int prod_review_count; //제품 리뷰 개수
 	 
 	 
 	 
@@ -34,6 +34,7 @@ public class ProductVO {
 	
 	
 	public String getProd_kind() {
+		
 		return prod_kind;
 	}
 	public void setProd_kind(String prod_kind) {
@@ -94,6 +95,14 @@ public class ProductVO {
 	}
 	public void setProd_registerday(String prod_registerday) {
 		this.prod_registerday = prod_registerday;
+	}
+	
+	
+	public int getProd_review_count() {
+		return prod_review_count;
+	}
+	public void setProd_review_count(int prod_review_count) {
+		this.prod_review_count = prod_review_count;
 	}
 	 
 	 
