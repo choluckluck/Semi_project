@@ -1,4 +1,4 @@
-package hasol.member.controller;
+package hasol.purchase.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
