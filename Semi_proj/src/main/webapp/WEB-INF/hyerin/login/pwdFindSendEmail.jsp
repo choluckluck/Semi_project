@@ -10,17 +10,17 @@
 	$(document).ready(function(){
 		//임시비밀번호전송 버튼 클릭이벤트
 		$("button#pwdfind_send_email").click(function(){
-			location.href="<%= ctxPath%>/hyerin/login/pwdFindResult.up";
+			location.href="<%= ctxPath%>/hyerin/login/pwdFindResult.sue";
 			
 			/* const frm = document.idfind_form;
-			frm.action = "pwdFindResult.up";
+			frm.action = "pwdFindResult.sue";
 			frm.method = "post";
 			frm.submit(); */
 		});
 		
 		//취소 버튼 클릭이벤트
 		$("button#pwdfind_cancel").click(function(){
-			location.href="<%= ctxPath%>/main.up";
+			location.href="<%= ctxPath%>/main.sue";
 		});
 		
 	});

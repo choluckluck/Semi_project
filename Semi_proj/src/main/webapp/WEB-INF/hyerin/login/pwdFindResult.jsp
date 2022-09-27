@@ -10,7 +10,7 @@
 	$(document).ready(function(){
 		//로그인버튼 클릭이벤트
 		$("button#pwdfindResult_login").click(function(){
-			location.href="<%= ctxPath%>/hyerin/login.up";
+			location.href="<%= ctxPath%>/hyerin/login.sue";
 		});
 		
 		

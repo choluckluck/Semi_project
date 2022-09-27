@@ -10,12 +10,12 @@
 	$(document).ready(function(){
 		//목록버튼 클릭이벤트
 		$("button#notice_list").click(function(){
-			location.href="<%= ctxPath%>/hyerin/community/notice.up";
+			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
 		});
 		
 		//커뮤니티사이드바_공지사항 클릭 이벤트
 		$("div#sidebar_notice").click(function(){
-			location.href="<%= ctxPath%>/hyerin/community/notice.up";
+			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
 		});
 		
 		

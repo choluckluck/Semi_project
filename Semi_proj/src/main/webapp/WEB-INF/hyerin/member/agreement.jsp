@@ -10,13 +10,13 @@
 	$(document).ready(function(){
 		// 회원가입 버튼 클릭이벤트
 		$("button#register_btn").click(function(){
-			location.href="<%= ctxPath%>/hyerin/member/registerWrite.up";
+			location.href="<%= ctxPath%>/hyerin/member/registerWrite.sue";
 		});
 		
 		
 		// 취소 버튼 클릭이벤트
 		$("button#reset_btn").click(function(){
-			location.href="메인페이지뷰단";
+			location.href="<%= ctxPath%>/main.sue";
 		});
 		
 	});
