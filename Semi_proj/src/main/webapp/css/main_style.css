@@ -55,7 +55,8 @@
 } */
 
 #header_search_container {
-    position: relative; bottom: 100px; right: 20px;
+	float: right;
+    /* position: relative; bottom: 100px; right: 20px; */
 }
 
 
