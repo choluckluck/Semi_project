@@ -36,7 +36,7 @@
   				<div class="card-body">
     				<p class="card-title">색(코딩) 리뷰(코딩)</p>
     				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="<%= request.getContextPath()%>/jihee/product/sideFL.up"class="btn btn-outline-primary" style="color:blue;">플랫/로퍼</a>
+    				<a href="<%= request.getContextPath()%>/jihee/product/sideFL.sue"class="btn btn-outline-primary" style="color:blue;">플랫/로퍼</a>
   				</div>
 		</div>
      </div>
