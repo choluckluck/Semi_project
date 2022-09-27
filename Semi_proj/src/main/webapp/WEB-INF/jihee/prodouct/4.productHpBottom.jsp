@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
     
 <%
     String ctxPath = request.getContextPath();
@@ -10,6 +13,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script type="text/javascript">
+
+function gocheck() {
+	
+	alert("체크박스 체크");
+	
+}
+
+function godelete() {
+	
+	alert("체크박스 해제");
+	
+}
+</script>
 </head>
 <body>
 <div class="container">
@@ -28,251 +46,45 @@
 	<div>
 		<p class="fw-bolder" style="text-align: left; font-size: 25px; padding-bottom: 30px;">힐/펌프스</p>
 	</div>
-
+	
+<c:forEach var="i" begin="1" end="4">
 <div class="row">
-	<div class="col-lg-3" id="sideinfo">
+	<c:forEach var="pvo" items="${requestScope.productList}">
+	<div class="col-lg-3" id="sideinfo" style="margin-bottom: 5%;">
   		<div class="card" style="width: 16rem;">
   			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
   				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
+    				<p class="card-title">${pvo.prod_color} 리뷰(코딩)</p>
     				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="<%= request.getContextPath()%>/jihee/product/sideFL.sue"class="btn btn-outline-primary" style="color:blue;">플랫/로퍼</a>
+    				<a class="btn btn-outline-primary" style="color:blue;" onclick="check();">플랫/로퍼</a>
   				</div>
 		</div>
      </div>
-  	
-
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
+     </c:forEach>
      
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  	
-
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-     
-  	</div>
+  	</div>	
+ </c:forEach>  	
+ 
+ 
   
-  <div class="row" style="margin-top: 5%;">
-    <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  	
-
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-     
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  	
-
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-     
-  </div>
+  <nav aria-label="Page navigation">
+		  <ul class="pagination justify-content-center pagination-sm my-5">
+		    <li class="page-item">
+		      <a class="page-link" href="#" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+		    <li class="page-item"><a class="page-link">${requestScope.pageBar}</a></li>
+		    
+		    <li class="page-item">
+		      <a class="page-link" href="#" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>
   
-  <div class="row" style="margin-top: 5%;">
-     <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  	
-
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-     
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  	
-
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  </div>
-  
-  <div class="row" style="margin-top: 5%;">
-     <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  	
-
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-     
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  	
-
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  </div>
-  
-  <div class="row" style="margin-top: 5%;">
-     <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  	
-
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-     
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-  	
-
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-      </div>
-
-  
-</div>
+ </div>
 
 
 </body>
