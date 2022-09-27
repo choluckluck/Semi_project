@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import hasol.purchase.model.JMemberVO;
-import member.model.MemberVO;
 
 public abstract class AbstractController implements InterCommand {
 	/*
