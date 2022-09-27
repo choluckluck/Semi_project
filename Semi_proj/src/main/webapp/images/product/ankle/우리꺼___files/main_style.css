@@ -1,0 +1,156 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'RIDIBatang';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUIT-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'InfinitySans-RegularA1';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+	font-family: 'SUIT-Medium';
+}
+
+
+.navbar > nav > a {
+  display: inline;
+}
+
+
+/* header */
+#header {
+  margin-bottom: 130px;
+}
+  
+
+.logo{
+  position: absolute;
+  top: 40px;
+  left: 40%;
+}
+
+#header_search_container{
+  position: relative;
+  top: 20px;
+}
+
+
+.blog-header {
+    height: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-nav {
+    height: 100%;
+}
+
+#header_search{
+  border:none;
+  border-bottom: solid 1px black;
+
+}
+
+/* nav */
+
+.nav_bar ul {
+  list-style-type: none;
+}
+
+.nav_bar ul a {
+  text-decoration: none;
+  color: white;
+}
+
+#nav_bar_category{
+  background-color: black;
+  margin: 0;
+  padding: 20px 0 20px 0;
+
+}
+
+ul#nav_bar_category li {
+  float: left;
+}
+
+.real_subbar{
+  position: absolute;
+  top: 64px;
+}
+
+.sub_bar {
+  background-color: white;
+  color:red;
+}
+
+.real_subbar{
+  background-color: white;
+  height: 80px;
+  padding-top: 30px;
+  opacity: 0.8;
+}
+
+.real_subbar > span {
+  margin-top: 100px;
+  margin-right: 30px;
+  
+  position: relative;
+  left: 220px;
+}
+
+.real_subbar > span > a{
+  text-decoration: none;
+  color: black;
+}
+
+/* main */
+.discount{
+  float: right;
+  color: red;
+  font-weight: bold;
+}
+
+
+.best_color{
+  box-sizing: border-box;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: solid 1px #d9d9d9;
+  display: inline-block;
+  
+}
+
+
+/* footer */
+.bold{
+  font-weight: bold;
+}

@@ -15,6 +15,7 @@
 		
 		//로그인 버튼 클릭이벤트
 		$("button#login_button").click(function(){
+<<<<<<< HEAD
 			goLogin(); //로그인 시도
 			
 		});
@@ -22,6 +23,9 @@
 			if(event.keyCode == 13) { // 암호입력란에 엔터를 했을 경우 
 				goLogin(); // 로그인 시도한다.
 			}
+=======
+			location.href="<%= ctxPath%>/main.sue";
+>>>>>>> branch 'main' of https://github.com/choluckluck/Semi_project.git
 		});
 		
 		

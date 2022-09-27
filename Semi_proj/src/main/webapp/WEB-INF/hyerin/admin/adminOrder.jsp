@@ -6,23 +6,21 @@
 
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 <style>
-	.productOrder_priceSearch{
+	.productOrder_dateSearch, .productOrder_priceSearch, .productOrder_nameSearch{
 		border: none;
 		border-bottom: solid 1px black;
-		width : 130px;
+		width : 150px;
 	}
 
 	
-	.productOrder_dateSearch{
-		border: none;
-		border-bottom: solid 1px black;
-		width : 100px;
+	#productOrder_search_container{
+		font-size: 10pt;
 	}
-	
 	
 	.productOrder_sort{
 		border: solid 1px #d9d9d9;
 		height: 30px;
+		font-size: 10pt;
 	}
 	
 	.admin_productOrder_th{
@@ -71,7 +69,30 @@
 		
 		$(".ui-datepicker-trigger").hide();
 		
+		
+		////////////////////////////////////////////////////////
+		
+		$(".productOrder_searchForm").hide();
+		
 	});
+	
+	function order_edit(){
+		// 나의 정보 수정하기 팝업창 띄우기
+		const url = "<%= ctxPath%>/hyerin/admin/adminOrderEdit.sue";
+		
+		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
+		
+		const pop_width = 800; //팝업 px은 생략가능 (더하기 할 경우 => 생략)
+		const pop_height = 600;
+		const pop_left = Math.ceil( (window.screen.width - pop_width)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
+		const pop_top = Math.ceil( (window.screen.height - pop_height)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
+		
+		
+		window.open(url, "orderEdit",
+				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
+		
+	}
+	
 
 </script>
 
@@ -87,9 +108,11 @@
 						<option value="productOrder_OrderDate">날짜별</option>
 					</select>
 				</span> --%>
-				<span >
+				<span>
 					<select class="mt-1 mr-2 productOrder_sort">
-						<option value="productOrder_default2" selected>주문상태별</option>
+						<option value="productOrder_default" selected>주문상태별</option>
+						<option value="productOrder_confirm">입금대기</option>
+						<option value="productOrder_confirm">입금확인요청</option>
 						<option value="productOrder_confirm">결제확인</option>
 						<option value="productOrder_prepare">상품준비중</option>
 						<option value="productOrder_delivery_ing">배송중</option>
@@ -99,58 +122,67 @@
 						<option value="productOrder_return">반품</option>
 					</select>
 				</span>
-				<span >
-					<select class="mt-1 productOrder_sort">
-						<option value="productOrder_default2" selected>전체선택</option>
-						<option value="productOrder_confirm">날짜</option>
-						<option value="productOrder_prepare">주문금액</option>
-					</select>
-				</span>
 				
-				<form name="productOrder_dateSearch_form" class="mt-2" style="display:inline-block; float:right;">
-					<input type="text" id="productOrder_dateSearch_min" class="productOrder_dateSearch" name="productOrder_dateSearch_min" placeholder="날짜"/>
-					~
-					<input type="text" id="productOrder_dateSearch_max" class="productOrder_dateSearch" name="productOrder_dateSearch_max" placeholder="날짜"/>
-				</form>
-				<form name="productOrder_priceSearch_form" class="mt-2" style="display:inline-block; clear:both; float:right;">
-					<input type="text" id="productOrder_priceSearch_min" class="productOrder_priceSearch" name="productOrder_priceSearch_min" placeholder="최소금액"/>
-					~
-					<input type="text" id="productOrder_priceSearch_max" class="productOrder_priceSearch" name="productOrder_priceSearch_max" placeholder="최대금액"/>
-					<button type="button" id="productOrder_priceSearch_btn" name="productOrder_priceSearch_btn" style="border:none; background-color: transparent;">
+				<div id="productOrder_search_container" style="display:inline-block;">
+					<span class="mr-2">
+						<select class="mt-1 productOrder_sort">
+							<option value="productOrder_default2" selected>전체선택</option>
+							<option value="productOrder_confirm">날짜별</option>
+							<option value="productOrder_prepare">주문금액별</option>
+							<option value="productOrder_prepare">주문코드</option>
+						</select>
+					</span>
+					<form name="productOrder_dateSearch_form" class="mt-2 productOrder_searchForm" style="display:inline-block;">
+						<input type="text" id="productOrder_dateSearch_min" class="productOrder_dateSearch" name="productOrder_dateSearch_min" placeholder="날짜"/>
+						~
+						<input type="text" id="productOrder_dateSearch_max" class="productOrder_dateSearch" name="productOrder_dateSearch_max" placeholder="날짜"/>
+						<button type="button" id="productOrder_dateSearch_btn" name="productOrder_dateSearch_btn" style="border:none; background-color: transparent;">
+							<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
+						</button>
+					</form>
+					<form name="productOrder_priceSearch_form" class="mt-2 productOrder_searchForm" style="display:inline-block;">
+						<input type="text" id="productOrder_priceSearch_min" class="productOrder_priceSearch" name="productOrder_priceSearch_min" placeholder="최소금액"/>
+						~
+						<input type="text" id="productOrder_priceSearch_max" class="productOrder_priceSearch" name="productOrder_priceSearch_max" placeholder="최대금액"/>
+						<button type="button" id="productOrder_priceSearch_btn" name="productOrder_priceSearch_btn" style="border:none; background-color: transparent;">
+							<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
+						</button>
+					</form>
+					<form name="productOrder_nameSearch_form" class="mt-2 productOrder_searchForm" style="display:inline-block;">
+					<input type="text" id="productOrder_nameSearch" class="productOrder_nameSearch" name="productOrder_nameSearch" placeholder="주문번호로 검색"/>
+					<button type="button" id="productOrder_nameSearch_btn" name="productOrder_nameSearch_btn" style="border:none; background-color: transparent;">
 						<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
 					</button>
 				</form>
+				</div>
 			</div>
 			<form name="admin_productOrder_frm">
 				<table id="admin_productOrder" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
 					<thead>
 						<tr>
 							<th width="5%" class="admin_productOrder_th text-center" ><input type="checkbox" id=""/></th>
-							<th width="5%" height="50px" class="admin_productOrder_th text-center">No</th>
+							<th width="15%" height="50px" class="admin_productOrder_th text-center">No</th>
 							<th width="10%" class="admin_productOrder_th text-center">주문일자</th>
 							<th width="10%" class="admin_productOrder_th text-center">주문상태</th>
 							<th width="10%" class="admin_productOrder_th text-center">주문금액</th>
 							<th width="15%" class="admin_productOrder_th text-center">상품명</th>
-							<th width="10%" class="admin_productOrder_th text-center">회원명</th>
-							<th width="10%" class="admin_productOrder_th text-center">수령인</th>
-							<th width="5%" class="admin_productOrder_th text-center">확인</th>
+							<th width="5%" class="admin_productOrder_th text-center">회원명</th>
+							<th width="5%" class="admin_productOrder_th text-center">수령인</th>
+							<th width="5%" class="admin_productOrder_th text-center">수정</th>
 							<th width="5%" class="admin_productOrder_th text-center">삭제</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td class="admin_productOrder_tbody text-center" style="border-top:none;"><input type="checkbox" id=""/></td>
-							<td height="160px" class="admin_productOrder_tbody text-center">!주문코드</td>
-							<td class="text-center admin_productOrder_tbody"><img id="admin_productOrder_img_1" height="150px" src="<%= ctxPath%>/images/hyerin/best_img_2.jpg"></td>
-							<td class="text-center admin_productOrder_tbody">!상품 이름</td>
+							<td height="70px" class="admin_productOrder_tbody text-center">!주문코드</td>
+							<td class="text-center admin_productOrder_tbody">!주문일자</td>
+							<td class="text-center admin_productOrder_tbody">!주문상태</td>
+							<td class="text-center admin_productOrder_tbody">!주문금액</td>
+							<td class="text-center admin_productOrder_tbody">!상품명</td>
 							<td class="text-center admin_productOrder_tbody">!회원명</td>
-							<td class="text-center admin_productOrder_tbody">
-								<div>!제목</div>
-								<div>!내용</div>
-							</td>
-							<td class="text-center admin_productOrder_tbody">!평점</td>
-							<td class="text-center admin_productOrder_tbody">!작성일자</td>
-							<td class="text-center admin_productOrder_tbody"><input type="checkbox"/></td>
+							<td class="text-center admin_productOrder_tbody">!수령인</td>
+							<td class="text-center admin_productOrder_tbody"><button id="admin_productedit_btn" type="button" class="white" style="width:90%; height:30px;" onclick="order_edit();">수정</button></td>
 							<td class="text-center admin_productOrder_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;">삭제</button></td>
 						</tr>
 					</tbody>
@@ -158,7 +190,9 @@
 				<div class="mt-3">
 					<span >
 						<select class="mr-2 productOrder_sort">
-							<option value="productOrder_default" selected>상태변경</option>
+							<option value="productOrder_default" selected>주문상태변경</option>
+							<option value="productOrder_confirm">입금대기</option>
+							<option value="productOrder_confirm">입금확인요청</option>
 							<option value="productOrder_confirm">결제확인</option>
 							<option value="productOrder_prepare">상품준비중</option>
 							<option value="productOrder_delivery_ing">배송중</option>
@@ -168,7 +202,7 @@
 							<option value="productOrder_return">반품</option>
 						</select>
 					</span>
-					<span class="mr-2"><button type="button" id="" class="white" style="height:30px;">선택상태변경</button></span>
+					<span class="mr-2"><button type="button" id="" class="white" style="height:30px;">선택일괄변경</button></span>
 					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
 				</div>
 			</form>

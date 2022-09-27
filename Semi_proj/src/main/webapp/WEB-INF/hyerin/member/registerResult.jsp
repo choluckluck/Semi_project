@@ -9,7 +9,7 @@
 	$(document).ready(function(){
 		// 완료 버튼 클릭시 메인페이지로 이동하는 이벤트
 		$("button#register_finish_btn").click(function(){
-			location.href="<%= ctxPath%>/main.up";
+			location.href="<%= ctxPath%>/main.sue";
 		});
 
 	});

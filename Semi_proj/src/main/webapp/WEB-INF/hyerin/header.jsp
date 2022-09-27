@@ -31,15 +31,21 @@
 	$(document).ready(function(){
 		//header_search 입력박스는 처음에 안보이게 한다
 		$("input#header_search").hide();
-
-		// //클릭시 보이게 한다
+		
+		$("input#header_search").keyup((e)=>{
+			if(e.keyCode==13){
+				productSearch();
+			}
+		});
+		
+		// 
 		$("button#header_search_btn").click(function(){
 			const input_text = $("input#header_search").val().trim();
 			if(input_text == ""){ //header_search의 input값이 비어있을때, 즉 문서 로딩시 검색버튼을 클릭을 했을 때
 				$("input#header_search").toggle();
 			}
 			else if (input_text != ""){ //header_search에 값을 입력했을 때, 즉 검색 값을 입력했을 때
-				// input#header_search 값을 submit한다
+				productSearch();
 			}
 		});//end of $("button#header_search_btn").click
 
@@ -62,41 +68,66 @@
 				$("div.real_subbar").hide();
 			});
 		});//end of ("ul#nav_bar_category").find("a").mouseenter
-
+		
+		
+		
+		
+		///////////////////////////////////////////////////////////////////////////
+		//헤더이미지(전체) 클릭이벤트
+		$("#header_logo_container").click(function(){
+			location.href="<%= ctxPath%>/main.sue";
+		});
+		
+		///////////////////////////////////////////////////////////////////////////
+		
+		
 
 	});//end of ready
+	
+	
+	/////////////////////////////////////////////////////////////////
+	function productSearch(){
+		const search_frm = document.header_search_form;
+		search_frm.action="전체상품페이지검색.sue";
+		search_frm.header_search.val = $("input#header_search").val(); //input 값을 같이 넘겨주기
+		search_frm.action="get";
+		search_frm.submit();
+	};
+	
+	
+	
 	</script>
 </head>
 <body>
-	<div id="header">
+	<div id="header" style="margin:0;">
 		<%-- login information --%>
 		<div id="header_login_container" align="right" class="mt-3 pl-3 pr-3">
 			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:12px; color: gray;">로그인</a></span>
 			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:12px; color: gray;">회원가입</a></span>
 			<span><a class="mx-2"href="#" style="text-decoration:none; font-size:12px; color: gray;">고객센터</a></span>
 		</div>
-		<%-- logo --%>
-		<div class="container-fluid mb-4 pr-4" >
+		<%-- header logo --%>
+		<div id="header_logo_container" class="container-fluid pr-4" style="height: 120px; width:70%; cursor:pointer;">
 			<div class="text-center">
-				<img src="<%= ctxPath%>/images/hyerin/logo.png" alt="Logo" href="#" style="width:15%;" class="logo">
+				<img src="<%= ctxPath%>/images/hyerin/main_logo.png" alt="Logo" style="width:15%;" class="logo">
 			</div>
-			<%-- 검색, 마이페이지, 장바구니 --%>
-			<div id="header_search_container" align="right" >
-				<%-- 검색 --%>
-				<form name="header_search_form" style="display:inline-block; margin-right: 20px;">
-					<span>
-						<input type="text" id="header_search" name="header_search"/>
+		</div>
+		<%-- 검색, 마이페이지, 장바구니 --%>
+		<span style="float: right; position:relative; bottom: 100px; right: 20px;"> 
+			<%-- 검색 --%>
+			<form name="header_search_form" style="display:inline-block; margin-right: 20px;" class="header_search_contents">
+					<input type="text" id="header_search" name="header_search"/>
+					<a id="a_header_search_btn" href="#">
 						<button type="button" id="header_search_btn" name="header_search_btn" style="border:none; background-color: transparent;">
 							<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
 						</button>
-					</span>	
-				</form>
-				<%-- 마이페이지 --%>
-				<a href="#" style="margin-right: 20px;"><img src="<%= ctxPath%>/images/hyerin/user_icon.png" width="25px" /></a>
-				<%-- 장바구니 --%>
-				<a href="#"><img src="<%= ctxPath%>/images/hyerin/cart.png" width="30px"/></a>
-			</div>
-		</div>
+					</a>
+			</form>
+			<%-- 마이페이지 --%>
+			<a href="#" class="header_search_contents" style="margin-right: 20px;"><img src="<%= ctxPath%>/images/hyerin/user_icon.png" width="25px" /></a>
+			<%-- 장바구니 --%>
+			<a href="#" class="header_search_contents"><img src="<%= ctxPath%>/images/hyerin/cart.png" width="30px"/></a>
+		</span> 
 		<%-- 퀵뷰 --%>
 		<div id="quickView" style="width:60px; height:230px; background-color:#172A41; position:fixed; bottom:50px; right:30px; z-index:100;">
 			<div id="" type="button" style="text-align:center; margin-top:20px;">

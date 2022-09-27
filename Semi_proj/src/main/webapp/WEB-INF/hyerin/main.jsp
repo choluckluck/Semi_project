@@ -3,6 +3,8 @@
 <%
     String ctxPath = request.getContextPath();
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 
 <%-- 메인 캐러셀 --%>
@@ -243,6 +245,25 @@
 			<tr>
 				<td colspan="4" height="150px;" align="center" style="font-size:25pt" class="pt-5 pb-4">New Arrival</td>
 			</tr>
+			<tr>
+				<c:forEach var="new_pvo" items="${requestScope.new_pvo}">
+					<td width="20%" class="pr-1">
+						<a href="#"><img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/></a>
+						<div class="mt-3">
+							<span style="float:left;">
+								<div class="best_color" style="background-color: ${new_pvo.prod_color};"></div>
+							</span>
+							<span style="float:right; font-size:8pt;">리뷰 ${new_pvo.prod_review_count}개</span>
+							<a href="#" style="float:right; position:relative; bottom:50px; left:30px;"><img src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;"></a>
+							<div class="pt-3" style="clear:both">${new_pvo.prod_name}</div>
+							<div class="pt-1 pb-5">
+								${new_pvo.prod_price}
+							</div>
+						</div>
+					</td>
+				</c:forEach>                                                                                                                             
+			</tr>
+			
 			<tr>
 				<td width="20%" class="pr-1">
 					<a href="#"><img src="<%= ctxPath%>/images/hyerin/new_img.jpg" width="100%"/></a>
