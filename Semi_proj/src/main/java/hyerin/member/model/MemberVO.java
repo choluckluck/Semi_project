@@ -6,7 +6,7 @@ public class MemberVO {
 		private String pwd;                // 비밀번호 (SHA-256 암호화 대상)
 		private String name;               // 회원명
 		private String email;              // 이메일 (AES-256 암호화/복호화 대상)
-		private String phone_number;             // 연락처 (AES-256 암호화/복호화 대상) 
+		private String mobile;             // 연락처 (AES-256 암호화/복호화 대상) 
 		private String postcode;           // 우편번호
 		private String address;            // 주소
 		private String detailaddress;      // 상세주소
@@ -37,14 +37,14 @@ public class MemberVO {
 		public MemberVO() {}
 		
 		
-		public MemberVO(String userid, String pwd, String name, String email, String phone_number, String postcode,
+		public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
 				String address, String detailaddress, String extraaddress, String gender, String birthday,
 				String grade_code, String account_name, String bank_name, String account) {
 			this.userid = userid;
 			this.pwd = pwd;
 			this.name = name;
 			this.email = email;
-			this.phone_number = phone_number;
+			this.mobile = mobile;
 			this.postcode = postcode;
 			this.address = address;
 			this.detailaddress = detailaddress;
@@ -99,13 +99,13 @@ public class MemberVO {
 		}
 
 
-		public String getPhone_number() {
-			return phone_number;
+		public String getMobile() {
+			return mobile;
 		}
 
 
-		public void setPhone_number(String phone_number) {
-			this.phone_number = phone_number;
+		public void setMobile(String mobile) {
+			this.mobile = mobile;
 		}
 
 

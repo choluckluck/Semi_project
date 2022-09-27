@@ -15,6 +15,7 @@
 		
 		//로그인 버튼 클릭이벤트
 		$("button#login_button").click(function(){
+			alert("하하");
 			goLogin(); //로그인 시도
 			
 		});
@@ -42,46 +43,20 @@
 		
 	});
 	
-	function goLogin(){
-		//	alert("로그인 시도함");
-		
-			const loginUserid = $("input#logininput_id").val().trim();
-		    const loginPwd = $("input#logininput_pwd").val().trim();
-		    
-		    if(loginUserid == "") {
-		    	alert("아이디를 입력하세요!!");
-		    	$("input#logininput_id").val("");
-		    	$("input#logininput_id").focus();
-		    	return; // goLogin() 함수 종료
-		    }
-		    
-		    if(loginPwd == "") {
-		    	alert("암호를 입력하세요!!");
-		    	$("input#logininput_pwd").val("");
-		    	$("input#logininput_pwd").focus();
-		    	return; // goLogin() 함수 종료
-		    }
-		    
-		    if( $("input:checkbox[id='id_save']").prop("checked") ){
-		    	localStorage.setItem('id_save', $("input#logininput_id").val());	
-		    }
-		    else{
-		    	localStorage.removeItem('id_save');
-		    }
-		    
 
-		    
-		    
-	}
 	
 	
 	
 </script>
 
+
+
 <div id="container" class="container-fluid">
 	<div class="row mt-5">
 		<div class="col-4"></div>
 		<div class="col-4">
+		
+		<form name="LoginFrm">
 			<table id="login" class="container">
 				<tr>
 					<td colspan="4" id="login_text">로그인</td>
@@ -118,17 +93,26 @@
 				<tr>
 					<td colspan="4" style="padding-top:20px;"><button type="button" id="login_button" class="black" style="width:100%">로그인</button></td>
 				</tr>
-				<tr>
-					<td colspan="4"><button type="button" id="register_button" class="white" style="width:100%;">회원가입</button></td>
-				</tr>
-				<tr>
-					<td class="description_text" colspan="4"> <span id="login_idfind" style="cursor:pointer;">아이디찾기</span><span class="mx-2">|</span><span id="login_pwdfind"  style="cursor:pointer;">비밀번호찾기</span></td>
-				</tr>
-				<tr>
-					<td colspan="5" style="padding-bottom:100px;">이벤트이미지로고삽입</td>
-				</tr>
 				
 			</table>
+		</form>
+			
+			
+				<div style="text-align:center;">
+					<button type="button" id="register_button" class="white" style="width:85%;">회원가입</button>
+				</div>
+				<div style="text-align:center;">
+					<span id="login_idfind" style="cursor:pointer; text-align:left;">아이디찾기</span>
+					<span class="mx-2">|</span>
+					<span id="login_pwdfind" style="cursor:pointer; text-align:right;">비밀번호찾기</span>
+				</div>
+				<div style="text-align:center;">
+					<span style="padding-bottom:100px;">이벤트이미지로고삽입</span>
+				</div>
+				
+			
+		
+		
 		</div>
 		<div class="col-4"></div>
 	</div>

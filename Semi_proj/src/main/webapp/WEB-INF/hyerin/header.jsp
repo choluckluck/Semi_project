@@ -28,7 +28,7 @@
 	<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
 	
 	<script>
-	$(document).ready(function(){
+	$(document).ready(function(){		
 		//header_search 입력박스는 처음에 안보이게 한다
 		$("input#header_search").hide();
 
@@ -71,9 +71,9 @@
 	<div id="header">
 		<%-- login information --%>
 		<div id="header_login_container" align="right" class="mt-3 pl-3 pr-3">
-			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:12px; color: gray;">로그인</a></span>
-			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:12px; color: gray;">회원가입</a></span>
-			<span><a class="mx-2"href="#" style="text-decoration:none; font-size:12px; color: gray;">고객센터</a></span>
+			<span><a id="loginbtn" class="mx-2" href="<%= ctxPath%>/hyerin/member/register.sue" style="text-decoration:none; font-size:12px; color: gray;">로그인</a></span>
+			<span><a id="registerbtn" class="mx-2" href="<%= ctxPath%>/hyerin/member/agreement.sue" style="text-decoration:none; font-size:12px; color: gray;">회원가입</a></span>
+			<span><a id="svccenterbtn" class="mx-2"href="<%= ctxPath%>/hyerin/member/register.sue" style="text-decoration:none; font-size:12px; color: gray;">고객센터</a></span>
 		</div>
 		<%-- logo --%>
 		<div class="container-fluid mb-4 pr-4" >
