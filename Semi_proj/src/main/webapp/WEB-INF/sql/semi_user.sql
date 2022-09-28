@@ -153,4 +153,5 @@ create table tbl_return
 );
 
 
-
+select *
+from ALL_USERS;
