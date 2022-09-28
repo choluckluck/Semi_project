@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
     String ctxPath = request.getContextPath();
     //     /MyMVC
@@ -35,57 +38,30 @@ $(document).ready(function(){
 	</div>
 
  	<div class="row">
-     <div class="col-lg-3" id="sideinfo">
+	<c:forEach var="pvo" items="${requestScope.productList}" begin="0" end="3" step="1">
+	<div class="col-lg-3" id="sideinfo" style="margin-bottom: 5%;">
   		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
+  			<img src="<%= ctxPath%>/images/product/${pvo.prod_kind}/${pvo.prod_image}" class="card-img-top" alt="...">
   				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="<%= request.getContextPath()%>/jihee/product/productAb.sue"class="btn btn-outline-primary" style="color:blue;">앵클/부츠</a>
+    				<div class="card-title" >
+    				<c:forTokens var="color" items="${pvo.prod_color}" delims=",">
+    				<span class="best_color" style="background-color: ${color};"> </span>      
+    				</c:forTokens>
+    				<span> &nbsp;&nbsp;&nbsp;&nbsp; 리뷰 ${pvo.prod_review_count} </span>
+    				</div>
+    				
+    				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
+    				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
+    				
+    				<a class="btn btn-dark" style="color:white;" onclick="check();">상세페이지</a>
   				</div>
 		</div>
      </div>
-  	
 
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
+     </c:forEach>
      
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-primary" style="color:white; ">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-          
-      <div class="col-lg-3" id="sideinfo">
-  		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-  				<div class="card-body">
-    				<p class="card-title">색(코딩) 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="#"class="btn btn-primary" style="color:white;">상세페이지</a>
-  				</div>
-		</div>
-     </div>
-     
-    
-  
-     
-  </div>
-  
-
+  	</div>	
+ 	
   
 </div>
   

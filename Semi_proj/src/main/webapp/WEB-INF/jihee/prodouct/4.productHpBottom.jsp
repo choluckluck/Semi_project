@@ -32,7 +32,7 @@ function godelete() {
 <body>
 <div class="container">
 
-	<div style="margin-top: 15%;">
+	<div style="margin-top: 10%;">
 		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;">
 		  <option selected>인기상품순</option>
 		  <option value="1">신상품순</option>
@@ -55,12 +55,14 @@ function godelete() {
   			<img src="<%= ctxPath%>/images/product/${pvo.prod_kind}/${pvo.prod_image}" class="card-img-top" alt="...">
   				<div class="card-body">
     				<div class="card-title" >
-    				<span class="best_color" style="background-color: ${pvo.prod_color};"> </span> &nbsp;&nbsp;&nbsp;&nbsp;
-    				<span> 리뷰 ${pvo.prod_review_count} </span>
+    				<c:forTokens var="color" items="${pvo.prod_color}" delims=",">
+    				<span class="best_color" style="background-color: ${color};"> </span>      
+    				</c:forTokens>
+    				<span> &nbsp;&nbsp;&nbsp;&nbsp; 리뷰 ${pvo.prod_review_count} </span>
     				</div>
     				
-    				<p class="card-text">${pvo.prod_name} (${pvo.prod_high}cm) 
-    				<br> <fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
+    				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
+    				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
     				
     				<a class="btn btn-dark" style="color:white;" onclick="check();">상세페이지</a>
   				</div>

@@ -199,11 +199,13 @@ from tbl_product left JOIN
 ON prod_code = fk_prod_code
 order by prod_registerday desc;
 ---------------------------------------
+--상품 카드 가져오기 (리뷰 포함)
+
 select prod_code, prod_name, prod_kind, prod_image
 	 ,prod_high, prod_color ,prod_size, prod_price, prod_stock
-	 ,prod_registerday, nvl(prod_review_count,'0') as prod_review_count ,rownum
+	 ,prod_registerday, nvl(prod_review_count,'0') as prod_review_count ,rownum AS RNO
 from
-(select rownum ,prod_code, prod_name, prod_kind, prod_image
+(select rownum AS RNO ,prod_code, prod_name, prod_kind, prod_image
 	 ,prod_high, prod_color ,prod_size, prod_price, prod_stock
 	 ,prod_registerday, nvl(prod_review_count,'0') as prod_review_count
 from tbl_product left JOIN 
@@ -214,10 +216,12 @@ from tbl_product left JOIN
     group by fk_prod_code
 )
 ON prod_code = fk_prod_code
+where prod_kind='sneakers'    ----요부분만 추가하기
 order by prod_registerday desc
 )
-where rownum between 1 and 30;
+where RNO between 1 and 30;
 
+-----------------------------------
 
 
 
