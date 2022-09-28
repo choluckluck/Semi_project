@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(
-		description = "사용자가 웹에서 *.up을 했을 경우 이 서블릿이 응답해주도록 한다.", 
-		urlPatterns = { "*.up" }, 
+		description = "사용자가 웹에서 *.sue"을 했을 경우 이 서블릿이 응답해주도록 한다.", 
+		urlPatterns = { "*.sue" }, 
 		initParams = { 
-				@WebInitParam(name = "propertyConfig", value = "C:\\Users\\sist\\git\\Semi_project\\Semi_proj\\src\\main\\webapp\\WEB-INF\\Command.properties", description = "*.up에 대한 클래스의 매핑 파일")
+				@WebInitParam(name = "propertyConfig", value = "C:\\Users\\sist\\git\\Semi_project\\Semi_proj\\src\\main\\webapp\\WEB-INF\\Command.properties", description = "*.sue"에 대한 클래스의 매핑 파일")
 		})
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,7 +26,7 @@ public class FrontController extends HttpServlet {
 
 	public void init(ServletConfig config) throws ServletException {
 		/*
-			웹브라우저 주소창에서  *.up 을 하면 FrontController 서블릿이 응대를 해오는데 
+			웹브라우저 주소창에서  *.sue" 을 하면 FrontController 서블릿이 응대를 해오는데 
 			맨 처음에 자동적으로 실행되어지는 메소드가 init(ServletConfig config) 이다.
 			여기서 중요한 것은 init(ServletConfig config) 메소드는 WAS(톰캣)가 구동되어진 후
 			딱 1번만 init(ServletConfig config) 메소드가 실행되어지고, 그 이후에는 실행이 되지 않는다. 
@@ -67,8 +67,8 @@ public class FrontController extends HttpServlet {
 			while(en.hasMoreElements()) {
 				String key = (String)en.nextElement();
 //				System.out.println("~~~ 확인용 key => " + key);
-//					~~~ 확인용 key => /test/test2.up
-//					~~~ 확인용 key => /test1.up
+//					~~~ 확인용 key => /test/test2.sue"
+//					~~~ 확인용 key => /test1.sue"
 				
 //				System.out.println("~~~ 확인용 value => " + pr.getProperty(key));
 //					~~~ 확인용 value => test.controller.Test2Controller
@@ -124,22 +124,22 @@ public class FrontController extends HttpServlet {
 	
 	private void requestProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 1) 웹브라우저의 주소입력창에서
-		// http://localhost:9090/MyMVC/member/idDuplicateCheck.up?userid=leess 와 같이 입력됐다면
+		// http://localhost:9090/MyMVC/member/idDuplicateCheck.sue"?userid=leess 와 같이 입력됐다면
 		String url = request.getRequestURL().toString(); //Stringbuffer타입으로 return되어서 toString 해줌
 		//System.out.println("~~~ 확인용 url => " + url);
-		//~~~ 확인용 url => http://localhost:9090/MyMVC/member/idDuplicateCheck.up
+		//~~~ 확인용 url => http://localhost:9090/MyMVC/member/idDuplicateCheck.sue"
 		// ? 이후(get방식)은 안나옴
 		
 		// 2) 웹브라우저의 주소입력창에서
-		// http://localhost:9090/MyMVC/member/idDuplicateCheck.up?userid=leess 와 같이 입력됐다면
+		// http://localhost:9090/MyMVC/member/idDuplicateCheck.sue"?userid=leess 와 같이 입력됐다면
 		String uri = request.getRequestURI();
 		//System.out.println("~~~ 확인용 uri => " + uri);
-		//~~~ 확인용 uri => /MyMVC/member/idDuplicateCheck.up
+		//~~~ 확인용 uri => /MyMVC/member/idDuplicateCheck.sue"
 		
 		//request.getContextPath(); // /MyMVC
 		
 		String key = uri.substring(request.getContextPath().length()); //길이(6)부터 끝까지 출력
-		// /member/idDuplicatetitle.up		/test1.up	/test/test2.up
+		// /member/idDuplicatetitle.sue"		/test1.sue"	/test/test2.sue"
 		
 		AbstractController action = (AbstractController)cmdMap.get(key); // 실제로 Object클래스가 아니라 test1Controller등 자식클래스 객체 => 부모클래스로 받을수 있으므로 강제형변환
 		

@@ -62,7 +62,7 @@
       //선택상품 주문 클릭시
       $("button#orderSelect").click(function(){
          const frm = document.bag_form;
-         frm.action="<%= ctxPath%>/product/productNew.up";
+         frm.action="<%= ctxPath%>/product/productNew.sue";
          frm.method = "get";
          frm.submit();
       });
@@ -71,7 +71,7 @@
     //전체상품 주문 클릭시
       $("button#orderAll").click(function(){
          const frm = document.bag_form;
-         frm.action="<%= ctxPath%>/product/productNew.up";
+         frm.action="<%= ctxPath%>/product/productNew.sue";
          frm.method = "get";
          frm.submit();
       });
@@ -79,7 +79,7 @@
       $("li[name='shname']").click(function(){
     	  
           const frm = document.bag_form;
-          frm.action="<%= ctxPath%>/product/productNew.up";
+          frm.action="<%= ctxPath%>/product/productNew.sue";
           frm.method = "get";
           frm.submit();
        });
@@ -93,7 +93,7 @@
     // 주문하기 클릭시
       $("button#doOrder").click(function(){
          const frm = document.bag_form;
-         frm.action="<%= ctxPath%>/product/productNew.up";
+         frm.action="<%= ctxPath%>/product/productNew.sue";
          frm.method = "get";
          frm.submit();
       });
@@ -102,7 +102,7 @@
       
       //공지사항 클릭 이벤트
       $("div#notice_text").click(function(){
-         location.href="<%= ctxPath%>/community/notice.up";
+         location.href="<%= ctxPath%>/community/notice.sue";
       });
       
       

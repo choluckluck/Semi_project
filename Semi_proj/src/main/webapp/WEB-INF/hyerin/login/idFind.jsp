@@ -13,7 +13,7 @@
 			location.href="<%= ctxPath%>/hyerin/login/idFindResult.sue";
 			
 			/* const frm = document.idfind_form;
-			frm.action = "idFindResult.up";
+			frm.action = "idFindResult.sue";
 			frm.method = "post";
 			frm.submit(); */
 		});
