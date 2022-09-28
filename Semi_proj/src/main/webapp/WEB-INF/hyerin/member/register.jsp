@@ -8,43 +8,7 @@
 <script>
 	$(document).ready(function(){
 		$("button#register_button").click(function(){
-			location.href="<%= ctxPath%>/hyerin/member/agreement.up"
-		});
-		
-		$("button#login_button").click(function(){
-			
-		//	alert("로그인 시도함");
-		
-			const loginUserid = $("input#logininput_id").val().trim();
-		    const loginPwd = $("input#logininput_pwd").val().trim();
-		    
-		    if(loginUserid == "") {
-		    	alert("아이디를 입력하세요!!");
-		    	$("input#logininput_id").val("");
-		    	$("input#logininput_id").focus();
-		    	return; // goLogin() 함수 종료
-		    }
-		    
-		    if(loginPwd == "") {
-		    	alert("암호를 입력하세요!!");
-		    	$("input#logininput_pwd").val("");
-		    	$("input#logininput_pwd").focus();
-		    	return; // goLogin() 함수 종료
-		    }
-		    
-		    if( $("input:checkbox[id='id_save']").prop("checked") ){
-		    	localStorage.setItem('id_save', $("input#logininput_id").val());	
-		    }
-		    else{
-		    	localStorage.removeItem('id_save');
-		    }
-		    
-		    const frm = document.loginFrm; 
-		    frm.action = "<%= request.getContextPath()%>hyerin/login/login.sue";
-		    frm.method = "post";
-		    frm.submit();
-		    		    
-		
+			location.href="<%= ctxPath%>/hyerin/member/agreement.sue";
 		});
 		
 	});
@@ -61,12 +25,18 @@
 				
 				<tr>
 					<td colspan="4" class="kakao_log pl-2">
+						<img class="login_img" src="<%= ctxPath%>/images/kakaotalk_login.png"/>
+						<span class="kakao_log align-middle pl-2">카카오계정 로그인</span>
 					</td>
 				</tr>
 				<tr class="naver_apple">
 					<td width="50%" id="naver_login" class="login_box naver_log pl-2">
+						<img class="login_img" src="<%= ctxPath%>/images/naver_login.png"/>
+						<span class="naver_log align-middle">네이버 로그인</span>
 					</td>
 					<td width="50%" id="apple_login" class="login_box apple_log pl-2">
+						<img class="login_img" src="<%= ctxPath%>/images/apple_login.png"/>
+						<span class="apple_log align-middle">Apple 로그인</span>
 					</td>
 				</tr>
 				<tr>

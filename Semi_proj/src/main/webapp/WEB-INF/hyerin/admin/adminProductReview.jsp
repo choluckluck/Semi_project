@@ -6,11 +6,16 @@
 
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 <style>
-	form[name='productReview_search_form']{
+	
+	#productReview_search_container{
 		float:right;
 	}
+	#productReview_sort_container{
+		position: relative;
+		top:5px;
+	}
 	
-	.review_search{
+	.review_search, .review_search_date{
 		border: none;
 		border-bottom: solid 1px black;
 		width : 100px;
@@ -43,7 +48,8 @@
 
 <script>
 	$(document).ready(function(){
-		$(".review_search").datepicker({
+		
+		$(".review_search_date").datepicker({
 			 dateFormat: 'yy-mm-dd'  //Input Display Format 변경
 			,showOtherMonths: true   //빈 공간에 현재월의 앞뒤월의 날짜를 표시
 			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
@@ -63,9 +69,16 @@
 		});                    
 		
 		//초기값을 오늘 날짜로 설정
-		$('.review_search').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
+		$(".review_search_date").datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
 		
 		$(".ui-datepicker-trigger").hide();
+		
+		
+		/////////////////////////////////////////////////////
+		
+		$(".review_search_date").hide();
+		
+		
 		
 	});
 
@@ -75,19 +88,21 @@
 	<jsp:include page="/WEB-INF/hyerin/admin/adminSidebar.jsp" />
 	<div id="contents" class="col-9 ml-5 mt-3 mb-5">
 		<div id="productReview">
-			<div style="font-weight:bold;">
-				<span class="mr-3 mt-1" style="font-size:20pt;">상품리뷰</span>
-				<span>
-					<select class="mt-1 mr-2 productReview_sort" >
+			<span class="mr-3 mt-1" style="font-size:20pt; font-weight:bold">상품리뷰</span>
+			<div id="productReview_search_container" style="font-size:10pt; display:inline-block;">
+				<span id="productReview_sort_container">
+					<select class="mr-2 productReview_sort" >
 						<option value="adminProductReview_all" selected>전체</option>
 						<option value="adminProductReview_productKind">상품종류</option>
-						<option value="adminProductReview_productName" selected>상품명</option>
+						<option value="adminProductReview_productName">상품명</option>
+						<option value="adminProductReview_date">날짜별</option>
 					</select>
 				</span>
-				<form name="productReview_search_form" class="mt-2" style="display:inline-block;">
-					<input type="text" id="review_search_min" class="review_search" name="review_search_min" placeholder="날짜"/>
-					~
-					<input type="text" id="review_search_max" class="review_search" name="review_search_max" placeholder="날짜"/>
+				<form name="productReview_search_form" class="mt-2" style="display:inline-block; float:right;">
+					<input type="text" id="review_search" class="review_search" name="review_search" placeholder="검색" style="width:160px;"/>
+					<input type="text" id="review_search_min" class="review_search_date" name="review_search_min" placeholder="날짜"/>
+					<span class="review_search_date">~</span>
+					<input type="text" id="review_search_max" class="review_search_date" name="review_search_max" placeholder="날짜"/>
 					<button type="button" id="review_search_btn" name="review_search_btn" style="border:none; background-color: transparent;">
 						<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
 					</button>
@@ -98,23 +113,24 @@
 					<thead>
 						<tr>
 							<th width="5%" class="admin_productReview_th text-center" ><input type="checkbox" id=""/></th>
-							<th width="5%" height="50px" class="admin_productReview_th text-center">No</th>
-							<th width="15%" class="admin_productReview_th text-center">상품 이미지</th>
-							<th width="15%" class="admin_productReview_th text-center">상품명</th>
+							<th width="10%" height="50px" class="admin_productReview_th text-center">No</th>
+							<th width="15%" class="admin_productReview_th text-center">상품정보</th>
 							<th width="10%" class="admin_productReview_th text-center">회원명</th>
-							<th width="20%" class="admin_productReview_th text-center">제목</th>
-							<th width="10%" class="admin_productReview_th text-center">평점</th>
+							<th width="35%" class="admin_productReview_th text-center">제목</th>
+							<th width="5%" class="admin_productReview_th text-center">평점</th>
 							<th width="10%" class="admin_productReview_th text-center">작성일자</th>
 							<th width="5%" class="admin_productReview_th text-center">확인</th>
-							<th width="5%" class="admin_productReview_th text-center">삭제</th>
+							<th width="10%" class="admin_productReview_th text-center">삭제</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td class="admin_productReview_tbody text-center" style="border-top:none;"><input type="checkbox" id=""/></td>
 							<td height="160px" class="admin_productReview_tbody text-center">!상품코드</td>
-							<td class="text-center admin_productReview_tbody"><img id="admin_product_img_1" height="150px" src="<%= ctxPath%>/images/hyerin/best_img_2.jpg"></td>
-							<td class="text-center admin_productReview_tbody">!상품명</td>
+							<td class="admin_productReview_tbody" >
+								<img id="admin_product_img_1" class="ml-4" height="100px" src="<%= ctxPath%>/images/hyerin/best_img_2.jpg">
+								<span class="ml-2">!상품명</span>
+							</td>
 							<td class="text-center admin_productReview_tbody">!회원명</td>
 							<td class="text-center admin_productReview_tbody">
 								<div>!제목</div>

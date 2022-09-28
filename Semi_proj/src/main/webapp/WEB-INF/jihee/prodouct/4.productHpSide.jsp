@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,49 +70,50 @@ a:active {text-decoration: none; color: gray;}
 				</div>
 				<br><br>
 				
+				<!-- 체크박스 색상 -->
 				<div class="color" style="padding: 0px;">
 				<p class="fw-bolder" >색상범주(코딩)</p>
 				
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck1" autocomplete="off">
   						<label class="btn btn-success form-check-inline" for="btncheck1" style="padding: 10%;">green</label>&nbsp;
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck2" autocomplete="off">
  				 		<label class="btn btn-warning form-check-inline" for="btncheck2" style="padding: 10%;">yellow</label>
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck3" autocomplete="off">
   						<label class="btn form-check-inline" for="btncheck3" style="padding: 10%; background-color:purple; color: white;" >purple</label>
   					</div>
   					
   					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck4" autocomplete="off">
   						<label class="btn btn-primary form-check-inline" for="btncheck4" style="padding: 10%;">skyblue</label>
 					</div>
 				</div>
 				
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck5" autocomplete="off">
   						<label class="btn btn-outline-danger form-check-inline" for="btncheck5" style="padding: 10%;">&nbsp;&nbsp;red&nbsp;</label>
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck6" autocomplete="off">
  				 		<label class="btn btn-outline-dark form-check-inline" for="btncheck6" style="padding: 10%;">&nbsp;black&nbsp;</label>
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck7" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck7" autocomplete="off">
   						<label class="btn btn-outline-success form-check-inline" for="btncheck7" style="padding: 10%;">&nbsp;green</label>
   					</div>
   					
   					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck8" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck8" autocomplete="off">
   						<label class="btn btn-outline-primary form-check-inline" for="btncheck8" style="padding: 10%;">skyblue</label>
 					</div>
 				</div>
@@ -116,17 +121,17 @@ a:active {text-decoration: none; color: gray;}
 				
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck9" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck9" autocomplete="off">
   						<label class="btn form-check-inline" for="btncheck9" style="padding: 10%; background-color:orange; color: white;">orange</label>&nbsp;
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck10" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck10" autocomplete="off">
  				 		<label class="btn btn-warning form-check-inline" for="btncheck10" style="padding: 10%; background-color:pink; color: white;">&nbsp;&nbsp;pink&nbsp;&nbsp;</label>
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck11" autocomplete="off">
+  						<input type="checkbox" class="btn-check colorcheck" id="btncheck11" autocomplete="off">
   						<label class="btn form-check-inline" for="btncheck11" style="padding: 8%; background-color:Aquamarine; color: black;" >Aquamarine</label>
   					</div>
   				
@@ -195,6 +200,21 @@ a:active {text-decoration: none; color: gray;}
 	 </div>
 </div> 
 			
+			
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+    $(".colorcheck").change(function(){ //체크박스 체크 해제시 
+        if($(".colorcheck").is(":checked")){
+            gocheck();
+        }else{
+            godelete();
+        }
+    });
+});
+
+</script>			
     
 <div style="margin-top: 10%">
 <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include>

@@ -11,7 +11,7 @@
 <title>쿠폰적용하기</title>
 
 <!-- style.css -->
-<link rel="stylesheet" href="style_popup_coupon.css">
+<link rel="stylesheet" href="<%= ctxPath%>/css/hasol/style_popup_coupon.css">
 
 <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
 </head>

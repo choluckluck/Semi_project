@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200&family=Noto+Serif+KR&display=swap');
+
+/*  font-family: 'Montserrat', sans-serif; */
+
 @font-face {
     font-family: 'RIDIBatang';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
@@ -46,20 +50,12 @@
 
 
 /* header */
-#header {
-  margin-bottom: 130px;
-}
-  
 
-.logo{
-  position: absolute;
-  top: 40px;
-  left: 40%;
-}
 
-#header_search_container{
-  position: relative;
-  top: 20px;
+
+#header_search_container {
+	float: right;
+    /* position: relative; bottom: 100px; right: 20px; */
 }
 
 
@@ -94,16 +90,41 @@
   background-color: black;
   margin: 0;
   padding: 20px 0 20px 0;
-
+  position: relative;
+  bottom: 1px;
 }
+
+
+.nav_bar a{
+	position:relative;
+	padding: 6px 12px;
+	
+}
+
+.nav_bar a::after {
+	content : "";
+	position: absolute;
+	top: 30px;
+	left: 50%;
+	transform : translateX(-50%);
+	width: 0;
+	height: 1px;
+	background: white;
+	transition: all .5s ease-out;
+}
+
+.nav_bar > ul a:hover::after{
+	width: 75%;
+}
+
 
 ul#nav_bar_category li {
   float: left;
 }
 
-.real_subbar{
+.real_subbar {
   position: absolute;
-  top: 64px;
+  top: 63px;
 }
 
 .sub_bar {
@@ -115,7 +136,7 @@ ul#nav_bar_category li {
   background-color: white;
   height: 80px;
   padding-top: 30px;
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .real_subbar > span {
@@ -126,12 +147,24 @@ ul#nav_bar_category li {
   left: 220px;
 }
 
-.real_subbar > span > a{
+
+.real_subbar > span > a {
   text-decoration: none;
   color: black;
 }
 
+.real_subbar9 > span{
+	left: 1300px;
+}
+
 /* main */
+#main_carousel{
+	position: relative;
+	bottom: 1px;
+	
+}
+
+
 .discount{
   float: right;
   color: red;
