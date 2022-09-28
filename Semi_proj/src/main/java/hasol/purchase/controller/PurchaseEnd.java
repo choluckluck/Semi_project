@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import hasol.purchase.model.JMemberVO;
-import member.model.MemberVO;
+import hyerin.member.model.MemberVO;
 
 public class PurchaseEnd extends AbstractController {
 

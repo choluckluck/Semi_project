@@ -79,7 +79,7 @@
 
 </head>
 <body>
-<jsp:include page="../hyerin/header.jsp"></jsp:include>
+<jsp:include page="../../hyerin/header.jsp"></jsp:include>
 
 <div id="container" style="position:relative;">
 	<h2> 주문 완료</h2>
@@ -291,7 +291,7 @@
 	  	
 
 
-<jsp:include page="../hyerin/footer.jsp"></jsp:include>
+<jsp:include page="../../hyerin/footer.jsp"></jsp:include>
 
 
 </body>
