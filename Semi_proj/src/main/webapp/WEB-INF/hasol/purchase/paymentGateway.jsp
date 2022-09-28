@@ -63,7 +63,11 @@ $(document).ready(function() {
 		    self.close();
 			
         } else {
+<<<<<<< HEAD
             location.href="<%= request.getContextPath()%>/index.sue";
+=======
+            location.href="<%= request.getContextPath()%>/index.up";
+>>>>>>> refs/heads/main
             alert("결제에 실패하였습니다.");
        }
 
