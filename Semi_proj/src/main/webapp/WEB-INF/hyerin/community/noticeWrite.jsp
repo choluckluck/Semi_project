@@ -31,7 +31,7 @@
 			
 			location.href="<%= ctxPath%>/hyerin/community/noticeView.sue";
 			/* 
-				frm.action = " 오류나서 여기 일단 제대로 안썼응..  ctxPath  /community/noticeView.sue";
+				frm.action = " 오류나서 여기 일단 제대로 안썼응..  ctxPath  /community/noticeView.up";
 				frm.method = "post";
 				frm.submit();
 			*/

@@ -21,7 +21,7 @@ public abstract class AbstractController implements InterCommand {
 		자식클래스에서는 부모클래스에서 생성해둔 메소드 호출시 아래와 같이 하면 되게끔 한다.
 		          
 		super.setRedirect(true);
-		super.setViewPage("registerMember.sue");               
+		super.setViewPage("registerMember.up");               
 	*/   
 	private boolean isRedirect = false;
 	// isRedirect 변수의 값이 false 이라면 view단 페이지(.jsp)로  forward 방법(dispatcher)으로 이동시키겠다. 

@@ -36,7 +36,7 @@
   				<div class="card-body">
     				<p class="card-title">색(코딩) 리뷰(코딩)</p>
     				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="<%= request.getContextPath()%>/jihee/product/productSm.sue"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
+    				<a href="<%= request.getContextPath()%>/jihee/product/productSm.up"class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
   				</div>
 		</div>
      </div>
@@ -48,7 +48,7 @@
   				<div class="card-body">
     				<p class="card-title">색(코딩) 리뷰(코딩)</p>
     				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="<%= request.getContextPath()%>/product/productAb.sue" class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
+    				<a href="<%= request.getContextPath()%>/product/productAb.up" class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
   				</div>
 		</div>
      </div>
@@ -59,7 +59,7 @@
   				<div class="card-body">
     				<p class="card-title">색(코딩) 리뷰(코딩)</p>
     				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="<%= request.getContextPath()%>/product/productSn.sue" class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
+    				<a href="<%= request.getContextPath()%>/product/productSn.up" class="btn btn-outline-primary" style="color:blue;">상세페이지</a>
   				</div>
 		</div>
      </div>
@@ -71,7 +71,7 @@
   				<div class="card-body">
     				<p class="card-title">색(코딩) 리뷰(코딩)</p>
     				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a href="<%= request.getContextPath()%>/product/productSm.sue"class="btn btn-outline-primary" style="color:blue;">슬링백/뮬</a>
+    				<a href="<%= request.getContextPath()%>/product/productSm.up"class="btn btn-outline-primary" style="color:blue;">슬링백/뮬</a>
   				</div>
 		</div>
      </div>
