@@ -20,6 +20,20 @@ public class ProductHp extends AbstractController {
 		InterProductDAO pdao = new ProductDAO();
 		
 		
+		// 1. BEST 상품 가져오기
+		Map<String, String> bestParaMap = new HashMap<>();
+		
+		List<ProductVO> bestProductList = pdao.selectBestProduct(bestParaMap);
+		
+		request.setAttribute("bestProductList", bestProductList);
+		
+		
+		
+		
+		
+		////////////////////////////////////
+		
+		
 		/*
 		
 		if( productList.size() > 0) {
@@ -29,7 +43,7 @@ public class ProductHp extends AbstractController {
 		}
 		*/
 		
-		// ** 페이징 처리를 한 모든 회원 또는 검색한 회원 목록 보여주기 ** //
+		//2. 페이징 처리를 한 모든 상품 또는 검색한 상품 보여주기 //
 		
 		
 		Map<String, String> paraMap = new HashMap<>();
@@ -85,11 +99,112 @@ public class ProductHp extends AbstractController {
 
 		
 		
-		// 상품 목록 가져오기
+		
+		//--------------------------------------------------------------------
+		
+		//2-1 검색어 넘겨주기
+		
+		String searchWord = request.getParameter("searchWord");
+		
+		// System.out.println("searchWord 확인용 : " +searchWord);
+		
+		
+		
+		paraMap.put("searchWord", searchWord);
+		
+	   // 2-2 검색(가격)넘겨주기 ////////////////////////////////////////////////
+		
+		String searchPrice1 = request.getParameter("searchPrice1");
+		String searchPrice2 = request.getParameter("searchPrice2");
+		
+		/*
+		 * if(searchPrice1 == null && searchPrice2==null ) {
+		 * 
+		 * searchPrice1 = "0"; searchPrice2 = "5000000"; }
+		 */
+		
+		// 숫자만 입력가능하게 유효성 검사
+		
+		boolean is_digit_p1 = true;
+		if( searchPrice1 !=null  && !searchPrice1.trim().isEmpty() ) {
+			
+			
+	        for(int i=0; i<searchPrice1.length(); i++) { 
+	                char ch = searchPrice1.charAt(i); 
+	                if ( !Character.isDigit(ch)) {// 입력받은게 숫자입니까 -> !쓰면 반대로 입력받은게 숫자가 아닙니까?  digit맞는지 확인좀 Define이라 되어있었음
+	                	is_digit_p1 = false; 
+	                    break; 
+	                    //return false;              //!false = !Character.isDefined(ch) = break;?
+	                    
+	                }
+	                
+	         }//end of for--------------------
+		}
+		
+		boolean is_digit_p2 = true;
+		if( searchPrice2 !=null  && !searchPrice2.trim().isEmpty() ) {
+			
+			
+	        for(int i=0; i<searchPrice2.length(); i++) { 
+	                char ch = searchPrice2.charAt(i); 
+	                if ( !Character.isDigit(ch)) {// 입력받은게 숫자입니까 -> !쓰면 반대로 입력받은게 숫자가 아닙니까?  digit맞는지 확인좀 Define이라 되어있었음
+	                	is_digit_p2 = false; 
+	                    break; 
+	                    //return false;              //!false = !Character.isDefined(ch) = break;?
+	                    
+	                }
+	                
+	         }//end of for--------------------
+		}
+		
+        
+       
+        if ( is_digit_p1 != true) {
+        	searchPrice1 = "";
+
+        }
+        
+        if ( is_digit_p2 != true) {
+        	searchPrice2 = "";
+
+        }
+        
+        
+        
+        //System.out.println("searchPrice1 : " +searchPrice1);
+       System.out.println("JAVAsearchPrice2 : " +searchPrice2);
+            
+		paraMap.put("searchPrice1", searchPrice1);
+		paraMap.put("searchPrice2", searchPrice2);
+		
+		request.setAttribute("searchPrice1", searchPrice1);
+		request.setAttribute("searchPrice2", searchPrice2);
+		
+		
+		// 2-3 색상 넘겨주기
+		
+		
+		String[] colorArr = request.getParameterValues("searchColor");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//2- 상품목록 가져오기/////////////////////////////////////////////////////////////
 		List<ProductVO> productList = pdao.selectProductAll(paraMap);
 	
 		request.setAttribute("productList", productList);
 		request.setAttribute("sizePerPage", sizePerPage);
+		request.setAttribute("searchWord", searchWord);
+		
+		
+	//-----------------------------------------------------------------------------------------
+		
+		
 		
 		//ProductVO pvo = new ProductVO();
 		

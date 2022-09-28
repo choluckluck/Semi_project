@@ -38,7 +38,7 @@ $(document).ready(function(){
 	</div>
 
  	<div class="row">
-	<c:forEach var="pvo" items="${requestScope.productList}" begin="0" end="3" step="1">
+	<c:forEach var="pvo" items="${requestScope.bestProductList}" begin="0" end="3" step="1">
 	<div class="col-lg-3" id="sideinfo" style="margin-bottom: 5%;">
   		<div class="card" style="width: 16rem;">
   			<img src="<%= ctxPath%>/images/product/${pvo.prod_kind}/${pvo.prod_image}" class="card-img-top" alt="...">

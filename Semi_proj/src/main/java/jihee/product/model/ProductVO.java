@@ -14,6 +14,8 @@ public class ProductVO {
 	 private String prod_stock; // 상품 재고
 	 private String prod_registerday; // 상품
 	 private int prod_review_count; //제품 리뷰 개수
+	 private int prod_order_count; // 상품 주문수
+	 private int prod_saleprice; // 상품 할인가격
 
 	 //////////////////////////
 	 
@@ -108,7 +110,25 @@ public class ProductVO {
 	public void setProd_review_count(int prod_review_count) {
 		this.prod_review_count = prod_review_count;
 	}
+	
+	
+	public int getProd_order_count() {
+		return prod_order_count;
+	}
+	public void setProd_order_count(int prod_order_count) {
+		this.prod_order_count = prod_order_count;
+	}
+	
+	
+	public int getProd_saleprice() {
+		return prod_saleprice;
+	}
+	public void setProd_saleprice(int prod_saleprice) {
+		this.prod_saleprice = prod_saleprice;
+	}
 	 
+	
+	
 
 	 
 	   

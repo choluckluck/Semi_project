@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ProductPL</title>
+<title>앵클/부츠</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 <style type="text/css">
@@ -20,8 +24,8 @@ a:active {text-decoration: none; color: gray;}
 </head>
 <body>
 
-
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
+
 
 	<div class="container-fluid" id="container" style="position: relative; top:85px; padding: 0.1% 1.5%;">
       
@@ -34,13 +38,13 @@ a:active {text-decoration: none; color: gray;}
 			<div id="sidecontent" style="text-align: left; padding: 20px;">
 						<div class="row">
 				<div class="col ">
-				<p class="fw-bolder" style="font-size: 30px">앵클/부츠</p>
+				<p class="fw-bolder" style="font-size: 30px">힐/펌프스</p>
 				</div>
 			</div>
 				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
 					<li class="fw-bolder"> <a href="#" class="link">앵클 1~6cm</a><li>
 					<li class="fw-bolder"><a href="#" class="link">앵클 7cm~</a><li>
-					<li class="fw-bolder"><a href="#" class="link">롱부츠</a><li>			
+					<li class="fw-bolder"><a href="#" class="link">롱부츠</a><li>
 				</ul>
 				<br>
 			<div class="row">
@@ -51,10 +55,10 @@ a:active {text-decoration: none; color: gray;}
 				</div>
 			</div>
 			
-			<form name="productFL">
+			<form name="productHpFrm">
 			 <div>
 					<label for="usr" class="fw-bolder" style="padding-bottom: 20px; ">검색어</label>
-  					<input type="text" class="form-control" id="search">	
+  					<input type="text" class="form-control" id="searchWord" name="searchWord" >	
 					
 				</div>
 				<br><br>
@@ -62,73 +66,74 @@ a:active {text-decoration: none; color: gray;}
 				<div class="container" style="padding: 0px">
 				<label for="usr" class="fw-bolder" style="padding-bottom: 20px; ">가격</label> 
 					<div class="row" style="padding-left: 10px">
-					<input type="text" class="form-control col" id="searchPrice1">~<input type="text" class="form-control col" id="searchPrice2">
+					<input type="text" class="form-control col" id="searchPrice1" name="searchPrice1">~<input type="text" class="form-control col" id="searchPrice2" name="searchPrice2">
 				    </div>
 				</div>
 				<br><br>
 				
+				<!-- 체크박스 색상 -->
 				<div class="color" style="padding: 0px;">
 				<p class="fw-bolder" >색상범주(코딩)</p>
 				
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-  						<label class="btn btn-success form-check-inline" for="btncheck1" style="padding: 10%;">green</label>&nbsp;
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="green" value="green" autocomplete="off">
+  						<label class="btn btn-success form-check-inline" for="green" style="padding: 10%;" >green</label>&nbsp;
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
- 				 		<label class="btn btn-warning form-check-inline" for="btncheck2" style="padding: 10%;">yellow</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="yellow" value="yellow" autocomplete="off">
+ 				 		<label class="btn btn-warning form-check-inline" for="yellow" style="padding: 10%;">yellow</label>
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-  						<label class="btn form-check-inline" for="btncheck3" style="padding: 10%; background-color:purple; color: white;" >purple</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="purple" value="purple" autocomplete="off">
+  						<label class="btn form-check-inline" for="purple" style="padding: 10%; background-color:purple; color: white;" >purple</label>
   					</div>
   					
   					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off">
-  						<label class="btn btn-primary form-check-inline" for="btncheck4" style="padding: 10%;">skyblue</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="skyblue" value="skyblue"  autocomplete="off">
+  						<label class="btn btn-primary form-check-inline" for="skyblue" style="padding: 10%;">skyblue</label>
 					</div>
 				</div>
 				
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off">
-  						<label class="btn btn-outline-danger form-check-inline" for="btncheck5" style="padding: 10%;">&nbsp;&nbsp;red&nbsp;</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="red" value="red" autocomplete="off">
+  						<label class="btn btn-outline-danger form-check-inline" for="red" style="padding: 10%;">&nbsp;&nbsp;red&nbsp;</label>
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off">
- 				 		<label class="btn btn-outline-dark form-check-inline" for="btncheck6" style="padding: 10%;">&nbsp;black&nbsp;</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="black" value="black" autocomplete="off">
+ 				 		<label class="btn btn-outline-dark form-check-inline" for="black" style="padding: 10%;">&nbsp;black&nbsp;</label>
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck7" autocomplete="off">
-  						<label class="btn btn-outline-success form-check-inline" for="btncheck7" style="padding: 10%;">&nbsp;green</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="green2" value="green" autocomplete="off">
+  						<label class="btn btn-outline-success form-check-inline" for="green2" style="padding: 10%;">&nbsp;green</label>
   					</div>
   					
   					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck8" autocomplete="off">
-  						<label class="btn btn-outline-primary form-check-inline" for="btncheck8" style="padding: 10%;">skyblue</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="skyblue2" value="skyblue" autocomplete="off">
+  						<label class="btn btn-outline-primary form-check-inline" for="skyblue2" style="padding: 10%;">skyblue</label>
 					</div>
 				</div>
 				<br><br>
 				
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck9" autocomplete="off">
-  						<label class="btn form-check-inline" for="btncheck9" style="padding: 10%; background-color:orange; color: white;">orange</label>&nbsp;
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="orange" value="orange" autocomplete="off">
+  						<label class="btn form-check-inline" for="orange" style="padding: 10%; background-color:orange; color: white;">orange</label>&nbsp;
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck10" autocomplete="off">
- 				 		<label class="btn btn-warning form-check-inline" for="btncheck10" style="padding: 10%; background-color:pink; color: white;">&nbsp;&nbsp;pink&nbsp;&nbsp;</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="white" value="white" autocomplete="off">
+ 				 		<label class="btn btn-warning form-check-inline" for="white" style="padding: 10%; background-color:pink; color: white;">&nbsp;&nbsp;pink&nbsp;&nbsp;</label>
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check" id="btncheck11" autocomplete="off">
-  						<label class="btn form-check-inline" for="btncheck11" style="padding: 8%; background-color:Aquamarine; color: black;" >Aquamarine</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="searchColor" id="Aquamarine" value="Aquamarine" autocomplete="off">
+  						<label class="btn form-check-inline" for="Aquamarine" style="padding: 8%; background-color:Aquamarine; color: black;" >Aquamarine</label>
   					</div>
   				
 				</div>
@@ -141,20 +146,20 @@ a:active {text-decoration: none; color: gray;}
 		    </div>
 		    <div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 				<div>
- 						<input type="checkbox" class="btn-check" id="btnchecksize1" autocomplete="off">
- 						<label class="btn btn-outline-secondary form-check-inline" for="btnchecksize1" style="padding: 10%;">&nbsp;220&nbsp;</label>
+ 						<input type="checkbox" class="btn-check" name="searchSize" id="220" value="220" autocomplete="off">
+ 						<label class="btn btn-outline-secondary form-check-inline" for="220" style="padding: 10%;">&nbsp;220&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" id="btnchecksize2" autocomplete="off">
- 						<label class="btn btn-outline-secondary form-check-inline" for="btnchecksize2" style="padding: 10%;">&nbsp;225&nbsp;</label>
+ 						<input type="checkbox" class="btn-check" name="searchSize" id="225" value="225" autocomplete="off">
+ 						<label class="btn btn-outline-secondary form-check-inline" for="225" style="padding: 10%;">&nbsp;225&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" id="btnchecksize3" autocomplete="off">
- 						<label class="btn btn-outline-secondary form-check-inline" for="btnchecksize3" style="padding: 10%;">&nbsp;230&nbsp;</label>
+ 						<input type="checkbox" class="btn-check" name="searchSize" id="230" value="230" autocomplete="off">
+ 						<label class="btn btn-outline-secondary form-check-inline" for="230" style="padding: 10%;">&nbsp;230&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" id="btnchecksize4" autocomplete="off">
- 						<label class="btn btn-outline-secondary form-check-inline" for="btnchecksize4" style="padding: 10%;">&nbsp;235&nbsp;</label>
+ 						<input type="checkbox" class="btn-check" name="searchSize" id="235" value="235" autocomplete="off">
+ 						<label class="btn btn-outline-secondary form-check-inline" for="235" style="padding: 10%;">&nbsp;235&nbsp;</label>
 				</div>								
 			</div>
 			
@@ -162,20 +167,20 @@ a:active {text-decoration: none; color: gray;}
 
 			<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 				<div>
- 						<input type="checkbox" class="btn-check" id="btnchecksize5" autocomplete="off">
- 						<label class="btn btn-outline-secondary form-check-inline" for="btnchecksize5" style="padding: 10%;">&nbsp;220&nbsp;</label>
+ 						<input type="checkbox" class="btn-check" name="searchSize" id="240" value="240" autocomplete="off">
+ 						<label class="btn btn-outline-secondary form-check-inline" for="240" style="padding: 10%;">&nbsp;240&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" id="btnchecksize6" autocomplete="off">
- 						<label class="btn btn-outline-secondary form-check-inline" for="btnchecksize6" style="padding: 10%;">&nbsp;225&nbsp;</label>
+ 						<input type="checkbox" class="btn-check" name="searchSize" id="245" value="245" autocomplete="off">
+ 						<label class="btn btn-outline-secondary form-check-inline" for="245" style="padding: 10%;">&nbsp;245&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" id="btnchecksize7" autocomplete="off">
- 						<label class="btn btn-outline-secondary form-check-inline" for="btnchecksize7" style="padding: 10%;">&nbsp;230&nbsp;</label>
+ 						<input type="checkbox" class="btn-check" name="searchSize" id="250" value="250" autocomplete="off">
+ 						<label class="btn btn-outline-secondary form-check-inline" for="250" style="padding: 10%;">&nbsp;250&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" id="btnchecksize8" autocomplete="off">
- 						<label class="btn btn-outline-secondary form-check-inline" for="btnchecksize8" style="padding: 10%;">&nbsp;235&nbsp;</label>
+ 						<input type="checkbox" class="btn-check" name="searchSize" id="255" value="255" autocomplete="off">
+ 						<label class="btn btn-outline-secondary form-check-inline" for="255" style="padding: 10%;">&nbsp;255&nbsp;</label>
 				</div>								
 			</div>
 				
@@ -190,16 +195,59 @@ a:active {text-decoration: none; color: gray;}
 		 
 			<div id="maincontent">
 		 <jsp:include page="5.productAbTop.jsp" /> 
-		    <jsp:include page="5.productAbBottom.jsp" /> 
+		 <jsp:include page="5.productAbBottom.jsp" /> 
 		</div>
 	 </div>
 	 </div>
 </div> 
 			
+			
+<script type="text/javascript">
+
+
+	$(document).ready(function(){
+		
+		$("input#searchWord").bind("keyup", function(e) {
+			
+		
+			
+				   goSearch();	   
+			   
+		   });
+		
+		if("${requestScope.searchWord}" != "") { //검색어가 null아닐때만 꽂아준다
+		 	   $("input#searchWord").val("${requestScope.searchWord}");
+		   }
+		
+		
+		
+		
+	    $(".colorcheck").change(function(){ //체크박스 체크 해제시 
+	        if($(".colorcheck").is(":checked")){
+	            gocheck();
+	            
+	        }else{
+	            godelete();
+	        }
+	    });
+	    
+	    
+	    
+	});// end of ready---------------
+
+
+	function goSearch() {
+		
+		const frm = document.productHpFrm
+		frm.action = "productHp.sue";
+		frm.submit();
+	}
+
+</script>			
     
 <div style="margin-top: 10%">
 <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include>
-</div> 
+</div>
 
 
 
