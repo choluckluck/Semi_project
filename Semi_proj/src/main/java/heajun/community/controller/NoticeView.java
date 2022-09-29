@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import heajun.community.model.InterNoticeDAO;
+import heajun.community.model.NoticeDAO;
+import heajun.community.model.NoticeVO;
 import heajun.member.model.MemberVO;
 
 public class NoticeView extends AbstractController {
