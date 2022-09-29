@@ -83,7 +83,7 @@ public class QnaDAO implements InterQnaDAO {
     
 	// qna_code 값을 입력받아서 하나의 게시글에 대한 상세정보를 알아오기(select)
 	@Override
-	public QnaDAO qnaOneDetail(String qna_code) throws Exception {
+	public QnaVO qnaOneDetail(String qna_code) throws Exception {
        
 		QnaVO qvo = null;
 		

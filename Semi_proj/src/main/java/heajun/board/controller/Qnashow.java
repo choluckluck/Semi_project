@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import heajun.board.model.InterQnaDAO;
 import heajun.board.model.QnaDAO;
+import heajun.board.model.QnaVO;
 import heajun.member.model.MemberVO;
 
 public class Qnashow extends AbstractController {
@@ -36,7 +37,7 @@ public class Qnashow extends AbstractController {
 				// 위치홀더에 qna_code 넣기
 				
 				InterQnaDAO qdao = new QnaDAO();
-				QnaDAO qvo = qdao.qnaOneDetail(qna_code);
+				QnaVO qvo = qdao.qnaOneDetail(qna_code);
 				
 				request.setAttribute("qvo", qvo);
 				request.setAttribute("qna_code", qna_code);
