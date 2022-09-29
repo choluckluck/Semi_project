@@ -46,6 +46,10 @@
 	$(document).ready(function(){
 		
 		
+		$("#byRegisterdayOrders").change(function(e){
+			selectBySort();
+		});
+		
 		
 		
 		/* $("#byRegisterdayOrders").change(function(e){
@@ -74,6 +78,9 @@
 	
 	//function declarartion
 
+	
+	
+	
 	function product_edit(prod_code){
 		// 회원 정보 수정하기 팝업창 띄우기
 		const url = "<%= ctxPath%>/hyerin/admin/adminProductEdit.sue";
@@ -153,20 +160,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="productList" items="${requestScope.productList}">
-							<tr>
-								<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="product_1" name="productList_chx"/></td>
-								<td height="160px" class="admin_productList_tbody text-center">${productList.prod_code}</td>
-								<td class="text-center admin_productList_tbody">${productList.prod_kind}</td>
-								<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="<%= ctxPath%>/images/product/${productList.prod_kind}/${productList.prod_image}"></td>
-								<td class="text-center admin_productList_tbody">${productList.prod_name}</td>
-								<td class="text-center admin_productList_tbody">${productList.prod_price}</td>
-								<td class="text-center admin_productList_tbody">${productList.prod_stock}</td>
-								<td class="text-center admin_productList_tbody"><input type="checkbox" id="mdPick_chx" name="mdPick_chx"/></td>
-								<td class="text-center admin_productList_tbody"><button id="admin_productedit_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_edit('${productList.prod_code}');">수정</button></td>
-								<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>
-							</tr>
-						</c:forEach>
+						
 					</tbody>
 				</table>
 				<div class="mt-3">
