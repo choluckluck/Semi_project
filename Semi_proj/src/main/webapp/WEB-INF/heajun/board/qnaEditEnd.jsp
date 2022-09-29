@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>faq</title>
+<title>1:1문의 수정</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,7 +33,7 @@
       color:white;
     }
  div.board{
-  position:relative;
+   position:relative;
    left: 400px;
    bottom:100px;
 }
@@ -63,6 +63,7 @@ a{
   color:black;
   
 }
+
 button#list {
 	width: 90px;
 	height: 30px;
@@ -75,13 +76,44 @@ button#list {
     font-size: 9pt;
 }
 
+button#delete {
+	width: 90px;
+	height: 31px;
+	border: 1px solid #8c8c8c;
+	background-color: #1c284a;
+    float: right;
+    text-align: center;
+    font-size: 9pt;
+    padding: 5px;
+    margin-right: 10px;
+    color: #ffffff;
+}
+button#edit {
+	width: 90px;
+	height: 31px;
+	border: 1px solid #8c8c8c;
+	background-color: #ffffff;
+    float: right;
+    text-align: center;
+    font-size: 9pt;
+    padding: 5px;
+    margin-right: 10px;
+}
+
 
     </style>  
   </head>
 
- 
+
 
   <body>
+  
+  <script type="text/javascript">
+  $(document).ready(function(){
+	
+	});// end of $(document).ready(function(){})-------------------------------------------
+		
+</script>
 
    <div class="detail row-my-3">
 
@@ -105,7 +137,7 @@ button#list {
 
 <div class="board col-md-8" align="left">
 
-   <h4 class="text-center" >FAQ</h4>
+   <h4 class="text-center" >문의하기</h4>
    <br><br>
    <div class=" gap-2 col-10 mx-auto"  >
 
@@ -121,78 +153,39 @@ button#list {
 <br><br>
   <hr>
 
-
-<tr id="top">
-<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목</span></th>
-  <td>배송관련 </td>
+ <tr id="top">
+<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목${requestScope.subject}<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목</span></th>
+  
  </tr>
   <hr>
 <tr id="mid">
-<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성자<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;아이디</span></th>
-   <td>JINNY KIM </td>
+<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성자${requestScope.fk_member_code}<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;아이디</span></th>
+   
 </tr>
-                
-
+          
   <hr>
-<tr id="btt">
-   <td style="width:750px; height:200px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.fvo.faq_contents}</td>
+<tr id="mid2">   
+ <td><span class="date">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성일${requestScope.registerday}</span><span class="txtNum">&nbsp;&nbsp;날짜</span></td>  
 </tr>
-  <section>
-     
-      <p>배송 지연이 왜 되는지?</p>
-      <p>주문량이 많은 경우, 품절되어 오프라인 매장에서 출고확인을 하거나, 예약배송 상품의 경우 입고가 지연되어 배송이 늦어지게 됩니다.
-        이렇게 지연 및 품절이 될 경우에는 전화나 문자로 안내해드립니다.</p>
-      <p>간혹 이메일이나 전화번호가 잘못 기재되시어 연락을 못받으시는 분들이 계시니
-        번거로우시겠지만 한번더 개인정보 확인부탁드립니다.</p>
-      <p>배송 지연은 몇일이 걸리는 건가요?</p>
-      <p>지연 및 품절시 안내 문자를 드립니다. 기다리시기가 불편하실 경우 다른 상품으로도 교환가능하시오니
-        변경사항이 있으신 경우 저희쪽에 미리 연락을 주세요.</p>
-      <p>주문건 배송지 변경은 어떻게 하나요?</p>
-      <p>배송 전 상태에서 게시판 접수 또는 마이페이지에서 배송지 변경하여 주세요
-        단, 배송이 시작된 상태에선 변경이 불가합니다.
-        반드시 오후12시 이전으로 QnA 게시판 혹은 게시판으로 연락주셔야 합니다.
-        
-         (상품이 먼저 출고되고 나중에 배송문자 발송됩니다.
-        배송준비중이라도 오후 12시 이 후엔 주소변경이 어려우시니 이점 착오 없으시길 바랍니다.)</p>
-      <p>배송 준비중인데 취소가능한가요?</p>
-      <p>오전 12시 이전 배송전 변경,취소는 마이페이지, 혹은 게시판으로 연락주세요.
-        준비된 상품은 바로바로 출고과정을 거치기 때문에
-         상품 취소를 하실경우 오전 12시 이전으로 알려주셔야 처리해드릴수 있습니다.
-         (상품이 먼저 출고되고 나중에 배송문자 발송됩니다.
-        배송준비중이라도 오전 12시 이후엔 취소가 어려우시니 이점 착오 없으시길 바랍니다.)
-        </p>
-
-
+  <hr>
  
-
-
-  </section>
+<tr id="btt">
+<td style="width:750px; height:200px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;내용${requestScope.contents}</td>
+</tr>
+<p>문의</p>
+    
+ 
 
   <hr>
 
    <button id="list" type="button" onclick="javascript:history.back();">목록</button>
-
   
- 
+   
 </div>
 </div>
-
-
-<form name="faqFrm">
-	<input type="hidden" name="faq_code" value="${requestScope.fvo.faq_code}"/>
-	<input type="hidden" name="fk_member_code" value="${requestScope.fvo.fk_member_code}"/>
-	<input type="hidden" name="faq_subject" value="${requestScope.fvo.faq_subject}"/>
-	<input type="hidden" name="faq_contents" value="${requestScope.fvo.faq_contents}"/>
-</form>
-
-<form name="fdelFrm">
-	<input type="hidden" name="faq_code" value="${requestScope.fvo.faq_code}"/>
-</form>
-
 
 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
    
   </body>
 </html>

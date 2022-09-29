@@ -150,12 +150,12 @@ p{
 		   <tbody>
 		         <c:forEach var="qvo" items="${requestScope.qnaList}">
 		            <tr>
-		               <td id="qna_num">${qvo.qna_num}</td>
-		               <td id="qna_num">${qvo.qna_category}</td>
-		               <td id="qna_subject">${qvo.qna_subject}</td>
-		               <td id="qna_id">${qvo.qna_id}</td>
-		               <td id="qna_date">${qvo.qna_date}</td>
-   					   <td style="display:none">${qvo.qna_num}</td>
+		               <td id="qna_num">${qvo.qna_code}</td>
+		               <td id="qna_num">${qvo.category}</td>
+		               <td id="qna_subject">${qvo.subject}</td>
+		                <td id="qna_id">${qvo.fk_member_code}</td>
+		               <td id="qna_date">${qvo.registerday}</td>
+   					   <td style="display:none">${qvo.qna_code}</td>
 		            </tr>
 		         </c:forEach>
 		     </tbody>  

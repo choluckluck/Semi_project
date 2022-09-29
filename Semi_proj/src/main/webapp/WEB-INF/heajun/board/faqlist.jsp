@@ -81,7 +81,31 @@ p{
 
   <body>
  <script type="text/javascript">
- 
+ $(document).ready(function(){
+	   
+	 
+	   $("td#faq_code").click(function(){
+		   var faq_code = $(this).next().next().next().next().next().text();	
+		   location.href="<%=ctxPath%>/heajun/board/faqshow.sue?faq_code="+faq_code; 
+	   });
+	   $("td#faq_category").click(function(){
+		   var faq_code = $(this).next().next().text();	
+		   location.href="<%=ctxPath%>/heajun/board/faqshow.sue?faq_code="+faq_code; 
+	   });
+	   $("td#faq_subject").click(function(){
+		   var faq_code = $(this).next().next().next().text();	
+		   location.href="<%=ctxPath%>/heajun/board/faqshow.sue?faq_code="+faq_code; 
+	   });
+	   $("td#fk_member_code").click(function(){
+		   var faq_code = $(this).next().next().next().next().text();	
+		   location.href="<%=ctxPath%>/heajun/board/faqshow.sue?faq_code="+faq_code; 
+	   });
+	  
+	  
+	   
+    
+ });// end of $(document).ready(function(){})----------------------------------
+
 
    </script>
    
@@ -137,11 +161,11 @@ p{
   <tbody>
 		         <c:forEach var="fvo" items="${requestScope.faqList}">
 		            <tr>
-		               <td id="faq_num">${fvo.faq_num}</td>
+		               <td id="faq_code">${fvo.faq_code}</td>
+		               <td id="faq_category">${fvo.faq_category}</td>
 		               <td id="faq_subject">${fvo.faq_subject}</td>
-		               <td id="faq_id">${fvo.faq_id}</td>
-		               <td id="faq_date">${fvo.faq_date}</td>
-   					   <td style="display:none">${fvo.faq_num}</td>
+		               <td id="fk_member_code">${fvo.fk_member_code}</td>
+   					   <td style="display:none">${fvo.faq_code}</td>
 		            </tr>
 		         </c:forEach>
 		     </tbody>
@@ -181,26 +205,14 @@ p{
       </tbody>
     </table>
     
-<div class="page">
-    <nav aria-label="Page navigation ">
-      <ul class="pagination pagination-sm d-flex justify-content-center">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
+
 </div>
 </div>
 
+<br>
+<br>
+<br>
+<br>
 
 
 

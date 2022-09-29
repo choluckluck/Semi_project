@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>1:1문의 작성</title>
+<title>1:1문의 수정</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -192,7 +192,14 @@ button#btn {
 				
 			});// 아이디가 contents 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 			
-			
+			 // 값을 보내기 위해 꺼놨던 인풋을 다시 켜준다.
+	         $("input#qna_code").prop("disabled", false);
+	         $("input#fk_member_code").prop("disabled", false);
+	         
+	         var frm = document.registerFrm;
+	         frm.action="qnaEditEnd.go";
+	         frm.method="POST";
+	         frm.submit();
 			
 		});// end of $(document).ready(function(){})-------------------------------
 
@@ -699,7 +706,7 @@ button#btn {
    
    
 	   <button id="btn" type="button" onclick="javascript:history.back();">취소</button>
-		<button id="btnReply" >등록</button>
+		<button id="btnReply" >수정</button>
 </div>
   
  

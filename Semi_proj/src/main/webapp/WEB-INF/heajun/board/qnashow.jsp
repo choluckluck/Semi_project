@@ -116,12 +116,12 @@ button#edit {
 			if("${requestScope.userid}"=="no"){
 				alert("로그인 후 이용 가능합니다");
 			}
-			else if("${requestScope.userid}"!="${requestScope.qvo.qna_id}"){
+			else if("${requestScope.userid}"!="${requestScope.qvo.fk_member_code}"){
 				alert("다른작성자의 게시글 수정은 불가 합니다.");
 			}
 			else{
 				 var frm = document.goEdit;
-				 frm.action = "qnaEdit.go";
+				 frm.action = "qnaEdit.sue";
 				 frm.method = "post";
 				 frm.submit();
 			}
@@ -133,14 +133,16 @@ button#edit {
 			if("${requestScope.userid}"=="no"){
 				alert("로그인 후 이용 가능합니다");
 			}
-			else if("${requestScope.userid}"!="${requestScope.qvo.qna_id}"){
+			else if("${requestScope.userid}"!="${requestScope.qvo.fk_member_code}"){
 				alert("다른작성자의 게시글 삭제는 불가 합니다.");
 			}
 			else{
-				 var frm = document.delFrm;
-				 frm.action = "qnaDelete.go";
-				 frm.method = "post";
-				 frm.submit();
+				 
+			         var frm = document.goToDeleteFrm;
+			         frm.action = "qnalist.sue";
+			         frm.method = "post";
+			         frm.submit();
+			      
 			}
 		});
 		
