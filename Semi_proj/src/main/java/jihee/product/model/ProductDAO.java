@@ -1,11 +1,10 @@
-package hyerin.member.model;
+package jihee.product.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 import javax.naming.Context;
@@ -13,16 +12,14 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import hyerin.product.model.ProductVO;
-
-public class MemberDAO implements InterMemberDAO {
+public class ProductDAO implements InterProductDAO {
 	private DataSource ds;	//DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool)
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
 	// 생성자
-	public MemberDAO() {
+	public ProductDAO() {
 		try {
 			Context initContext = new InitialContext();
 		    Context envContext  = (Context)initContext.lookup("java:/comp/env");
@@ -43,36 +40,49 @@ public class MemberDAO implements InterMemberDAO {
 		}
 		
 	}
+
 	
-	//하트 클릭시 위시 처리 => 해당 유저의 위시상품을 불러온다
+	//상품 카드 목록 가져오기
 	@Override
-	public boolean selectLikeProduct(String userid, String wish_check) throws SQLException {
+	public List<ProductVO> selectProductAll() throws SQLException {
 		
-		boolean wish_check_result = false;
+		List<ProductVO> productList = new ArrayList<>();
 		
 		try {
 			conn = ds.getConnection();
-			String sql = "select fk_prod_code\n"+
-						"from tbl_like\n"+
-						"where fk_userid = ? and fk_prod_code = ? ";
+			
+			String sql = " select prod_code, prod_name, prod_kind, prod_image\n"+
+					" ,prod_high, prod_color ,prod_size, prod_price, prod_stock\n"+
+					" ,prod_registerday\n"+
+					"from tbl_product"; 
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);
-			pstmt.setString(2, wish_check);
 			
 			rs = pstmt.executeQuery();
 			
 			
-			if(rs.next()) {
-				wish_check_result = true;
-			}
-			
+			while(rs.next() ) {
+				
+				ProductVO pvo = new ProductVO();
+				pvo.setProd_code(rs.getString(1));
+				pvo.setProd_name(rs.getString(2));
+				pvo.setProd_kind(rs.getString(3));
+				pvo.setProd_image(rs.getString(4));
+				pvo.setProd_high(rs.getString(5));
+				pvo.setProd_color(rs.getString(6));
+				pvo.setProd_size(rs.getString(7));
+				pvo.setProd_price(rs.getInt(8));
+				pvo.setProd_stock(rs.getString(9));
+				pvo.setProd_registerday(rs.getString(10));
+				
+				productList.add(pvo);
+				
+			}// end of while-----
 			
 		} finally {
-		     close();
-		}
+			close();
+		} 
 		
-		return wish_check_result;
-		
-	}//end of selectLikeProduct
+		return productList;
+	}//public List<ProductVO> selectProductAll() throws SQLException------- 
 }

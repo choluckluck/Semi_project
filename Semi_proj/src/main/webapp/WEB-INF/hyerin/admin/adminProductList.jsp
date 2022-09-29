@@ -106,11 +106,12 @@
 							<th width="10%" height="50px" class="admin_productList_th text-center">No</th>
 							<th width="10%" class="admin_productList_th text-center">상품 종류</th>
 							<th width="15%" class="admin_productList_th text-center">상품 이미지</th>
-							<th width="20%" class="admin_productList_th text-center" >상품명</th>
+							<th width="15%" class="admin_productList_th text-center" >상품명</th>
 							<th width="10%" class="admin_productList_th text-center" >상품 가격</th>
 							<th width="10%" class="admin_productList_th text-center" >상품 수량</th>
-							<th width="10%" class="admin_productList_th text-center" >수정</th>
-							<th width="10%" class="admin_productList_th text-center" >삭제</th>
+							<th width="5%" class="admin_productList_th text-center" >메인노출</th>
+							<th width="5%" class="admin_productList_th text-center" >수정</th>
+							<th width="5%" class="admin_productList_th text-center" >삭제</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -122,8 +123,9 @@
 							<td class="text-center admin_productList_tbody">!상품명</td>
 							<td class="text-center admin_productList_tbody">!상품 가격</td>
 							<td class="text-center admin_productList_tbody">!상품 수량</td>
-							<td class="text-center admin_productList_tbody"><button id="admin_productRevise_btn" type="button" class="white" style="height:30px;" onclick="product_revise();">수정</button></td>
-							<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px;">삭제</button></td>
+							<td class="text-center admin_productList_tbody"><input type="checkbox" id="mdPick_chx" name="mdPick_chx"/></td>
+							<td class="text-center admin_productList_tbody"><button id="admin_productRevise_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_revise();">수정</button></td>
+							<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>
 						</tr>
 						<tr>
 							<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="product_2" name="productList_chx"/></td>
@@ -133,12 +135,14 @@
 							<td class="text-center admin_productList_tbody">!상품명</td>
 							<td class="text-center admin_productList_tbody">!상품 가격</td>
 							<td class="text-center admin_productList_tbody">!상품 수량</td>
-							<td class="text-center admin_productList_tbody"><button id="admin_productRevise_btn" type="button" class="white" style="height:30px;" onclick="product_revise();">수정</button></td>
-							<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px;">삭제</button></td>
+							<td class="text-center admin_productList_tbody"><input type="checkbox" id="mdPick_chx" name="mdPick_chx"/></td>
+							<td class="text-center admin_productList_tbody"><button id="admin_productRevise_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_revise();">수정</button></td>
+							<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>
 						</tr>
 					</tbody>
 				</table>
 				<div class="mt-3">
+					<span><button type="button" id="" class="white" style="height:30px;">선택노출/숨김</button></span>
 					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
 				</div>
 			</form>
