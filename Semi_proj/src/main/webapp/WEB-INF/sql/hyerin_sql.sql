@@ -290,4 +290,77 @@ where prod_code like '%1%'
 
 commit
 
-;
+desc tbl_product
+
+select * from tbl_order_detail
+
+
+
+
+----------------------------------** 관리자 페이지 ** ------------------------------------------
+
+------------------ ** 상품 최신순 정렬 ** ------------------
+select prod_code, prod_kind, prod_image, prod_name, prod_price, prod_stock, md_pick_yn
+from tbl_product
+order by PROD_REGISTERDAY desc
+
+-- 페이징
+select ceil(count(*)/10)
+from tbl_product
+order by PROD_REGISTERDAY desc
+
+
+
+
+------------------ ** 상품 주문순 정렬 ** ------------------
+select prod_code, prod_kind, prod_image , prod_name, prod_price, prod_stock, prod_color, md_pick_yn, nvl(prod_order_count, 0) as prod_order_count
+from tbl_product
+left JOIN 
+(
+    select fk_prod_code, count(*) as prod_order_count
+    from tbl_order_detail
+    group by fk_prod_code
+)OD
+ON prod_code = OD.fk_prod_code
+order by prod_order_count desc
+
+
+
+
+
+
+
+------------------- ** 상품 종류별 정렬 ** ------------------
+-- ** 종류별
+select prod_code, prod_kind, prod_image, prod_name, prod_price, prod_stock, md_pick_yn
+from tbl_product
+where prod_kind = 'sneakers'
+
+
+
+----------------------------------------------
+
+select prod_code, prod_name, prod_kind, prod_image
+    ,prod_high, prod_color ,prod_size, prod_price, prod_stock
+    ,prod_registerday, nvl(prod_review_count,'0') as prod_review_count ,rownum AS RNO
+from
+(select rownum AS RNO ,prod_code, prod_name, prod_kind, prod_image
+    ,prod_high, prod_color ,prod_size, prod_price, prod_stock
+    ,prod_registerday, nvl(prod_review_count,'0') as prod_review_count
+from tbl_product left JOIN 
+(
+
+    select fk_prod_code, count(*) as prod_review_count 
+    from tbl_review
+    group by fk_prod_code
+)
+ON prod_code = fk_prod_code
+where prod_kind like '%' and prod_color like '%' and prod_name like '%스니%' and prod_price between '0' and '30000' 
+and prod_color like '%yellow%' or prod_color like '%red%' 
+order by prod_registerday desc
+)
+where RNO between 1 and 30
+order by prod_price desc;
+
+
+
