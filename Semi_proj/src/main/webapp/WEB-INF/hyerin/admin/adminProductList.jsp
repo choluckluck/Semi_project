@@ -47,6 +47,7 @@
 		
 		
 		$("#byRegisterdayOrders").change(function(e){
+			
 			selectBySort();
 		});
 		
@@ -77,7 +78,24 @@
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//function declarartion
-
+	function selectBySort(){
+		$.ajax({
+			url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListJson.sue";
+			type: "GET";
+			data:{
+				
+				
+			},
+			dataType:"JSON",
+			success:function(json){
+				
+				
+			}
+			
+			
+		});
+		
+	}
 	
 	
 	
