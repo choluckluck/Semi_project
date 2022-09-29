@@ -17,10 +17,5 @@ public interface InterNoticeDAO {
 	// 글 클릭했을때 조회수 받아오는 메소드
 	void noticeCnt(String notice_code)throws Exception;
 
-	// 전체 게시물에 대한 총페이지 알아오기
-	int getTotalPage(Map<String, String> paraMap)throws Exception;
-
-	//  페이징 처리를 한 글목록 보여주기
-	List<NoticeVO> selectPagingNoticeList(Map<String, String> paraMap);
-
+	
 }
