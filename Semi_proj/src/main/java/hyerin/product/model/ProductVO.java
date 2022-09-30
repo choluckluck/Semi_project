@@ -16,7 +16,9 @@ public class ProductVO {
 	 private String prod_registerday; // 상품
 	 private String prod_review_count; // 리뷰개수
 	 private String prod_description; //상품설명
-	 private String prod_point; // 상품퐆인
+	 private String prod_point; // 상품포인트
+	 
+	 private String md_pick_yn; //메인노출여부
 	 
 	
 	public String getProd_code() {
@@ -124,7 +126,15 @@ public class ProductVO {
 	public void setProd_point(String prod_point) {
 		this.prod_point = prod_point;
 	}
-	 
+	
+	
+	
+	public String getMd_pick_yn() {
+		return md_pick_yn;
+	}
+	public void setMd_pick_yn(String md_pick_yn) {
+		this.md_pick_yn = md_pick_yn;
+	}
 	
 	
 	/////////////////////////////////////////////////////////////

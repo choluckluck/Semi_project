@@ -3,6 +3,8 @@
 <%
     String ctxPath = request.getContextPath();
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 <style>
@@ -17,7 +19,7 @@
 		font-size: 10pt;
 	}
 	
-	#admin_productList_sort{
+	.productSort {
 		border: solid 1px #d9d9d9;
 		height: 30px;
 		font-size: 10pt;
@@ -33,7 +35,7 @@
 		border-bottom: solid 1px #d9d9d9;
 	}
 	
-	#admin_productList_btn{
+	#productSearch_btn{
 		float: right;
 		width:150px;
 		height:40px;
@@ -42,25 +44,79 @@
 
 <script>
 	$(document).ready(function(){
-		/* //product_search 입력박스는 처음에 안보이게 한다
-		$("input#product_search").hide();
 		
-		//product_search는 btn 클릭시 보이게 한다
-		$("button#product_search_btn").click(function(){
-			const input_text = $("input#product_search").val().trim();
-			if(input_text == ""){ //product_search의 input값이 비어있을때, 즉 문서 로딩시 검색버튼을 클릭을 했을 때
-				$("input#product_search").toggle();
+		
+		$("#byRegisterdayOrders").change(function(e){ //첫번째 셀렉트박스 체인지 이벤트
+			
+			const firstSelectVal = $(e.target).val();
+			selectBySort(firstSelectVal);
+			
+			$("#byKind").change(function(event){ //두번째 셀렉트박스 체인지 이벤트
+				
+				const secondSelectVal = $(event.target).val();
+				selectBySort(firstSelectVal, secondSelectVal);
+				
+			}); 
+			
+			
+		});
+		
+		
+		
+		/* $("#byRegisterdayOrders").change(function(e){
+			selectBySort();
+			
+		});	
+		
+		$("#byKind").change(function(){
+			selectBySort();
+		});	
+		
+		if()
+		
+		if(${requestScope.byRegisterdayOrders} != null ){
+			$("#byRegisterdayOrders").val("${requestScope.byRegisterdayOrders}");
+		};
+		
+		if(${requestScope.byKind} != null){
+			$("#byKind").val("${requestScope.byKind}");
+		};  */
+		
+		
+	});//end of ready
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//function declarartion
+	function selectBySort(firstselectVal){
+		$.ajax({
+			url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListJson.sue";
+			type: "GET";
+			data:{
+				"byRegisterdayOrders":firstselectVal
+			},
+			dataType:"JSON",
+			success:function(json){
+				
+				
 			}
-			else if (input_text != ""){ //product_search에 값을 입력했을 때, 즉 검색 값을 입력했을 때
-				// input#product_search 값을 submit한다
-			}
-		});//end of $("button#header_search_btn").click */
+			
+			
+		});
+		
+	}//end of selectBySort(firstselectVal)
+	
+	function selectBySort(firstselectVal, secondSelectVal){
 		
 		
-	});
-
-	function product_revise(){
-		// 나의 정보 수정하기 팝업창 띄우기
+		
+		
+	}//end of selectBySort(firstselectVal, secondSelectVal)
+	
+	
+	
+	function product_edit(prod_code){
+		// 회원 정보 수정하기 팝업창 띄우기
 		const url = "<%= ctxPath%>/hyerin/admin/adminProductEdit.sue";
 		
 		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
@@ -76,26 +132,49 @@
 		
 	};
 	
+	
+	/* function selectBySort(){
+		const frm = document.prodSelectFrm;
+		frm.action = "adminProductList.sue";
+		frm.method = "get";
+		frm.submit();
+	}; */
+	
 </script>
 
 <div class="row container-fluid mt-5">
 	<jsp:include page="/WEB-INF/hyerin/admin/adminSidebar.jsp" />
 	<div id="contents" class="col-9 ml-5 mt-3 mb-5">
+		
 		<div id="productList">
 			<div style="font-weight:bold;">
-				<span class="mr-3" style="font-size:20pt;">상품목록</span>
-				<span id="productList_sort">
-					<select id="admin_productList_sort">
-						<option value="latest" selected>최신순</option>
-						<option value="order_quantity">주문수</option>
-						<option value="product_kind">상품종류</option>
-					</select>
-				</span>
-				<form name="productList_search_form" class="mt-2" style="display:inline-block;">
-					<input type="text" id="product_search" name="product_search" placeholder="상품명으로 검색"/>
-					<button type="button" id="product_search_btn" name="product_search_btn" style="border:none; background-color: transparent;">
-						<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
-					</button>
+				<form name="prodSelectFrm">
+					<span class="mr-3" style="font-size:20pt;">상품목록</span>
+					<span class="mr-1">
+						<select id="byRegisterdayOrders" name="byRegisterdayOrders" class="productSort">
+							<option value="latest" selected>최신순</option>
+							<option value="orders">주문수</option>
+						</select>
+					</span>
+					<span>
+						<select id="byKind" name="byKind" class="productSort">
+							<option value="product_kind" selected>상품종류별</option>
+							<option value="flat">플랫</option>
+							<option value="loafer">로퍼</option>
+							<option value="pumps">펌프스</option>
+							<option value="ankle">앵클</option>
+							<option value="boots">부츠</option>
+							<option value="sneakers">스니커즈</option>
+							<option value="slingback">슬링백</option>
+							<option value="mule">뮬</option>
+						</select>
+					</span>
+					<span id="productSearch_btn">
+						<span><input type="text" id="product_search" name="searchName" placeholder="상품명으로 검색"/></span>
+						<span><button type="button" id="product_search_btn" name="product_search_btn" style="border:none; background-color: transparent;">
+							<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
+						</button></span>
+					</span>
 				</form>
 			</div>
 			<form name="admin_productList_frm">
@@ -108,37 +187,14 @@
 							<th width="15%" class="admin_productList_th text-center">상품 이미지</th>
 							<th width="15%" class="admin_productList_th text-center" >상품명</th>
 							<th width="10%" class="admin_productList_th text-center" >상품 가격</th>
-							<th width="10%" class="admin_productList_th text-center" >상품 수량</th>
+							<th width="10%" class="admin_productList_th text-center" >재고 수량</th>
 							<th width="5%" class="admin_productList_th text-center" >메인노출</th>
 							<th width="5%" class="admin_productList_th text-center" >수정</th>
 							<th width="5%" class="admin_productList_th text-center" >삭제</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="product_1" name="productList_chx"/></td>
-							<td height="160px" class="admin_productList_tbody text-center">!상품코드</td>
-							<td class="text-center admin_productList_tbody">!상품 분류</td>
-							<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="<%= ctxPath%>/images/hyerin/best_img_3.jpg"></td>
-							<td class="text-center admin_productList_tbody">!상품명</td>
-							<td class="text-center admin_productList_tbody">!상품 가격</td>
-							<td class="text-center admin_productList_tbody">!상품 수량</td>
-							<td class="text-center admin_productList_tbody"><input type="checkbox" id="mdPick_chx" name="mdPick_chx"/></td>
-							<td class="text-center admin_productList_tbody"><button id="admin_productRevise_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_revise();">수정</button></td>
-							<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>
-						</tr>
-						<tr>
-							<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="product_2" name="productList_chx"/></td>
-							<td height="160px" class="admin_productList_tbody text-center">!상품코드</td>
-							<td class="text-center admin_productList_tbody">!상품 분류</td>
-							<td class="text-center admin_productList_tbody"><img id="admin_product_img_2" height="150px" src="<%= ctxPath%>/images/hyerin/best_img_2.jpg"></td>
-							<td class="text-center admin_productList_tbody">!상품명</td>
-							<td class="text-center admin_productList_tbody">!상품 가격</td>
-							<td class="text-center admin_productList_tbody">!상품 수량</td>
-							<td class="text-center admin_productList_tbody"><input type="checkbox" id="mdPick_chx" name="mdPick_chx"/></td>
-							<td class="text-center admin_productList_tbody"><button id="admin_productRevise_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_revise();">수정</button></td>
-							<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>
-						</tr>
+						
 					</tbody>
 				</table>
 				<div class="mt-3">
@@ -146,6 +202,23 @@
 					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
 				</div>
 			</form>
+			<nav aria-label="Page navigation">
+			  <ul class="pagination justify-content-center pagination-sm my-5">
+			    <li class="page-item">
+			      <a class="page-link" href="#" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>
+			    <li class="page-item"><a class="page-link" href="#">1</a></li>
+			    <li class="page-item"><a class="page-link" href="#">2</a></li>
+			    <li class="page-item"><a class="page-link" href="#">3</a></li>
+			    <li class="page-item">
+			      <a class="page-link" href="#" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>
+			  </ul>
+			</nav>
 		</div>
 	</div>
 </div>

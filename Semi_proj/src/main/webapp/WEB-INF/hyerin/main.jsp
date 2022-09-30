@@ -77,36 +77,36 @@
 	    <div class="carousel-item active">
 	    	<table id="best_table" style="font-size:11pt; border-collapse: separate; border-spacing: 15px;">
 	    		<tr>
-	    			<c:forEach var="best_pvo" items="${requestScope.best_pvo}" begin="0" end="3" step="1">
+	    			<c:forEach var="best_pvoList" items="${requestScope.best_pvoList}" begin="0" end="3" step="1">
 						<td width="20%" class="pr-1">
 							<a href="#" style="text-decoration: none; color: black;">
-								<img src="<%= ctxPath%>/images/product/${best_pvo.prod_kind}/${best_pvo.prod_image}" width="100%"/>
+								<img src="<%= ctxPath%>/images/product/${best_pvoList.prod_kind}/${best_pvoList.prod_image}" width="100%"/>
 								<div class="mt-3">
 									<span style="float:left;">
-										<c:forTokens var="prod_color" items="${best_pvo.prod_color}" delims=",">
+										<c:forTokens var="prod_color" items="${best_pvoList.prod_color}" delims=",">
 											<div class="best_color" style="background-color: ${prod_color};"></div>
 										</c:forTokens>
 									</span>
-									<span style="float:right; font-size:9pt;">리뷰 ${best_pvo.prod_review_count}개</span>
+									<span style="float:right; font-size:9pt;">리뷰 ${best_pvoList.prod_review_count}개</span>
 									<%-- 
 									<form name="wish_heart_frm">
-										<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-											<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
+										<label for="${best_pvoList.prod_code}_chx" onclick="wish_heart('${best_pvoList.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
+											<img id="${best_pvoList.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
 										</label>
-										<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-										<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
+										<input type="checkbox" id="${best_pvoList.prod_code}_chx" name="${best_pvoList.prod_code}_chx" style="display:none;"/>
+										<input type="hidden" name="${best_pvoList.prod_code}_likeCheck" value=""/>
 									</form>
 									 --%>
-									<div class="pt-3" style="clear:both">${best_pvo.prod_name} <span>(${best_pvo.prod_high}cm)</span></div>
+									<div class="pt-3" style="clear:both">${best_pvoList.prod_name} <span>(${best_pvoList.prod_high}cm)</span></div>
 									<div class="pt-1 pb-5">
-										<c:if test="${not empty best_pvo.prod_saleprice}">
+										<c:if test="${not empty best_pvoList.prod_saleprice}">
 											<span class="mr-1">
-													<fmt:formatNumber value="${best_pvo.prod_saleprice}" pattern="#,###"/>
+													<fmt:formatNumber value="${best_pvoList.prod_saleprice}" pattern="#,###"/>
 											</span>
-											<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${best_pvo.prod_price}" pattern="#,###"/></span>
+											<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${best_pvoList.prod_price}" pattern="#,###"/></span>
 										</c:if>
-										<c:if test="${empty best_pvo.prod_saleprice}">
-											<span><fmt:formatNumber value="${best_pvo.prod_price}" pattern="#,###"/></span>
+										<c:if test="${empty best_pvoList.prod_saleprice}">
+											<span><fmt:formatNumber value="${best_pvoList.prod_price}" pattern="#,###"/></span>
 										</c:if>
 									</div>
 									
@@ -120,36 +120,36 @@
 	    <div class="carousel-item">
 	    	<table id="best_table_2" style="font-size:11pt; border-collapse: separate; border-spacing: 15px;">
 				<tr>
-	    			<c:forEach var="best_pvo" items="${requestScope.best_pvo}" begin="4" end="7" step="1">
+	    			<c:forEach var="best_pvoList" items="${requestScope.best_pvoList}" begin="4" end="7" step="1">
 						<td width="20%" class="pr-1">
 							<a href="#" style="text-decoration: none; color: black;">
-								<img src="<%= ctxPath%>/images/product/${best_pvo.prod_kind}/${best_pvo.prod_image}" width="100%"/>
+								<img src="<%= ctxPath%>/images/product/${best_pvoList.prod_kind}/${best_pvoList.prod_image}" width="100%"/>
 								<div class="mt-3">
 									<span style="float:left;">
-										<c:forTokens var="prod_color" items="${best_pvo.prod_color}" delims=",">
+										<c:forTokens var="prod_color" items="${best_pvoList.prod_color}" delims=",">
 											<div class="best_color" style="background-color: ${prod_color};"></div>
 										</c:forTokens>
 									</span>
-									<span style="float:right; font-size:9pt;">리뷰 ${best_pvo.prod_review_count}개</span>
+									<span style="float:right; font-size:9pt;">리뷰 ${best_pvoList.prod_review_count}개</span>
 									<%-- 
 									<form name="wish_heart_frm">
-										<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-											<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
+										<label for="${best_pvoList.prod_code}_chx" onclick="wish_heart('${best_pvoList.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
+											<img id="${best_pvoList.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
 										</label>
-										<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-										<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
+										<input type="checkbox" id="${best_pvoList.prod_code}_chx" name="${best_pvoList.prod_code}_chx" style="display:none;"/>
+										<input type="hidden" name="${best_pvoList.prod_code}_likeCheck" value=""/>
 									</form>
 									 --%>
-									<div class="pt-3" style="clear:both">${best_pvo.prod_name} <span>(${best_pvo.prod_high}cm)</span></div>
+									<div class="pt-3" style="clear:both">${best_pvoList.prod_name} <span>(${best_pvoList.prod_high}cm)</span></div>
 									<div class="pt-1 pb-5">
-										<c:if test="${not empty best_pvo.prod_saleprice}">
+										<c:if test="${not empty best_pvoList.prod_saleprice}">
 											<span class="mr-1">
-													<fmt:formatNumber value="${best_pvo.prod_saleprice}" pattern="#,###"/>
+													<fmt:formatNumber value="${best_pvoList.prod_saleprice}" pattern="#,###"/>
 											</span>
-											<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${best_pvo.prod_price}" pattern="#,###"/></span>
+											<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${best_pvoList.prod_price}" pattern="#,###"/></span>
 										</c:if>
-										<c:if test="${empty best_pvo.prod_saleprice}">
-											<span><fmt:formatNumber value="${best_pvo.prod_price}" pattern="#,###"/></span>
+										<c:if test="${empty best_pvoList.prod_saleprice}">
+											<span><fmt:formatNumber value="${best_pvoList.prod_price}" pattern="#,###"/></span>
 										</c:if>
 									</div>
 								</div>
@@ -177,36 +177,36 @@
 				<td colspan="4" height="150px;" align="center" style="font-size:25pt" class="pt-5 pb-4">New Arrival</td>
 			</tr>
 			<tr>
-				<c:forEach var="new_pvo" items="${requestScope.new_pvo}" begin="0" end="3" step="1">
+				<c:forEach var="new_pvoList" items="${requestScope.new_pvoList}" begin="0" end="3" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
-							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
+							<img src="<%= ctxPath%>/images/product/${new_pvoList.prod_kind}/${new_pvoList.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
-									<c:forTokens var="prod_color" items="${new_pvo.prod_color}" delims=",">
+									<c:forTokens var="prod_color" items="${new_pvoList.prod_color}" delims=",">
 										<div class="best_color" style="background-color: ${prod_color};"></div>
 									</c:forTokens>
 								</span>
-								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
+								<span style="float:right; font-size:9pt;">리뷰 ${new_pvoList.prod_review_count}개</span>
 								<%-- 
 								<form name="wish_heart_frm">
-									<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-										<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
+									<label for="${best_pvoList.prod_code}_chx" onclick="wish_heart('${best_pvoList.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
+										<img id="${best_pvoList.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
 									</label>
-									<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-									<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
+									<input type="checkbox" id="${best_pvoList.prod_code}_chx" name="${best_pvoList.prod_code}_chx" style="display:none;"/>
+									<input type="hidden" name="${best_pvoList.prod_code}_likeCheck" value=""/>
 								</form>
 								 --%>
-								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
+								<div class="pt-3" style="clear:both">${new_pvoList.prod_name} <span>(${new_pvoList.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
-									<c:if test="${not empty new_pvo.prod_saleprice}">
+									<c:if test="${not empty new_pvoList.prod_saleprice}">
 										<span class="mr-1">
-												<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
+												<fmt:formatNumber value="${new_pvoList.prod_saleprice}" pattern="#,###"/>
 										</span>
-										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
+										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvoList.prod_price}" pattern="#,###"/></span>
 									</c:if>
-									<c:if test="${empty new_pvo.prod_saleprice}">
-										<span><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
+									<c:if test="${empty new_pvoList.prod_saleprice}">
+										<span><fmt:formatNumber value="${new_pvoList.prod_price}" pattern="#,###"/></span>
 									</c:if>
 								</div>
 							</div>
@@ -215,36 +215,36 @@
 				</c:forEach>                                                                                                                             
 			</tr>
 			<tr>
-				<c:forEach var="new_pvo" items="${requestScope.new_pvo}" begin="4" end="7" step="1">
+				<c:forEach var="new_pvoList" items="${requestScope.new_pvoList}" begin="4" end="7" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
-							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
+							<img src="<%= ctxPath%>/images/product/${new_pvoList.prod_kind}/${new_pvoList.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
-									<c:forTokens var="prod_color" items="${new_pvo.prod_color}" delims=",">
+									<c:forTokens var="prod_color" items="${new_pvoList.prod_color}" delims=",">
 										<div class="best_color" style="background-color: ${prod_color};"></div>
 									</c:forTokens>
 								</span>
-								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
+								<span style="float:right; font-size:9pt;">리뷰 ${new_pvoList.prod_review_count}개</span>
 								<%-- 
 								<form name="wish_heart_frm">
-									<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-										<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
+									<label for="${best_pvoList.prod_code}_chx" onclick="wish_heart('${best_pvoList.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
+										<img id="${best_pvoList.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
 									</label>
-									<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-									<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
+									<input type="checkbox" id="${best_pvoList.prod_code}_chx" name="${best_pvoList.prod_code}_chx" style="display:none;"/>
+									<input type="hidden" name="${best_pvoList.prod_code}_likeCheck" value=""/>
 								</form>
 								 --%>
-								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
+								<div class="pt-3" style="clear:both">${new_pvoList.prod_name} <span>(${new_pvoList.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
-									<c:if test="${not empty new_pvo.prod_saleprice}">
+									<c:if test="${not empty new_pvoList.prod_saleprice}">
 										<span class="mr-1">
-												<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
+												<fmt:formatNumber value="${new_pvoList.prod_saleprice}" pattern="#,###"/>
 										</span>
-										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
+										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvoList.prod_price}" pattern="#,###"/></span>
 									</c:if>
-									<c:if test="${empty new_pvo.prod_saleprice}">
-										<span><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
+									<c:if test="${empty new_pvoList.prod_saleprice}">
+										<span><fmt:formatNumber value="${new_pvoList.prod_price}" pattern="#,###"/></span>
 									</c:if>
 								</div>
 							</div>
@@ -253,36 +253,36 @@
 				</c:forEach>                                                                                                                             
 			</tr>
 			<tr>
-				<c:forEach var="new_pvo" items="${requestScope.new_pvo}" begin="8" end="11" step="1">
+				<c:forEach var="new_pvoList" items="${requestScope.new_pvoList}" begin="8" end="11" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
-							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
+							<img src="<%= ctxPath%>/images/product/${new_pvoList.prod_kind}/${new_pvoList.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
-									<c:forTokens var="prod_color" items="${new_pvo.prod_color}" delims=",">
+									<c:forTokens var="prod_color" items="${new_pvoList.prod_color}" delims=",">
 										<div class="best_color" style="background-color: ${prod_color};"></div>
 									</c:forTokens>
 								</span>
-								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
+								<span style="float:right; font-size:9pt;">리뷰 ${new_pvoList.prod_review_count}개</span>
 								<%-- 
 								<form name="wish_heart_frm">
-									<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-										<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
+									<label for="${best_pvoList.prod_code}_chx" onclick="wish_heart('${best_pvoList.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
+										<img id="${best_pvoList.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
 									</label>
-									<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-									<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
+									<input type="checkbox" id="${best_pvoList.prod_code}_chx" name="${best_pvoList.prod_code}_chx" style="display:none;"/>
+									<input type="hidden" name="${best_pvoList.prod_code}_likeCheck" value=""/>
 								</form>
 								 --%>
-								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
+								<div class="pt-3" style="clear:both">${new_pvoList.prod_name} <span>(${new_pvoList.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
-									<c:if test="${not empty new_pvo.prod_saleprice}">
+									<c:if test="${not empty new_pvoList.prod_saleprice}">
 										<span class="mr-1">
-												<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
+												<fmt:formatNumber value="${new_pvoList.prod_saleprice}" pattern="#,###"/>
 										</span>
-										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
+										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvoList.prod_price}" pattern="#,###"/></span>
 									</c:if>
-									<c:if test="${empty new_pvo.prod_saleprice}">
-										<span><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
+									<c:if test="${empty new_pvoList.prod_saleprice}">
+										<span><fmt:formatNumber value="${new_pvoList.prod_price}" pattern="#,###"/></span>
 									</c:if>
 								</div>
 							</div>
@@ -291,36 +291,36 @@
 				</c:forEach>                                                                                                                             
 			</tr>
 			<tr>
-				<c:forEach var="new_pvo" items="${requestScope.new_pvo}" begin="12" end="15" step="1">
+				<c:forEach var="new_pvoList" items="${requestScope.new_pvoList}" begin="12" end="15" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
-							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
+							<img src="<%= ctxPath%>/images/product/${new_pvoList.prod_kind}/${new_pvoList.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
-									<c:forTokens var="prod_color" items="${new_pvo.prod_color}" delims=",">
+									<c:forTokens var="prod_color" items="${new_pvoList.prod_color}" delims=",">
 										<div class="best_color" style="background-color: ${prod_color};"></div>
 									</c:forTokens>
 								</span>
-								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
+								<span style="float:right; font-size:9pt;">리뷰 ${new_pvoList.prod_review_count}개</span>
 								<%-- 
 								<form name="wish_heart_frm">
-									<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-										<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
+									<label for="${best_pvoList.prod_code}_chx" onclick="wish_heart('${best_pvoList.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
+										<img id="${best_pvoList.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
 									</label>
-									<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-									<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
+									<input type="checkbox" id="${best_pvoList.prod_code}_chx" name="${best_pvoList.prod_code}_chx" style="display:none;"/>
+									<input type="hidden" name="${best_pvoList.prod_code}_likeCheck" value=""/>
 								</form>
 								 --%>
-								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
+								<div class="pt-3" style="clear:both">${new_pvoList.prod_name} <span>(${new_pvoList.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
-									<c:if test="${not empty new_pvo.prod_saleprice}">
+									<c:if test="${not empty new_pvoList.prod_saleprice}">
 										<span class="mr-1">
-												<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
+												<fmt:formatNumber value="${new_pvoList.prod_saleprice}" pattern="#,###"/>
 										</span>
-										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
+										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvoList.prod_price}" pattern="#,###"/></span>
 									</c:if>
-									<c:if test="${empty new_pvo.prod_saleprice}">
-										<span><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
+									<c:if test="${empty new_pvoList.prod_saleprice}">
+										<span><fmt:formatNumber value="${new_pvoList.prod_price}" pattern="#,###"/></span>
 									</c:if>
 								</div>
 							</div>
@@ -339,36 +339,36 @@
 				<td colspan="4" height="150px;" align="center" style="font-size:25pt" class="pt-5 pb-4">MD's Pick</td>
 			</tr>
 			<tr>
-				<c:forEach var="md_pvo" items="${requestScope.md_pvo}">
+				<c:forEach var="md_pvoList" items="${requestScope.md_pvoList}">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
-							<img src="<%= ctxPath%>/images/product/${md_pvo.prod_kind}/${md_pvo.prod_image}" width="100%"/>
+							<img src="<%= ctxPath%>/images/product/${md_pvoList.prod_kind}/${md_pvoList.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
-									<c:forTokens var="prod_color" items="${md_pvo.prod_color}" delims=",">
+									<c:forTokens var="prod_color" items="${md_pvoList.prod_color}" delims=",">
 										<div class="best_color" style="background-color: ${prod_color};"></div>
 									</c:forTokens>
 								</span>
-								<span style="float:right; font-size:9pt;">리뷰 ${md_pvo.prod_review_count}개</span>
+								<span style="float:right; font-size:9pt;">리뷰 ${md_pvoList.prod_review_count}개</span>
 								<%-- 
 								<form name="wish_heart_frm">
-									<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-										<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
+									<label for="${best_pvoList.prod_code}_chx" onclick="wish_heart('${best_pvoList.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
+										<img id="${best_pvoList.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
 									</label>
-									<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-									<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
+									<input type="checkbox" id="${best_pvoList.prod_code}_chx" name="${best_pvoList.prod_code}_chx" style="display:none;"/>
+									<input type="hidden" name="${best_pvoList.prod_code}_likeCheck" value=""/>
 								</form>
 								 --%>
-								<div class="pt-3" style="clear:both">${md_pvo.prod_name} <span>(${md_pvo.prod_high}cm)</span></div>
+								<div class="pt-3" style="clear:both">${md_pvoList.prod_name} <span>(${md_pvoList.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
-									<c:if test="${not empty md_pvo.prod_saleprice}">
+									<c:if test="${not empty md_pvoList.prod_saleprice}">
 										<span class="mr-1">
-												<fmt:formatNumber value="${md_pvo.prod_saleprice}" pattern="#,###"/>
+												<fmt:formatNumber value="${md_pvoList.prod_saleprice}" pattern="#,###"/>
 										</span>
-										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${md_pvo.prod_price}" pattern="#,###"/></span>
+										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${md_pvoList.prod_price}" pattern="#,###"/></span>
 									</c:if>
-									<c:if test="${empty md_pvo.prod_saleprice}">
-										<span><fmt:formatNumber value="${md_pvo.prod_price}" pattern="#,###"/></span>
+									<c:if test="${empty md_pvoList.prod_saleprice}">
+										<span><fmt:formatNumber value="${md_pvoList.prod_price}" pattern="#,###"/></span>
 									</c:if>
 								</div>
 							</div>
