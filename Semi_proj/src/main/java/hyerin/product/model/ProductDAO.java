@@ -40,6 +40,7 @@ public class ProductDAO implements InterProductDAO {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	
@@ -283,29 +284,21 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select ceil(count(*)/?)\n"+
-						"from tbl_product\n";			
+			String sql = " select ceil(count(*)/10) "+
+						 " from v_tbl_product ";			
 			
-			String kind = paraMap.get("kind");
-			String product_search = paraMap.get("product_search");
+			String byKind = paraMap.get("byKind");
+			//String product_search = paraMap.get("product_search");
 			
-			// 두번째 체크박스의 값이 null 이 아니고 기본값인 product_kind가 아닐 경우
-			if(kind != null && !"product_kind".equals(kind)) {  
-				
+			// 정렬할 셀렉트박스의 값이 null 이 아니고 기본값인 product_kind가 아닐 경우
+			if(byKind != null && !"product_kind".equals(byKind)) {  
 				sql += " where prod_kind = ? ";
-				
-				//검색 입력창에 값이 있는 경우
-				if(product_search != null && !product_search.trim().isEmpty()) { 
-					sql += " and prod_name like '%'|| " + product_search + "|| '%' ";
-				}
-				
-			}//end of if
+			}
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, Integer.parseInt( paraMap.get("sizePerPage")) );
 			
-			if(kind != null && !"product_kind".equals(kind)) {  
-				pstmt.setString(2, product_search);
+			if(byKind != null && !"product_kind".equals(byKind)) {  
+				pstmt.setString(1, byKind);
 			}
 			
 			rs = pstmt.executeQuery();
@@ -320,88 +313,55 @@ public class ProductDAO implements InterProductDAO {
 		
 		return totalPage;
 	}//end of getTotalPage
-
 	
 	
-	// 셀렉트박스 조건과 검색조건을 실행한 상품 보여주기
+	// 첫 화면일때는 모든 상품정보를, 셀렉트박스를 변경했을때는 선택한 종류의 상품정보를 조회(select)
 	@Override
-	public List<ProductVO> selectProduct(Map<String, String> paraMap) throws SQLException {
+	public List<ProductVO> selectProductByKind(Map<String, String> paraMap) throws SQLException {
 		List<ProductVO> pvoList = new ArrayList<>();
 		
+		
 		try {
+			
 			conn = ds.getConnection();
 			
-			String byRegisterdayOrders = paraMap.get("byRegisterdayOrders"); //첫번째 셀렉트박스값
-			String byKind = paraMap.get("byKind"); //두번째 셀렉트박스값
-			String searchName = paraMap.get("searchName"); //검색어
 			
-			String sql = "";
+			String byKind = paraMap.get("byKind");
 			
-			if(byRegisterdayOrders == null || "latest".equals(byRegisterdayOrders)) { //초기화면이거나 최신순일경우
-				if(byKind == null || "product_kind".equals(byKind)) {
-					//최신순으로 보여줌
-					sql = "select prod_code, prod_kind, prod_image, prod_name, prod_price, prod_stock, md_pick_yn\n"+
-							"from tbl_product\n"+
-							"order by PROD_REGISTERDAY desc";
-				}
-				else if(!"product_kind".equals(byKind)) {
-					//종류별로, 최신순으로 보여줌
-					sql = "select prod_code, prod_kind, prod_image, prod_name, prod_price, prod_stock, md_pick_yn\n"+
-							"from tbl_product\n"+
-							"where prod_kind = ? "+
-							" order by PROD_REGISTERDAY desc ";
-				}
+			
+			String sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
+						 "from v_tbl_product";
+				
+			
+			if(byKind != null || !"product_kind".equals(byKind)) {
+				sql += " where prod_kind = ? ";
 			}
-			else { //주문순일때
-				if(byKind == null ||"product_kind".equals(byKind) ) {
-					//주문순으로 보여줌
-					sql = "select prod_code, prod_kind, prod_image , prod_name, prod_price, prod_stock, prod_color, md_pick_yn, nvl(prod_order_count, 0) as prod_order_count\n"+
-							"from tbl_product\n"+
-							"left JOIN \n"+
-							"(\n"+
-							"    select fk_prod_code, count(*) as prod_order_count\n"+
-							"    from tbl_order_detail\n"+
-							"    group by fk_prod_code\n"+
-							")OD\n"+
-							"ON prod_code = OD.fk_prod_code\n"+
-							"order by prod_order_count desc";
-				}
-				else if (!"product_kind".equals(byKind)) {
-					// 종류별로, 주문순으로 보여줌
-					sql = "select prod_code, prod_kind, prod_image , prod_name, prod_price, prod_stock, prod_color, md_pick_yn, nvl(prod_order_count, 0) as prod_order_count\n"+
-							"from tbl_product\n"+
-							"left JOIN \n"+
-							"(\n"+
-							"    select fk_prod_code, count(*) as prod_order_count\n"+
-							"    from tbl_order_detail\n"+
-							"    group by fk_prod_code\n"+
-							")OD\n"+
-							"ON prod_code = OD.fk_prod_code\n"+
-							" where prod_kind = ? "+
-							"order by prod_order_count desc";
-				}
-			}
-//			
-//			
+			
 			pstmt = conn.prepareStatement(sql);
 			
-			if( !(byRegisterdayOrders==null || "latest".equals(byRegisterdayOrders)) && !(byKind==null || "latest".equals(byKind)) ) {
+			if(byKind != null || !"product_kind".equals(byKind)) {
 				pstmt.setString(1, byKind);
 			}
+			
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
+				
 				ProductVO pvo = new ProductVO();
 				pvo.setProd_code(rs.getString(1));
-				pvo.setProd_kind(rs.getString(2));
-				pvo.setProd_image(rs.getString(3));
-				pvo.setProd_name(rs.getString(4));
-				pvo.setProd_price(rs.getString(5));
-				pvo.setProd_stock(rs.getString(6));
-				pvo.setMd_pick_yn(rs.getString(7));
+				pvo.setProd_name(rs.getString(2));
+				pvo.setProd_kind(rs.getString(3));
+				pvo.setProd_image(rs.getString(4));
+				pvo.setProd_high(rs.getString(5));
+				pvo.setProd_price(rs.getString(6));
+				pvo.setProd_saleprice(rs.getString(7));
+				pvo.setProd_color(rs.getString(8));
+				pvo.setProd_registerday(rs.getString(9));
+				pvo.setMd_pick_yn(rs.getString(10));
 				
 				pvoList.add(pvo);
+				
 			}
 			
 		} finally {
@@ -409,7 +369,53 @@ public class ProductDAO implements InterProductDAO {
 		}
 		
 		return pvoList;
-	}//end of selectProductByLatest
+	}
+
+	
+	
+	// 셀렉트박스 조건과 검색조건을 실행한 상품 보여주기
+//	@Override
+//	public List<ProductVO> selectProduct(Map<String, String> paraMap) throws SQLException {
+//		List<ProductVO> pvoList = new ArrayList<>();
+//		
+//		try {
+////			conn = ds.getConnection();
+////			
+////			String byRegisterdayOrders = paraMap.get("byRegisterdayOrders"); //첫번째 셀렉트박스값
+////			String byKind = paraMap.get("byKind"); //두번째 셀렉트박스값
+////			String searchName = paraMap.get("searchName"); //검색어
+////			
+////			String sql = "";
+////			
+//////			
+//////			
+////			pstmt = conn.prepareStatement(sql);
+////			
+////			if( !(byRegisterdayOrders==null || "latest".equals(byRegisterdayOrders)) && !(byKind==null || "latest".equals(byKind)) ) {
+////				pstmt.setString(1, byKind);
+////			}
+////			
+////			rs = pstmt.executeQuery();
+////			
+////			while(rs.next()) {
+////				ProductVO pvo = new ProductVO();
+////				pvo.setProd_code(rs.getString(1));
+////				pvo.setProd_kind(rs.getString(2));
+////				pvo.setProd_image(rs.getString(3));
+////				pvo.setProd_name(rs.getString(4));
+////				pvo.setProd_price(rs.getString(5));
+////				pvo.setProd_stock(rs.getString(6));
+////				pvo.setMd_pick_yn(rs.getString(7));
+////				
+////				pvoList.add(pvo);
+////			}
+////			
+////		} finally {
+////			close();
+////		}
+//		
+//		return pvoList;
+//	}//end of selectProductByLatest
 	
 	
 	

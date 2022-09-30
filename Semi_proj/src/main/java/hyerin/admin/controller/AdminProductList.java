@@ -63,11 +63,10 @@ public class AdminProductList extends AbstractController {
 		
 		
 		
-		List<ProductVO> productList = pdao.selectProduct(paraMap);
 		
 		
 		
-		request.setAttribute("productList", productList);
+		//request.setAttribute("productList", productList);
 
 		// 두번째 셀렉트 박스 (상품종류별) 로 상품을 정렬해온다
 		

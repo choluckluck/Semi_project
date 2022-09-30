@@ -509,7 +509,7 @@ from
 
 ------------------------ 색상, 리뷰, 주문수 조인 ------------------------------------------
 
-select PO.prod_code, P.prod_color, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, md_pick_yn, nvl(review_count, 0) as review_count, nvl(prod_order_count, 0) as prod_order_count
+select PO.prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, P.prod_color, prod_registerday, md_pick_yn, nvl(review_count, 0) as review_count, nvl(prod_order_count, 0) as prod_order_count
 from tbl_product PO
 JOIN
 (
@@ -541,6 +541,45 @@ LEFT JOIN
 ON OD.fk_prod_code = P.prod_code
 
 
+
+CREATE OR REPLACE VIEW v_tbl_product 
+AS
+    select PO.prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, P.prod_color, prod_registerday, md_pick_yn, nvl(review_count, 0) as review_count, nvl(prod_order_count, 0) as prod_order_count
+    from tbl_product PO
+    JOIN
+    (
+        select prod_code, LISTAGG(P.prod_color,',') WITHIN GROUP (ORDER BY P.prod_color) AS prod_color
+        from
+        (
+            select distinct prod_code, prod_color
+            from tbl_product
+            join
+            tbl_prod_detail
+            on prod_code = fk_prod_code
+        ) P
+        group by prod_code
+    ) P
+    ON PO.prod_code = P.prod_code
+    LEFT JOIN
+    (
+        select fk_prod_code, count(*) as review_count
+        from tbl_review
+        group by fk_prod_code
+    ) R
+    ON fk_prod_code = P.prod_code
+    LEFT JOIN
+    (
+        select fk_prod_code, count(*) as prod_order_count
+        from tbl_order_detail
+        group by fk_prod_code
+    ) OD
+    ON OD.fk_prod_code = P.prod_code
+;
+
+select * from v_tbl_product
+
+
+select select ceil(count(*)/
 
 
 
@@ -598,11 +637,154 @@ ORDER BY DBMS_RANDOM.VALUE
 
 
 
+select ceil(count(*)/10)
+from v_tbl_product
+where prod_kind = 'flat'
+;
 
-select * from tbl_product
-where md_pick_yn = 'Y'
 
-update tbl_product set md_pick_yn = 'Y'
-where prod_code = 'prod-0089'
 
-commit;
+select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn
+from v_tbl_product
+
+
+select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_color,prod_price,prod_size, prod_registerday,nvl(review_count, 0) as review_count, prod_saleprice, rownum AS RNO
+from(
+select PO.prod_code, P.prod_color, P.prod_size, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, nvl(review_count, 0) as review_count ,rownum AS RNO
+from tbl_product PO
+JOIN
+(
+    select prod_code, LISTAGG(P.prod_color,',') WITHIN GROUP (ORDER BY P.prod_color) AS prod_color
+        ,LISTAGG(P.prod_size,',') WITHIN GROUP (ORDER BY P.prod_size) AS prod_size 
+    from
+    (
+        select distinct prod_code, prod_color, prod_size
+        from tbl_product
+        join
+        tbl_prod_detail
+        on prod_code = fk_prod_code
+    ) P
+    group by prod_code
+) P
+ON PO.prod_code = P.prod_code
+LEFT JOIN
+(
+    select fk_prod_code, count(*) as review_count
+    from tbl_review
+    group by fk_prod_code
+) R
+ON fk_prod_code = P.prod_code
+where prod_kind like 'slingback' and prod_name like '%해든%' and prod_price between 1 and 5000000
+and prod_color like '%white%'
+order by prod_registerday
+)
+where RNO between 1 and 90
+order by RNO desc;
+
+
+select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_color,prod_price,prod_size, prod_registerday,nvl(review_count, 0) as review_count, prod_saleprice, rownum AS RNO
+from(
+select PO.prod_code, P.prod_color, P.prod_size, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, nvl(review_count, 0) as review_count ,rownum AS RNO
+from tbl_product PO
+JOIN
+(
+    select prod_code, LISTAGG(P.prod_color,',') WITHIN GROUP (ORDER BY P.prod_color) AS prod_color
+        ,LISTAGG(P.prod_size,',') WITHIN GROUP (ORDER BY P.prod_size) AS prod_size 
+    from
+    (
+        select distinct prod_code, prod_color, prod_size
+        from tbl_product
+        join
+        tbl_prod_detail
+        on prod_code = fk_prod_code
+    ) P
+    group by prod_code
+) P
+ON PO.prod_code = P.prod_code
+LEFT JOIN
+(
+    select fk_prod_code, count(*) as review_count
+    from tbl_review
+    group by fk_prod_code
+) R
+ON fk_prod_code = P.prod_code
+where prod_kind like 'slingback' and prod_name like '%해든%' and prod_price between 1 and 5000000
+and prod_color like '%black%white%'
+order by prod_registerday
+)
+where RNO between 1 and 90
+order by RNO desc;
+
+
+select * from tbl_product;
+
+select * from tbl_prod_detail;
+
+
+
+select a.PROD_CODE, a.PROD_NAME, a.PROD_PRICE, 'white' ||','|| 'black' as color from tbl_product a
+    inner join tbl_prod_detail b on a.PROD_CODE = b.fk_prod_code
+WHERE b.PROD_COLOR IN ('white', 'Black')
+GROUP BY a.PROD_CODE, a.PROD_NAME, a.PROD_PRICE ;
+    
+
+
+
+select PROD_CODE, PROD_NAME, PROD_PRICE, LISTAGG(prod_color,',') WITHIN GROUP (ORDER BY prod_color) AS prod_color
+from
+(
+    select a.PROD_CODE, b.prod_detail_code, a.PROD_NAME, a.PROD_PRICE, b.prod_color
+    from tbl_product a
+    inner join tbl_prod_detail b on a.PROD_CODE = b.fk_prod_code
+    WHERE b.PROD_COLOR IN ('white', 'green')
+    GROUP BY a.PROD_CODE, b.prod_detail_code, a.PROD_NAME, a.PROD_PRICE, b.prod_color
+    order by prod_code
+)
+group by PROD_CODE, PROD_NAME, PROD_PRICE
+
+
+select * from tbl_prod_detail where fk_prod_code = 'prod-0012'
+
+
+
+select a.PROD_CODE, a.PROD_NAME, a.PROD_PRICE, prod_color
+    from tbl_product a
+    inner join tbl_prod_detail b on a.PROD_CODE = b.fk_prod_code
+    WHERE b.PROD_COLOR IN ('white', 'green')
+    GROUP BY a.PROD_CODE, a.PROD_NAME, a.PROD_PRICE, prod_color
+    order by prod_name
+
+
+select prod_code, prod_name, prod_price, prod_saleprice
+
+from tbl_product P
+join tbl_prod_detail D
+on prod_code = fk_prod_code
+(
+    select fk_prod_code, listagg(prod_color,',') with group(order by prod_color) as prod_color     
+    from tbl_prod_detail
+    group by fk_prod_code
+    
+)
+
+
+select 
+from tbl_product
+join
+(
+    select prod_code as fk_prod_code, LISTAGG(P.prod_color,',') WITHIN GROUP (ORDER BY P.prod_color) AS prod_color
+    from
+    (
+        select distinct prod_code, prod_color
+        from tbl_product
+        join
+        tbl_prod_detail
+        on prod_code = fk_prod_code
+    ) P
+    group by prod_code
+    
+)
+WHERE b.PROD_COLOR IN ('white', 'green')
+GROUP BY a.PROD_CODE, a.PROD_NAME, a.PROD_PRICE
+on prod_code = fk_prod_code
+

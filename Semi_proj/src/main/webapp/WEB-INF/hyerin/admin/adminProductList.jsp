@@ -46,18 +46,18 @@
 	$(document).ready(function(){
 		
 		
-		$("#byRegisterdayOrders").change(function(e){ //첫번째 셀렉트박스 체인지 이벤트
+		$("#byKind").change(function(e){ //첫번째 셀렉트박스 체인지 이벤트
 			
-			const firstSelectVal = $(e.target).val();
-			selectBySort(firstSelectVal);
-			
+			const selectVal = $(e.target).val();
+			selectBySort(selectVal);
+			/* 
 			$("#byKind").change(function(event){ //두번째 셀렉트박스 체인지 이벤트
 				
 				const secondSelectVal = $(event.target).val();
 				selectBySort(firstSelectVal, secondSelectVal);
 				
 			}); 
-			
+			 */
 			
 		});
 		
@@ -88,30 +88,73 @@
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//function declarartion
-	function selectBySort(firstselectVal){
+	function selectBySort(selectval){
 		$.ajax({
 			url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListJson.sue";
 			type: "GET";
 			data:{
-				"byRegisterdayOrders":firstselectVal
+				"byRegisterdayOrders":selectval
 			},
 			dataType:"JSON",
 			success:function(json){
 				
+				let html = "";
 				
+				
+				
+				//첫화면이거나 조회된 상품정보가 있는 경우
+				
+				if ( selectval == null || json.length > 0 ){
+					$.each(json, function(index, item){
+						<%-- <c:forEach var="productList" items="${requestScope.productList}">
+							<tr>
+								<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="product_1" name="productList_chx"/></td>
+								<td height="160px" class="admin_productList_tbody text-center">${productList.prod_code}</td>
+								<td class="text-center admin_productList_tbody">${productList.prod_kind}</td>
+								<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="<%= ctxPath%>/images/product/${productList.prod_kind}/${productList.prod_image}"></td>
+								<td class="text-center admin_productList_tbody">${productList.prod_name}</td>
+								<td class="text-center admin_productList_tbody">${productList.prod_price}</td>
+								<td class="text-center admin_productList_tbody">${productList.prod_stock}</td>
+								<td class="text-center admin_productList_tbody"><input type="checkbox" id="mdPick_chx" name="mdPick_chx"/></td>
+								<td class="text-center admin_productList_tbody"><button id="admin_productedit_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_edit('${productList.prod_code}');">수정</button></td>
+								<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>
+							</tr>
+						</c:forEach>
+						 --%>
+						
+						html += "<tr>"+
+									"<td height='160px' class='admin_productList_tbody text-center'><input type='checkbox' id='product_1' name='productList_chx'/></td>"+
+									"<td height='160px' class='admin_productList_tbody text-center'>"+${item.prod_code}+"</td>"+
+									"<td class='text-center admin_productList_tbody'>"+${item.prod_kind}</td>"+
+									"<td class='text-center admin_productList_tbody'><img id='admin_product_img_1' height='150px' src='/Semi_proj/images/product/"+${item.prod_kind}/${item.prod_image}'></td>"+
+									"<td class='text-center admin_productList_tbody'>"+${item.prod_name}</td>"+
+									"<td class='text-center admin_productList_tbody'>"+${item.prod_price}</td>"+
+									//"<td class='text-center admin_productList_tbody'>"+${item.prod_stock}</td>"+
+									"<td class='text-center admin_productList_tbody'><input type='checkbox' id='mdPick_chx' name='mdPick_chx'/></td>"+
+									"<td class='text-center admin_productList_tbody'><button id='admin_productedit_btn' type='button' class='white' style='height:30px; width:80%;' onclick='product_edit('"+${item.prod_code}+"');'>수정</button></td>"+
+									"<td class='text-center admin_productList_tbody'><button id='admin_productDelete_btn' type='button' class='black' style='height:30px; width:80%;'>삭제</button></td>"+
+								"</tr>";
+					});//end of $.each
+					
+				}
+				// 조회된 상품정보가 없을 경우
+				else if (json.length == 0){
+					html += "<tr><td colspan='10'>조회된 상품 정보가 없습니다.</td></tr>";
+				}
+				
+				
+				$("#admin_productList_content").append(html);
+				
+				
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}
-			
-			
-		});
+		});// end of selectBySort
 		
 	}//end of selectBySort(firstselectVal)
 	
-	function selectBySort(firstselectVal, secondSelectVal){
-		
-		
-		
-		
-	}//end of selectBySort(firstselectVal, secondSelectVal)
+	
 	
 	
 	
@@ -133,13 +176,6 @@
 	};
 	
 	
-	/* function selectBySort(){
-		const frm = document.prodSelectFrm;
-		frm.action = "adminProductList.sue";
-		frm.method = "get";
-		frm.submit();
-	}; */
-	
 </script>
 
 <div class="row container-fluid mt-5">
@@ -150,12 +186,14 @@
 			<div style="font-weight:bold;">
 				<form name="prodSelectFrm">
 					<span class="mr-3" style="font-size:20pt;">상품목록</span>
+					<%-- 
 					<span class="mr-1">
 						<select id="byRegisterdayOrders" name="byRegisterdayOrders" class="productSort">
 							<option value="latest" selected>최신순</option>
 							<option value="orders">주문수</option>
 						</select>
 					</span>
+					 --%>
 					<span>
 						<select id="byKind" name="byKind" class="productSort">
 							<option value="product_kind" selected>상품종류별</option>
@@ -193,7 +231,7 @@
 							<th width="5%" class="admin_productList_th text-center" >삭제</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="admin_productList_content">
 						
 					</tbody>
 				</table>

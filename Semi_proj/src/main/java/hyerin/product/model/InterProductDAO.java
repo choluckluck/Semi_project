@@ -25,9 +25,12 @@ public interface InterProductDAO {
 	// 검색이 있거나 없는, 두번째 셀렉트박스의 조건이 있거나 없는 상품에 대한 총페이지 알아오기
 	int getTotalPage(Map<String, String> paraMap) throws SQLException;
 	
+	// 첫 화면일때는 모든 상품정보를, 셀렉트박스를 변경했을때는 선택한 종류의 상품정보를 조회(select)
+	List<ProductVO> selectProductByKind(Map<String, String> paraMap) throws SQLException;
+	
 	
 	// 셀렉트박스 조건과 검색조건을 실행한 상품 보여주기
-	List<ProductVO> selectProduct(Map<String, String> paraMap) throws SQLException;
+	//List<ProductVO> selectProduct(Map<String, String> paraMap) throws SQLException;
 
 
 }
