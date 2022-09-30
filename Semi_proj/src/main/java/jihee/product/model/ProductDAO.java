@@ -297,7 +297,7 @@ public class ProductDAO implements InterProductDAO {
 			 * if ( colorCheck == null ) {
 			 * 
 			 * colorCheck = "100"; }
-			 * 
+			 * ddks
 			 * System.out.println(colorCheck); }
 			 * 
 			 * System.out.println("green :" +green +" red :" +red);

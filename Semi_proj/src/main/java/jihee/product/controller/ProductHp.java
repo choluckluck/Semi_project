@@ -276,10 +276,7 @@ public class ProductHp extends AbstractController {
 		request.setAttribute("AquamarineColor", AquamarineColor);
 		
 		
-		
-		
-		
-		
+	
 		
 		
 		
