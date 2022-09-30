@@ -4,43 +4,6 @@ select * from tab;
 
 select * from tbl_member 
 
-create table tbl_member
-(member_code    nvarchar2(30)   not null
-,name           nvarchar2(30)   not null
-,userid         nvarchar2(10)   not null
-,pwd            varchar2(200)   not null
-,email          varchar2(200)   not null
-,phone_number   varchar2(200)   not null
-,post_code      varchar2(5)   
-
-);
-
-
-select *
-from user_constraints
-
-
-
-select * from tab;
-
-desc tbl_qna;
-
-desc tbl_review;
-
-select * from tbl_product
-
-
-create sequence seq_product_code
-start with 1    -- 첫번째 출발은 1이다
-increment by 1  -- 증가치는 1이다.
-nomaxvalue      -- 최대값이 없는 무제한
-nominvalue      -- 최소값이 없다
-nocycle         -- 반복을 하지 않는다
-nocache;
-
-
-select to_char(prod_registerday,'yyyy-mm-dd hh24:mi:ss') from tbl_product
-
 
 
 desc tbl_product
@@ -364,3 +327,282 @@ order by prod_price desc;
 
 
 
+
+create table tbl_prod_detail(
+prod_detail_code	varchar2(30)	not null
+,fk_prod_code	nvarchar2(30)	not null
+,prod_color	varchar2(20)	
+,prod_size	varchar2(20)
+,prod_stock	varchar2(100)
+
+,constraint PK_tbl_prod_detail_prod_detail_code	 primary key(prod_detail_code)
+,constraint FK_tbl_prod_detail_fk_prod_code foreign key(fk_prod_code) references tbl_product(prod_code)	
+)
+
+
+desc tbl_product
+
+select * from tbl_payment
+
+
+select * from tbl_member;
+
+
+
+select * from tbl_product
+
+
+
+delete from TBL_PRODUCT 
+
+
+
+
+
+
+desc tbl_product
+
+
+
+create sequence seq_product_code
+start with 1    -- 첫번째 출발은 1이다
+increment by 1  -- 증가치는 1이다.
+nomaxvalue      -- 최대값이 없는 무제한
+nominvalue      -- 최소값이 없다
+nocycle         -- 반복을 하지 않는다
+nocache;
+
+desc tbl_product
+
+ALTER TABLE tbl_product MODIFY PROD_PRICE number;
+
+create or replace procedure pcd_product_insert
+(p_prod_name  IN  varchar2
+,p_prod_kind  IN  char
+,p_prod_image in varchar2
+,p_prod_high in varchar2
+,p_prod_price in number
+,p_PROD_SALEPRICE in varchar2
+,p_prod_description in varchar2
+)
+is
+begin
+for i in 1..10 loop
+insert into tbl_product(prod_code, PROD_NAME, PROD_KIND, PROD_IMAGE, PROD_HIGH, PROD_PRICE, prod_registerday, MD_PICK_YN, PROD_SALEPRICE, prod_description, prod_point)
+values('prod-'||lpad(seq_product_code.nextval,4,0), p_prod_name||i, p_prod_kind, p_prod_image||i||'.jpg', p_prod_high, p_prod_price, sysdate, 'N', p_PROD_SALEPRICE, p_prod_description, trunc(p_prod_price*0.01,-1) );
+end loop;
+end pcd_product_insert;
+
+
+
+
+
+select * from tbl_member
+
+select 'prod-'||lpad(i,4,0)
+from dual;
+
+exec pcd_product_insert('라비스 플랫','flat','flat','1',80000,50000,'완전 귀여운신발ㅋㅋ');
+
+select * from tbl_product
+
+
+exec pcd_product_insert('테슬 로퍼','loafer','loafer','2',62800,62800,'갖고싶어지는 신발......이네요...ㅋ');
+
+exec pcd_product_insert('레이첼 블로퍼','bloafer','bloafer','3.5',59800,50000,'가을에 이거 신고싶어짐');
+
+exec pcd_product_insert('제이 미들 펌프스','pumps','pumps','7',39800,39800,'이번 f/w 신상이에요');
+
+exec pcd_product_insert('비비롱 롱부츠','boots','boots','8.5',99800,79800,'진짜 예뿌당..');
+
+exec pcd_product_insert('케비 스니커즈','sneakers','sneakers','2',19800,19800,'편하게 신기 딱좋아요');
+
+exec pcd_product_insert('해든 슬링백','slingback','slingback','6.5',89800,79800,'함 신어보세유');
+
+
+exec pcd_product_insert('체이니 뮬','mule','mule','3.5',59800,59800,'큐티빠띠');
+
+
+select * from tbl_product
+
+commit;
+
+
+/*
+tbl_prod_detail 정보
+
+PROD_DETAIL_CODE NOT NULL VARCHAR2(30)  
+FK_PROD_CODE     NOT NULL NVARCHAR2(30) 
+PROD_COLOR                VARCHAR2(20)  
+PROD_SIZE                 VARCHAR2(20)  
+PROD_STOCK                VARCHAR2(100) 
+*/
+
+
+-- tbl_prod_detail 시퀀스
+create sequence seq_prod_detail_code
+start with 1    -- 첫번째 출발은 1이다
+increment by 1  -- 증가치는 1이다.
+nomaxvalue      -- 최대값이 없는 무제한
+nominvalue      -- 최소값이 없다
+nocycle         -- 반복을 하지 않는다
+nocache;
+
+
+ALTER TABLE tbl_prod_detail MODIFY PROD_STOCK number;
+
+select * from tbl_product
+
+select * from tbl_prod
+
+
+-- tbl_prod_detail에 데이터를 일괄로 넣어주는 프로시저
+
+create or replace procedure pcd_prod_detail_insert
+(p_PROD_COLOR in varchar2
+,p_PROD_SIZE in varchar2
+,p_prod_stock in number
+)
+is
+begin
+for i in 1..10 loop
+    insert into tbl_prod_detail(PROD_DETAIL_CODE, FK_PROD_CODE, PROD_COLOR, PROD_SIZE, PROD_STOCK)
+    values('d-prod-'||lpad(seq_prod_detail_code.nextval,4,0), 'prod-'||lpad(i+80,4,0), p_PROD_COLOR, p_PROD_SIZE, p_prod_stock );
+end loop;
+end pcd_prod_detail_insert;
+
+
+
+exec pcd_prod_detail_insert('blue','230',124);
+
+exec pcd_prod_detail_insert('blue','235',134);
+
+exec pcd_prod_detail_insert('blue','240',231);
+
+exec pcd_prod_detail_insert('blue','245',0);
+
+exec pcd_prod_detail_insert('blue','250',4);
+
+
+commit;
+
+select * from tbl_product --90개
+
+select * from tbl_prod_detail
+
+
+select * from tbl_prod_detail
+order by fk_prod_code
+
+commit;
+
+select distinct P.prod_code, P.prod_color
+from
+(
+    select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, md_pick_yn, prod_color, prod_size   
+    from tbl_product
+    join
+    tbl_prod_detail
+    on prod_code = fk_prod_code
+    where prod_code = 'prod-0001'
+) P
+
+------------------------ 색상, 리뷰, 주문수 조인 ------------------------------------------
+
+select PO.prod_code, P.prod_color, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, md_pick_yn, nvl(review_count, 0) as review_count, nvl(prod_order_count, 0) as prod_order_count
+from tbl_product PO
+JOIN
+(
+    select prod_code, LISTAGG(P.prod_color,',') WITHIN GROUP (ORDER BY P.prod_color) AS prod_color
+    from
+    (
+        select distinct prod_code, prod_color
+        from tbl_product
+        join
+        tbl_prod_detail
+        on prod_code = fk_prod_code
+    ) P
+    group by prod_code
+) P
+ON PO.prod_code = P.prod_code
+LEFT JOIN
+(
+    select fk_prod_code, count(*) as review_count
+    from tbl_review
+    group by fk_prod_code
+) R
+ON fk_prod_code = P.prod_code
+LEFT JOIN
+(
+    select fk_prod_code, count(*) as prod_order_count
+    from tbl_order_detail
+    group by fk_prod_code
+) OD
+ON OD.fk_prod_code = P.prod_code
+
+
+
+
+
+-- MD PICK
+SELECT prod_code, prod_name, prod_kind , prod_image, prod_price, prod_color, prod_registerday, nvl(prod_review_count,0) as prod_review_count
+FROM (
+   SELECT prod_code, prod_name, prod_kind , prod_image, prod_price, prod_color, prod_registerday, prod_review_count
+   FROM tbl_product
+   left join
+    (
+        select fk_prod_code, count(*) as prod_review_count
+        from tbl_review
+        group by fk_prod_code
+    )R
+   ON prod_code = R.fk_prod_code
+   WHERE md_pick_yn = 'Y'
+   ORDER BY DBMS_RANDOM.VALUE
+)
+WHERE ROWNUM < 5
+
+
+
+select PO.prod_code, P.prod_color, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, md_pick_yn, nvl(review_count, 0) as review_count, nvl(prod_order_count, 0) as prod_order_count
+from tbl_product PO
+JOIN
+(
+    select prod_code, LISTAGG(P.prod_color,',') WITHIN GROUP (ORDER BY P.prod_color) AS prod_color
+    from
+    (
+        select distinct prod_code, prod_color
+        from tbl_product
+        join
+        tbl_prod_detail
+        on prod_code = fk_prod_code
+    ) P
+    group by prod_code
+) P
+ON PO.prod_code = P.prod_code
+LEFT JOIN
+(
+    select fk_prod_code, count(*) as review_count
+    from tbl_review
+    group by fk_prod_code
+) R
+ON fk_prod_code = P.prod_code
+LEFT JOIN
+(
+    select fk_prod_code, count(*) as prod_order_count
+    from tbl_order_detail
+    group by fk_prod_code
+) OD
+ON OD.fk_prod_code = P.prod_code
+WHERE md_pick_yn = 'Y' and ROWNUM < 5
+ORDER BY DBMS_RANDOM.VALUE
+
+
+
+
+select * from tbl_product
+where md_pick_yn = 'Y'
+
+update tbl_product set md_pick_yn = 'Y'
+where prod_code = 'prod-0089'
+
+commit;

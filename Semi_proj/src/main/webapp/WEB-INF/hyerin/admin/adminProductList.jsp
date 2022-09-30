@@ -46,9 +46,19 @@
 	$(document).ready(function(){
 		
 		
-		$("#byRegisterdayOrders").change(function(e){
+		$("#byRegisterdayOrders").change(function(e){ //첫번째 셀렉트박스 체인지 이벤트
 			
-			selectBySort();
+			const firstSelectVal = $(e.target).val();
+			selectBySort(firstSelectVal);
+			
+			$("#byKind").change(function(event){ //두번째 셀렉트박스 체인지 이벤트
+				
+				const secondSelectVal = $(event.target).val();
+				selectBySort(firstSelectVal, secondSelectVal);
+				
+			}); 
+			
+			
 		});
 		
 		
@@ -78,13 +88,12 @@
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//function declarartion
-	function selectBySort(){
+	function selectBySort(firstselectVal){
 		$.ajax({
 			url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListJson.sue";
 			type: "GET";
 			data:{
-				
-				
+				"byRegisterdayOrders":firstselectVal
 			},
 			dataType:"JSON",
 			success:function(json){
@@ -95,7 +104,14 @@
 			
 		});
 		
-	}
+	}//end of selectBySort(firstselectVal)
+	
+	function selectBySort(firstselectVal, secondSelectVal){
+		
+		
+		
+		
+	}//end of selectBySort(firstselectVal, secondSelectVal)
 	
 	
 	

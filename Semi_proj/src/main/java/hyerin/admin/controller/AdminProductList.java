@@ -6,9 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
-import hyerin.product.model.InterProductDAO;
-import hyerin.product.model.ProductDAO;
-import hyerin.product.model.ProductVO;
+import hyerin.product.model.*;
 
 public class AdminProductList extends AbstractController {
 
@@ -62,7 +60,11 @@ public class AdminProductList extends AbstractController {
 			currentShowPageNo = "1";
 		}
 		
+		
+		
+		
 		List<ProductVO> productList = pdao.selectProduct(paraMap);
+		
 		
 		
 		request.setAttribute("productList", productList);
