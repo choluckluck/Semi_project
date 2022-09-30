@@ -76,7 +76,7 @@ public class Login extends AbstractController {
 				  
 				  else {
 					  // 비밀번호를 변경한지 3개월 미만인 경우 
-					  
+					  System.out.println("성공");
 					  super.setRedirect(true); // sendRedirect 방식으로 페이지 이동시키는 것이다.
 					  super.setViewPage(request.getContextPath()+"/main.sue"); // 시작 홈페이지로 이동					  
 				  }
