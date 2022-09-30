@@ -99,12 +99,9 @@
 </head>
 <body>
 	<div id="header" style="margin:0;">
-		<%-- login information --%>
-		<div id="header_login_container" align="right" class="mt-3 pl-3 pr-3">
-			<span><a class="mx-2" href="<%= ctxPath%>/hyerin/login/login.sue" style="text-decoration:none; font-size:10pt; color: gray;">로그인</a></span>
-			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:10pt; color: gray;">회원가입</a></span>
-			<span><a class="mx-2"href="#" style="text-decoration:none; font-size:10pt; color: gray;">고객센터</a></span>
-		</div>
+
+	<%@ include file="/WEB-INF/hyerin/index2.jsp" %>		
+		
 		<%-- header logo --%>
 		<div id="header_logo_container" class="container-fluid pr-4" style="height: 120px; width:70%; cursor:pointer;">
 			<div class="text-center" style="height:120px;">
