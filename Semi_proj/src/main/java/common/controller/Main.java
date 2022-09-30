@@ -20,7 +20,7 @@ public class Main extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
+	
 		
 		InterProductDAO pdao = new ProductDAO();
 		InterMemberDAO mdao = new MemberDAO();
@@ -31,6 +31,8 @@ public class Main extends AbstractController {
 		
 		//Best => 주문순 많은 순으로 상품을 불러온다
 		List<ProductVO> best_pvo = pdao.selectBestProduct();
+		
+		
 		
 		//New arrival => 새로운 등록순으로 상품을 불러온다
 		List<ProductVO> new_pvo = pdao.selectNewProduct();

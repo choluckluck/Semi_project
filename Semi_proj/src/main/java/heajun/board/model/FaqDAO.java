@@ -30,7 +30,7 @@ public class FaqDAO implements InterFaqDAO  {
        try {
           Context initContext = new InitialContext();
            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-           ds = (DataSource)envContext.lookup("jdbc/semioracle"); //web.xml => ref에 값과 동일해야한다.
+           ds = (DataSource)envContext.lookup("jdbc/semi"); //web.xml => ref에 값과 동일해야한다.
            
            aes = new AES256(SecretMyKey.KEY);
            // SecretMyKey.KEY 는 우리가 만든 비밀키이다.

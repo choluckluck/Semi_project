@@ -4,7 +4,7 @@
     String ctxPath = request.getContextPath();
 %>
 
-<%-- <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> --%>
+ <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> 
 
 <script>
 	$(document).ready(function(){
@@ -15,7 +15,7 @@
 		
 		//커뮤니티사이드바_공지사항 클릭 이벤트
 		$("div#sidebar_notice").click(function(){
-			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
+			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
 		
 		
@@ -24,7 +24,7 @@
 		$("button#notice_list").click(function(){
 			
 			frm.reset();
-			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
+			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 			
 		});
 		
@@ -43,7 +43,7 @@
 		//취소버튼 클릭이벤트
 		$("button#notice_reset").click(function(){
 			frm.reset();
-			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
+			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
 		
 		
@@ -54,7 +54,7 @@
 </script>
 
 <div class="row container-fluid mt-5">
-	<%-- <jsp:include page="/WEB-INF/hyerin/community/communitySidebar.jsp" /> --%>
+	 <jsp:include page="/WEB-INF/heajun/community/communitySidebar.jsp" /> 
 	<div id="contents" class="col-9 ml-5">
 		<form id="notice_contents_form" name="notice_contents_form">
 			<div style="font-weight:bold;">NOTICE</div>	
@@ -515,4 +515,4 @@
 		</div>
 	</div>
 </div>
-<%-- <jsp:include page="/WEB-INF/hyerin/footer.jsp"/> --%>
+ <jsp:include page="/WEB-INF/hyerin/footer.jsp"/>
