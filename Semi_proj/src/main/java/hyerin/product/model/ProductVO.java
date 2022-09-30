@@ -11,12 +11,14 @@ public class ProductVO {
 	 private String prod_color;  //상품 색상
 	 private String prod_size;   //상품 사이즈
 	 private String prod_price;	 // 상품 가격    
+	 private String prod_saleprice;	 // 상품 판매가격 (할인적용)    
 	 private String prod_stock; // 상품 재고
 	 private String prod_registerday; // 상품
 	 private String prod_review_count; // 리뷰개수
+	 private String prod_description; //상품설명
+	 private String prod_point; // 상품포인트
 	 
-	 
-	 
+	 private String md_pick_yn; //메인노출여부
 	 
 	
 	public String getProd_code() {
@@ -104,10 +106,38 @@ public class ProductVO {
 	public void setProd_review_count(String prod_review_count) {
 		this.prod_review_count = prod_review_count;
 	}
-	 
+	
+	public String getProd_saleprice() {
+		return prod_saleprice;
+	}
+	public void setProd_saleprice(String prod_saleprice) {
+		this.prod_saleprice = prod_saleprice;
+	}
+	
+	public String getProd_description() {
+		return prod_description;
+	}
+	public void setProd_description(String prod_description) {
+		this.prod_description = prod_description;
+	}
+	public String getProd_point() {
+		return prod_point;
+	}
+	public void setProd_point(String prod_point) {
+		this.prod_point = prod_point;
+	}
+	
+	
+	
+	public String getMd_pick_yn() {
+		return md_pick_yn;
+	}
+	public void setMd_pick_yn(String md_pick_yn) {
+		this.md_pick_yn = md_pick_yn;
+	}
+	
 	
 	/////////////////////////////////////////////////////////////
-	
 	public ProductVO() {}
 	
 	

@@ -51,11 +51,11 @@
 
 		
 		//네비게이션 서브바를 처음엔 숨김
-		$("div.real_subbar").hide();
+		$("div.real_subbar, div.real_subbar_right").hide();
 
 		//네비게이션 메인바에서 a태그 경계 마우스오버 이벤트
 		$("ul#nav_bar_category").find("a").mouseenter(function(e){
-			$("div.real_subbar").hide();
+			$("div.real_subbar, div.real_subbar_right").hide();
 
 			const target = $(e.target);
 			const index = target.parent().index();
@@ -65,7 +65,7 @@
 
 			//네비게이션바의 경계 마우스아웃 이벤트 => 네비게이션 서브바를 숨김
 			$("nav").mouseleave(function(event){
-				$("div.real_subbar").hide();
+				$("div.real_subbar, div.real_subbar_right").hide();
 			});
 		});//end of ("ul#nav_bar_category").find("a").mouseenter
 		
@@ -88,9 +88,8 @@
 	/////////////////////////////////////////////////////////////////
 	function productSearch(){
 		const search_frm = document.header_search_form;
-		search_frm.action="전체상품페이지검색.sue";
+		search_frm.action="hyerin.sue";
 		search_frm.header_search.val = $("input#header_search").val(); //input 값을 같이 넘겨주기
-		search_frm.action="get";
 		search_frm.submit();
 	};
 	
@@ -102,21 +101,21 @@
 	<div id="header" style="margin:0;">
 		<%-- login information --%>
 		<div id="header_login_container" align="right" class="mt-3 pl-3 pr-3">
-			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:12px; color: gray;">로그인</a></span>
-			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:12px; color: gray;">회원가입</a></span>
-			<span><a class="mx-2"href="#" style="text-decoration:none; font-size:12px; color: gray;">고객센터</a></span>
+			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:10pt; color: gray;">로그인</a></span>
+			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:10pt; color: gray;">회원가입</a></span>
+			<span><a class="mx-2"href="#" style="text-decoration:none; font-size:10pt; color: gray;">고객센터</a></span>
 		</div>
 		<%-- header logo --%>
 		<div id="header_logo_container" class="container-fluid pr-4" style="height: 120px; width:70%; cursor:pointer;">
-			<div class="text-center">
-				<img src="<%= ctxPath%>/images/hyerin/main_logo.png" alt="Logo" style="width:15%;" class="logo">
+			<div class="text-center" style="height:120px;">
+				<img src="<%= ctxPath%>/images/hyerin/main_logo.png" alt="Logo" style="width:15%; position:relative; top:20px;" class="logo">
 			</div>
 		</div>
 		<%-- 검색, 마이페이지, 장바구니 --%>
 		<span style="float: right; position:relative; bottom: 100px; right: 20px;"> 
 			<%-- 검색 --%>
 			<form name="header_search_form" style="display:inline-block; margin-right: 20px;" class="header_search_contents">
-					<input type="text" id="header_search" name="header_search"/>
+					<input type="text" id="header_search" name="prod_name"/>
 					<a id="a_header_search_btn" href="#">
 						<button type="button" id="header_search_btn" name="header_search_btn" style="border:none; background-color: transparent;">
 							<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
@@ -126,7 +125,7 @@
 			<%-- 마이페이지 --%>
 			<a href="#" class="header_search_contents" style="margin-right: 20px;"><img src="<%= ctxPath%>/images/hyerin/user_icon.png" width="25px" /></a>
 			<%-- 장바구니 --%>
-			<a href="#" class="header_search_contents"><img src="<%= ctxPath%>/images/hyerin/cart.png" width="30px"/></a>
+			<a href="#" class="header_search_contents"><img src="<%= ctxPath%>/images/hyerin/cart.png" width="30px" /></a>
 		</span> 
 		<%-- 퀵뷰 --%>
 		<div id="quickView" style="width:60px; height:230px; background-color:#172A41; position:fixed; bottom:50px; right:30px; z-index:100;">
@@ -151,40 +150,44 @@
 	<nav class="navbar nav_bar sticky-top container-fluid" style="padding:0px;">
 		<ul id="nav_bar_category" class="w-100">
 			<li class="ml-3 mr-4">
-				<a id="main_best" href="#" class="">BEST</a>
+				<a id="main_best" href="<%=ctxPath%>/jihee/product/productBest.sue" class="">BEST</a>
 			</li>
 			<li class="mr-4">
-				<a id="main_new" href="#" class="">NEW</a>
+				<a id="main_new" href="<%=ctxPath%>/jihee/product/productNew.sue" class="">NEW</a>
 			</li>
 			<li class="mr-4">
-				<a id="main_event" href="#" class="">SALE</a>
+				<a id="main_event" href="<%=ctxPath%>/jihee/product/productSale.sue" class="">SALE</a>
 			</li>
 			<li class="mr-4">
 				<span style="color:white;">|</span>
 			</li>
 			<li class="mr-4">
-				<a id="main_flat" href = "#" class="main_bar">플랫/로퍼</a>
+				<a id="main_flat" href = "<%=ctxPath%>/jihee/product/sideFL.sue" class="main_bar">플랫/로퍼</a>
 			</li>
 			<li class="mr-4">
-				<a id="main_hill" href = "#" class="main_bar">힐/펌프스</a>
+				<a id="main_hill" href = "<%=ctxPath%>/jihee/product/productHp.sue" class="main_bar">힐/펌프스</a>
 				
 			</li>
 			<li class="mr-4">
-				<a id="main_ankle" href = "#" class="main_bar">앵클/부츠</a>
+				<a id="main_ankle" href = "<%=ctxPath%>/jihee/product/productAb.sue" class="main_bar">앵클/부츠</a>
 				
 			</li>
 			<li class="mr-4">
-				<a id="main_snk" href = "#" class="main_bar">스니커즈</a>
+				<a id="main_snk" href = "<%=ctxPath%>/jihee/product/productSn.sue" class="main_bar">스니커즈</a>
 				 
 			</li>
 			<li class="mr-4">
-				<a id="main_sling" href = "#" class="main_bar">슬링백/뮬</a>
-				 
+				<a id="main_sling" href = "<%=ctxPath%>/jihee/product/productSm.sue" class="main_bar">슬링백/뮬</a>
 			</li>
+			<li style="float:right; position: relative; right: 20px;">
+				<a id="main_community" href = "<%=ctxPath%>/hyerin/community/notice.sue" class="main_bar">커뮤니티</a>
+			</li>
+			<%--
 			<li class="mr-4">
-				<a id="main_sandle" href = "#" class="main_bar">샌들</a>
+				<a id="main_sandle" href = "<%=ctxPath%> class="main_bar">샌들</a>
 				
 			</li>
+			 --%>
 		</ul>
 		<div class="real_subbar real_subbar4 w-100">
 			<span><a href="#">플랫</a></span>
@@ -213,10 +216,15 @@
 			<span><a href="#">뮬 4cm~</a></span>
 		</div>
 		<div class="real_subbar real_subbar9 w-100">
+			<span><a href="<%=ctxPath%>/hyerin/community/notice.sue">공지사항</a></span>
+		</div>
+		<%--
+		<div class="real_subbar real_subbar9 w-100">
 			<span><a href="#">플랫샌들</a></span>
 			<span><a href="#">힐샌들</a></span>
 			<span><a href="#">뮬 1cm~3cm</a></span>
 			<span><a href="#">슬리퍼</a></span>
 		</div>
+		 --%>
 	</nav> 
 	<%-- 헤더~네비바 끝 --%>
