@@ -14,6 +14,21 @@
 <link rel="stylesheet" href="<%= ctxPath%>/css/hasol/style_popup_coupon.css">
 
 <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+
+<script>
+
+// "쿠폰적용하기" 버튼 클릭시 호출되는 함수  
+function goCoupon() {
+	
+	const frm = document.selectCouponFrm;
+    frm.action = "<%= ctxPath%>/hasol/purchase/selectCoupon_popup.sue";
+    frm.method = "post";
+    frm.submit();
+    
+}
+
+
+</script>
 </head>
 <body>
     
@@ -23,7 +38,7 @@
     </div>
 
 
-    
+    <form name="selectCouponFrm">
     <!-- main -->
     <div class="container">
 
@@ -117,6 +132,7 @@
 	
 	<!-- footer -->
 	<div class="btn_select_box">
-		<button type="button" class="btn_select" id="btn_select_ok">쿠폰 적용하기</button>
-		<button type="button" class="btn_select" id="btn_select_no">적용 취소하기</button>
+		<button type="button" class="btn_select" id="btn_select_ok" onClick="goCoupon">쿠폰 적용하기</button>
+		<button type="button" class="btn_select" id="btn_select_no" onClick="self.close()">적용 취소하기</button>
 	</div>
+	</form>
