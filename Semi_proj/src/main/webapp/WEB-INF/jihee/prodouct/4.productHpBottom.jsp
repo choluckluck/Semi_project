@@ -8,7 +8,7 @@
     
 <%
     String ctxPath = request.getContextPath();
-    //     /MyMVC
+    
 %>       
 <!DOCTYPE html>
 <html>
@@ -17,11 +17,7 @@
 <title>Insert title here</title>
 
 <script type="text/javascript">
-function gocheck() {
-	
-	alert("체크박스 체크");
-	
-}
+
 function godelete() {
 	
 	alert("체크박스 해제");

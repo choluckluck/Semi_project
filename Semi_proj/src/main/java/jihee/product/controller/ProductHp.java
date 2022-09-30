@@ -172,7 +172,7 @@ public class ProductHp extends AbstractController {
         
         
         //System.out.println("searchPrice1 : " +searchPrice1);
-       System.out.println("JAVAsearchPrice2 : " +searchPrice2);
+       //System.out.println("JAVAsearchPrice2 : " +searchPrice2);
             
 		paraMap.put("searchPrice1", searchPrice1);
 		paraMap.put("searchPrice2", searchPrice2);
@@ -181,10 +181,101 @@ public class ProductHp extends AbstractController {
 		request.setAttribute("searchPrice2", searchPrice2);
 		
 		
-		// 2-3 색상 넘겨주기
+		// 2-3 색상 넘겨주기///////////////////////////////////
 		
 		
-		String[] colorArr = request.getParameterValues("searchColor");
+		String greenColor = request.getParameter("greenColor");
+		String yellowColor = request.getParameter("yellowColor");
+		String purpleColor = request.getParameter("purpleColor");
+		String skyblueColor = request.getParameter("skyblueColor");
+		String redColor = request.getParameter("redColor");
+		String blackColor = request.getParameter("blackColor");
+		String brownColor = request.getParameter("brownColor");
+		String silverColor = request.getParameter("silverColor");
+		String orangeColor = request.getParameter("orangeColor");
+		String pinkColor = request.getParameter("pinkColor");
+		String AquamarineColor = request.getParameter("AquamarineColor");	
+		
+		
+		String checkword="나나";
+		//null값으로 들어오면 100 넣어주기
+		
+		if(greenColor == null ) {
+			
+			greenColor=checkword;
+		}
+		if(yellowColor == null ) {
+					
+			yellowColor=checkword;
+				}
+		if(purpleColor == null ) {
+			
+			purpleColor=checkword;
+		}
+		if(skyblueColor == null ) {
+			
+			skyblueColor=checkword;
+		}
+		if(redColor == null ) {
+			
+			redColor=checkword;
+		}
+		if(blackColor == null ) {
+			
+			blackColor=checkword;
+		}
+		
+		if(brownColor == null ) {
+			
+			brownColor=checkword;
+		}
+		
+		if(silverColor == null ) {
+			
+			silverColor=checkword;
+		}
+		if(orangeColor == null ) {
+			
+			orangeColor=checkword;
+		}
+		if(pinkColor == null ) {
+			
+			pinkColor=checkword;
+		}
+		if(AquamarineColor == null ) {
+			
+			AquamarineColor=checkword;
+		}
+
+		
+		paraMap.put("greenColor",greenColor );
+		paraMap.put("yellowColor",yellowColor);
+		paraMap.put("purpleColor",purpleColor);
+		paraMap.put("skyblueColor",skyblueColor);
+		paraMap.put("redColor",redColor);
+		paraMap.put("blackColor",blackColor);
+		paraMap.put("brownColor",brownColor);
+		paraMap.put("silverColor",silverColor );
+		paraMap.put("orangeColor",orangeColor);
+		paraMap.put("pinkColor",pinkColor);
+		paraMap.put("AquamarineColor",AquamarineColor);		
+		
+		
+		// System.out.println("searchColor 확인용 : " +greenColor +"\n" +yellowColor +"\n" + redColor +"\n" + blackColor);
+		
+		request.setAttribute("greenColor", greenColor);
+		request.setAttribute("yellowColor", yellowColor);
+		request.setAttribute("purpleColor", purpleColor);
+		request.setAttribute("skyblueColor", skyblueColor);
+		request.setAttribute("redColor", redColor);
+		request.setAttribute("blackColor", blackColor);
+		request.setAttribute("brownColor", brownColor);
+		request.setAttribute("silverColor", silverColor);
+		request.setAttribute("orangeColor", orangeColor);
+		request.setAttribute("pinkColor", pinkColor);
+		request.setAttribute("AquamarineColor", AquamarineColor);
+		
+		
 		
 		
 		
