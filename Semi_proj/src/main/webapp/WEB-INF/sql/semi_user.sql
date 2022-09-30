@@ -77,7 +77,7 @@ create table tbl_cart
 ALTER TABLE tbl_cart ADD CONSTRAINT pk_tbl_cart_cart_code primary key(cart_code);
 
 create sequence seq_cart_code
-   start with 1         -- 첫번째 출발은 2 부터 한다.
+   start with 1         -- 첫번째 출발은 1 부터 한다.
    increment by 1        -- 증가치는 1 이다. 즉, 1씩 증가한다.
     nomaxvalue
     nominvalue
@@ -133,8 +133,10 @@ desc tbl_member;
 
 --------------------
 
-alter table tbl_product rename column PK_PROD_CODE TO PROD_CODE;
 
+
+
+commit;
 
 SELECT *
 FROM USER_CONSTRAINTS
@@ -152,6 +154,204 @@ create table tbl_return
 ,constraint FK_tbl_return_order_code foreign key(fk_order_code) references tbl_order(order_code)
 );
 
+select * 
+from TBL_PRODUCT;
 
 select *
 from ALL_USERS;
+
+
+
+
+
+
+
+
+
+select prod_code, prod_name, prod_kind, prod_image
+    ,prod_high, prod_color ,prod_size, prod_price, prod_stock
+    ,prod_registerday, nvl(prod_review_count,'0') as prod_review_count ,rownum AS RNO
+from
+(select rownum AS RNO ,prod_code, prod_name, prod_kind, prod_image
+    ,prod_high, prod_color ,prod_size, prod_price, prod_stock
+    ,prod_registerday, nvl(prod_review_count,'0') as prod_review_count
+from tbl_product left JOIN 
+(
+
+    select fk_prod_code, count(*) as prod_review_count 
+    from tbl_review
+    group by fk_prod_code
+)
+ON prod_code = fk_prod_code
+where prod_kind like '%' and prod_color like '%' and prod_name like '%스니%' and prod_price between '0' and '30000' 
+and prod_color like '%yellow%' or prod_color like '%red%' 
+order by prod_registerday desc
+)
+where RNO between 1 and 30
+order by prod_price desc;
+
+
+
+
+select prod_code, prod_name, prod_kind, prod_image
+    ,prod_high, prod_color ,prod_size, prod_price, prod_stock
+    ,prod_registerday, nvl(prod_review_count,'0') as prod_review_count ,rownum AS RNO
+from
+(select rownum AS RNO ,prod_code, prod_name, prod_kind, prod_image
+    ,prod_high, prod_color ,prod_size, prod_price, prod_stock
+    ,prod_registerday, nvl(prod_review_count,'0') as prod_review_count
+from tbl_product left JOIN 
+(
+    select fk_prod_code, count(*) as prod_review_count 
+    from tbl_review
+    group by fk_prod_code
+)
+ON prod_code = fk_prod_code
+where prod_kind like '%' and prod_color like '%' and prod_name like '%스니%' and prod_price between '0' and '30000' 
+and prod_color in ('yellow','red')
+order by prod_registerday desc
+)
+where RNO between 1 and 30
+order by prod_price desc;
+
+select *
+from tbl_member;
+
+select *
+from tbl_payment;
+
+
+select *
+from tabs;
+
+select *
+from 
+
+
+select *
+from tbl_prod_detail
+
+---------------------------------------------------------------------
+
+SELECT userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, 
+birthday, grade_code, point, account_name, bank_name, account, registerday, pwdchangegap, 
+nvl(lastlogingap, trunc( months_between(sysdate, registerday) ) ) AS lastlogingap
+FROM 
+(
+select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender 
+, birthday, grade_code, point, account_name, bank_name, account, to_char(registerday, 'yyyy-mm-dd') AS registerday 
+, trunc( months_between(sysdate, lastpwdchangedate) ) AS pwdchangegap
+from tbl_member
+where status = 1 and userid = 'jinhr46' and pwd = 'qwer1234$' 
+) M 
+CROSS JOIN 
+(
+select trunc( months_between(sysdate, max(logindate)) ) as lastlogingap
+from tbl_login_history
+where fk_userid = 'jinhr46'
+) H
+
+------------------------------------------------------------------------------------------------------------------------------------
+String sql = "SELECT userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, \n"+
+"birthday, grade_code, point, account_name, bank_name, account, registerday, pwdchangegap, \n"+
+"nvl(lastlogingap, trunc( months_between(sysdate, registerday) ) ) AS lastlogingap, \n"+
+"status, idle\n"+
+"FROM \n"+
+"(\n"+
+"select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender \n"+
+", birthday, grade_code, point, account_name, bank_name, account, to_char(registerday, 'yyyy-mm-dd') AS registerday \n"+
+", trunc( months_between(sysdate, lastpwdchangedate) ) AS pwdchangegap , status, idle\n"+
+"from tbl_member\n"+
+"where status = 1 and userid = 'jinhr46' and pwd = 'qwer1234$' \n"+
+") M \n"+
+"CROSS JOIN \n"+
+"(\n"+
+"select trunc( months_between(sysdate, max(logindate)) ) as lastlogingap\n"+
+"from tbl_login_history\n"+
+"where fk_userid = 'jinhr46'\n"+
+") H";
+
+
+
+
+select *
+from tbl_login_history
+
+insert into tbl_login_history
+values('jinhr46', '22/09/29', '123.123.123')
+
+commit;
+
+create table tbl_login_history
+(fk_userid              NVARCHAR2(30)            not null    --
+,logindate              date default sysdate    not null
+,clientip               varchar2(20)            not null    --123.234.234.234
+,constraint FK_tbl_login_history_fk_userid foreign key(fk_userid) references tbl_member(userid)
+);
+
+select *
+from tabs;
+------------------------------------------------------------------
+
+create or replace procedure pcd_member_insert 
+(p_userid  IN  nvarchar2
+,p_name    IN  varchar2
+)
+is
+begin
+     for i in 1..50 loop
+         insert into tbl_member(userid, name, pwd, email, phone_number, postcode, address, detailaddress, extraaddress, gender, birthday, GRADE_CODE, ACCOUNT_NAME, BANK_NAME, ACCOUNT  ) 
+         values(p_userid||i, p_name||i, 'qwer1234$', p_userid||i||'gmail.com', '010233423'||i , '06105' , '서울 강남구', '논현동' ,'211-10', '2', '1994-05-12', 'welcome', p_name , '카카오뱅크', '3779554731957'); 
+     end loop;
+end pcd_member_insert;
+--Procedure PCD_MEMBER_INSERT이(가) 컴파일되었습니다.
+
+exec pcd_member_insert('jinhr','진혜린');
+commit;
+
+exec pcd_member_insert('choejh','최지희');
+commit;
+
+
+alter table tbl_order add point_use_amount number default 0;
+alter table tbl_order add discount_amount number default 0;
+alter table tbl_order add real_amount number default 0;
+
+select *
+from tbl_member;
+
+create or replace procedure pcd_order_insert
+(p_ordercode IN varchar2
+,p_userid    IN nvarchar2
+)
+is
+begin
+    for i in 1..9 loop
+            insert into tbl_order(order_code, fk_userid, orderdate, expectdate, order_amount, order_state, point_use_amount, discount_amount, real_amount)
+            values(p_ordercode||lpad(i,4,'0'), p_userid||i, sysdate, '22/09/31', 20000, '배송중', 1000, 2000, 17000)
+    end loop;
+end pcd_order_insert;
+
+
+
+select *
+from tbl_order
+
+
+
+create sequence seq_ordercode
+   start with 1         -- 첫번째 출발은 2 부터 한다.
+   increment by 1        -- 증가치는 1 이다. 즉, 1씩 증가한다.
+    nomaxvalue
+    nominvalue
+    nocycle
+    nocache;
+    
+    
+create sequence seq_membercode
+   start with 1         -- 첫번째 출발은 2 부터 한다.
+   increment by 1        -- 증가치는 1 이다. 즉, 1씩 증가한다.
+    nomaxvalue
+    nominvalue
+    nocycle
+    nocache;
