@@ -7,6 +7,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import common.controller.AbstractController;
 import hyerin.product.model.InterProductDAO;
 import hyerin.product.model.ProductDAO;
@@ -47,11 +50,6 @@ public class AdminProductListJson extends AbstractController {
 		// 총페이지 알아오기
 		int totalPage = pdao.getTotalPage(paraMap);
 		
-		
-		// 첫 화면일때는 모든 상품정보를, 셀렉트박스를 변경했을때는 선택한 종류의 상품정보를 조회(select)
-		List<ProductVO> productList = pdao.selectProductByKind(paraMap);
-		
-		request.setAttribute("productList", productList);
 		
 		// 페이지바 만들기
 		String pageBar = "";
@@ -97,12 +95,53 @@ public class AdminProductListJson extends AbstractController {
 		// **** [다음][마지막] 만들기 끝**** //
 		
 		
+		// 첫 화면일때는 모든 상품정보를, 셀렉트박스를 변경했을때는 선택한 종류의 상품정보를 조회(select)
+		List<ProductVO> productList = pdao.selectProductByKind(paraMap);
 		
 		
-		request.setAttribute("pageBar", pageBar);
+		JSONArray jsonArr = new JSONArray();
+		if(productList.size() > 0) {
+			
+			for(ProductVO pvo : productList) {
+				
+				JSONObject jsonObj = new JSONObject();
+				jsonObj.put("prod_code", pvo.getProd_code());
+				jsonObj.put("prod_name", pvo.getProd_name());
+				jsonObj.put("prod_kind", pvo.getProd_kind());
+				jsonObj.put("prod_image", pvo.getProd_image());
+				jsonObj.put("prod_high", pvo.getProd_high());
+				jsonObj.put("prod_price", pvo.getProd_price());
+				jsonObj.put("prod_saleprice", pvo.getProd_saleprice());
+				jsonObj.put("prod_color", pvo.getProd_color());
+				jsonObj.put("prod_registerday", pvo.getProd_registerday());
+				jsonObj.put("md_pick_yn", pvo.getMd_pick_yn());
+				
+				jsonArr.put(jsonObj);
+				
+			}//end of for
+			
+			String json = jsonArr.toString();
+			
+			System.out.println(json);
+			
+			request.setAttribute("json", json);
+			
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/hyerin/admin/adminJson.jsp");
+			
+		}//end of if
+		else {
+			
+			String json = jsonArr.toString();
+			request.setAttribute("json", json);
+			
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/hyerin/admin/adminJson.jsp");
+			
+		}//end of else
 		
-		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/hyerin/admin/adminJson.jsp");
+		
+		
 	}
 
 }

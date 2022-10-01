@@ -90,8 +90,8 @@
 	//function declarartion
 	function selectBySort(selectval){
 		$.ajax({
-			url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListJson.sue";
-			type: "GET";
+			url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListJson.sue",
+			type: "GET",
 			data:{
 				"byRegisterdayOrders":selectval
 			},
@@ -125,13 +125,13 @@
 						html += "<tr>"+
 									"<td height='160px' class='admin_productList_tbody text-center'><input type='checkbox' id='product_1' name='productList_chx'/></td>"+
 									"<td height='160px' class='admin_productList_tbody text-center'>"+${item.prod_code}+"</td>"+
-									"<td class='text-center admin_productList_tbody'>"+${item.prod_kind}</td>"+
-									"<td class='text-center admin_productList_tbody'><img id='admin_product_img_1' height='150px' src='/Semi_proj/images/product/"+${item.prod_kind}/${item.prod_image}'></td>"+
-									"<td class='text-center admin_productList_tbody'>"+${item.prod_name}</td>"+
-									"<td class='text-center admin_productList_tbody'>"+${item.prod_price}</td>"+
+									"<td class='text-center admin_productList_tbody'>"+${item.prod_kind}+"</td>"+
+									"<td class='text-center admin_productList_tbody'><img id='admin_product_img_1' height='150px' src='/Semi_proj/images/product/"+${item.prod_kind}+"/"+${item.prod_image}+"'></td>"+
+									"<td class='text-center admin_productList_tbody'>"+${item.prod_name}+"</td>"+
+									"<td class='text-center admin_productList_tbody'>"+${item.prod_price}+"</td>"+
 									//"<td class='text-center admin_productList_tbody'>"+${item.prod_stock}</td>"+
-									"<td class='text-center admin_productList_tbody'><input type='checkbox' id='mdPick_chx' name='mdPick_chx'/></td>"+
-									"<td class='text-center admin_productList_tbody'><button id='admin_productedit_btn' type='button' class='white' style='height:30px; width:80%;' onclick='product_edit('"+${item.prod_code}+"');'>수정</button></td>"+
+									"<td class='text-center admin_productList_tbody'>"+${item.md_pick_yn}+"</td>"+
+									//"<td class='text-center admin_productList_tbody'><button id='admin_productedit_btn' type='button' class='white' style='height:30px; width:80%;' onclick='product_edit('"+${item.prod_code}+"');'>수정</button></td>"+
 									"<td class='text-center admin_productList_tbody'><button id='admin_productDelete_btn' type='button' class='black' style='height:30px; width:80%;'>삭제</button></td>"+
 								"</tr>";
 					});//end of $.each
