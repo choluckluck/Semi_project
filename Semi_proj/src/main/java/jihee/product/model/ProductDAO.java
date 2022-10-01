@@ -280,8 +280,8 @@ public class ProductDAO implements InterProductDAO {
 			 
 			 }
 			 
-			 System.out.println("searchColor DAO 확인용 :"
-						+ " " +green +"\n" +yellow +"\n" + red +"\n" + black + yellow+ "brown :" +brown+ silver + orange + pink);
+			 //System.out.println("searchColor DAO 확인용 :"
+			 //			+ " " +green +"\n" +yellow +"\n" + red +"\n" + black + yellow+ "brown :" +brown+ silver + orange + pink);
 				
 				
 			 
