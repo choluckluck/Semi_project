@@ -374,19 +374,19 @@ a:active {text-decoration: none; color: gray;}
 		    </div>
 		    <div class="btn-group " role="group" aria-label="Basic checkbox toggle button group" >
 				<div>
- 						<input type="checkbox" class="btn-check" name="searchSize" id="220" value="220" autocomplete="off">
+ 						<input type="checkbox" class="btn-check" name="Size220" id="220" value="220" autocomplete="off">
  						<label class="btn btn-outline-secondary form-check-inline" for="220" style="padding: 10%;">&nbsp;&nbsp;220&nbsp;&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" name="searchSize" id="225" value="225" autocomplete="off">
+ 						<input type="checkbox" class="btn-check" name="Size226" id="225" value="225" autocomplete="off">
  						<label class="btn btn-outline-secondary form-check-inline" for="225" style="padding: 10%;">&nbsp;&nbsp;225&nbsp;&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" name="searchSize" id="230" value="230" autocomplete="off">
+ 						<input type="checkbox" class="btn-check" name="Size230" id="230" value="230" autocomplete="off">
  						<label class="btn btn-outline-secondary form-check-inline" for="230" style="padding: 10%;">&nbsp;&nbsp;230&nbsp;&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" name="searchSize" id="235" value="235" autocomplete="off">
+ 						<input type="checkbox" class="btn-check" name="Size235" id="235" value="235" autocomplete="off">
  						<label class="btn btn-outline-secondary form-check-inline" for="235" style="padding: 10%;">&nbsp;&nbsp;235&nbsp;&nbsp;</label>
 				</div>								
 			</div>
@@ -395,19 +395,19 @@ a:active {text-decoration: none; color: gray;}
 
 			<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 				<div>
- 						<input type="checkbox" class="btn-check" name="searchSize" id="240" value="240" autocomplete="off">
+ 						<input type="checkbox" class="btn-check" name="Size240" id="240" value="240" autocomplete="off">
  						<label class="btn btn-outline-secondary form-check-inline" for="240" style="padding: 10%;">&nbsp;&nbsp;240&nbsp;&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" name="searchSize" id="245" value="245" autocomplete="off">
+ 						<input type="checkbox" class="btn-check" name="Size245" id="245" value="245" autocomplete="off">
  						<label class="btn btn-outline-secondary form-check-inline" for="245" style="padding: 10%;">&nbsp;&nbsp;245&nbsp;&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" name="searchSize" id="250" value="250" autocomplete="off">
+ 						<input type="checkbox" class="btn-check" name="Size250" id="250" value="250" autocomplete="off">
  						<label class="btn btn-outline-secondary form-check-inline" for="250" style="padding: 10%;">&nbsp;&nbsp;250&nbsp;&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" name="searchSize" id="255" value="255" autocomplete="off">
+ 						<input type="checkbox" class="btn-check" name="Size255" id="255" value="255" autocomplete="off">
  						<label class="btn btn-outline-secondary form-check-inline" for="255" style="padding: 10%;">&nbsp;&nbsp;255&nbsp;&nbsp;</label>
 				</div>								
 			</div>

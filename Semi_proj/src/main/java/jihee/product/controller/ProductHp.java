@@ -276,7 +276,10 @@ public class ProductHp extends AbstractController {
 		request.setAttribute("AquamarineColor", AquamarineColor);
 		
 		
-	
+		// 2-4 사이즈 넘겨주기 //////////////////////////////
+		
+		
+		
 		
 		
 		
