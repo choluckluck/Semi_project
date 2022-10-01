@@ -1,7 +1,5 @@
 package hyerin.product.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.sql.*;
 import java.util.*;
 
@@ -259,18 +257,6 @@ public class ProductDAO implements InterProductDAO {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//////////////////////////////////////////////////////////////////
 	
 	// 관리자 페이지
@@ -284,20 +270,22 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select ceil(count(*)/10) "+
+			String sql = " select ceil(count(*)/5) "+
 						 " from v_tbl_product ";			
 			
 			String byKind = paraMap.get("byKind");
 			//String product_search = paraMap.get("product_search");
 			
 			// 정렬할 셀렉트박스의 값이 null 이 아니고 기본값인 product_kind가 아닐 경우
-			if(byKind != null && !"product_kind".equals(byKind)) {  
+			
+			
+			if(byKind != null && !"product_kind".equals(byKind) && !"all".equals(byKind)) {  
 				sql += " where prod_kind = ? ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			if(byKind != null && !"product_kind".equals(byKind)) {  
+			if(byKind != null && !"product_kind".equals(byKind)&& !"all".equals(byKind)) {  
 				pstmt.setString(1, byKind);
 			}
 			
@@ -320,7 +308,6 @@ public class ProductDAO implements InterProductDAO {
 	public List<ProductVO> selectProductByKind(Map<String, String> paraMap) throws SQLException {
 		List<ProductVO> pvoList = new ArrayList<>();
 		
-		
 		try {
 			
 			conn = ds.getConnection();
@@ -328,19 +315,41 @@ public class ProductDAO implements InterProductDAO {
 			
 			String byKind = paraMap.get("byKind");
 			
-			
+
 			String sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
-						 "from v_tbl_product";
-				
+							"from \n"+
+							"(\n"+
+							"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
+							"    from v_tbl_product\n"+
+							")\n"+
+							"where rno between ? and ?";
 			
-			if(byKind != null || !"product_kind".equals(byKind)) {
-				sql += " where prod_kind = ? ";
+			if(byKind != null && !"product_kind".equals(byKind) && !"all".equals(byKind)) {
+
+				sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
+						"from \n"+
+						"(\n"+
+						"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
+						"    from v_tbl_product\n"+
+						"    where prod_kind = ?"+
+						")\n"+
+						"where rno between ? and ?";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			if(byKind != null || !"product_kind".equals(byKind)) {
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage = 5;
+			
+			if(byKind != null && !"product_kind".equals(byKind) && !"all".equals(byKind)) {
 				pstmt.setString(1, byKind);
+				pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+				pstmt.setInt(3, (currentShowPageNo*sizePerPage));
+			}
+			else {
+				pstmt.setInt(1, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+				pstmt.setInt(2, (currentShowPageNo*sizePerPage));
+				
 			}
 			
 			

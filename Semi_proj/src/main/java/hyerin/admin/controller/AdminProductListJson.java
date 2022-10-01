@@ -29,7 +29,6 @@ public class AdminProductListJson extends AbstractController {
 		paraMap.put("byKind", byKind);
 		
 		
-		
 		//페이징 처리 시작
 		String currentShowPageNo = request.getParameter("currentShowPageNo");
 		
@@ -49,7 +48,7 @@ public class AdminProductListJson extends AbstractController {
 		
 		// 총페이지 알아오기
 		int totalPage = pdao.getTotalPage(paraMap);
-		
+		//System.out.println(totalPage);
 		
 		// 페이지바 만들기
 		String pageBar = "";
@@ -57,6 +56,50 @@ public class AdminProductListJson extends AbstractController {
 		int loop = 1;
 		
 		int pageNo = ( (Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1;
+		
+		// **** [맨처음][이전] 만들기 **** //
+		if(pageNo != 1) {
+			if("all".equals(byKind) || "prodduct_kind".equals(byKind)) {
+				pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo=1'>" + "[맨처음]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+(pageNo-1)+"'>" + "[이전]</a></li>";
+			}
+			else {
+				pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo=1'>" + "[맨처음]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+(pageNo-1)+"'>" + "[이전]</a></li>";
+			}
+		}
+		// **** [맨처음][이전] 만들기 끝 **** //
+		
+		while( !(loop > blockSize || pageNo > totalPage) ) { //loop가 blocksize보다 커지면 탈출
+			if(pageNo == Integer.parseInt(currentShowPageNo)) {
+				pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
+				
+			}
+			else {
+				if("all".equals(byKind) || "prodduct_kind".equals(byKind)) {
+					pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+pageNo+"'>" + pageNo + "</a></li>";
+				}
+				else {
+					pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+pageNo+"&prod_kind="+byKind+"'>" + pageNo + "</a></li>";
+				}
+			}
+			loop++; 
+			pageNo++; 
+		}//end of while
+		
+		// **** [다음][마지막] 만들기 **** //
+		if( pageNo <= totalPage ) { //페이지가 totalPage보다 작거나 같을때만 (마지막 블럭 제외)
+			if("all".equals(byKind) || "prodduct_kind".equals(byKind)) {
+				pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+pageNo+"'>" + "[다음]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+totalPage+"'>" + "[마지막]</a></li>";
+			}
+			else {
+				pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+pageNo+"&prod_kind="+byKind+"'>" + "[다음]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+totalPage+"&prod_kind="+byKind+"'>" + "[마지막]</a></li>";
+			}
+		}
+		// **** [다음][마지막] 만들기 끝**** //
+		
 		
 		/*
 		 * <li class="page-item"> <a class="page-link" href="#" aria-label="Previous">
@@ -68,43 +111,23 @@ public class AdminProductListJson extends AbstractController {
 		 * aria-hidden="true">&raquo;</span> </a> </li>
 		 */
 		
-		// **** [맨처음][이전] 만들기 **** //
-		if(pageNo != 1) {
-			pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo=1&prod_kind="+byKind+"'>" + "<<</a></li>";
-			pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+(pageNo-1)+"&prod_kind="+byKind+"'>" + "<</a></li>";
-		}
-		// **** [맨처음][이전] 만들기 끝 **** //
-		
-		while( !(loop > blockSize || pageNo > totalPage) ) { //loop가 blocksize보다 커지면 탈출
-			if(pageNo == Integer.parseInt(currentShowPageNo)) {
-				pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
-				
-			}
-			else {
-				pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+pageNo+"&prod_kind="+byKind+"'>" + pageNo + "</a></li>";
-			}
-			loop++; 
-			pageNo++; 
-		}//end of while
-		
-		// **** [다음][마지막] 만들기 **** //
-		if( pageNo <= totalPage ) { //페이지가 totalPage보다 작거나 같을때만 (마지막 블럭 제외)  
-			pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+pageNo+"&prod_kind="+byKind+"'>" + "[다음]</a></li>";
-			pageBar += "<li class='page-item'><a class='page-link' href='adminProductList.up?currentShowPageNo="+totalPage+"&prod_kind="+byKind+"'>" + "[마지막]</a></li>";
-		}
-		// **** [다음][마지막] 만들기 끝**** //
-		
 		
 		// 첫 화면일때는 모든 상품정보를, 셀렉트박스를 변경했을때는 선택한 종류의 상품정보를 조회(select)
 		List<ProductVO> productList = pdao.selectProductByKind(paraMap);
 		
 		
 		JSONArray jsonArr = new JSONArray();
+		JSONObject jsonObj2 = new JSONObject();
+		//jsonObj2.put("pageBar", pageBar);
+		//jsonObj2.put("currentShowPageNo", currentShowPageNo);
+		jsonObj2.put("totalPage", totalPage);
+		jsonArr.put(jsonObj2);
+		
 		if(productList.size() > 0) {
 			
 			for(ProductVO pvo : productList) {
-				
 				JSONObject jsonObj = new JSONObject();
+				
 				jsonObj.put("prod_code", pvo.getProd_code());
 				jsonObj.put("prod_name", pvo.getProd_name());
 				jsonObj.put("prod_kind", pvo.getProd_kind());
@@ -120,9 +143,8 @@ public class AdminProductListJson extends AbstractController {
 				
 			}//end of for
 			
-			String json = jsonArr.toString();
 			
-			System.out.println(json);
+			String json = jsonArr.toString();
 			
 			request.setAttribute("json", json);
 			
@@ -133,6 +155,7 @@ public class AdminProductListJson extends AbstractController {
 		else {
 			
 			String json = jsonArr.toString();
+			
 			request.setAttribute("json", json);
 			
 			super.setRedirect(false);

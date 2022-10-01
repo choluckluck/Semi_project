@@ -788,3 +788,14 @@ WHERE b.PROD_COLOR IN ('white', 'green')
 GROUP BY a.PROD_CODE, a.PROD_NAME, a.PROD_PRICE
 on prod_code = fk_prod_code
 
+
+select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn
+from 
+(
+    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn
+    from v_tbl_product
+    where prod_kind = 'ankle'
+)
+where rno between 1 and 10
+
+

@@ -46,41 +46,17 @@
 	$(document).ready(function(){
 		
 		
+		fn_selectBySort("all", 1);
+		
 		$("#byKind").change(function(e){ //첫번째 셀렉트박스 체인지 이벤트
 			
-			const selectVal = $(e.target).val();
-			selectBySort(selectVal);
-			/* 
-			$("#byKind").change(function(event){ //두번째 셀렉트박스 체인지 이벤트
-				
-				const secondSelectVal = $(event.target).val();
-				selectBySort(firstSelectVal, secondSelectVal);
-				
-			}); 
-			 */
+			$("#admin_productList_content").empty();
+			$("ul#pageBar").empty();
+			
+			selectVal = $(e.target).val();
 			
 		});
 		
-		
-		
-		/* $("#byRegisterdayOrders").change(function(e){
-			selectBySort();
-			
-		});	
-		
-		$("#byKind").change(function(){
-			selectBySort();
-		});	
-		
-		if()
-		
-		if(${requestScope.byRegisterdayOrders} != null ){
-			$("#byRegisterdayOrders").val("${requestScope.byRegisterdayOrders}");
-		};
-		
-		if(${requestScope.byKind} != null){
-			$("#byKind").val("${requestScope.byKind}");
-		};  */
 		
 		
 	});//end of ready
@@ -88,74 +64,186 @@
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//function declarartion
-	function selectBySort(selectval){
+	function fn_selectBySort(selectVal, num){
+		
+		var pageSize = 10;
+		var totalPages = 0;
+		var curPage = num;
+		$("input[name='curPage']").val(curPage); // 페이지 바꿔주기
+		
 		$.ajax({
 			url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListJson.sue",
-			type: "GET",
-			data:{
-				"byRegisterdayOrders":selectval
-			},
+			type: "get",
+			data:{"byKind":selectVal,
+				  "currentShowPageNo":currentShowPageNo},
 			dataType:"JSON",
 			success:function(json){
-				
+				//console.log(json);
 				let html = "";
-				
-				
-				
 				//첫화면이거나 조회된 상품정보가 있는 경우
-				
-				if ( selectval == null || json.length > 0 ){
+				if ( json.length > 0 ){
+					//상품정보 조회해오기
 					$.each(json, function(index, item){
-						<%-- <c:forEach var="productList" items="${requestScope.productList}">
-							<tr>
-								<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="product_1" name="productList_chx"/></td>
-								<td height="160px" class="admin_productList_tbody text-center">${productList.prod_code}</td>
-								<td class="text-center admin_productList_tbody">${productList.prod_kind}</td>
-								<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="<%= ctxPath%>/images/product/${productList.prod_kind}/${productList.prod_image}"></td>
-								<td class="text-center admin_productList_tbody">${productList.prod_name}</td>
-								<td class="text-center admin_productList_tbody">${productList.prod_price}</td>
-								<td class="text-center admin_productList_tbody">${productList.prod_stock}</td>
-								<td class="text-center admin_productList_tbody"><input type="checkbox" id="mdPick_chx" name="mdPick_chx"/></td>
-								<td class="text-center admin_productList_tbody"><button id="admin_productedit_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_edit('${productList.prod_code}');">수정</button></td>
-								<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>
-							</tr>
-						</c:forEach>
-						 --%>
-						
-						html += "<tr>"+
-									"<td height='160px' class='admin_productList_tbody text-center'><input type='checkbox' id='product_1' name='productList_chx'/></td>"+
-									"<td height='160px' class='admin_productList_tbody text-center'>"+${item.prod_code}+"</td>"+
-									"<td class='text-center admin_productList_tbody'>"+${item.prod_kind}+"</td>"+
-									"<td class='text-center admin_productList_tbody'><img id='admin_product_img_1' height='150px' src='/Semi_proj/images/product/"+${item.prod_kind}+"/"+${item.prod_image}+"'></td>"+
-									"<td class='text-center admin_productList_tbody'>"+${item.prod_name}+"</td>"+
-									"<td class='text-center admin_productList_tbody'>"+${item.prod_price}+"</td>"+
-									//"<td class='text-center admin_productList_tbody'>"+${item.prod_stock}</td>"+
-									"<td class='text-center admin_productList_tbody'>"+${item.md_pick_yn}+"</td>"+
-									//"<td class='text-center admin_productList_tbody'><button id='admin_productedit_btn' type='button' class='white' style='height:30px; width:80%;' onclick='product_edit('"+${item.prod_code}+"');'>수정</button></td>"+
-									"<td class='text-center admin_productList_tbody'><button id='admin_productDelete_btn' type='button' class='black' style='height:30px; width:80%;'>삭제</button></td>"+
-								"</tr>";
+						if(index == 0){
+							var totalCount = item.totalPage;
+						}
+						else{
+							html += "<tr>"+
+										"<td height='160px' class='admin_productList_tbody text-center'><input type='checkbox' id='"+item.prod_code+"_chx' name='productList_chx'/></td>"+
+										"<td height='160px' class='admin_productList_tbody text-center'>"+item.prod_code+"</td>"+
+										"<td class='text-center admin_productList_tbody'>"+item.prod_kind+"</td>"+
+										"<td class='text-center admin_productList_tbody'><img id='admin_product_img_1' height='150px' src='/Semi_proj/images/product/"+item.prod_kind+"/"+item.prod_image+"'></td>"+
+										"<td class='text-center admin_productList_tbody'>"+item.prod_name+"</td>"+
+										"<td class='text-center admin_productList_tbody'>"+item.prod_price+"</td>"+
+										//"<td class='text-center admin_productList_tbody'>"+${item.prod_stock}</td>"+
+										"<td class='text-center admin_productList_tbody'>"+item.md_pick_yn+"</td>"+
+										"<td class='text-center admin_productList_tbody'><button id='admin_productedit_btn' type='button' class='white' style='height:30px; width:80%;' onclick='product_edit("+item.prod_code+");'>수정</button></td>"+
+										"<td class='text-center admin_productList_tbody'><button id='admin_productDelete_btn' type='button' class='black' style='height:30px; width:80%;'>삭제</button></td>"+
+									"</tr>";
+						}
 					});//end of $.each
+					
+					if(totalCount != 0){
+						totalPages = Math.ceil(totalCount/PageSize);
+						
+						var htmlStr = pageLink(curPage, totalPages, "fn_selectBySort");
+						
+						$("#div_paginate").html(htmlStr);
+					}
+					else{
+						//alert("검색된 상품이 없음");
+					}
+					
+					
+					//조회해온 상품정보를 테이블에 추가해주기
+					$("#admin_productList_content").append(html);
+					
+					
+					
 					
 				}
 				// 조회된 상품정보가 없을 경우
-				else if (json.length == 0){
+				else if (json.length == 1){
 					html += "<tr><td colspan='10'>조회된 상품 정보가 없습니다.</td></tr>";
+					$("#admin_productList_content").html(html);
 				}
-				
-				
-				$("#admin_productList_content").append(html);
-				
 				
 			},
 			error: function(request, status, error){
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}
-		});// end of selectBySort
+		});// end of ajax
+		
+		
 		
 	}//end of selectBySort(firstselectVal)
 	
 	
 	
+	// 페이징처리하는 함수
+	function pageLink(curPage, totalPages, funname){
+		var pageUrl = "";
+		
+		var pageLimit = 5;
+		var startPage = parseInt((curPage - 1) / pageLimit) * pageLimit + 1;
+		var endPage = startPage + pageLimit - 1;
+		
+		
+		if(totalPages < endPage){
+			endPage = totalPages;
+		}
+		
+		var nextPage = endPage + 1;
+		//맨 첫 페이지
+		if (curPage > 1 && pageLimit < curPage) {
+		    pageUrl += "<a class='page first' href='javascript:" + funName + "(1);'><i class='fas fa-angle-double-left'></a>";
+		}
+		//이전 페이지
+		if (curPage > pageLimit) {
+		    pageUrl += " <a class='page prev' href='javascript:" + funName + "(" + (startPage == 1 ? 1 : startPage - 1) + ");'><i class='fas fa-angle-left'></a>";
+		}
+		//~pageLimit 맞게 페이지 수 보여줌
+		for (var i = startPage; i <= endPage; i++) {
+		    //현재페이지면 진하게 표시
+		    if (i == curPage) {
+		        pageUrl += " <a href='#'><strong>" + i + "</strong></a>"
+		    } else {
+		        pageUrl += " <a href='javascript:" + funName + "(" + i + ");'> " + i + " </a>";
+		    }
+		}
+		//다음 페이지
+		if (nextPage <= totalPages) {
+		    pageUrl += "<a class='page next' href='javascript:" + funName + "(" + (nextPage < totalPages ? nextPage : totalPages) + ");'><i class='fas fa-angle-right'></a>";
+		}
+		//맨 마지막 페이지
+		if (curPage < totalPages && nextPage < totalPages) {
+		    pageUrl += "<a class='page last' href='javascript:" + funName + "(" + totalPages + ");'><i class='fas fa-angle-double-right'></a>";
+		}
+		//console.log(pageUrl);
+		
+		return pageUrl;
+		
+	}//end of pageLink
+	
+<%-- 	//function declarartion
+	function fn_selectBySort(selectVal, currentShowPageNo){
+		
+		$.ajax({
+			url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListJson.sue",
+			type: "get",
+			data:{"byKind":selectVal,
+				  "currentShowPageNo":currentShowPageNo},
+			dataType:"JSON",
+			success:function(json){
+				//console.log(json);
+				//let html = "";
+				let html = "";
+				let pageBarHtml = "";
+				//첫화면이거나 조회된 상품정보가 있는 경우
+				if ( json.length > 0 ){
+					//상품정보 조회해오기
+					$.each(json, function(index, item){
+						if(index == 0){
+							pageBarHtml = item.pageBar;
+						}
+						else if (index > 0){
+							html += "<tr>"+
+										"<td height='160px' class='admin_productList_tbody text-center'><input type='checkbox' id='"+item.prod_code+"_chx' name='productList_chx'/></td>"+
+										"<td height='160px' class='admin_productList_tbody text-center'>"+item.prod_code+"</td>"+
+										"<td class='text-center admin_productList_tbody'>"+item.prod_kind+"</td>"+
+										"<td class='text-center admin_productList_tbody'><img id='admin_product_img_1' height='150px' src='/Semi_proj/images/product/"+item.prod_kind+"/"+item.prod_image+"'></td>"+
+										"<td class='text-center admin_productList_tbody'>"+item.prod_name+"</td>"+
+										"<td class='text-center admin_productList_tbody'>"+item.prod_price+"</td>"+
+										//"<td class='text-center admin_productList_tbody'>"+${item.prod_stock}</td>"+
+										"<td class='text-center admin_productList_tbody'>"+item.md_pick_yn+"</td>"+
+										"<td class='text-center admin_productList_tbody'><button id='admin_productedit_btn' type='button' class='white' style='height:30px; width:80%;' onclick='product_edit("+item.prod_code+");'>수정</button></td>"+
+										"<td class='text-center admin_productList_tbody'><button id='admin_productDelete_btn' type='button' class='black' style='height:30px; width:80%;'>삭제</button></td>"+
+									"</tr>";
+						}
+						
+					});//end of $.each
+					
+					
+					$("#admin_productList_content").append(html);
+					$("#pageBar").html(pageBarHtml);
+					
+				}
+				// 조회된 상품정보가 없을 경우
+				else if (json.length == 0){
+					html += "<tr><td colspan='10'>조회된 상품 정보가 없습니다.</td></tr>";
+					$("#admin_productList_content").html(html);
+				}
+				
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});// end of ajax
+		
+		
+		
+	}//end of selectBySort(firstselectVal)
+	 --%>
 	
 	
 	function product_edit(prod_code){
@@ -232,7 +320,6 @@
 						</tr>
 					</thead>
 					<tbody id="admin_productList_content">
-						
 					</tbody>
 				</table>
 				<div class="mt-3">
@@ -241,21 +328,10 @@
 				</div>
 			</form>
 			<nav aria-label="Page navigation">
-			  <ul class="pagination justify-content-center pagination-sm my-5">
-			    <li class="page-item">
-			      <a class="page-link" href="#" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    <li class="page-item"><a class="page-link" href="#">1</a></li>
-			    <li class="page-item"><a class="page-link" href="#">2</a></li>
-			    <li class="page-item"><a class="page-link" href="#">3</a></li>
-			    <li class="page-item">
-			      <a class="page-link" href="#" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
+			  <ul id="pageBar" class="pagination justify-content-center pagination-sm my-5">
+			  	
 			  </ul>
+			  <input type="hidden" name='curPage'/>
 			</nav>
 		</div>
 	</div>

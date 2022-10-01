@@ -1,12 +1,10 @@
 package hyerin.admin.controller;
 
-import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
-import hyerin.product.model.*;
 
 public class AdminProductList extends AbstractController {
 

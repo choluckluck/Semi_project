@@ -1,8 +1,7 @@
 package hyerin.product.model;
 
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public interface InterProductDAO {
 	
