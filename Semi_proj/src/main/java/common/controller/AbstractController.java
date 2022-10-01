@@ -1,11 +1,15 @@
 package common.controller;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 import hasol.purchase.model.J_MemberVO;
-
+import heajun.community.model.InterNoticeDAO;
+import heajun.community.model.NoticeDAO;
 
 public abstract class AbstractController implements InterCommand {
 	/*
@@ -71,4 +75,16 @@ public abstract class AbstractController implements InterCommand {
 		}
 	}//end of checkLogin
 
+	
+		// 공지사항 목록 보여줄 메소드 생성하기 (혜준 사용)//
+		// VO 를 사용하지 않고 Map으로 처리 => 한 번만 실행하려고 abstract에서 실행
+			public void getNotice(HttpServletRequest request) throws Exception{
+			InterNoticeDAO ndao = new NoticeDAO();
+			
+			List<HashMap<String,String>> Notice = ndao.getNotice();
+			
+			request.setAttribute("Notice", Notice);
+			
+		}
+		
 }

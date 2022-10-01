@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import hasol.purchase.model.J_MemberVO;
 
+
+
 public class PurchaseEnd extends AbstractController {
 
 	@Override
