@@ -67,7 +67,7 @@ public class NoticeDAO  implements InterNoticeDAO{
         	conn = ds.getConnection();
             
             // 시퀀스 값을 가져온다. 
-            String sql = ("SELECT NOTICE_NUM.NEXTVAL FROM TBL_NOTICE");
+            String sql = ("SELECT NOTICE_CODE.NEXTVAL FROM TBL_NOTICE");
             
             pstmt = conn.prepareStatement(sql);
             
@@ -115,7 +115,8 @@ public class NoticeDAO  implements InterNoticeDAO{
 	// notice_code 값을 입력받아서 하나의 게시글에 대한 상세정보를 알아오기(select) 
 	@Override
 	public NoticeVO noticeOneDetail(String notice_code) throws Exception {
-     NoticeVO nvo = null;
+     
+		NoticeVO nvo = null;
 		
 		try {
 			conn = ds.getConnection();
@@ -259,30 +260,31 @@ public class NoticeDAO  implements InterNoticeDAO{
 	//공지사항에 속하는 글들을 페이지바를 사용해 페이징 처리하여 조회(select)해오기
 	@Override
 	public List<NoticeVO> selectPagingNoticeList(Map<String, String> paraMap) throws SQLException {
-		List<NoticeVO> Notice = new ArrayList<>(); //new를 해줬기 때문에 null이 아니다! 사이즈가 0일 뿐임.
+		List<NoticeVO> notice = new ArrayList<>(); //new를 해줬기 때문에 null이 아니다! 사이즈가 0일 뿐임.
 	      
 		try {
 	        conn = ds.getConnection();
 	        
-	        String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday "+
+	        String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday " +
 	        		" from " +
 	        		" ( " +
-	        		"    select rownum AS RNO, notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday "+
+	        		"    select rownum AS RNO, notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday " +
 	        		"    from " +
 	        		"    ( " +
-	        		"        select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday "+
-	        		"        from tbl_notice "+
-	        		"        where fk_userid != 'null' " +
+	        		"        select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday " +
+	        		"        from tbl_notice " +
+	        		"        where fk_userid != ' null ' " +
 	        		"        order by notice_registerday desc " +
 	        		"    ) V " +
 	        		" )T " +
-	        		" where RNO between ? and ? ";
+	        		" where RNO between ? and ? " ;
 			
-			
+	       
+	        
 			// === 페이징 처리의 공식 ===
 			// where RNO between (조회하고자하는 페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는 페이지번호 * 한페이지당보여줄행의개수)
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-			int sizePerPage = 10; //한 페이지당 화면상에 보여줄 제품의 개수는 10으로 한다.
+			int sizePerPage = 10;
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -293,24 +295,25 @@ public class NoticeDAO  implements InterNoticeDAO{
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
+				
 				NoticeVO nvo = new NoticeVO();
 	             
 				nvo.setNotice_code(rs.getInt("notice_code"));
 				nvo.setFk_userid(rs.getString("fk_userid"));
 				nvo.setNotice_subject(rs.getString("notice_subject"));
 				nvo.setNotice_contents(rs.getString("notice_contents"));
-				nvo.setNotice_count(rs.getInt("notice_count"));
 				nvo.setNotice_registerday(rs.getDate("notice_registerday"));
+				nvo.setNotice_count(rs.getInt("notice_count"));
 				
-	            
-	             Notice.add(nvo);
+				notice.add(nvo);
+				
 			}//end of while
 			
 	      } finally {
 	         close();
 	      }
 		
-		return Notice;
+		return notice;
 	}
 
 	

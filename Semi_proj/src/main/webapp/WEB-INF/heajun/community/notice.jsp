@@ -33,11 +33,11 @@
 			   var notice_code = $(this).next().next().next().next().text();	
 			   location.href="<%=ctxPath%>/heajun/community/noticeView.sue?notice_code="+notice_code; 
 		   });
-		   $("td#notice_id").click(function(){
+		   $("td#fk_userid").click(function(){
 			   var notice_code = $(this).next().next().next().text();	
 			   location.href="<%=ctxPath%>/heajun/community/noticeView.sue?notice_code="+notice_code; 
 		   });
-		   $("td#notice_date").click(function(){
+		   $("td#notice_registerday").click(function(){
 			   var notice_code = $(this).next().text();	
 			   location.href="<%=ctxPath%>/heajun/community/noticeView.sue?notice_code="+notice_code; 
 		   });
@@ -70,11 +70,11 @@
 				 <tbody id="notice_tbody">
 		         <c:forEach var="nvo" items="${requestScope.notice}">
 		            <tr>
-						<td height="50px" class="text-center notice_td" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_code}</td>
-						<td style="border-bottom: solid 1px #d9d9d9">${nvo.notice_subject}</td>
-						<td class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_id}</td>
-						<td class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_count}</td>
-						<td class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_registerday}</td>
+						<td id="notice_code" height="50px" class="text-center notice_td" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_code}</td>
+						<td id="notice_subject" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_subject}</td>
+						<td id="fk_userid" class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.fk_userid}</td>
+						<td id="notice_count" class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_count}</td>
+						<td id="notice_registerday" class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_registerday}</td>
 					</tr>
 		            
 		         </c:forEach>

@@ -51,11 +51,11 @@ public class Notice extends AbstractController {
 				 }
 			  
 				 
-				 List<NoticeVO> Notice = ndao.selectPagingNoticeList(paraMap);
+				 List<NoticeVO> notice = ndao.selectPagingNoticeList(paraMap);
 				   
 				
 				 
-				 request.setAttribute("Notice", Notice);
+				 request.setAttribute("notice", notice);
 				 
 				
 				   String pageBar = "";
@@ -100,9 +100,6 @@ public class Notice extends AbstractController {
 		     //	super.setRedirect(false);
 				super.setViewPage("/WEB-INF/heajun/community/notice.jsp");	
 				
-
-	
-
 	
 		
 	}

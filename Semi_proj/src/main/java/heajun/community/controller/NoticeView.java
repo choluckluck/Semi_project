@@ -48,7 +48,7 @@ public class NoticeView extends AbstractController {
 				request.setAttribute("goBackURL", goBackURL);
 				
 			//	super.setRedirect(false);
-				super.setViewPage("/WEB-INF/heajun/community/noticeShow.jsp");
+				super.setViewPage("/WEB-INF/heajun/community/noticeView.jsp");
 
 			
 			} else {
