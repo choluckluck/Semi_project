@@ -2,20 +2,46 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+<head>
 
+
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<jsp:include page="../hyerin/header.jsp"></jsp:include>
 <style type="text/css">
 
   div#container {
-  	width:98%;
   	margin: 0 auto;
+  	width : 95%;
   }
-  
+     
   div.col-10 {
   	/* border:solid 1px gray;  */
   	margin : 0 auto;
   }
- 
-  a.orderview {
+
+  button.btn-gray {
+  	text-align:left;
+  }
+  
+  a.prd {
+  	text-decoration-line: none;
+  	color:black;
+  }
+  
+  a.prd:hover {
+  	color:gray;
+  }
+  
+  table {
+  	border-top : solid 1px gray;
+  	width:80%;
+  }
+  
+    a.orderview {
     text-decoration-line: none;
   	color:black;
   }
@@ -27,14 +53,31 @@
   div#buttons {
   	font-size: 14px;
   }
-  
+
+
 </style>
-<jsp:include page="../hyerin/header.jsp"></jsp:include>
-<jsp:include page="sideMenu.jsp" />
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body>
+
+
+ <header></header>
+  
+ 	   <br><br>
+ 	   
+  <div id="container">
+ 	<div class="row">
+  	   <div class="col-2">
+ 		 <jsp:include page="sideMenu.jsp" />	   
+	   </div>	
 
 	   <div class="col-10">
 	   	  <br><br>
-	      <h2>ㅇㅇㅇ 님, 안녕하세요. </h2>
+	      <h2>${sessionScope.loginuser.name} 님, 안녕하세요. </h2>
 	      <h2>고객님은 [ㅇㅇㅇ] 등급입니다. </h2>
 	      <h6> 1원 이상 구매시 00%를 추가적립 받으실 수 있습니다.</h6>
 	      <br><br>

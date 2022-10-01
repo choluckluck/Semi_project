@@ -30,15 +30,15 @@ public class Main extends AbstractController {
 //		String userid = loginuser.getUserid();
 		
 		//Best => 주문순 많은 순으로 상품을 불러온다
-		List<ProductVO> best_pvo = pdao.selectBestProduct();
+		List<ProductVO> best_pvoList = pdao.selectBestProduct();
 		
 		
 		
 		//New arrival => 새로운 등록순으로 상품을 불러온다
-		List<ProductVO> new_pvo = pdao.selectNewProduct();
+		List<ProductVO> new_pvoList = pdao.selectNewProduct();
 		
 		//MD Pick => 노출여부 Y인 것만 랜덤으로 4개를 불러온다
-		List<ProductVO> md_pvo = pdao.selectMDProduct();
+		List<ProductVO> md_pvoList = pdao.selectMDProduct();
 		
 		
 		//하트 클릭시 위시 처리 => 해당 유저의 위시상품을 불러온다
@@ -53,9 +53,9 @@ public class Main extends AbstractController {
 		
 		
 		
-		request.setAttribute("md_pvo", md_pvo);
-		request.setAttribute("best_pvo", best_pvo);
-		request.setAttribute("new_pvo", new_pvo);
+		request.setAttribute("best_pvoList", best_pvoList);
+		request.setAttribute("new_pvoList", new_pvoList);
+		request.setAttribute("md_pvoList", md_pvoList);
 //		request.setAttribute("heart_result", heart_result);
 		
 		super.setRedirect(false);
