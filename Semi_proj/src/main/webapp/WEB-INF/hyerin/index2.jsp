@@ -6,8 +6,10 @@
 
 <script type="text/javascript">
 
+	var member = "${sessionScope.loginuser}";
+
 	function goLogOut() {
-		alert("하하");
+		alert("로그아웃.");
 		// 로그아웃을 처리해주는 페이지로 이동
 		location.href="<%= request.getContextPath()%>/hyerin/login/logout.sue";
 		

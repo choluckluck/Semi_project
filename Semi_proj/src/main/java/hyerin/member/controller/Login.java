@@ -84,7 +84,7 @@ public class Login extends AbstractController {
 			} //end of if
 			
 			else {
-				String message = "로그인 실패";
+				String message = "로그인 실패. 아이디와 비밀번호를 확인하세요.";
 				String loc = "javascript:history.back()";
 				
 				request.setAttribute("message", message);

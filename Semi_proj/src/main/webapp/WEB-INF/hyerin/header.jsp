@@ -79,8 +79,6 @@
 		});
 		
 		///////////////////////////////////////////////////////////////////////////
-		
-		
 
 	});//end of ready
 	
@@ -119,10 +117,11 @@
 						</button>
 					</a>
 			</form>
-			<%-- 마이페이지 --%>
-			<a href="#" class="header_search_contents" style="margin-right: 20px;"><img src="<%= ctxPath%>/images/hyerin/user_icon.png" width="25px" /></a>
-			<%-- 장바구니 --%>
-			<a href="#" class="header_search_contents"><img src="<%= ctxPath%>/images/hyerin/cart.png" width="30px" /></a>
+
+	<%@ include file="/WEB-INF/hyerin/mypage.jsp" %>		
+
+
+
 		</span> 
 		<%-- 퀵뷰 --%>
 		<div id="quickView" style="width:60px; height:230px; background-color:#172A41; position:fixed; bottom:50px; right:30px; z-index:100;">

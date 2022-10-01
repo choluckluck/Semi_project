@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
+<script>
+</script>
 <style type="text/css">
 
   div#container {
@@ -34,7 +35,7 @@
 
 	   <div class="col-10">
 	   	  <br><br>
-	      <h2>ㅇㅇㅇ 님, 안녕하세요. </h2>
+	      <h2>${sessionScope.loginuser.name} 님, 안녕하세요. </h2>
 	      <h2>고객님은 [ㅇㅇㅇ] 등급입니다. </h2>
 	      <h6> 1원 이상 구매시 00%를 추가적립 받으실 수 있습니다.</h6>
 	      <br><br>

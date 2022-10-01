@@ -15,6 +15,13 @@
 		});
 		
 		
+		$("input#loginPwd").bind("keydown", function(event){
+			if(event.keyCode == 13) { // 암호입력란에 엔터를 했을 경우 
+				goLogin(); // 로그인 시도한다.
+			}
+		});
+		
+
 		//회원가입 버튼 클릭이벤트
 		$("button#register_button").click(function(){
 			location.href="<%= ctxPath%>/hyerin/member/agreement.sue";
