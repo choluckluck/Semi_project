@@ -262,6 +262,10 @@ a:active {text-decoration: none; color: gray;}
 		if("${requestScope.redColor}" != "") { //검색어가 null아닐때만 꽂아준다
 				 $("input:checkbox[id='${requestScope.redColor}']").prop("checked", true);
 			   } 
+	     
+		if("${requestScope.Size220}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.Size220}']").prop("checked", true);
+		   } 
 	    
 	     
 	    

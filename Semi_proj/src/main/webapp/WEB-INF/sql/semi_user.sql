@@ -259,6 +259,8 @@ LEFT JOIN
 ) R
 ON fk_prod_code = P.prod_code
 where prod_kind like '%' and prod_name like '%' and prod_price between 1 and 5000000
+and (prod_color like '%red%' or prod_color like '%red%' or prod_color like '%나나%')
+and (prod_size like '%%' or prod_size like '%나나%')
 order by prod_registerday
 )
 where RNO between 1 and 90

@@ -280,8 +280,8 @@ public class ProductDAO implements InterProductDAO {
 			 
 			 }
 			 
-			 //System.out.println("searchColor DAO 확인용 :"
-			 //			+ " " +green +"\n" +yellow +"\n" + red +"\n" + black + yellow+ "brown :" +brown+ silver + orange + pink);
+			 System.out.println("searchColor DAO 확인용 :"
+			 			+ " " +green +"\n" +yellow +"\n" + red +"\n" + black + yellow+ "brown :" +brown+ silver + orange + pink);
 				
 				
 			 
@@ -303,8 +303,27 @@ public class ProductDAO implements InterProductDAO {
 			 * System.out.println("green :" +green +" red :" +red);
 			 */
 			
-			
-			
+			 
+			 // 1-4 사이즈 검색하는 경우
+			 
+			 String s220 =  paraMap.get("Size220");
+			 String s225 =  paraMap.get("Size225");
+			 String s230 =  paraMap.get("Size230");
+			 String s235 =  paraMap.get("Size235");
+			 String s240 =  paraMap.get("Size240");
+			 String s245 =  paraMap.get("Size245");
+			 String s250 =  paraMap.get("Size250");
+			 String s255 = paraMap.get("Size255");
+			 
+			 if (s220 == checkword && s225 == checkword && s230 ==checkword && s235 == checkword &&  s240==checkword
+					 && s245 == checkword && s250 == checkword && s255 == checkword ) {
+				 
+				 s220 = "220"; s225 = "20"; s225 = "220"; s230 = "230"; s235 = "235"; s240 = "240"; s245 = "245"; s250 = "250"; s255 = "255";
+				 
+			 }
+			 
+			 System.out.println("SIZE DAO 확인용 :"
+					 			+ s220 +"\n"+ s225 +"\n" +s230 +"\n" + s235 +"\n");
 			
 			
 			sql += " and (  prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " +
@@ -313,8 +332,14 @@ public class ProductDAO implements InterProductDAO {
 					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " + 
 					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " + 
 					 " or prod_color like '%'|| ? ||'%'  ) " ;
-
-		
+			
+			//사이즈 sql
+			
+			sql += " and (  prod_size like '%'|| ? ||'%' or prod_size like '%'|| ? ||'%' " +
+					 " or prod_size like '%'|| ? ||'%' or prod_size like '%'|| ? ||'%' " +  
+					 " or prod_size like '%'|| ? ||'%' or prod_size like '%'|| ? ||'%' " + 
+					 " or prod_size like '%'|| ? ||'%' or prod_size like '%'|| ? ||'%' ) " ;
+				
 	
 			// === 페이징처리의 공식 ===
 			 // where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수); 
@@ -322,7 +347,7 @@ public class ProductDAO implements InterProductDAO {
 			 
 			 sql += " order by prod_registerday desc " +
 					 " )\n"+
-				   " where RNO between ? and ? ";
+				   " where RNO between ? and ? "; 
 			 
 		
 			 int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
@@ -356,9 +381,18 @@ public class ProductDAO implements InterProductDAO {
 				pstmt.setString(13, silver);
 				pstmt.setString(14, brown);
 				
+				pstmt.setString(15, s220);  //사이즈 시작
+				pstmt.setString(16, s225);
+				pstmt.setString(17, s230);
+				pstmt.setString(18, s235);
+				pstmt.setString(19, s240);
+				pstmt.setString(20, s245);
+				pstmt.setString(21, s250);
+				pstmt.setString(22, s255);				
 				
-				pstmt.setInt(15, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
-				pstmt.setInt(16, (currentShowPageNo*sizePerPage) ); // 공식
+				
+				pstmt.setInt(23, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
+				pstmt.setInt(24, (currentShowPageNo*sizePerPage) ); // 공식
 			 }
 			 else {
 				pstmt.setInt(1,  searchPriceStart);
@@ -376,11 +410,22 @@ public class ProductDAO implements InterProductDAO {
 				pstmt.setString(12, silver);
 				pstmt.setString(13, brown);
 				
+				pstmt.setString(14, s220);  //사이즈 시작
+				pstmt.setString(15, s225);
+				pstmt.setString(16, s230);
+				pstmt.setString(17, s235);
+				pstmt.setString(18, s240);
+				pstmt.setString(19, s245);
+				pstmt.setString(20, s250);
+				pstmt.setString(21, s255);		
 				
-				pstmt.setInt(14, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
-				pstmt.setInt(15, (currentShowPageNo*sizePerPage) ); // 공식
+				
+				pstmt.setInt(22, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
+				pstmt.setInt(23, (currentShowPageNo*sizePerPage) ); // 공식
 			 }
 
+			
+			
 
 			
 			
