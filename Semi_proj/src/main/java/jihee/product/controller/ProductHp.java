@@ -356,7 +356,6 @@ public class ProductHp extends AbstractController {
                 28                  21 = ( (28 - 1)/10 ) * 10 + 1 
                 29                  21 = ( (29 - 1)/10 ) * 10 + 1
                 30                  21 = ( (30 - 1)/10 ) * 10 + 1                    
-
        */
 		
 		String pageBar = "";

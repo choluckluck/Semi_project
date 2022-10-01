@@ -6,44 +6,44 @@
     String ctxPath = request.getContextPath();
 %>
 
-<%-- <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> --%>
+ <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> 
 
 <script>
 	$(document).ready(function(){
 		//글쓰기 글씨 클릭 이벤트
 		$("button#notice_write").click(function(){
 			const frm = document.notice_form;
-			frm.action="<%= ctxPath%>/hyerin/community/noticeWrite.sue";
+			frm.action="<%= ctxPath%>/heajun/community/noticeWrite.sue";
 			frm.method = "get";
 			frm.submit();
 		});
 		
 		//커뮤니티사이드바_공지사항 클릭 이벤트
 		$("div#sidebar_notice").click(function(){
-			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
+			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
 		
 		
 		// 타이틀 => 게시글 클릭이벤트
 		 $("td#notice_num").click(function(){
 			   var notice_code = $(this).next().next().next().next().next().text();	
-			   location.href="<%=ctxPath%>/hyerin/community/noticeShow.sue?notice_code="+notice_code; 
+			   location.href="<%=ctxPath%>/heajun/community/noticeView.sue?notice_code="+notice_code; 
 		   });
 		   $("td#notice_subject").click(function(){
 			   var notice_code = $(this).next().next().next().next().text();	
-			   location.href="<%=ctxPath%>/hyerin/community/noticeShow.sue?notice_code="+notice_code; 
+			   location.href="<%=ctxPath%>/heajun/community/noticeView.sue?notice_code="+notice_code; 
 		   });
-		   $("td#notice_id").click(function(){
+		   $("td#fk_userid").click(function(){
 			   var notice_code = $(this).next().next().next().text();	
-			   location.href="<%=ctxPath%>/hyerin/community/noticeShow.sue?notice_code="+notice_code; 
+			   location.href="<%=ctxPath%>/heajun/community/noticeView.sue?notice_code="+notice_code; 
 		   });
-		   $("td#notice_date").click(function(){
+		   $("td#notice_registerday").click(function(){
 			   var notice_code = $(this).next().text();	
-			   location.href="<%=ctxPath%>/hyerin/community/noticeShow.sue?notice_code="+notice_code; 
+			   location.href="<%=ctxPath%>/heajun/community/noticeView.sue?notice_code="+notice_code; 
 		   });
 		   $("td#notice_count").click(function(){
 			   var notice_code = $(this).next().next().text();	
-			   location.href="<%=ctxPath%>/hyerin/community/noticeShow.sue?notice_code="+notice_code; 
+			   location.href="<%=ctxPath%>/heajun/community/noticeView.sue?notice_code="+notice_code; 
 		   });
 		  
 		   
@@ -52,7 +52,7 @@
 </script>
 
 <div class="row container-fluid mt-5">
-	<%-- <jsp:include page="/WEB-INF/hyerin/community/communitySidebar.jsp" /> --%>
+<jsp:include page="/WEB-INF/heajun/community/communitySidebar.jsp" />
 	<div id="contents" class="col-9 ml-5">
 		<form name="notice_form">
 			<div style="font-weight:bold;">NOTICE</div>	
@@ -67,27 +67,26 @@
 					</tr>
 				</thead>
 				
-				 <tbody>
+				 <tbody id="notice_tbody">
 		         <c:forEach var="nvo" items="${requestScope.notice}">
 		            <tr>
-		               <td id="notice_code">${nvo.notice_code}</td>
-		               <td id="notice_subject">${nvo.notice_subject}</td>
-		               <td id="notice_id">${nvo.notice_id}</td>
-		               <td id="notice_date">${nvo.notice_registerday}</td>
-		               <td id="notice_count">${nvo.notice_count}</td>
-   					   <td style="display:none">${nvo.notice_code}</td>
-		            </tr>
+						<td id="notice_code" height="50px" class="text-center notice_td" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_code}</td>
+						<td id="notice_subject" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_subject}</td>
+						<td id="fk_userid" class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.fk_userid}</td>
+						<td id="notice_count" class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_count}</td>
+						<td id="notice_registerday" class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_registerday}</td>
+					</tr>
+		            
 		         </c:forEach>
 		     </tbody>
 		     
-		     
-				
-				
+		    
+			
 				
 			</table>
 		</form>
-		<div style="text-align:right;" class="my-5"><button type="button" id="notice_write" class="black" style="width:150px; height:40px; href="<%=ctxPath%>/hyerin/community/noticeWrite.sue">글쓰기</button></div>
-		<nav aria-label="Page navigation">
+		<div style="text-align:right;" class="my-5"><button type="button" id="notice_write" class="black" style="width:150px; height:40px; href="<%=ctxPath%>/heajun/community/noticeWrite.sue">글쓰기</button></div>
+		<nav aria-label="Page navigation">${requestScope.pageBar}
 		  <ul class="pagination justify-content-center pagination-sm my-5">
 		    <li class="page-item">
 		      <a class="page-link" href="#" aria-label="Previous">
@@ -106,4 +105,4 @@
 		</nav>
 	</div>
 </div>
-<%-- <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include> --%>
+ <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include> 
