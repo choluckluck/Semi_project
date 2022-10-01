@@ -11,7 +11,7 @@ import jihee.product.model.*;
 
 
 
-public class ProductHP extends AbstractController {
+public class ProductHp extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
