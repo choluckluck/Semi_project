@@ -116,12 +116,12 @@ button#btn {
 		
 		
 			$("span.error").hide();
-			$("input#fk_member_code").focus();
+			$("input#fk_userid").focus();
 			
-			$("input#fk_member_code").val("${requestScope.userid}");
-			$("input#fk_member_code").blur(function(){
+			$("input#fk_userid").val("${requestScope.userid}");
+			$("input#fk_userid").blur(function(){
 				
-				var fk_member_code = $(this).val().trim();
+				var fk_userid = $(this).val().trim();
 				if(fk_member_code == "") {
 					// 입력하지 않거나 공백만 입력한 경우
 					$("table#tbl").prop("disabled",true);
@@ -142,12 +142,13 @@ button#btn {
 				}
 				
 			});// 아이디가 fk_member_code 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+		
 			
 			
-			$("input#subject").blur(function(){
+			$("input#notice_subject").blur(function(){
 				
-				var subject = $(this).val().trim();
-				if(subject == "") {
+				var notice_subject = $(this).val().trim();
+				if(notice_subject == "") {
 					// 입력하지 않거나 공백만 입력한 경우
 					$("table#tbl :input").prop("disabled",true);
 					$(this).prop("disabled",false);
@@ -168,10 +169,10 @@ button#btn {
 				
 			});// 아이디가 subject 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 			
-			$("input#contents").blur(function(){
+			$("input#notice_contents").blur(function(){
 				
-				var contents = $(this).val().trim();
-				if(contents == "") {
+				var notice_contents = $(this).val().trim();
+				if(notice_contents == "") {
 					// 입력하지 않거나 공백만 입력한 경우
 					$("table#tbl :input").prop("disabled",true);
 					$(this).prop("disabled",false);
@@ -191,6 +192,7 @@ button#btn {
 				}
 				
 			});// 아이디가 contents 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+			
 			
 			
 			

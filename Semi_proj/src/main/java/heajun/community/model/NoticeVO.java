@@ -2,6 +2,7 @@ package heajun.community.model;
 
 import java.sql.Date;
 
+
 public class NoticeVO {
 	
 	private int notice_code;			// 공지사항 글 번호
@@ -10,7 +11,9 @@ public class NoticeVO {
 	private String notice_contents;	// 공지사항 글 내용
 	private int notice_count;		// 공지사항 글 조회수
 	private Date notice_registerday;		// 공지사항 글 작성일
-	
+	private String notice_file_1;
+	private String notice_file_2;
+	private String notice_file_3;
 	
 	public int getNotice_code() {
 		return notice_code;
@@ -47,6 +50,24 @@ public class NoticeVO {
 	}
 	public void setNotice_registerday(Date notice_registerday) {
 		this.notice_registerday = notice_registerday;
+	}
+	public String getNotice_file_1() {
+		return notice_file_1;
+	}
+	public void setNotice_file_1(String notice_file_1) {
+		this.notice_file_1 = notice_file_1;
+	}
+	public String getNotice_file_2() {
+		return notice_file_2;
+	}
+	public void setNotice_file_2(String notice_file_2) {
+		this.notice_file_2 = notice_file_2;
+	}
+	public String getNotice_file_3() {
+		return notice_file_3;
+	}
+	public void setNotice_file_3(String notice_file_3) {
+		this.notice_file_3 = notice_file_3;
 	}
 	
 	

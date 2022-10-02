@@ -42,9 +42,7 @@ public class NoticeView extends AbstractController {
 				request.setAttribute("userid", userid);
 			// *** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 *** // 
 				String goBackURL = request.getParameter("goBackURL");
-			//	System.out.println("~~~ 확인용 goBackURL => " + goBackURL);
-			//  ~~~ 확인용 goBackURL => /member/memberList.up?currentShowPageNo=5 sizePerPage=5 searchType=name searchWord=유	
-				
+			
 				request.setAttribute("goBackURL", goBackURL);
 				
 			//	super.setRedirect(false);

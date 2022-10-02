@@ -93,14 +93,15 @@ public class NoticeDAO  implements InterNoticeDAO{
 		try {
   			conn = ds.getConnection();
   			
-  			String sql = " insert into tbl_notice(notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_date) "
-  					   + " values(notice_code.nextval, ?, ?, ?, ?, default, default) ";
+  			String sql = " insert into tbl_notice(notice_code, fk_userid, notice_subject, notice_contents )"
+  					   + " values(notice_code.nextval, ?, ?, ? ) ";
   			
   			pstmt = conn.prepareStatement(sql);
   			
   			pstmt.setString(1, fk_userid);
   			pstmt.setString(2, notice_subject);
   			pstmt.setString(3, notice_contents);
+  			
   			
   	        pstmt.executeUpdate();
   	        
@@ -121,7 +122,7 @@ public class NoticeDAO  implements InterNoticeDAO{
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday "
+			String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
 					   + " from tbl_notice " 
                        + " where notice_code = ? ";
 			
@@ -140,6 +141,9 @@ public class NoticeDAO  implements InterNoticeDAO{
 	            nvo.setNotice_contents(rs.getString(4));
 	            nvo.setNotice_count(rs.getInt(5));
 	            nvo.setNotice_registerday(rs.getDate(6));
+	            nvo.setNotice_file_1(rs.getString(7));
+	            nvo.setNotice_file_2(rs.getString(8));
+	            nvo.setNotice_file_3(rs.getString(9));
 
 	        }
 			
@@ -160,9 +164,9 @@ public class NoticeDAO  implements InterNoticeDAO{
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select notice_count "+
-						 " from tbl_notice "+
-						 " where notice_code = ? ";
+			String sql = " select notice_count " +
+						 " from tbl_notice " +
+						 " where notice_code = ? " ;
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -204,7 +208,7 @@ public class NoticeDAO  implements InterNoticeDAO{
 			
 			String sql = " select ceil(count(*)/10) " 
 						+ "from tbl_notice "
-						+ " where notice_code = ? "; 
+						+ " where fk_userid = 'null' " ; 
 		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, notice_code);
@@ -230,9 +234,9 @@ public class NoticeDAO  implements InterNoticeDAO{
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday "
+			String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
 						+ "from tbl_notice "
-						+ "order by notice_code asc "; 
+						+ "order by notice_code asc " ; 
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -246,6 +250,10 @@ public class NoticeDAO  implements InterNoticeDAO{
 				map.put("notice_contents", rs.getString(4));
 				map.put("notice_count", rs.getString(5));
 				map.put("notice_registerday", rs.getString(6));
+				map.put("notice_file_1", rs.getString(7));
+				map.put("notice_file_2", rs.getString(8));
+				map.put("notice_file_3", rs.getString(9));
+				
 				
 				notice.add(map);
 			}
@@ -265,19 +273,17 @@ public class NoticeDAO  implements InterNoticeDAO{
 		try {
 	        conn = ds.getConnection();
 	        
-	        String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday " +
-	        		" from " +
-	        		" ( " +
-	        		"    select rownum AS RNO, notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday " +
-	        		"    from " +
-	        		"    ( " +
-	        		"        select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday " +
-	        		"        from tbl_notice " +
-	        		"        where fk_userid != ' null ' " +
-	        		"        order by notice_registerday desc " +
-	        		"    ) V " +
-	        		" )T " +
-	        		" where RNO between ? and ? " ;
+	        String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday  " +
+	        		"	        		 from ( " +
+	        		"	        		    select rownum AS notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday " +
+	        		"	        		    from( " +
+	        		"	        		        select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday  " +
+	        		"	        		        from tbl_notice  " +
+	        		"                            where fk_userid != ' null '  " +
+	        		"	        		   ) V " +
+	        		"	        		 )T " +
+	        		"	        		 where notice_code between ? and ? " +
+	        		"                       order by notice_code ASC " ;
 			
 	       
 	        
@@ -298,12 +304,14 @@ public class NoticeDAO  implements InterNoticeDAO{
 				
 				NoticeVO nvo = new NoticeVO();
 	             
-				nvo.setNotice_code(rs.getInt("notice_code"));
-				nvo.setFk_userid(rs.getString("fk_userid"));
-				nvo.setNotice_subject(rs.getString("notice_subject"));
-				nvo.setNotice_contents(rs.getString("notice_contents"));
-				nvo.setNotice_registerday(rs.getDate("notice_registerday"));
-				nvo.setNotice_count(rs.getInt("notice_count"));
+				nvo.setNotice_code(rs.getInt(1));
+				nvo.setFk_userid(rs.getString(2));
+				nvo.setNotice_subject(rs.getString(3));
+				nvo.setNotice_contents(rs.getString(4));
+				nvo.setNotice_count(rs.getInt(5));
+				nvo.setNotice_registerday(rs.getDate(6));
+				
+				
 				
 				notice.add(nvo);
 				

@@ -17,6 +17,10 @@
 		$("div#sidebar_notice").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
+		//커뮤니티사이드바_커뮤니티 클릭 이벤트
+		$("div#sidebar_qna").click(function(){
+			location.href="<%= ctxPath%>/heajun/community/qnalist.sue";
+		});
 		
 		
 		const frm = document.notice_contents_form;
@@ -29,15 +33,22 @@
 		});
 		
 		//등록버튼 클릭이벤트 => 자기가 작성한 글 페이지로
+		$("input#fk_userid").val("${requestScope.userid}");
 		$("button#notice_submit").click(function(){
 			
 			
 			var frm = document.registerFrm;
-			frm.action = "noticeView.sue";
+			frm.action = "<%=ctxPath%>heajun/community/noticeView.sue";
 			frm.method = "post";
 			frm.submit();
 			
 		});
+		
+
+		
+		
+		
+		
 		
 		
 		//취소버튼 클릭이벤트
@@ -62,6 +73,7 @@
 				<tr>
 					<td class="col-1 align-middle">제목</td>
 					<td class="col-11"><input name="subject" type="text" class="form-control" placeholder="제목을 입력하세요"/></td>
+					
 				</tr>
 				<tr>
 					<td colspan="2" class="clear">

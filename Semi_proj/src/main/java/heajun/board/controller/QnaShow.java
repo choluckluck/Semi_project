@@ -10,7 +10,7 @@ import heajun.board.model.QnaDAO;
 import heajun.board.model.QnaVO;
 import heajun.member.model.MemberVO;
 
-public class Qnashow extends AbstractController {
+public class QnaShow extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -48,7 +48,7 @@ public class Qnashow extends AbstractController {
 				request.setAttribute("goBackURL", goBackURL);
 				
 			//	super.setRedirect(false);
-				super.setViewPage("/WEB-INF/board/qnaShow.jsp");
+				super.setViewPage("/WEB-INF/heajun/board/qnaShow.jsp");
 
 			
 			} else {
@@ -60,10 +60,10 @@ public class Qnashow extends AbstractController {
 			request.setAttribute("loc", loc);
 			
 		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/msg.jsp");	
+			super.setViewPage("/WEB-INF/error/msg.jsp");	
 		}
 		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/heajun/board/qnashow.jsp");
+		super.setViewPage("/WEB-INF/heajun/board/qnaShow.jsp");
 	}
 
 }
