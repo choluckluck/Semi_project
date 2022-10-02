@@ -15,7 +15,7 @@ public interface InterNoticeDAO {
 	// 글 클릭했을때 조회수 받아오는 메소드
 	void noticeCnt(String notice_code)throws Exception;
 
-	// 페이지바를 만들기 위해서 특정카테고리의 제품개수에 대한 총페이지수 알아오기
+	// 페이지바를 만들기 위해서 공지글에 대한 총페이지수 알아오기
 	int getTotalPage(String notice_code)throws Exception;
 
 	

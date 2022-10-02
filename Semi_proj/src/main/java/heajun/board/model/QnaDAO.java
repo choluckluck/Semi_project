@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -188,6 +190,19 @@ public class QnaDAO implements InterQnaDAO {
 	      }
 	      
 	return qvo;
+	}
+
+	// 페이지바를 만들기 위해서 문의글 대한 총페이지수 알아오기
+	@Override
+	public int getTotalPage(String qna_code) throws Exception {
+		return 0;
+	}
+
+	//공지사항에 속하는 글들을 페이지바를 사용해 페이징 처리하여 조회(select)해오기
+	@Override
+	public List<QnaVO> selectPagingQnaList(Map<String, String> paraMap) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

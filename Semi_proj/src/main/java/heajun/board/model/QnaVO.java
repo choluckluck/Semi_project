@@ -6,7 +6,7 @@ public class QnaVO {
 
 	private int qna_code;			// qna 글 번호
 	private String fk_member_code;	// qna 글 작성자
-	private String category;	// qna 글 카테고리
+	private String category;		// qna 글 카테고리
 	private String subject;			// qna 글 제목
 	private String contents;		// qna 글 내용
 	private Date registerday;		// qna 글 등록 일자
@@ -14,6 +14,8 @@ public class QnaVO {
 	private String file_2;	    	// file_2
 	private String file_3;	        // file_3
 	private String answer_yn;	    // 답변여부
+	
+	
 	////////////////////////////////////////////////////////////////////////////////////////
 	public int getQna_code() {
 		return qna_code;
