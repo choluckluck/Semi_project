@@ -280,8 +280,8 @@ public class ProductDAO implements InterProductDAO {
 			 
 			 }
 			 
-			 System.out.println("searchColor DAO 확인용 :"
-			 			+ " " +green +"\n" +yellow +"\n" + red +"\n" + black + yellow+ "brown :" +brown+ silver + orange + pink);
+			// System.out.println("searchColor DAO 확인용 :"
+			 //			+ " " +green +"\n" +yellow +"\n" + red +"\n" + black + yellow+ "brown :" +brown+ silver + orange + pink);
 				
 				
 			 
@@ -322,10 +322,22 @@ public class ProductDAO implements InterProductDAO {
 				 
 			 }
 			 
-			 System.out.println("SIZE DAO 확인용 :"
-					 			+ s220 +"\n"+ s225 +"\n" +s230 +"\n" + s235 +"\n");
+			// System.out.println("SIZE DAO 확인용 :"
+			//		 			+ s220 +"\n"+ s225 +"\n" +s230 +"\n" + s235 +"\n");
 			
-			
+					 			
+			//1-5 select option 선택시
+			 
+			 String selectItem = paraMap.get("selectItem");
+			 
+			 
+			 if (selectItem.equals("popularityitem")) {
+				 
+				 selectItem = "나";
+			 }
+					 			
+			//////// 여기할 차례
+			 
 			sql += " and (  prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " +
 					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " +  
 					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " + 

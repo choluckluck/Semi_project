@@ -277,6 +277,8 @@ a:active {text-decoration: none; color: gray;}
 		frm.action = "productHp.sue";
 		frm.submit();
 	}
+	
+
 </script>			
     
 <div style="margin-top: 10%">

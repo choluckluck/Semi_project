@@ -197,7 +197,7 @@ public class ProductHp extends AbstractController {
 		String AquamarineColor = request.getParameter("AquamarineColor");	
 		
 		
-		System.out.println("확인용 controllor :" +redColor);
+		// System.out.println("확인용 controllor :" +redColor);
 		
 		String checkword="나나";
 		//null값으로 들어오면 100 넣어주기
@@ -348,6 +348,17 @@ public class ProductHp extends AbstractController {
 		request.setAttribute("Size250", Size250);
 		request.setAttribute("Size255", Size255);
 	
+		//2-4 select option 가져오기
+		
+		String selectItem = request.getParameter("selectItem");
+		
+		paraMap.put("selectItem", selectItem);
+		
+		request.setAttribute("selectItem", selectItem);
+		
+		
+		
+		System.out.println("확인용 select : " +selectItem);
 		
 		//2- 상품목록 가져오기/////////////////////////////////////////////////////////////
 		List<ProductVO> productList = pdao.selectProductAll(paraMap);
@@ -355,6 +366,7 @@ public class ProductHp extends AbstractController {
 		request.setAttribute("productList", productList);
 		request.setAttribute("sizePerPage", sizePerPage);
 		request.setAttribute("searchWord", searchWord);
+		
 		
 		
 	//-----------------------------------------------------------------------------------------

@@ -231,8 +231,62 @@ order by RNO desc;
 --------------------------------------
 
 --혜린이꺼 수정 (상품 SQL )
+select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_color,prod_price,prod_size, prod_registerday,nvl(review_count, 0) as review_count, prod_saleprice, rownum AS RNO, nvl(prod_order_count,0) as prod_order_count
+from(
+select PO.prod_code, P.prod_color, P.prod_size, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, nvl(review_count, 0) as review_count ,rownum AS RNO, nvl(prod_order_count,0) as prod_order_count
+from tbl_product PO
+JOIN
+(
+    select prod_code, LISTAGG(P.prod_color,',') WITHIN GROUP (ORDER BY P.prod_color) AS prod_color
+        ,LISTAGG(P.prod_size,',') WITHIN GROUP (ORDER BY P.prod_size) AS prod_size 
+    from
+    (
+        select distinct prod_code, prod_color, prod_size
+        from tbl_product
+        join
+        tbl_prod_detail
+        on prod_code = fk_prod_code
+    ) P
+    group by prod_code
+) P
+ON PO.prod_code = P.prod_code
+LEFT JOIN
+(
+    select fk_prod_code, count(*) as review_count
+    from tbl_review
+    group by fk_prod_code
+) R
+ON R.fk_prod_code = P.prod_code
+LEFT JOIN 
+(
+    select fk_prod_code, count(*) as prod_order_count  
+    from tbl_order_detail
+    group by fk_prod_code
+)OD
+ON OD.fk_prod_code = R.fk_prod_code
+where prod_kind like '%' and prod_name like '%' and prod_price between 1 and 5000000
+and (prod_color like '%r%' or prod_color like '%%' or prod_color like '%나나%')
+and (prod_size like '%%' or prod_size like '%나나%')
+order by prod_price desc
+)
+where RNO between 1 and 90
+order by RNO desc;
+-------------------------------------
 
-select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_color,prod_price,prod_size, prod_registerday,nvl(review_count, 0) as review_count, prod_saleprice, rownum AS RNO
+select *
+from tbl_order_detail;
+
+desc tbl_order_detail;
+
+select *
+from tbl_order_detail;
+---데이터 1개넣음
+
+insert into tbl_order_detail(FK_ORDER_CODE ,FK_PROD_CODE, ORDER_BUY_COUNT ,ORDER_PRICE )  values('ord-0001', 'prod-0062', 1, 17000);
+
+commit;
+
+select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_color,prod_price,prod_size, prod_registerday,nvl(review_count, 0) as review_count, prod_saleprice, rownum AS RNO,nvl(prod_order_count,0) as prod_order_count
 from(
 select PO.prod_code, P.prod_color, P.prod_size, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, nvl(review_count, 0) as review_count ,rownum AS RNO
 from tbl_product PO
@@ -257,14 +311,65 @@ LEFT JOIN
     from tbl_review
     group by fk_prod_code
 ) R
-ON fk_prod_code = P.prod_code
+ON R.fk_prod_code = P.prod_code
+left JOIN 
+(
+    select fk_prod_code, count(*) as prod_order_count
+    from tbl_order_detail
+    group by fk_prod_code
+)OD
+ON R.fk_prod_code = OD.fk_prod_code
 where prod_kind like '%' and prod_name like '%' and prod_price between 1 and 5000000
-and (prod_color like '%red%' or prod_color like '%red%' or prod_color like '%나나%')
+and (prod_color like '%r%' or prod_color like '%%' or prod_color like '%나나%')
 and (prod_size like '%%' or prod_size like '%나나%')
-order by prod_registerday
+order by prod_price desc
 )
 where RNO between 1 and 90
 order by RNO desc;
+
+--------연습
+
+select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_color,prod_price,prod_size, prod_registerday,nvl(review_count, 0) as review_count, prod_saleprice, rownum AS RNO, nvl(prod_order_count,0) as prod_order_count
+from(
+select PO.prod_code, P.prod_color, P.prod_size, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, nvl(review_count, 0) as review_count ,rownum AS RNO, nvl(prod_order_count,0) as prod_order_count
+from tbl_product PO
+JOIN
+(
+    select prod_code, LISTAGG(P.prod_color,',') WITHIN GROUP (ORDER BY P.prod_color) AS prod_color
+        ,LISTAGG(P.prod_size,',') WITHIN GROUP (ORDER BY P.prod_size) AS prod_size 
+    from
+    (
+        select distinct prod_code, prod_color, prod_size
+        from tbl_product
+        join
+        tbl_prod_detail
+        on prod_code = fk_prod_code
+    ) P
+    group by prod_code
+) P
+ON PO.prod_code = P.prod_code
+LEFT JOIN
+(
+    select fk_prod_code, count(*) as review_count
+    from tbl_review
+    group by fk_prod_code
+) R
+ON R.fk_prod_code = P.prod_code
+LEFT JOIN 
+(
+    select fk_prod_code, count(*) as prod_order_count  
+    from tbl_order_detail
+    group by fk_prod_code
+)OD
+ON OD.fk_prod_code = R.fk_prod_code
+where prod_kind like '%' and prod_name like '%' and prod_price between 1 and 5000000
+and (prod_color like '%r%' or prod_color like '%%' or prod_color like '%나나%')
+and (prod_size like '%%' or prod_size like '%나나%')
+order by prod_price desc
+)
+where RNO between 1 and 90
+order by RNO desc;
+    
 ------------------------------
 select a.PROD_CODE, a.PROD_NAME, a.PROD_PRICE, 'white' ||','|| 'green'  as color from tbl_product a
     inner join tbl_prod_detail b on a.PROD_CODE = b.fk_prod_code
@@ -276,13 +381,10 @@ new 혜린 친구 ver 최고최고최고
 
 
 select PROD_CODE, PROD_NAME, PROD_PRICE, LISTAGG(prod_color,',') WITHIN GROUP (ORDER BY prod_color) AS prod_color
->>>>>>> refs/heads/jihee
 from
-<<<<<<< HEAD
 (select rownum AS RNO ,prod_code, prod_name, prod_kind, prod_image
     ,prod_high, prod_color ,prod_size, prod_price, prod_stock
     ,prod_registerday, nvl(prod_review_count,'0') as prod_review_count
-=======
 (
     select a.PROD_CODE, a.PROD_NAME, a.PROD_PRICE, b.prod_color
     from tbl_product a
