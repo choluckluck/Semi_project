@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -14,6 +15,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import hyerin.product.model.ProductVO;
+import hyerin.review.model.ReviewVO;
 
 public class MemberDAO implements InterMemberDAO {
 	private DataSource ds;	//DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool)
@@ -75,4 +77,147 @@ public class MemberDAO implements InterMemberDAO {
 		return wish_check_result;
 		
 	}//end of selectLikeProduct
+
+	
+	//////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// **** 관리자 페이지 **** // 
+	
+	//조회해올 회원의 총 페이지수 구하기
+	@Override
+	public int getTotalMemberPage(Map<String, String> paraMap) throws SQLException {
+		int totalMemberPage = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select ceil(count(*)/10) " +
+						 " from tbl_member ";
+				
+			String memberSort = paraMap.get("memberSort"); //all, fk_userid, prod_name, review_registerday 
+			String searchword = paraMap.get("searchword");
+			
+			//검색어를 입력한경우
+			if( searchword != null && !searchword.trim().isEmpty() ) {
+				//정렬이 선택되어있는 경우
+				if(!(memberSort == null || "all".equals(memberSort))) {
+					sql += " where "+ memberSort +" like '%'||?||'%' ";
+				}
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			if( searchword != null && !searchword.trim().isEmpty() ) {
+				if(!(memberSort == null || "all".equals(memberSort))) {
+					pstmt.setString(1, searchword);
+				}
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			totalMemberPage = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		
+		
+		return totalMemberPage;
+	}
+	
+	
+	
+	// 페이징 처리한 검색이 있는, 또는 없는 회원목록 조회(select)
+	@Override
+	public List<MemberVO> selectPaginMember(Map<String, String> paraMap) throws SQLException {
+		List<MemberVO> mvoList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, grade_code, point, account_name, bank_name, account, to_char(registerday,'yyyy-mm-dd') as registerday, status, idle\n"+
+						"from\n"+
+						"(\n"+
+						"    select rownum as rno, userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, grade_code, point, account_name, bank_name, account, registerday, status, idle\n"+
+						"    from tbl_member\n"+
+						")\n"+
+						"where rno between ? and ?";
+			
+			String memberSort = paraMap.get("memberSort"); //all, userid, name, email 
+			String searchword = paraMap.get("searchword");
+			
+			//검색어를 입력한경우
+			if( searchword != null && !searchword.trim().isEmpty() ) {
+				//정렬이 선택되어있는 경우
+				if(!(memberSort == null || "all".equals(memberSort))) {
+					sql = "select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, grade_code, point, account_name, bank_name, account, to_char(registerday,'yyyy-mm-dd') as registerday, status, idle\n"+
+							"from\n"+
+							"(\n"+
+							"    select rownum as rno, userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, grade_code, point, account_name, bank_name, account, registerday, status, idle\n"+
+							"    from tbl_member\n"+
+							" where " + memberSort + " like '%'||?||'%' "+
+							")\n"+
+							"where rno between ? and ?";
+				}
+			}
+			sql += " order by registerday desc ";
+			
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(2, (currentShowPageNo*sizePerPage));
+			
+			//검색어를 입력한경우
+			if( searchword != null && !searchword.trim().isEmpty() ) {
+				//정렬이 선택되어있는 경우
+				if(!(memberSort == null || "all".equals(memberSort))) {
+					pstmt.setString(1, searchword);
+					pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(3, (currentShowPageNo*sizePerPage));
+				}
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				MemberVO mvo = new MemberVO();
+				
+				mvo.setUserid(rs.getString(1));
+				mvo.setName(rs.getString(2));
+				mvo.setEmail(rs.getString(3));
+				mvo.setMobile(rs.getString(4));
+				mvo.setPostcode(rs.getString(5));
+				mvo.setAddress(rs.getString(6));
+				mvo.setDetailaddress(rs.getString(7));
+				mvo.setExtraaddress(rs.getString(8));
+				mvo.setGender(rs.getString(9));
+				mvo.setBirthday(rs.getString(10));
+				mvo.setGrade_code(rs.getString(11));
+				mvo.setPoint(rs.getString(12));
+				mvo.setAccount_name(rs.getString(13));
+				mvo.setBank_name(rs.getString(14));
+				mvo.setAccount(rs.getString(15));
+				mvo.setRegisterday(rs.getString(16));
+				mvo.setStatus(rs.getString(17));
+				mvo.setIdle(rs.getString(18));
+				
+				mvoList.add(mvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return mvoList;
+	}
+	
 }

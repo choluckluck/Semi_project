@@ -270,24 +270,44 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
+			String prodSortbyKind = paraMap.get("prodSortbyKind");
+			String searchword = paraMap.get("searchword");
+			
 			String sql = " select ceil(count(*)/5) "+
 						 " from v_tbl_product ";			
 			
-			String byKind = paraMap.get("byKind");
-			//String product_search = paraMap.get("product_search");
-			
-			// 정렬할 셀렉트박스의 값이 null 이 아니고 기본값인 product_kind가 아닐 경우
-			
-			
-			if(byKind != null && !"product_kind".equals(byKind) && !"all".equals(byKind)) {  
+			// 상품종류로 정렬했을 경우
+			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
 				sql += " where prod_kind = ? ";
+				
+				//검색어가 있을 경우
+				if(!"".equals(searchword)) {
+					sql += " and prod_name like '%'||?||'%' ";
+				}
+			}
+			//정렬하지 않았을 경우
+			else {
+				//검색어가 있을 경우
+				if(!"".equals(searchword)) {
+					sql += " where prod_name like '%'||?||'%' ";
+				}
 			}
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			if(byKind != null && !"product_kind".equals(byKind)&& !"all".equals(byKind)) {  
-				pstmt.setString(1, byKind);
+			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
+				pstmt.setString(1, prodSortbyKind);
+				
+				if(!"".equals(searchword)) {
+					pstmt.setString(2, searchword);
+				}
 			}
+			else {
+				if(!"".equals(searchword)) {
+					pstmt.setString(1, searchword);
+				}
+			}
+			
 			
 			rs = pstmt.executeQuery();
 			
@@ -305,7 +325,7 @@ public class ProductDAO implements InterProductDAO {
 	
 	// 첫 화면일때는 모든 상품정보를, 셀렉트박스를 변경했을때는 선택한 종류의 상품정보를 조회(select)
 	@Override
-	public List<ProductVO> selectProductByKind(Map<String, String> paraMap) throws SQLException {
+	public List<ProductVO> selectPagingProductByKind(Map<String, String> paraMap) throws SQLException {
 		List<ProductVO> pvoList = new ArrayList<>();
 		
 		try {
@@ -313,47 +333,71 @@ public class ProductDAO implements InterProductDAO {
 			conn = ds.getConnection();
 			
 			
-			String byKind = paraMap.get("byKind");
+			String prodSortbyKind = paraMap.get("prodSortbyKind");
+			String searchword = paraMap.get("searchword");
 			
-
 			String sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
-							"from \n"+
-							"(\n"+
-							"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
-							"    from v_tbl_product\n"+
-							")\n"+
-							"where rno between ? and ?";
+					"from \n"+
+					"(\n"+
+					"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
+					"    from v_tbl_product\n";
 			
-			if(byKind != null && !"product_kind".equals(byKind) && !"all".equals(byKind)) {
-
-				sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
-						"from \n"+
-						"(\n"+
-						"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
-						"    from v_tbl_product\n"+
-						"    where prod_kind = ?"+
-						")\n"+
-						"where rno between ? and ?";
+			// 상품종류로 정렬했을 경우
+			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
+				//검색어가 있을 경우
+				if(!"".equals(searchword)) {
+					sql += " where prod_kind = ? and prod_name like '%'||?||'%' ";
+				}
+				//없을경우
+				else {
+					sql += " where prod_kind = ? ";
+				}
 			}
+			//정렬하지 않았을 경우
+			else {
+				//검색어가 있을 경우
+				if(!"".equals(searchword)) {
+					sql += " where prod_name like '%'||?||'%' ";
+				}
+			}
+			
+			sql += ")\n"+
+					"where rno between ? and ?";
+			
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-			int sizePerPage = 5;
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
-			if(byKind != null && !"product_kind".equals(byKind) && !"all".equals(byKind)) {
-				pstmt.setString(1, byKind);
-				pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
-				pstmt.setInt(3, (currentShowPageNo*sizePerPage));
+			// 상품종류로 정렬했을 경우
+			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
+				if(!"".equals(searchword)) {
+					pstmt.setString(1, prodSortbyKind);
+					pstmt.setString(2, searchword);
+					pstmt.setInt(3, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(4, (currentShowPageNo*sizePerPage));
+				}
+				else {
+					pstmt.setString(1, prodSortbyKind);
+					pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(3, (currentShowPageNo*sizePerPage));
+				}
 			}
 			else {
-				pstmt.setInt(1, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
-				pstmt.setInt(2, (currentShowPageNo*sizePerPage));
-				
+				if(!"".equals(searchword)) {
+					pstmt.setString(1, searchword);
+					pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(3, (currentShowPageNo*sizePerPage));
+				}
+				else {
+					pstmt.setInt(1, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(2, (currentShowPageNo*sizePerPage));
+				}
 			}
 			
-			
 			rs = pstmt.executeQuery();
+			
 			
 			while(rs.next()) {
 				
@@ -373,6 +417,7 @@ public class ProductDAO implements InterProductDAO {
 				
 			}
 			
+			
 		} finally {
 			close();
 		}
@@ -382,49 +427,39 @@ public class ProductDAO implements InterProductDAO {
 
 	
 	
-	// 셀렉트박스 조건과 검색조건을 실행한 상품 보여주기
-//	@Override
-//	public List<ProductVO> selectProduct(Map<String, String> paraMap) throws SQLException {
-//		List<ProductVO> pvoList = new ArrayList<>();
-//		
-//		try {
-////			conn = ds.getConnection();
-////			
-////			String byRegisterdayOrders = paraMap.get("byRegisterdayOrders"); //첫번째 셀렉트박스값
-////			String byKind = paraMap.get("byKind"); //두번째 셀렉트박스값
-////			String searchName = paraMap.get("searchName"); //검색어
-////			
-////			String sql = "";
-////			
-//////			
-//////			
-////			pstmt = conn.prepareStatement(sql);
-////			
-////			if( !(byRegisterdayOrders==null || "latest".equals(byRegisterdayOrders)) && !(byKind==null || "latest".equals(byKind)) ) {
-////				pstmt.setString(1, byKind);
-////			}
-////			
-////			rs = pstmt.executeQuery();
-////			
-////			while(rs.next()) {
-////				ProductVO pvo = new ProductVO();
-////				pvo.setProd_code(rs.getString(1));
-////				pvo.setProd_kind(rs.getString(2));
-////				pvo.setProd_image(rs.getString(3));
-////				pvo.setProd_name(rs.getString(4));
-////				pvo.setProd_price(rs.getString(5));
-////				pvo.setProd_stock(rs.getString(6));
-////				pvo.setMd_pick_yn(rs.getString(7));
-////				
-////				pvoList.add(pvo);
-////			}
-////			
-////		} finally {
-////			close();
-////		}
-//		
-//		return pvoList;
-//	}//end of selectProductByLatest
+	
+	//상품종류 목록을 가져오기
+	@Override
+	public List<String> selectProdKindList() throws SQLException {
+		List<String> prodKindList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select distinct prod_kind "
+					   + " from tbl_product ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				prodKindList.add(rs.getString(1));
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return prodKindList;
+	}//end of selectProdKindList
+
+	
+	
+	
+
+	
 	
 	
 	

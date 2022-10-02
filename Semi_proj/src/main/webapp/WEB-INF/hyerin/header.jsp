@@ -27,6 +27,9 @@
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
 	<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
 	
+	<%-- Font Awesome 5 Icons --%>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	
 	<script>
 	$(document).ready(function(){
 		//header_search 입력박스는 처음에 안보이게 한다
