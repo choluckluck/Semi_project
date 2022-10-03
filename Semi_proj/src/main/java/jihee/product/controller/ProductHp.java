@@ -352,9 +352,16 @@ public class ProductHp extends AbstractController {
 		
 		String selectItem = request.getParameter("selectItem");
 		
+		
+		if (selectItem == null) {
+			selectItem = "popularityitem";
+		}
+		
 		paraMap.put("selectItem", selectItem);
 		
 		request.setAttribute("selectItem", selectItem);
+		
+		System.out.println("java 확인용2 : " +selectItem);
 		
 		
 		
