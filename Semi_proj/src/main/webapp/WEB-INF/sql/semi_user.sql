@@ -961,7 +961,7 @@ commit;
 
 --- 주소록 프로시저
 
-create or replace procedure pcd_tbl_address_book
+create or replace procedure pcd_tbl_addressbook
 (p_AB_NAME in varchar2
 ,p_AB_RECIPIENT in varchar2
 ,p_AB_RECEIVER_TEL in varchar2
@@ -972,10 +972,16 @@ create or replace procedure pcd_tbl_address_book
 is
 begin
 for i in 1..5 loop
-insert into tbl_address_book(AB_CODE , AB_NAME , AB_RECIPIENT , AB_RECEIVER_TEL , AB_ADDRESS, AB_ADDRESS_DETAIL,FK_USERID )
-values(add-||lpad(seq_product_code.nextval,4,0), p_AB_NAME , p_AB_RECIPIENT, p_AB_RECEIVER_TEL, p_AB_ADDRESS, p_AB_ADDRESS_DETAIL, p_FK_USERID);
+insert into tbl_addressbook(AB_CODE , AB_NAME , AB_RECIPIENT , AB_RECEIVER_TEL , AB_ADDRESS, AB_ADDRESS_DETAIL,FK_USERID )
+values('add-'||lpad(SEQ_address_book_CODE.nextval,4,0), p_AB_NAME , p_AB_RECIPIENT, p_AB_RECEIVER_TEL||i, p_AB_ADDRESS, p_AB_ADDRESS_DETAIL, p_FK_USERID);
 end loop;
-end pcd_tbl_address_book;
+end pcd_tbl_addressbook;
+
+exec pcd_tbl_addressbook('직장','최지희','02-433-433','경기도','파주','choejh1');
+commit;
+
+
+DROP PROCEDURE pcd_tbl_addressbook;
 
 add-0001
 
@@ -992,7 +998,7 @@ select *
 from tbl_member;
 
 select *
-from tbl_order_detail;
+from tbl_addressbook;
 
 desc tbl_addressbook;
 
