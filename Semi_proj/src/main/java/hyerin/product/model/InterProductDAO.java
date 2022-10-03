@@ -31,12 +31,12 @@ public interface InterProductDAO {
 	List<ProductVO> selectPagingProductByKind(Map<String, String> paraMap) throws SQLException;
 	
 	
-	
-	
 	// * 상품 등록 * 
 	
 	//상품종류 목록을 가져오기
 	List<String> selectProdKindList() throws SQLException;
+	
+	
 
 	
 	

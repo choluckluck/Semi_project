@@ -101,7 +101,7 @@
 			success:function(json){
 				
 				console.log(json);
-				let html = "";
+				let html = '';
 				//첫화면이거나 조회된 상품정보가 있는 경우
 				if ( json.length > 1 ){
 					//상품정보 조회해오기
@@ -110,26 +110,68 @@
 							$("#pageBar").html(item.pageBar);
 						}
 						else{
-							 
-							html += "<tr>"+
-										"<td height='160px' class='admin_productList_tbody text-center'><input type='checkbox' id='"+item.prod_code+"_chx' name='productList_chx'/></td>"+
-										"<td height='160px' class='admin_productList_tbody text-center'>"+item.prod_code+"</td>"+
-										"<td class='text-center admin_productList_tbody'>"+item.prod_kind+"</td>"+
-										"<td class='text-center admin_productList_tbody'><img id='admin_product_img_1' height='150px' src='/Semi_proj/images/product/"+item.prod_kind+"/"+item.prod_image+"'></td>"+
-										"<td class='text-center admin_productList_tbody'>"+item.prod_name+"</td>"+
-										"<td class='text-center admin_productList_tbody'>"+item.prod_price+"</td>"+
-										"<td class='text-center admin_productList_tbody'>"+item.prod_saleprice+"</td>"+
-										"<td class='text-center admin_productList_tbody'>"+
-											"<div><select class='productSortDetail prod_color_select'>"+
-												"<option value='prod_color' selected>색상</option>"+
-												"<c:forTokens var='color' items='"+item.prod_color+"' delims=','>"+
-													"<option value='${color}'>${color}</option>"+
-												"</c:forTokens>"+ 
-												"</select></div>"+
-										"<td class='text-center admin_productList_tbody'><input type='checkbox' id='"+item.prod_code+"_md' name='"+item.prod_code+"_md'/></td>"+
-										"<td class='text-center admin_productList_tbody'><button id='admin_productedit_btn' type='button' class='white' style='height:30px; width:80%;' onclick='product_edit(\""+item.prod_code+"\");'>수정</button></td>"+
-										"<td class='text-center admin_productList_tbody'><button id='admin_productDelete_btn' type='button' class='black' style='height:30px; width:80%;'>삭제</button></td>"+
-									"</tr>";
+							
+							//prod_price와 prod_saleprice에 세자리수마다 , 찍기
+							var price = item.prod_price;
+							var saleprice = item.prod_saleprice;
+							
+							var regexp = /\B(?=(\d{3})+(?!\d))/g;
+							if(price != 0){
+								var price = price.toString().replace(regexp, ',');
+							}
+							if(saleprice != 0){
+								var saleprice = saleprice.toString().replace(regexp, ',');
+							}
+							
+							
+							//prod_color => ,로 잘라서 배열에 담아주기
+							var prod_color = item.prod_color;
+							var prod_colorList = prod_color.split(",");
+							
+							var colorHtml = '';
+							for(var value of prod_colorList){
+								colorHtml += '<option value="'+value+'">'+value+'</option>';
+							}
+							
+							//재고량을 위한 색상, 사이즈 별 구분
+							/*
+							var stock_color = item.stock_color;
+							var stock_colorlist = stock_color.split(",");
+							
+							var stock_size = item.stock_size;
+							var stock_sizelist = stock_size.split(",");
+							
+							var stock = item.stock;
+							var stocklist = stock.split(",");
+							
+							console.log (stock_colorlist);
+							
+							var stockresult = [];
+							for(int i=0; i<stock_colorlist.length; i++){
+								stockresult.push(stock)
+							}
+							 */
+							
+							
+							
+							html += '<tr>'+
+										'<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="'+item.prod_code+'_chx" name="productList_chx"/></td>'+
+										'<td height="160px" class="admin_productList_tbody text-center">'+item.prod_code+'</td>'+
+										'<td class="text-center admin_productList_tbody">'+item.prod_kind+'</td>'+
+										'<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="/Semi_proj/images/product/'+item.prod_kind+'/'+item.prod_image+'"/></td>'+
+										'<td class="text-center admin_productList_tbody">'+item.prod_name+'</td>'+
+										'<td class="text-center admin_productList_tbody">'+price+'</td>'+
+										'<td class="text-center admin_productList_tbody">'+saleprice+'</td>'+
+										'<td class="text-center admin_productList_tbody">'+
+											'<div><select id="color_'+item.prod_code+'" class="productSortDetail prod_color_select">'+
+												'<option value="prod_color" selected>색상</option>'+
+													colorHtml + 
+												'</select></div>'+
+												'<div><select id="size_'+item.prod_code+'"></select></div>'+
+										'<td class="text-center admin_productList_tbody"><input type="checkbox" id="'+item.prod_code+'" name="'+item.prod_code+'"/></td>'+
+										'<td class="text-center admin_productList_tbody"><button id="admin_productedit_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_edit(\''+item.prod_code+'\');">수정</button></td>'+
+										'<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>'+
+									'</tr>';
 						}
 						
 					});//end of $.each
@@ -142,7 +184,7 @@
 				
 				// 조회된 상품정보가 없을 경우
 				else if (json.length == 1){
-					html += "<tr><td colspan='11'>조회된 상품정보가 없습니다.</td></tr>";
+					html += '<tr><td colspan="11">조회된 상품정보가 없습니다.</td></tr>';
 					$("#productList_content").html(html);
 				}
 				

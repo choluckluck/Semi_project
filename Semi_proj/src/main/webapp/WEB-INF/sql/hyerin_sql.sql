@@ -1,14 +1,3 @@
-show user;
-
-select * from tab;
-
-select * from tbl_member 
-
-
-
-desc tbl_product
-
-select 
 
 
 create or replace procedure pcd_product_insert
@@ -52,26 +41,6 @@ desc TBL_REVIEW
 
 
 
-insert into tbl_review values('review0001','jinhr1','귀엽당','귀여운듯 잘산듯요ㅋㅋ',sysdate,null,null,null,'5','sneakers0009');
-
-insert into tbl_review values('review0002','jinhr1','이건좀...','아.. 제발... 개별루..ㅠ 비추합니다',sysdate,null,null,null,'1','sneakers0009');
-
-insert into tbl_review values('review0003','jinhr2','ㄱㅊㄱㅊ 적당히추천','ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ내용채우깅ㅇㅇㅇ',sysdate,null,null,null,'4','sneakers0008');
-
-insert into tbl_review values('review0004','jinhr3','예뿌네용','이거신고 나가니까 애들이 칭찬해줌ㅎㅎㅎ',sysdate,null,null,null,'4','sneakers0007');
-
-insert into tbl_review values('review0005','jinhr4','귀여워요ㅎㅎㅎ^^','잘신을게요~',sysdate,null,null,null,'5','sneakers0006');
-
-
-commit;
-
-select * from tbl_review
-
-select * from tbl_member
-
-select * from tbl_product order by prod_registerday desc;
-
-
 update tbl_product set prod_image = 'sneakers10.jpg'
 where prod_code = 'sneakers0010'
 
@@ -92,26 +61,6 @@ order by prod_registerday desc;
 
 
 
-update tbl_product set prod_color = 'yellow,red'
-where prod_code = 'sneakers0006';
-commit;
-
-
-select * from tbl_product
-order by prod_registerday desc;
-
-
--- tbl_product 테이블에 메인노출여부(md_pick_yn) 컬럼 추가
-alter table tbl_product add md_pick_yn varchar2(5) default 'N';
-
-select * from tbl_product
-
-
-desc tbl_order
-
-select * from tab;
-
-
 create sequence seq_order_code
 start with 1    -- 첫번째 출발은 1이다
 increment by 1  -- 증가치는 1이다.
@@ -120,36 +69,6 @@ nominvalue      -- 최소값이 없다
 nocycle         -- 반복을 하지 않는다
 nocache;
 
-select * from tbl_member;
-
-ALTER TABLE tbl_order drop column FK_DELIVERY_CODE;
-
-
-
--- tbl_order 테이블에 데이터 추가
-insert into tbl_order values('order-000'||seq_order_code.nextval, 'jinhr18', sysdate, null, '49900', '입금대기' );
-
-select * from tbl_order
-
-commit;
-
-ALTER TABLE tbl_order_detail drop column ORDER_DETAIL_CODE;
-
-commit;
-
-desc tbl_order_detail
-
-
-desc tbl_payment
-ALTER TABLE tbl_payment drop column PAYMENT_CODE;
-
-
-insert into tbl_order_detail values('order-0001', 'flat004', '3', '150000' );
-
-insert into tbl_payment values('order-0001', '150000', '0', '0', '150000');
-
-commit;
-select * from tbl_product
 
 
 --------------- ** 주문수량을 product와 합쳐서 보여줌 ** 메인의 BEST 노출---------------------
@@ -197,65 +116,15 @@ FROM (
 WHERE ROWNUM < 5
 
 
-select * from tbl_member
-
-select * from tbl_product
-
-select * from TBL_LIKE
-select * from tab
-
-insert into tbl_like values('like-0002', 'jinhr40', 'sneakers0006');
-commit;
-
-jinhr40 flat004
 
 ---------------------- ****** 하트(위시) 처리 ****** ------------------------------
 select fk_userid, fk_prod_code
 from tbl_like
 where fk_userid = 'jinhr40' and fk_prod_code = 'flat004';
 
-String sql = "select fk_userid, fk_prod_code\n"+
-"from tbl_like\n"+
-"where fk_userid = 'jinhr40'";
-
-desc tbl_member
-
-select * from tbl_product
 
 
 
-
-
-select * from tbl_product
-
-
-desc tbl_product
-
-ALTER TABLE tbl_product add prod_saleprice varchar2(50);
-
-alter table tbl_product add prod_description varchar2(4000);
-
-alter table tbl_product add prod_point varchar2(50);
-
-select * from tbl_product
-
-update tbl_product set prod_saleprice = '27000'
-where prod_price = '30000'
-
-commit;
-
-select md_pick_yn from tbl_product
-
-select * from tbl_product
-
-update tbl_product set md_pick_yn = 'Y'
-where prod_code like '%1%'
-
-commit
-
-desc tbl_product
-
-select * from tbl_order_detail
 
 
 
@@ -339,30 +208,7 @@ prod_detail_code	varchar2(30)	not null
 ,constraint FK_tbl_prod_detail_fk_prod_code foreign key(fk_prod_code) references tbl_product(prod_code)	
 )
 
-
-desc tbl_product
-
-select * from tbl_payment
-
-
-select * from tbl_member;
-
-
-
-select * from tbl_product
-
-
-
-delete from TBL_PRODUCT 
-
-
-
-
-
-
-desc tbl_product
-
-
+-- prod_code 시퀀스
 
 create sequence seq_product_code
 start with 1    -- 첫번째 출발은 1이다
@@ -372,10 +218,8 @@ nominvalue      -- 최소값이 없다
 nocycle         -- 반복을 하지 않는다
 nocache;
 
-desc tbl_product
 
-ALTER TABLE tbl_product MODIFY PROD_PRICE number;
-
+--상품데이터 입력하는 프로시저
 create or replace procedure pcd_product_insert
 (p_prod_name  IN  varchar2
 ,p_prod_kind  IN  char
@@ -396,11 +240,6 @@ end pcd_product_insert;
 
 
 
-
-select * from tbl_member
-
-select 'prod-'||lpad(i,4,0)
-from dual;
 
 exec pcd_product_insert('라비스 플랫','flat','flat','1',80000,50000,'완전 귀여운신발ㅋㅋ');
 
@@ -423,10 +262,6 @@ exec pcd_product_insert('해든 슬링백','slingback','slingback','6.5',89800,7
 exec pcd_product_insert('체이니 뮬','mule','mule','3.5',59800,59800,'큐티빠띠');
 
 
-select * from tbl_product
-
-commit;
-
 
 /*
 tbl_prod_detail 정보
@@ -448,12 +283,6 @@ nominvalue      -- 최소값이 없다
 nocycle         -- 반복을 하지 않는다
 nocache;
 
-
-ALTER TABLE tbl_prod_detail MODIFY PROD_STOCK number;
-
-select * from tbl_product
-
-select * from tbl_prod
 
 
 -- tbl_prod_detail에 데이터를 일괄로 넣어주는 프로시저
@@ -486,26 +315,7 @@ exec pcd_prod_detail_insert('blue','250',4);
 
 commit;
 
-select * from tbl_product --90개
 
-select * from tbl_prod_detail
-
-
-select * from tbl_prod_detail
-order by fk_prod_code
-
-commit;
-
-select distinct P.prod_code, P.prod_color
-from
-(
-    select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, md_pick_yn, prod_color, prod_size   
-    from tbl_product
-    join
-    tbl_prod_detail
-    on prod_code = fk_prod_code
-    where prod_code = 'prod-0001'
-) P
 
 ------------------------ 색상, 리뷰, 주문수 조인 ------------------------------------------
 
@@ -597,79 +407,19 @@ WHERE md_pick_yn = 'Y' and ROWNUM < 5
 ORDER BY DBMS_RANDOM.VALUE
 
 
-select * from tbl_member
-
-select * from tbl_product
-where md_pick_yn = 'Y'
-
-update tbl_product set md_pick_yn = 'Y'
-where prod_code = 'prod-0089'
-
-commit;
 
 
 
 
-
-
-
-
-
-
-
-select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn
+select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn, prod_colorList, prod_sizeList, prod_stockList
 from
 (
     select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn
     from v_tbl_product
     where prod_name like '%'||'니'||'%' and prod_kind = 'ankle'
 )
+left join ( select * from v_tbl_prod_detail )VPD on VPD.fk_prod_code = prod_code
 where rno between 1 and 10
-
-
-select distinct prod_kind
-from tbl_product
-
-select * from tbl_product
-
-select distinct prod_code, prod_color
-from tbl_product
-join
-(
-    select fk_prod_code, prod_color, prod_size
-    from tbl_prod_detail
-)
-on prod_code = fk_prod_code
-where prod_code = 'prod-0001'
-
-
-
-
-String sql = "select distinct prod_code, prod_color\n"+
-"from tbl_product\n"+
-"join\n"+
-"(\n"+
-"    select fk_prod_code, prod_color, prod_size\n"+
-"    from tbl_prod_detail\n"+
-")\n"+
-"on prod_code = fk_prod_code\n"+
-"where prod_code = 'prod-0001'";
-
-
-
-select fk_prod_code, prod_color, prod_size
-from tbl_prod_detail
-where prod_color = 'black' and fk_prod_code = 'prod-0001'
-
-
-select ceil(count(*)/5)
-from v_tbl_product
-where prod_name like '%니%'
-
-
-desc tbl_prod_detail
-
-
 
 
 
@@ -754,26 +504,6 @@ on PO.prod_code = r.fk_prod_code
 
 
 
-select * from tbl_product
-
-select * from tbl_review
-
-
-select * from tab;
-
-desc tbl_review
-
-select * from tbl_review
-
-
-
-
-all
-	userid
-	prod_name
-	review_registerday   
-
-
 
 ----------------- **** 상품 리뷰 페이지 => select sql문
 
@@ -804,15 +534,6 @@ on fk_prod_code = prod_code
 order by review_registerday desc
 
 
-desc tbl_review
-
-
-select * from tbl_member
-
-
-select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, grade_code, point, account_name, bank_name, account, registerday, status, idle
-from tbl_member
-
 select ceil(count(*)/10)
 from tbl_member
 
@@ -837,9 +558,6 @@ where rno between 21 and 30
 order by registerday desc 
 
 
-select ceil(count(*)/10)
-from tbl_member
-where name like '%진%'
 
 
 select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn
@@ -848,13 +566,108 @@ from
     select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn
     from v_tbl_product
 )
-where rno between 11 and 20
+where rno between 81 and 90
 
 
-select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn
-from 
-(
-    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn
-    from v_tbl_product
+--tbl_prod_detail의 view 만들기
+create or replace view v_tbl_prod_detail
+as
+select fk_prod_code, listagg(prod_color,',') within group (order by prod_color) as prod_colorList, listagg(prod_size,',') within group (order by prod_size) as prod_sizeList, listagg(prod_stock, ',') within group (order by prod_stock) as prod_stockList
+from tbl_prod_detail
+group by fk_prod_code
+;
+
+/*
+tbl_order_detail
+
+FK_ORDER_CODE   NOT NULL NVARCHAR2(30) 
+FK_PROD_CODE    NOT NULL NVARCHAR2(30) 
+ORDER_BUY_COUNT          NUMBER(10)    
+ORDER_PRICE     NOT NULL NUMBER(10)    
+*/
+
+/*
+tbl_order
+
+ORDER_CODE       NOT NULL NVARCHAR2(30) 
+FK_USERID        NOT NULL NVARCHAR2(30) 
+ORDERDATE        NOT NULL DATE          
+EXPECTDATE                VARCHAR2(50)  
+ORDER_AMOUNT     NOT NULL NUMBER(10)    
+ORDER_STATE      NOT NULL NVARCHAR2(30) 
+POINT_USE_AMOUNT          NUMBER        
+DISCOUNT_AMOUNT           NUMBER        
+REAL_AMOUNT               NUMBER        
+
+*/
+
+-- ** tbl_qna 테이블에 데이터 넣어주기 ** --
+
+desc tbl_qna
+/*
+QNA_CODE       NOT NULL NVARCHAR2(30)   
+FK_USERID NOT NULL NVARCHAR2(30)   
+CATEGORY                NVARCHAR2(20)   
+SUBJECT                 NVARCHAR2(500)  
+CONTENTS                NVARCHAR2(1000) 
+REGISTERDAY    NOT NULL DATE            
+FILE_1                  NVARCHAR2(300)  
+FILE_2                  NVARCHAR2(300)  
+FILE_3                  NVARCHAR2(300)  
+ANSWER_YN               VARCHAR2(5)     
+*/
+
+create sequence seq_qna_code
+start with 1    -- 첫번째 출발은 1이다
+increment by 1  -- 증가치는 1이다.
+nomaxvalue      -- 최대값이 없는 무제한
+nominvalue      -- 최소값이 없다
+nocycle         -- 반복을 하지 않는다
+nocache;
+
+/*
+tbl_qna의 category check값
+
+상품문의 prod
+교환반품 e/r
+취소변경 c/c
+as문의 a/s
+
+*/
+
+-- tbl_qna에 데이터를 넣어주는 프로시저
+create or replace procedure pcd_qna_insert
+(p_fk_userid  IN  varchar2
+,p_subject  IN  varchar2
+,p_contents in varchar2
 )
-where rno between 91 and 100
+is
+begin
+for i in 1..5 loop
+    insert into tbl_qna(QNA_CODE, fk_userid, CATEGORY, SUBJECT, CONTENTS, REGISTERDAY, ANSWER_YN)
+    values(seq_qna_code.nextval, p_fk_userid||(i+5), 'a/s', p_subject, p_contents, sysdate, 'N');
+end loop;
+end pcd_qna_insert;
+
+exec pcd_qna_insert('choejh','저 이거 반품신청좀 할게요','지금 신청해도 되는건가요?? 이거 신청하면 언제쯤 반품돼요?',null,null,null);
+
+exec pcd_qna_insert('jinhr','방금 주문했는데 하나 더 교환 가능한가요','안된다면 주문취소하고 다시 할 수 있을까요ㅠ',null,null,null);
+
+exec pcd_qna_insert('choejh','방금왔는데 까져있어요..','관리좀 똑바로 해주세요..ㅠㅠ 교환 되나요?');
+
+commit;
+
+
+desc tbl_member
+
+create table tbl_qna_comment
+(qcomment_code            NVARCHAR2(30)     not null  
+,fk_qna_code              NVARCHAR2(30)     not null --문의글번호
+,qcomment_contents        NVARCHAR2(1000) 
+,qcomment_registerday     DATE              not null
+,constraint PK_tbl_qna_comment_qcomment_code primary key(qcomment_code)
+,constraint FK_tbl_qna_comment_fk_qna_code foreign key(fk_qna_code) references tbl_qna (qna_code)
+);
+
+
+select * from tbl_qna_comment

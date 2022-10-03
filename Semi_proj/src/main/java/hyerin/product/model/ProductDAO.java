@@ -332,11 +332,10 @@ public class ProductDAO implements InterProductDAO {
 			
 			conn = ds.getConnection();
 			
-			
 			String prodSortbyKind = paraMap.get("prodSortbyKind");
 			String searchword = paraMap.get("searchword");
 			
-			String sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
+			String sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn, prod_colorList, prod_sizeList, prod_stockList\n"+
 					"from \n"+
 					"(\n"+
 					"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
@@ -362,6 +361,7 @@ public class ProductDAO implements InterProductDAO {
 			}
 			
 			sql += ")\n"+
+					" left join ( select * from v_tbl_prod_detail )VPD on VPD.fk_prod_code = prod_code "+
 					"where rno between ? and ?";
 			
 			
@@ -402,6 +402,8 @@ public class ProductDAO implements InterProductDAO {
 			while(rs.next()) {
 				
 				ProductVO pvo = new ProductVO();
+				ProductDetailVO pdvo = new ProductDetailVO();
+				
 				pvo.setProd_code(rs.getString(1));
 				pvo.setProd_name(rs.getString(2));
 				pvo.setProd_kind(rs.getString(3));
@@ -412,6 +414,11 @@ public class ProductDAO implements InterProductDAO {
 				pvo.setProd_color(rs.getString(8));
 				pvo.setProd_registerday(rs.getString(9));
 				pvo.setMd_pick_yn(rs.getString(10));
+				
+				pdvo.setProd_color(rs.getString(11));
+				pdvo.setProd_size(rs.getString(12));
+				pdvo.setProd_stock(rs.getString(13));
+				pvo.setPdvo(pdvo);
 				
 				pvoList.add(pvo);
 				
@@ -424,7 +431,16 @@ public class ProductDAO implements InterProductDAO {
 		
 		return pvoList;
 	}
+	
 
+	
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// ** 상품 등록 **
 	
 	
 	
@@ -455,6 +471,9 @@ public class ProductDAO implements InterProductDAO {
 		return prodKindList;
 	}//end of selectProdKindList
 
+	
+	
+	
 	
 	
 	

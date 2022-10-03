@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import common.controller.AbstractController;
 import hyerin.product.model.InterProductDAO;
 import hyerin.product.model.ProductDAO;
+import hyerin.product.model.ProductDetailVO;
 import hyerin.product.model.ProductVO;
 
 public class AdminProductListJson extends AbstractController {
@@ -59,7 +60,6 @@ public class AdminProductListJson extends AbstractController {
 		
 		// 첫 화면일때는 모든 상품정보를, 셀렉트박스를 변경했을때는 선택한 종류의 상품정보를, 검색어가 있으면 검색어를 입력해서 조회(select)
 		List<ProductVO> productList = pdao.selectPagingProductByKind(paraMap);
-		
 		
 		
 		//페이지바
@@ -133,6 +133,9 @@ public class AdminProductListJson extends AbstractController {
 				jsonObj.put("prod_color", pvo.getProd_color());
 				jsonObj.put("prod_registerday", pvo.getProd_registerday());
 				jsonObj.put("md_pick_yn", pvo.getMd_pick_yn());
+				jsonObj.put("stock_color", pvo.getPdvo().getProd_color());
+				jsonObj.put("stock_size", pvo.getPdvo().getProd_size());
+				jsonObj.put("stock", pvo.getPdvo().getProd_stock());
 				
 				jsonArr.put(jsonObj);
 				
