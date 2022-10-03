@@ -26,7 +26,7 @@ public class MemberVO {
 	private String cart_prod_code; //장바구니 상품코드
 	
 	
-	
+
 	public String getUserid() {
 		return userid;
 	}
