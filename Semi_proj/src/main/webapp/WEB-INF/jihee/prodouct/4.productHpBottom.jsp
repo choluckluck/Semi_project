@@ -16,10 +16,16 @@
 <title>Insert title here</title>
 
 <script type="text/javascript">
-
-function godelete() {
+$(document).ready(function(){
 	
-	alert("체크박스 해제");
+	
+	
+});
+function goSearche() {
+	
+	const frm_select  = document.selectItem
+	frm_select.action = "productHp.sue";
+	frm_select.submit();
 	
 }
 </script>
@@ -27,14 +33,18 @@ function godelete() {
 <body>
 <div class="container">
 
+
 	<div style="margin-top: 10%;">
-		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;">
-		  <option selected>인기상품순</option>
-		  <option value="1">신상품순</option>
-		  <option value="2">낮은가격순</option>
-		  <option value="3">높은가격순</option>
-		  <option value="4">할인율순</option>
+		<form name="selectItem">
+		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;" name="selectItem"  id="selectItem" onchange="goSearche()">
+		  <option value="popularityitem" selected >인기상품순</option>
+		  <option value="newItem">신상품순</option>
+		  <option value="lowPriceItem">낮은가격순</option>
+		  <option value="highPriceItehm">높은가격순</option>
+		  <option value="discountItem" >할인율순</option>
 		</select>
+		<!-- <p><button type="button" class="btn btn-dark" style="color: white ;" onclick="goSearch()">검색</button></p> -->
+		</form>
 	</div>
 	
 	

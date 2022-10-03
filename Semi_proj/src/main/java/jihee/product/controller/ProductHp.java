@@ -197,6 +197,8 @@ public class ProductHp extends AbstractController {
 		String AquamarineColor = request.getParameter("AquamarineColor");	
 		
 		
+		// System.out.println("확인용 controllor :" +redColor);
+		
 		String checkword="나나";
 		//null값으로 들어오면 100 넣어주기
 		
@@ -258,7 +260,8 @@ public class ProductHp extends AbstractController {
 		paraMap.put("silverColor",silverColor );
 		paraMap.put("orangeColor",orangeColor);
 		paraMap.put("pinkColor",pinkColor);
-		paraMap.put("AquamarineColor",AquamarineColor);		
+		paraMap.put("AquamarineColor",AquamarineColor);	
+		
 		
 		
 		// System.out.println("searchColor 확인용 : " +greenColor +"\n" +yellowColor +"\n" + redColor +"\n" + blackColor);
@@ -276,12 +279,89 @@ public class ProductHp extends AbstractController {
 		request.setAttribute("AquamarineColor", AquamarineColor);
 		
 		
+		
+		
 		// 2-4 사이즈 넘겨주기 //////////////////////////////
 		
+		String Size220 = request.getParameter("Size220");
+		String Size225 = request.getParameter("Size225");
+		String Size230 = request.getParameter("Size230");
+		String Size235 = request.getParameter("Size235");
+		String Size240 = request.getParameter("Size240");
+		String Size245 = request.getParameter("Size245");
+		String Size250 = request.getParameter("Size250");
+		String Size255 = request.getParameter("Size255");
 		
 		
+		//null값으로 들어오면 100 넣어주기
+		
+				if(Size220 == null ) {
+					
+					Size220 =checkword;
+				}
+				if(Size225 == null ) {
+							
+					Size225=checkword;
+						}
+				if(Size230 == null ) {
+					
+					Size230=checkword;
+				}
+				if(Size235 == null ) {
+					
+					Size235=checkword;
+				}
+				if(Size240 == null ) {
+					
+					Size240=checkword;
+				}
+				if(Size245 == null ) {
+					
+					Size245=checkword;
+				}
+				
+				if(Size250 == null ) {
+					
+					Size250=checkword;
+				}
+				
+				if(Size255 == null ) {
+					
+					Size255=checkword;
+				}
+			
+		paraMap.put("Size220",Size220 );
+		paraMap.put("Size225",Size225);
+		paraMap.put("Size230",Size230);
+		paraMap.put("Size235",Size235);
+		paraMap.put("Size240",Size240);
+		paraMap.put("Size245",Size245);
+		paraMap.put("Size250",Size250);
+		paraMap.put("Size255",Size255);
+		
+		request.setAttribute("Size220", Size220);
+		request.setAttribute("Size225", Size225);
+		request.setAttribute("Size230", Size230);
+		request.setAttribute("Size235", Size235);
+		request.setAttribute("Size240", Size240);
+		request.setAttribute("Size245", Size245);
+		request.setAttribute("Size250", Size250);
+		request.setAttribute("Size255", Size255);
+	
+		//2-4 select option 가져오기
+		
+		String selectItem = request.getParameter("selectItem");
 		
 		
+		if (selectItem == null) {
+			selectItem = "popularityitem";
+		}
+		
+		paraMap.put("selectItem", selectItem);
+		
+		request.setAttribute("selectItem", selectItem);
+		
+		System.out.println("java 확인용2 : " +selectItem);
 		
 		
 		
@@ -291,6 +371,7 @@ public class ProductHp extends AbstractController {
 		request.setAttribute("productList", productList);
 		request.setAttribute("sizePerPage", sizePerPage);
 		request.setAttribute("searchWord", searchWord);
+		
 		
 		
 	//-----------------------------------------------------------------------------------------
