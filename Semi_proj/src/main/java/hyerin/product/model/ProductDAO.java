@@ -1,7 +1,5 @@
 package hyerin.product.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.sql.*;
 import java.util.*;
 
@@ -40,6 +38,7 @@ public class ProductDAO implements InterProductDAO {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	
@@ -258,18 +257,6 @@ public class ProductDAO implements InterProductDAO {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//////////////////////////////////////////////////////////////////
 	
 	// 관리자 페이지
@@ -283,30 +270,44 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select ceil(count(*)/?)\n"+
-						"from tbl_product\n";			
+			String prodSortbyKind = paraMap.get("prodSortbyKind");
+			String searchword = paraMap.get("searchword");
 			
-			String kind = paraMap.get("kind");
-			String product_search = paraMap.get("product_search");
+			String sql = " select ceil(count(*)/5) "+
+						 " from v_tbl_product ";			
 			
-			// 두번째 체크박스의 값이 null 이 아니고 기본값인 product_kind가 아닐 경우
-			if(kind != null && !"product_kind".equals(kind)) {  
-				
+			// 상품종류로 정렬했을 경우
+			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
 				sql += " where prod_kind = ? ";
 				
-				//검색 입력창에 값이 있는 경우
-				if(product_search != null && !product_search.trim().isEmpty()) { 
-					sql += " and prod_name like '%'|| " + product_search + "|| '%' ";
+				//검색어가 있을 경우
+				if(!"".equals(searchword)) {
+					sql += " and prod_name like '%'||?||'%' ";
 				}
-				
-			}//end of if
+			}
+			//정렬하지 않았을 경우
+			else {
+				//검색어가 있을 경우
+				if(!"".equals(searchword)) {
+					sql += " where prod_name like '%'||?||'%' ";
+				}
+			}
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, Integer.parseInt( paraMap.get("sizePerPage")) );
 			
-			if(kind != null && !"product_kind".equals(kind)) {  
-				pstmt.setString(2, product_search);
+			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
+				pstmt.setString(1, prodSortbyKind);
+				
+				if(!"".equals(searchword)) {
+					pstmt.setString(2, searchword);
+				}
 			}
+			else {
+				if(!"".equals(searchword)) {
+					pstmt.setString(1, searchword);
+				}
+			}
+			
 			
 			rs = pstmt.executeQuery();
 			
@@ -320,96 +321,164 @@ public class ProductDAO implements InterProductDAO {
 		
 		return totalPage;
 	}//end of getTotalPage
-
 	
 	
-	// 셀렉트박스 조건과 검색조건을 실행한 상품 보여주기
+	// 첫 화면일때는 모든 상품정보를, 셀렉트박스를 변경했을때는 선택한 종류의 상품정보를 조회(select)
 	@Override
-	public List<ProductVO> selectProduct(Map<String, String> paraMap) throws SQLException {
+	public List<ProductVO> selectPagingProductByKind(Map<String, String> paraMap) throws SQLException {
 		List<ProductVO> pvoList = new ArrayList<>();
 		
 		try {
+			
 			conn = ds.getConnection();
 			
-			String byRegisterdayOrders = paraMap.get("byRegisterdayOrders"); //첫번째 셀렉트박스값
-			String byKind = paraMap.get("byKind"); //두번째 셀렉트박스값
-			String searchName = paraMap.get("searchName"); //검색어
+			String prodSortbyKind = paraMap.get("prodSortbyKind");
+			String searchword = paraMap.get("searchword");
 			
-			String sql = "";
+			String sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn, prod_colorList, prod_sizeList, prod_stockList\n"+
+					"from \n"+
+					"(\n"+
+					"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
+					"    from v_tbl_product\n";
 			
-			if(byRegisterdayOrders == null || "latest".equals(byRegisterdayOrders)) { //초기화면이거나 최신순일경우
-				if(byKind == null || "product_kind".equals(byKind)) {
-					//최신순으로 보여줌
-					sql = "select prod_code, prod_kind, prod_image, prod_name, prod_price, prod_stock, md_pick_yn\n"+
-							"from tbl_product\n"+
-							"order by PROD_REGISTERDAY desc";
+			// 상품종류로 정렬했을 경우
+			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
+				//검색어가 있을 경우
+				if(!"".equals(searchword)) {
+					sql += " where prod_kind = ? and prod_name like '%'||?||'%' ";
 				}
-				else if(!"product_kind".equals(byKind)) {
-					//종류별로, 최신순으로 보여줌
-					sql = "select prod_code, prod_kind, prod_image, prod_name, prod_price, prod_stock, md_pick_yn\n"+
-							"from tbl_product\n"+
-							"where prod_kind = ? "+
-							" order by PROD_REGISTERDAY desc ";
+				//없을경우
+				else {
+					sql += " where prod_kind = ? ";
 				}
 			}
-			else { //주문순일때
-				if(byKind == null ||"product_kind".equals(byKind) ) {
-					//주문순으로 보여줌
-					sql = "select prod_code, prod_kind, prod_image , prod_name, prod_price, prod_stock, prod_color, md_pick_yn, nvl(prod_order_count, 0) as prod_order_count\n"+
-							"from tbl_product\n"+
-							"left JOIN \n"+
-							"(\n"+
-							"    select fk_prod_code, count(*) as prod_order_count\n"+
-							"    from tbl_order_detail\n"+
-							"    group by fk_prod_code\n"+
-							")OD\n"+
-							"ON prod_code = OD.fk_prod_code\n"+
-							"order by prod_order_count desc";
-				}
-				else if (!"product_kind".equals(byKind)) {
-					// 종류별로, 주문순으로 보여줌
-					sql = "select prod_code, prod_kind, prod_image , prod_name, prod_price, prod_stock, prod_color, md_pick_yn, nvl(prod_order_count, 0) as prod_order_count\n"+
-							"from tbl_product\n"+
-							"left JOIN \n"+
-							"(\n"+
-							"    select fk_prod_code, count(*) as prod_order_count\n"+
-							"    from tbl_order_detail\n"+
-							"    group by fk_prod_code\n"+
-							")OD\n"+
-							"ON prod_code = OD.fk_prod_code\n"+
-							" where prod_kind = ? "+
-							"order by prod_order_count desc";
+			//정렬하지 않았을 경우
+			else {
+				//검색어가 있을 경우
+				if(!"".equals(searchword)) {
+					sql += " where prod_name like '%'||?||'%' ";
 				}
 			}
-//			
-//			
+			
+			sql += ")\n"+
+					" left join ( select * from v_tbl_prod_detail )VPD on VPD.fk_prod_code = prod_code "+
+					"where rno between ? and ?";
+			
+			
 			pstmt = conn.prepareStatement(sql);
 			
-			if( !(byRegisterdayOrders==null || "latest".equals(byRegisterdayOrders)) && !(byKind==null || "latest".equals(byKind)) ) {
-				pstmt.setString(1, byKind);
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+			
+			// 상품종류로 정렬했을 경우
+			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
+				if(!"".equals(searchword)) {
+					pstmt.setString(1, prodSortbyKind);
+					pstmt.setString(2, searchword);
+					pstmt.setInt(3, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(4, (currentShowPageNo*sizePerPage));
+				}
+				else {
+					pstmt.setString(1, prodSortbyKind);
+					pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(3, (currentShowPageNo*sizePerPage));
+				}
+			}
+			else {
+				if(!"".equals(searchword)) {
+					pstmt.setString(1, searchword);
+					pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(3, (currentShowPageNo*sizePerPage));
+				}
+				else {
+					pstmt.setInt(1, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(2, (currentShowPageNo*sizePerPage));
+				}
 			}
 			
 			rs = pstmt.executeQuery();
 			
+			
 			while(rs.next()) {
+				
 				ProductVO pvo = new ProductVO();
+				ProductDetailVO pdvo = new ProductDetailVO();
+				
 				pvo.setProd_code(rs.getString(1));
-				pvo.setProd_kind(rs.getString(2));
-				pvo.setProd_image(rs.getString(3));
-				pvo.setProd_name(rs.getString(4));
-				pvo.setProd_price(rs.getString(5));
-				pvo.setProd_stock(rs.getString(6));
-				pvo.setMd_pick_yn(rs.getString(7));
+				pvo.setProd_name(rs.getString(2));
+				pvo.setProd_kind(rs.getString(3));
+				pvo.setProd_image(rs.getString(4));
+				pvo.setProd_high(rs.getString(5));
+				pvo.setProd_price(rs.getString(6));
+				pvo.setProd_saleprice(rs.getString(7));
+				pvo.setProd_color(rs.getString(8));
+				pvo.setProd_registerday(rs.getString(9));
+				pvo.setMd_pick_yn(rs.getString(10));
+				
+				pdvo.setProd_color(rs.getString(11));
+				pdvo.setProd_size(rs.getString(12));
+				pdvo.setProd_stock(rs.getString(13));
+				pvo.setPdvo(pdvo);
 				
 				pvoList.add(pvo);
+				
 			}
+			
 			
 		} finally {
 			close();
 		}
 		
 		return pvoList;
-	}//end of selectProductByLatest
+	}
+	
+
+	
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	// ** 상품 등록 **
+	
+	
+	
+	//상품종류 목록을 가져오기
+	@Override
+	public List<String> selectProdKindList() throws SQLException {
+		List<String> prodKindList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select distinct prod_kind "
+					   + " from tbl_product ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				prodKindList.add(rs.getString(1));
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return prodKindList;
+	}//end of selectProdKindList
+
+	
+	
+	
+	
+	
+	
+
+	
 	
 	
 	
