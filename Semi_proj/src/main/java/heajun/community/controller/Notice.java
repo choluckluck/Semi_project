@@ -15,34 +15,22 @@ public class Notice extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 				
-		       super.getNotice(request);
+
+				InterNoticeDAO ndao = new NoticeDAO();
 				
-				String notice_code = request.getParameter("notice_code"); // 공지사항 글번호 
-				
-				// *** 공지사항에 해당하는 글들을 페이징 처리하여 보여주기 *** //
+				// ** 페이징 처리를 한 모든 글 또는 페이지 목록 보여주기 ** //
+				String notice_code = request.getParameter("notice_code");
 				String currentShowPageNo = request.getParameter("currentShowPageNo");
-			   
-			    if(currentShowPageNo == null) {
-				    currentShowPageNo = "1";
-			    }
-			   
-			    try {
-				      if(Integer.parseInt(currentShowPageNo) < 1) {
-				    	 currentShowPageNo = "1";
-				     }
-				   
-			    } catch(NumberFormatException e) {
-				   currentShowPageNo = "1";
-			    }
+					
 			    
 			    Map<String, String> paraMap = new HashMap<>();
 			    
 				paraMap.put("notice_code", notice_code);
 				paraMap.put("currentShowPageNo", currentShowPageNo);
 				
-				InterNoticeDAO ndao = new NoticeDAO();
 				
-			    // 페이지바를 만들기 위해서 특정카테고리의 글개수에 대한 총페이지수 알아오기
+				
+			    // 페이지바를 만들기 위해서 notice table 글개수에 대한 총페이지수 알아오기
 				int totalPage = ndao.getTotalPage(notice_code);
 				
 				 if( Integer.parseInt(currentShowPageNo) > totalPage ) {
@@ -51,11 +39,11 @@ public class Notice extends AbstractController {
 				 }
 			  
 				 
-				 List<NoticeVO> notice = ndao.selectPagingNoticeList(paraMap);
+				 List<NoticeVO> Notice = ndao.selectPagingNoticeList(paraMap);
 				   
 				
 				 
-				 request.setAttribute("notice", notice);
+				 request.setAttribute("Notice", Notice);
 				 
 				
 				   String pageBar = "";

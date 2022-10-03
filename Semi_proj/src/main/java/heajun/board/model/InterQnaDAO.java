@@ -1,5 +1,6 @@
 package heajun.board.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,5 +22,9 @@ public interface InterQnaDAO {
 
 	//문의글에 속하는 글들을 페이지바를 사용해 페이징 처리하여 조회(select)해오기
 	List<QnaVO> selectPagingQnaList(Map<String, String> paraMap)throws Exception;
+
+	//VO 를 사용하지 않고 Map으로 처리 => 한 번만 실행하려고 abstract에서 실행
+	//tbl_notice 테이블에서 글번호(qna_code), id(fk_member_code), 제목(subject),날짜(registerday) 을 조회해오기
+	List<HashMap<String, String>> getQnaList()throws Exception;
 
 }

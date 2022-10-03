@@ -89,8 +89,47 @@ p{
   
   <script type="text/javascript">
   
-	
-      
+  $(document).ready(function(){
+	  
+		
+		
+		//커뮤니티사이드바_공지사항 클릭 이벤트
+		$("div#sidebar_notice").click(function(){
+			location.href="<%= ctxPath%>/heajun/community/notice.sue";
+		});
+		
+		//커뮤니티사이드바_문의사항 클릭 이벤트
+		$("div#sidebar_qna").click(function(){
+			location.href="<%= ctxPath%>/heajun/board/qnaList.sue";
+		});
+		
+		
+		// 타이틀 => 게시글 클릭이벤트
+		 $("td#qna_code").click(function(){
+			   var qna_code = $(this).next().next().next().next().next().text();	
+			   location.href="<%=ctxPath%>/heajun/board/qnaList.sue?qna_code="+qna_code; 
+		   });
+		 $("td#category").click(function(){
+			   var notice_code = $(this).next().next().text();	
+			   location.href="<%=ctxPath%>/heajun/board/qnaList.sue?qna_code="+qna_code; 
+		   });
+		   $("td#notice_subject").click(function(){
+			   var notice_code = $(this).next().next().next().next().text();	
+			   location.href="<%=ctxPath%>/heajun/board/qnaList.sue?qna_code="+qna_code; 
+		   });
+		   $("td#fk_member_code").click(function(){
+			   var qna_code = $(this).next().next().next().text();	
+			   location.href="<%=ctxPath%>/heajun/board/qnaList.sue?qna_code="+qna_code; 
+		   });
+		   $("td#registerday").click(function(){
+			   var qna_code = $(this).next().text();	
+			   location.href="<%=ctxPath%>/heajun/board/qnaList.sue?qna_code="+qna_code; 
+		   });
+		  
+		  
+		   
+		
+	});
   
    
    
@@ -98,24 +137,17 @@ p{
 
 
 
-   <div class="detail row-my-3">
+<div class="detail row-my-3">
 
-   <div class="board-menu col-md-2" id="customer_menu">
-      <h3>고객센터</h3>
-      <br>
-      <ul><li type="button"><a>문의하기</a></li>
-         <li type="button"><a>NOTICE</a></li>
-      </ul>
-      <hr>
-   
-   <p class="tel" style="display:none;">1600-1858</p>
-   <p class="time">
-            평일 10:00 - 18:00 / 점심 12:00 - 13:00<br/>
-            주말,공휴일 휴무			
-         </p>
-   </div>
-
-
+<div id="sidebar" class="col-2 pl-5 ml-2">
+	<div id="sidebar_community" style="font-weight: bold; font-size:20px;">고객센터</div>
+	<br><br>
+	<div id="sidebar_qna"  style="color:black; font-size:13pt;  href="<%=ctxPath%>/heajun/board/qnaList.sue">문의하기</div>
+	<div id="sidebar_notice"  style="color:gray; font-size:13pt;  href="<%=ctxPath%>/heajun/community/notice.sue">notice</div>
+	<hr style="margin-top: 125px;">
+	<div class="sidebar_info" style="font-size:9pt;" ><span class="font-weight-bold">평일</span>10:00 - 18:00 / <span class="font-weight-bold">점심</span>12:00-13:00</div>
+	<div class="sidebar_info" style="font-size:9pt;"><span class="font-weight-bold">주말, 공휴일 휴무</span></div>
+</div>
 
 
 <div class="board col-md-8" align="left">
@@ -148,94 +180,24 @@ p{
 
              
 		   <tbody>
-		         <c:forEach var="qvo" items="${requestScope.qnaList}">
+		         <c:forEach var="qvo" items="${requestScope.QnaList}">
 		            <tr>
-		               <td id="qna_num">${qvo.qna_code}</td>
-		               <td id="qna_num">${qvo.category}</td>
-		               <td id="qna_subject">${qvo.subject}</td>
-		                <td id="qna_id">${qvo.fk_member_code}</td>
-		               <td id="qna_date">${qvo.registerday}</td>
+		               <td id="qna_code">${qvo.qna_code}</td>
+		               <td id="category">${qvo.category}</td>
+		               <td id="subject">${qvo.subject}</td>
+		                <td id="fk_member_code">${qvo.fk_member_code}</td>
+		               <td id="registerday">${qvo.registerday}</td>
    					   <td style="display:none">${qvo.qna_code}</td>
 		            </tr>
 		         </c:forEach>
 		     </tbody>  
 		     
-      <tbody>
-        <tr>
-          <th scope="row">10</th>
-          <td>상품문의</td>
-          <td>상품문의</td>
-          <td>김**</td>
-          <td>2022-09-16 17:50:36</td>
-        </tr>
-        <tr>
-          <th scope="row">9</th>
-          <td>상품문의</td>
-          <td>상품문의</td>
-          <td>김**</td>
-          <td>2022-09-16 17:50:36</td>
-        </tr>
-        <tr>
-          <th scope="row">8</th>
-          <td>상품문의</td>
-          <td>상품문의</td>
-          <td>김**</td>
-          <td>2022-09-16 17:50:36</td>
-        </tr>
-        <tr>
-         <th scope="row">7</th>
-         <td >상품문의</td>
-         <td >상품문의</td>
-         <td>김**</td>
-         <td>2022-09-16 17:50:36</td>
-       </tr>
-       <tr>
-         <th scope="row">6</th>
-         <td>상품문의</td>
-         <td>상품문의</td>
-         <td>김**</td>
-         <td>2022-09-16 17:50:36</td>
-       </tr>
-        <tr>
-         <th scope="row">5</th>
-         <td>상품문의</td>
-         <td>상품문의</td>
-         <td>김**</td>
-         <td>2022-09-16 17:50:36</td>
-       </tr>
-        <tr>
-         <th scope="row">4</th>
-         <td>상품문의</td>
-         <td>상품문의</td>
-         <td>김**</td>
-         <td>2022-09-16 17:50:36</td>
-       </tr>
-        <tr>
-         <th scope="row">3</th>
-         <td>상품문의</td>
-         <td>상품문의</td>
-         <td>김**</td>
-         <td>2022-09-16 17:50:36</td>
-       </tr>
-       <tr>
-         <th scope="row">2</th>
-         <td>상품문의</td>
-         <td>상품문의</td>
-         <td>김**</td>
-         <td>2022-09-16 17:50:36</td>
-       </tr>
-       <tr>
-         <th scope="row">1</th>
-         <td>상품문의</td>
-         <td>상품문의</td>
-         <td>김**</td>
-         <td>2022-09-16 17:50:36</td>
-       </tr>
-      </tbody>
+     
     </table>
     
+<div style="text-align:right;" class="my-5"><button type="button" id="qna_write" class="black" style="width:150px; height:40px; href="<%=ctxPath%>/heajun/board/qnaWrite.sue">글쓰기</button></div>        
 <div class="page">
-    <nav aria-label="Page navigation ">
+    <nav aria-label="Page navigation ">${requestScope.pageBar}
       <ul class="pagination pagination-sm d-flex justify-content-center">
         <li class="page-item">
           <a class="page-link" href="#" aria-label="Previous">

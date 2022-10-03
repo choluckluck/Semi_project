@@ -116,10 +116,10 @@ button#btn {
 		
 		
 			$("span.error").hide();
-			$("input#board_id").focus();
+			$("input#fk_member_code").focus();
 			
-			$("input#qna_id").val("${requestScope.userid}");
-			$("input#qna_id").blur(function(){
+			$("input#fk_member_code").val("${requestScope.userid}");
+			$("input#fk_member_code").blur(function(){
 				
 				var qna_id = $(this).val().trim();
 				if(qna_id == "") {
@@ -144,7 +144,7 @@ button#btn {
 			});// 아이디가 qna_id 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 			
 			
-			$("input#qna_subject").blur(function(){
+			$("input#subject").blur(function(){
 				
 				var qna_subject = $(this).val().trim();
 				if(qna_subject == "") {
@@ -168,7 +168,7 @@ button#btn {
 				
 			});// 아이디가 board_subject 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 			
-			$("input#qna_content").blur(function(){
+			$("input#contents").blur(function(){
 				
 				var qna_content = $(this).val().trim();
 				if(qna_content == "") {
@@ -680,22 +680,10 @@ button#btn {
  <td><input name="attach_file[]" type="file"  /></td>
   </tr>
   <hr>
-<tr>
-<th scope="row">첨부파일4</th>
-  <td><input name="attach_file[]" type="file"  /></td>
-  </tr>
-  <hr>
-<tr>
-<th scope="row">첨부파일5</th>
- <td><input name="attach_file[]" type="file"  /></td>
-</tr>
+
 </tbody>
 <hr>
-<th scope="row">비밀글설정</th>
- <td><input id="secure0" name="secure" fw-filter="isFill" fw-label="비밀글설정" fw-msg="" value="F" type="radio" checked="checked"  /><label for="secure0" >공개글</label>
-<input id="secure1" name="secure" fw-filter="isFill" fw-label="비밀글설정" fw-msg="" value="T" type="radio"  /><label for="secure1" >비밀글</label></td>
- </tr>
-                
+         
  <hr>          
 
 
