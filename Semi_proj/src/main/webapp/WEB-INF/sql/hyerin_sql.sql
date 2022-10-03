@@ -671,3 +671,10 @@ create table tbl_qna_comment
 
 
 select * from tbl_qna_comment
+
+
+select * from tbl_order_detail
+
+select fk_prod_code, count(*) as prod_order_count  
+from tbl_order_detail
+group by fk_prod_code 

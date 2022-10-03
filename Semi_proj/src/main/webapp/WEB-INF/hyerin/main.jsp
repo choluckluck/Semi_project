@@ -12,9 +12,6 @@
 	$(document).ready(function(){
 		//wish_heart가 회원DB의 관심상품에 있으면 빨간것으로, 아니면 하얀색으로 바꿔주기
 		
-		
-		
-		
 	});//end of ready
 	
 	
@@ -77,7 +74,7 @@
 	    <div class="carousel-item active">
 	    	<table id="best_table" style="font-size:11pt; border-collapse: separate; border-spacing: 15px;">
 	    		<tr>
-	    			<c:forEach var="best_pvo" items="${requestScope.best_pvo}" begin="0" end="3" step="1">
+	    			<c:forEach var="best_pvo" items="${requestScope.best_pvoList}" begin="0" end="3" step="1">
 						<td width="20%" class="pr-1">
 							<a href="#" style="text-decoration: none; color: black;">
 								<img src="<%= ctxPath%>/images/product/${best_pvo.prod_kind}/${best_pvo.prod_image}" width="100%"/>
@@ -120,7 +117,7 @@
 	    <div class="carousel-item">
 	    	<table id="best_table_2" style="font-size:11pt; border-collapse: separate; border-spacing: 15px;">
 				<tr>
-	    			<c:forEach var="best_pvo" items="${requestScope.best_pvo}" begin="4" end="7" step="1">
+	    			<c:forEach var="best_pvo" items="${requestScope.best_pvoList}" begin="4" end="7" step="1">
 						<td width="20%" class="pr-1">
 							<a href="#" style="text-decoration: none; color: black;">
 								<img src="<%= ctxPath%>/images/product/${best_pvo.prod_kind}/${best_pvo.prod_image}" width="100%"/>
@@ -177,7 +174,7 @@
 				<td colspan="4" height="150px;" align="center" style="font-size:25pt" class="pt-5 pb-4">New Arrival</td>
 			</tr>
 			<tr>
-				<c:forEach var="new_pvo" items="${requestScope.new_pvo}" begin="0" end="3" step="1">
+				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="0" end="3" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
 							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
@@ -215,7 +212,7 @@
 				</c:forEach>                                                                                                                             
 			</tr>
 			<tr>
-				<c:forEach var="new_pvo" items="${requestScope.new_pvo}" begin="4" end="7" step="1">
+				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="4" end="7" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
 							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
@@ -253,7 +250,7 @@
 				</c:forEach>                                                                                                                             
 			</tr>
 			<tr>
-				<c:forEach var="new_pvo" items="${requestScope.new_pvo}" begin="8" end="11" step="1">
+				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="8" end="11" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
 							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
@@ -291,7 +288,7 @@
 				</c:forEach>                                                                                                                             
 			</tr>
 			<tr>
-				<c:forEach var="new_pvo" items="${requestScope.new_pvo}" begin="12" end="15" step="1">
+				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="12" end="15" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
 							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
@@ -339,7 +336,7 @@
 				<td colspan="4" height="150px;" align="center" style="font-size:25pt" class="pt-5 pb-4">MD's Pick</td>
 			</tr>
 			<tr>
-				<c:forEach var="md_pvo" items="${requestScope.md_pvo}">
+				<c:forEach var="md_pvo" items="${requestScope.md_pvoList}">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
 							<img src="<%= ctxPath%>/images/product/${md_pvo.prod_kind}/${md_pvo.prod_image}" width="100%"/>
