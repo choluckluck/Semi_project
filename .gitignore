@@ -106,4 +106,6 @@ replay_pid*
 /Semi_proj/src/main/webapp/jquery-ui-1.13.1.custom
 /Semi_proj/src/main/webapp/js
 /Semi_proj/src/main/webapp/WEB-INF/sql
+/Semi_proj/src/main/webapp/WEB-INF/sql/hyerin_sql.sql
+/Semi_proj/src/main/webapp/WEB-INF/sql/semi_user.sql.sql
 /Semi_proj/src/main/java/common/controller/AbstractController.java

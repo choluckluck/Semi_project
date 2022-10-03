@@ -62,8 +62,8 @@ public class J_MemberDAO implements J_InterMemberDAO {
 		   
 		   conn = ds.getConnection();
 		   
-		   String sql = " insert into tbl_member(userid, pwd, name, postcode, address, detailaddress, mobile, email, gender, birthday)" +
-				   		" values (?,?,?,?,?,?,?,?,?,?)";
+		   String sql = " insert into tbl_member(userid, pwd, name, postcode, address, detailaddress, mobile, email, marketing_yn, gender, birthday)" +
+				   		" values (?,?,?,?,?,?,?,?,?,?,?)";
 		   
 		   pstmt = conn.prepareStatement(sql);
 		   
@@ -75,9 +75,9 @@ public class J_MemberDAO implements J_InterMemberDAO {
 		   pstmt.setString(6, member.getUserid());
 		   pstmt.setString(7, aes.encrypt(member.getMobile()) );
 		   pstmt.setString(8, aes.encrypt(member.getEmail()) );
-		   // pstmt.setString(9, member.getMarketing_yn());
-		   pstmt.setString(9, member.getGender());
-		   pstmt.setString(10, member.getBirthday());
+		   pstmt.setString(9, member.getMarketing_yn());
+		   pstmt.setString(10, member.getGender());
+		   pstmt.setString(11, member.getBirthday());
 
 		   result = pstmt.executeUpdate();
 		   
