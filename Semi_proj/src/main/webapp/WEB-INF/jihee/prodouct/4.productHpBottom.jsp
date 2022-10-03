@@ -16,23 +16,18 @@
 <title>Insert title here</title>
 
 <script type="text/javascript">
-
 $(document).ready(function(){
 	
 	
 	
 });
-
-
 function goSearche() {
 	
 	const frm_select  = document.selectItem
 	frm_select.action = "productHp.sue";
 	frm_select.submit();
 	
-
 }
-
 </script>
 </head>
 <body>
@@ -48,6 +43,7 @@ function goSearche() {
 		  <option value="highPriceItehm">높은가격순</option>
 		  <option value="discountItem" >할인율순</option>
 		</select>
+		<!-- <p><button type="button" class="btn btn-dark" style="color: white ;" onclick="goSearch()">검색</button></p> -->
 		</form>
 	</div>
 	

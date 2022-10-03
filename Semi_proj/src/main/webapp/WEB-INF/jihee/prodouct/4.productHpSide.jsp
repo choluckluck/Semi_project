@@ -183,9 +183,18 @@ a:active {text-decoration: none; color: gray;}
 			</div>
 			
 			<br><br>
+			<select class="form-select-lg-3" aria-label="Default select example" style="" name="selectItem"  id="selectItem" onchange="goSearch()">
+		  <option value="popularityitem" selected >인기상품순</option>
+		  <option value="newItem">신상품순</option>
+		  <option value="lowPriceItem">낮은가격순</option>
+		  <option value="highPriceItehm">높은가격순</option>
+		  <option value="discountItem" >할인율순</option>
+		</select>
+		
+			<br><br>
 			<p><button type="button" class="btn btn-dark" style="color: white;" onclick="goSearch()">검색</button></p>	
 		
-			<input type="text" class="form-control" value="${requestScope.selectItem}">	
+			
 			
 			</form>
 			
@@ -203,6 +212,7 @@ a:active {text-decoration: none; color: gray;}
 	 </div>
 	 </div>
 </div> 
+			
 			
 			
 <script type="text/javascript">
@@ -260,7 +270,6 @@ a:active {text-decoration: none; color: gray;}
 	    });
 	     */
 		
-
 		if("${requestScope.redColor}" != "") { //검색어가 null아닐때만 꽂아준다
 				 $("input:checkbox[id='${requestScope.redColor}']").prop("checked", true);
 			   } 
@@ -281,9 +290,9 @@ a:active {text-decoration: none; color: gray;}
 		
 	
 	
+	
 	}
 	
-
 </script>			
     
 <div style="margin-top: 10%">
@@ -295,4 +304,3 @@ a:active {text-decoration: none; color: gray;}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
-
