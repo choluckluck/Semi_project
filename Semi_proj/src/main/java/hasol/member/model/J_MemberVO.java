@@ -1,6 +1,6 @@
-package hasol.purchase.model;
+package hasol.member.model;
 
-public class J_MemberVO implements J_InterMemberDAO {
+public class J_MemberVO {
 	private String userid;
 	private String name;
 	private String pwd;
@@ -21,10 +21,28 @@ public class J_MemberVO implements J_InterMemberDAO {
 	private String last_pwd_change_date;
 	private int status;
 	private int idle;
+	private String marketing_yn;
 	
 	
 	
+	public J_MemberVO() {}
 	
+	public J_MemberVO(String userid, String pwd, String name, String postcode, String address,
+			String detailaddress, String mobile, String email, String marketing_yn, String gender, String birthday) {
+		
+		this.userid = userid;
+		this.pwd = pwd;
+		this.name = name;
+		this.postcode = postcode;
+		this.address = address;
+		this.detailaddress = detailaddress;
+		this.mobile = mobile;
+		this.email = email;
+		this.marketing_yn = marketing_yn;
+		this.gender = gender;
+		this.birthday = birthday;
+		
+	}
 	
 	public String getUserid() {
 		return userid;
@@ -145,6 +163,12 @@ public class J_MemberVO implements J_InterMemberDAO {
 	}
 	public void setIdle(int idle) {
 		this.idle = idle;
+	}
+	public String getMarketing_yn() {
+		return marketing_yn;
+	}
+	public void setMarketing_yn(String marketing_yn) {
+		this.marketing_yn = marketing_yn;
 	}
 	
 	

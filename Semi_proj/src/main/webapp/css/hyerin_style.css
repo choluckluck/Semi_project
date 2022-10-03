@@ -225,7 +225,7 @@
 	}
 	
 	
-	input.register_input{
+	input.register_input, select.register_select{
 		border: solid 1px #d9d9d9;
 		height: 40px;
 	}
