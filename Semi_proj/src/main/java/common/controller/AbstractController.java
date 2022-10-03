@@ -7,11 +7,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import hasol.purchase.model.JMemberVO;
+import hasol.purchase.model.J_MemberVO;
 import heajun.community.model.InterNoticeDAO;
 import heajun.community.model.NoticeDAO;
-import myshop.model.InterProductDAO;
-import myshop.model.ProductDAO;
 
 public abstract class AbstractController implements InterCommand {
 	/*
@@ -67,7 +65,7 @@ public abstract class AbstractController implements InterCommand {
 	//!!! 하솔 쓰려고 만들었음 !!!! 로그인 유무를 검사 => 로그인했으면 true를 리턴, 로그인안했으면 false를 리턴 
 	public boolean checkLogin(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		JMemberVO loginuser = (JMemberVO)session.getAttribute("loginuser");
+		J_MemberVO loginuser = (J_MemberVO)session.getAttribute("loginuser");
 		
 		if(loginuser != null) { //로그인 한경우
 			return true;

@@ -1,6 +1,6 @@
 package hasol.purchase.model;
 
-public class JMemberVO {
+public class J_MemberVO implements J_InterMemberDAO {
 	private String userid;
 	private String name;
 	private String pwd;
