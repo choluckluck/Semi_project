@@ -162,11 +162,18 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_color, prod_size, prod_price,prod_registerday,nvl(review_count, 0) as review_count, prod_saleprice, rownum AS RNO\n"+
-					"from(\n"+
-					"select PO.prod_code, P.prod_color, P.prod_size, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, nvl(review_count, 0) as review_count ,rownum AS RNO\n"+
+			String sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_color,prod_price, prod_saleprice, prod_size, prod_registerday, nvl(prod_review_count,0) as prod_review_count ,nvl(prod_order_count,0) as prod_order_count,rownum AS RNO\n"+
+					"from (\n"+
+					"select PO.prod_code, PO.prod_name, PO.prod_kind, PO.prod_image, PO.prod_high, CS.prod_color, PO.prod_price, PO.prod_saleprice, CS.prod_size, PO.prod_registerday, nvl(prod_review_count,0) as prod_review_count ,nvl(prod_order_count,0) as prod_order_count,rownum AS RNO\n"+
 					"from tbl_product PO\n"+
-					"JOIN\n"+
+					"left join\n"+
+					"(\n"+
+					"    select fk_prod_code, count(*) as prod_order_count  \n"+
+					"    from tbl_order_detail\n"+
+					"    group by fk_prod_code \n"+
+					") OD\n"+
+					"on PO.prod_code = OD.fk_prod_code\n"+
+					"left join\n"+
 					"(\n"+
 					"    select prod_code, LISTAGG(P.prod_color,',') WITHIN GROUP (ORDER BY P.prod_color) AS prod_color\n"+
 					"        ,LISTAGG(P.prod_size,',') WITHIN GROUP (ORDER BY P.prod_size) AS prod_size \n"+
@@ -179,16 +186,17 @@ public class ProductDAO implements InterProductDAO {
 					"        on prod_code = fk_prod_code\n"+
 					"    ) P\n"+
 					"    group by prod_code\n"+
-					") P\n"+
-					"ON PO.prod_code = P.prod_code\n"+
-					"LEFT JOIN\n"+
+					") CS\n"+
+					"on PO.prod_code = CS.prod_code\n"+
+					"left join\n"+
 					"(\n"+
-					"    select fk_prod_code, count(*) as review_count\n"+
+					"    select fk_prod_code, count(*) as prod_review_count\n"+
 					"    from tbl_review\n"+
 					"    group by fk_prod_code\n"+
-					") R\n"+
-					"ON fk_prod_code = P.prod_code\n"+
-					"where prod_kind like '%' ";
+					")R\n"+
+					"on PO.prod_code = r.fk_prod_code\n"+
+					"where prod_kind like '%' " ;
+			
 			
 			// 1-1 검색어를 입력하여 검색하는 경우
 			
@@ -196,9 +204,11 @@ public class ProductDAO implements InterProductDAO {
 			 
 			 if(searchWord !=null  && !searchWord.trim().isEmpty() ) {
 				 
-				 sql += " and prod_name like '%'|| ? ||'%'  ";
-				 
+				 sql += " and prod_name like '%'|| ? ||'%' ";
+				
 			 }   
+			
+			//System.out.println("searchWord" +searchWord);
 			
 			//1-2  가격 검색하는 경우
 			 
@@ -224,7 +234,8 @@ public class ProductDAO implements InterProductDAO {
 				  searchPriceEnd = Integer.parseInt(searchPrice2);
 			  }
 
-			 sql += " and prod_price between ? and ?  ";
+			 sql += " and prod_price between ? and ?\n";
+			
 			 
 			  
 			// System.out.println("DAO searchPriceStart 확인용 :" + searchPriceStart);
@@ -280,11 +291,17 @@ public class ProductDAO implements InterProductDAO {
 			 
 			 }
 			 
-			 //System.out.println("searchColor DAO 확인용 :"
-			 //			+ " " +green +"\n" +yellow +"\n" + red +"\n" + black + yellow+ "brown :" +brown+ silver + orange + pink);
+		//	 System.out.println("searchColor DAO 확인용 :"
+		//	 			+ " " +green +"\n" +yellow +"\n" + red +"\n" + black + yellow+ "brown :" +brown+ silver + orange + pink);
 				
 				
-			 
+			 sql += " and (  prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " +
+					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " +  
+					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " + 
+					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " + 
+					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " + 
+					 " or prod_color like '%'|| ? ||'%'  )\n" ;
+			
 			 
 			//하나라도 null값 있으면
 		
@@ -303,27 +320,79 @@ public class ProductDAO implements InterProductDAO {
 			 * System.out.println("green :" +green +" red :" +red);
 			 */
 			
+			 
+			 // 1-4 사이즈 검색하는 경우
+			 
+			 String s220 =  paraMap.get("Size220");
+			 String s225 =  paraMap.get("Size225");
+			 String s230 =  paraMap.get("Size230");
+			 String s235 =  paraMap.get("Size235");
+			 String s240 =  paraMap.get("Size240");
+			 String s245 =  paraMap.get("Size245");
+			 String s250 =  paraMap.get("Size250");
+			 String s255 = paraMap.get("Size255");
+			 
+			 if (s220 == checkword && s225 == checkword && s230 ==checkword && s235 == checkword &&  s240==checkword
+					 && s245 == checkword && s250 == checkword && s255 == checkword ) {
+				 
+				 s220 = "220"; s225 = "20"; s225 = "220"; s230 = "230"; s235 = "235"; s240 = "240"; s245 = "245"; s250 = "250"; s255 = "255";
+				 
+			 }
+			 
+			// System.out.println("SIZE DAO 확인용 :"
+			//		 			+ s220 +"\n"+ s225 +"\n" +s230 +"\n" + s235 +"\n");
 			
+					 			
+			//1-5 select option 선택시
+			 
+			 String selectItem = paraMap.get("selectItem");
+			 
+			 
+			 if (selectItem!=null && selectItem.equals("popularityitem")) {
+				 
+				  selectItem = "prod_order_count desc"; }
+				  
+				
+			 else if (selectItem!=null && selectItem.equals("newItem")) {
+			 
+			  selectItem = "prod_registerday desc"; }
+			  
+			  else if (selectItem!=null && selectItem.equals("lowPriceItem")) {
+					 
+				  selectItem = "prod_price asc"; }
+			  
+			  else if (selectItem!=null && selectItem.equals("highPriceItehm")) {
+					 
+				  selectItem = "prod_price desc"; }
+			  
+				/*
+				 * else { discountItem }
+				 */
+			 
+					 			
+		// System.out.println("dao 최종확인 : " +selectItem);
+			 
 			
+			//사이즈 sql
 			
-			
-			sql += " and (  prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " +
-					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " +  
-					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " + 
-					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " + 
-					 " or prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " + 
-					 " or prod_color like '%'|| ? ||'%'  ) " ;
-
-		
+			sql += " and ( prod_size like '%'|| ? ||'%' or prod_size like '%'|| ? ||'%' " +
+					 " or prod_size like '%'|| ? ||'%' or prod_size like '%'|| ? ||'%' " +  
+					 " or prod_size like '%'|| ? ||'%' or prod_size like '%'|| ? ||'%' " + 
+					 " or prod_size like '%'|| ? ||'%' or prod_size like '%'|| ? ||'%' )\n"+
+					 " ORDER BY " +selectItem+ "\n" +
+					 			
 	
 			// === 페이징처리의 공식 ===
 			 // where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수); 
 			
 			 
-			 sql += " order by prod_registerday desc " +
-					 " )\n"+
-				   " where RNO between ? and ? ";
+			         " ) " +
+					 " where RNO between ? and 90 \n" ;
+					
+			 			
+			  
 			 
+		
 		
 			 int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			 int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
@@ -356,9 +425,20 @@ public class ProductDAO implements InterProductDAO {
 				pstmt.setString(13, silver);
 				pstmt.setString(14, brown);
 				
+				pstmt.setString(15, s220);  //사이즈 시작
+				pstmt.setString(16, s225);
+				pstmt.setString(17, s230);
+				pstmt.setString(18, s235);
+				pstmt.setString(19, s240);
+				pstmt.setString(20, s245);
+				pstmt.setString(21, s250);
+				pstmt.setString(22, s255);				
 				
-				pstmt.setInt(15, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
-				pstmt.setInt(16, (currentShowPageNo*sizePerPage) ); // 공식
+				
+				pstmt.setInt(23, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
+				//pstmt.setInt(24, (currentShowPageNo*sizePerPage) ); // 공식
+				
+				
 			 }
 			 else {
 				pstmt.setInt(1,  searchPriceStart);
@@ -376,11 +456,24 @@ public class ProductDAO implements InterProductDAO {
 				pstmt.setString(12, silver);
 				pstmt.setString(13, brown);
 				
+				pstmt.setString(14, s220);  //사이즈 시작
+				pstmt.setString(15, s225);
+				pstmt.setString(16, s230);
+				pstmt.setString(17, s235);
+				pstmt.setString(18, s240);
+				pstmt.setString(19, s245);
+				pstmt.setString(20, s250);
+				pstmt.setString(21, s255);		
 				
-				pstmt.setInt(14, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
-				pstmt.setInt(15, (currentShowPageNo*sizePerPage) ); // 공식
+				
+				pstmt.setInt(22, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
+			
+				//pstmt.setInt(24, (currentShowPageNo*sizePerPage) ); // 공식
+		
 			 }
 
+			
+			
 
 			
 			
