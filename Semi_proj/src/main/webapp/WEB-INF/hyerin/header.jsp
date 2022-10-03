@@ -27,9 +27,6 @@
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
 	<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
 	
-	<%-- Font Awesome 5 Icons --%>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-	
 	<script>
 	$(document).ready(function(){
 		//header_search 입력박스는 처음에 안보이게 한다
@@ -82,8 +79,6 @@
 		});
 		
 		///////////////////////////////////////////////////////////////////////////
-		
-		
 
 	});//end of ready
 	
@@ -102,12 +97,9 @@
 </head>
 <body>
 	<div id="header" style="margin:0;">
-		<%-- login information --%>
-		<div id="header_login_container" align="right" class="mt-3 pl-3 pr-3">
-			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:10pt; color: gray;">로그인</a></span>
-			<span><a class="mx-2" href="#" style="text-decoration:none; font-size:10pt; color: gray;">회원가입</a></span>
-			<span><a class="mx-2"href="#" style="text-decoration:none; font-size:10pt; color: gray;">고객센터</a></span>
-		</div>
+
+	<%@ include file="/WEB-INF/hyerin/index2.jsp" %>		
+		
 		<%-- header logo --%>
 		<div id="header_logo_container" class="container-fluid pr-4" style="height: 120px; width:70%; cursor:pointer;">
 			<div class="text-center" style="height:120px;">
@@ -125,10 +117,11 @@
 						</button>
 					</a>
 			</form>
-			<%-- 마이페이지 --%>
-			<a href="#" class="header_search_contents" style="margin-right: 20px;"><img src="<%= ctxPath%>/images/hyerin/user_icon.png" width="25px" /></a>
-			<%-- 장바구니 --%>
-			<a href="#" class="header_search_contents"><img src="<%= ctxPath%>/images/hyerin/cart.png" width="30px" /></a>
+
+	<%@ include file="/WEB-INF/hyerin/mypage.jsp" %>		
+
+
+
 		</span> 
 		<%-- 퀵뷰 --%>
 		<div id="quickView" style="width:60px; height:230px; background-color:#172A41; position:fixed; bottom:50px; right:30px; z-index:100;">
