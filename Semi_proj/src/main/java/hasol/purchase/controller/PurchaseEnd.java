@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import hasol.purchase.model.J_MemberVO;
+import hasol.member.model.J_MemberVO;
 
 
 
