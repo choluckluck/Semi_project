@@ -306,13 +306,16 @@ left join
     group by fk_prod_code
 )R
 on PO.prod_code = r.fk_prod_code
-)
-where prod_kind like '%' and prod_name like '%%' and prod_price between 1 and 30000
+
+where prod_kind like '%' and prod_name like '%%' and prod_price between 1 and 5000000
 and (prod_color like '%%' or prod_color like '%%' or prod_color like '%%')
 and (prod_size like '%%' or prod_size like '%%')
-and RNO between 1 and 90
 order by prod_order_count desc
+)
+where RNO between 1 and 90
 
+select *
+from tbl_order_detail;
 
 
 select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_color,prod_price, prod_saleprice, prod_size, prod_registerday, nvl(prod_review_count,0) as prod_review_count ,nvl(prod_order_count,0) as prod_order_count,rownum AS RNO
@@ -348,12 +351,13 @@ left join
     group by fk_prod_code
 )R
 on PO.prod_code = r.fk_prod_code
-)
-where prod_kind like '%' and prod_name like '%%' and prod_price between 1 and 30000
+where prod_kind like '%' and prod_name like '%%' and prod_price between 1 and 5000000
 and (prod_color like '%%' or prod_color like '%%' or prod_color like '%%')
 and (prod_size like '%%' or prod_size like '%%')
-and RNO between 1 and 90
 order by prod_order_count desc
+)
+where RNO between 1 and 90
+
 
 
 -------------------------------------
@@ -895,6 +899,47 @@ select *
 from tabs;
 ------------------------------------------------------------------
 
+
+----1:1문의 댓글 글 넣기 프로시저
+
+create or replace procedure pcd_qnaComment_insert
+(QCOMMENT_CONTENTS  in varchar2
+)
+is
+begin
+for i in 1..10 loop
+insert into tbl_qna_comment(QCOMMENT_CODE, FK_QNA_CODE , QCOMMENT_CONTENTS ,qcomment_registerday)
+values(SEQ_QNACOMMENT_CODE.nextval, SEQ_QNACOMMENT_CODE.nextval, QCOMMENT_CONTENTS , sysdate);
+end loop;
+end pcd_qnaComment_insert;
+
+DROP PROCEDURE pcd_qnaComment_insert;
+
+exec pcd_qnaComment_insert('입고 되었습니다');
+commit;
+
+select *
+from TBL_ADDRESSBOOK;
+
+desc TBL_ADDRESSBOOK; 
+desc tbl_notice
+
+select *
+from tbl_member;
+
+
+create sequence SEQ_QNACOMMENT_CODE
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+--Sequence SEQ_NOTICE_CODE이(가) 생성되었습니다.
+
+select *
+from tbl_login_history
+-------------------------------------------------
 create or replace procedure pcd_member_insert 
 (p_userid  IN  nvarchar2
 ,p_name    IN  varchar2
@@ -916,23 +961,38 @@ commit;
 
 --- 주소록 프로시저
 
-create or replace procedure pcd_notice_insert
-(p_notice_subject in varchar2
-,p_notice_contents in varchar2
-,p_notice_file_1 in varchar2
-,p_notice_file_2 in varchar2
-,p_notice_file_3 in varchar2
+create or replace procedure pcd_tbl_address_book
+(p_AB_NAME in varchar2
+,p_AB_RECIPIENT in varchar2
+,p_AB_RECEIVER_TEL in varchar2
+,p_AB_ADDRESS in varchar2
+,p_AB_ADDRESS_DETAIL in varchar2
+,p_FK_USERID in varchar2
 )
 is
 begin
 for i in 1..5 loop
-insert into tbl_notice(notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 )
-values(seq_notice_code.nextval, 'jinhr40', p_notice_subject||i, p_notice_contents, '0', sysdate, p_notice_file_1||i, p_notice_file_2||i, p_notice_file_3||i);
+insert into tbl_address_book(AB_CODE , AB_NAME , AB_RECIPIENT , AB_RECEIVER_TEL , AB_ADDRESS, AB_ADDRESS_DETAIL,FK_USERID )
+values(add-||lpad(seq_product_code.nextval,4,0), p_AB_NAME , p_AB_RECIPIENT, p_AB_RECEIVER_TEL, p_AB_ADDRESS, p_AB_ADDRESS_DETAIL, p_FK_USERID);
 end loop;
-end pcd_notice_insert;
+end pcd_tbl_address_book;
+
+add-0001
+
+create sequence SEQ_address_book_CODE
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+--Sequence SEQ_ADDRESS_BOOK_CODE이(가) 생성되었습니다.
 
 select *
-from tbl_addressbook;
+from tbl_member;
+
+select *
+from tbl_order_detail;
 
 desc tbl_addressbook;
 
