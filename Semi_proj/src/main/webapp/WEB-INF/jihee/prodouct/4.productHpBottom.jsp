@@ -26,9 +26,11 @@ $(document).ready(function(){
 
 function goSearche() {
 	
-	const frm = document.selectItem
-	frm.action = "productHp.sue";
-	frm.submit();
+	const frm_select  = document.selectItem
+	frm_select.action = "productHp.sue";
+	frm_select.submit();
+	
+
 }
 
 </script>
@@ -39,7 +41,7 @@ function goSearche() {
 
 	<div style="margin-top: 10%;">
 		<form name="selectItem">
-		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;" name="selectItem"  id="selectItem"  onload="goSearche()" onchange="goSearche()">
+		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;" name="selectItem"  id="selectItem" onchange="goSearche()">
 		  <option value="popularityitem" selected >인기상품순</option>
 		  <option value="newItem">신상품순</option>
 		  <option value="lowPriceItem">낮은가격순</option>

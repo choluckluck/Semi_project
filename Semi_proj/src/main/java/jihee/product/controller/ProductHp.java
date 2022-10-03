@@ -365,8 +365,6 @@ public class ProductHp extends AbstractController {
 		
 		
 		
-		System.out.println("확인용 select : " +selectItem);
-		
 		//2- 상품목록 가져오기/////////////////////////////////////////////////////////////
 		List<ProductVO> productList = pdao.selectProductAll(paraMap);
 	

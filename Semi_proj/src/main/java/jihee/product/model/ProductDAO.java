@@ -208,7 +208,7 @@ public class ProductDAO implements InterProductDAO {
 				
 			 }   
 			
-			System.out.println("searchWord" +searchWord);
+			//System.out.println("searchWord" +searchWord);
 			
 			//1-2  가격 검색하는 경우
 			 
@@ -291,8 +291,8 @@ public class ProductDAO implements InterProductDAO {
 			 
 			 }
 			 
-			 System.out.println("searchColor DAO 확인용 :"
-			 			+ " " +green +"\n" +yellow +"\n" + red +"\n" + black + yellow+ "brown :" +brown+ silver + orange + pink);
+		//	 System.out.println("searchColor DAO 확인용 :"
+		//	 			+ " " +green +"\n" +yellow +"\n" + red +"\n" + black + yellow+ "brown :" +brown+ silver + orange + pink);
 				
 				
 			 sql += " and (  prod_color like '%'|| ? ||'%' or prod_color like '%'|| ? ||'%' " +

@@ -51,7 +51,7 @@ a:active {text-decoration: none; color: gray;}
 				</div>
 			</div>
 			
-			<form name="productHpFrm">
+			<form name="productHpFrm" >
 			 <div>
 					<label for="usr" class="fw-bolder" style="padding-bottom: 20px; ">검색어</label>
   					<input type="text" class="form-control" id="searchWord" name="searchWord" >	
@@ -184,7 +184,9 @@ a:active {text-decoration: none; color: gray;}
 			
 			<br><br>
 			<p><button type="button" class="btn btn-dark" style="color: white;" onclick="goSearch()">검색</button></p>	
-				
+		
+			<input type="text" class="form-control" value="${requestScope.selectItem}">	
+			
 			</form>
 			
 			</div>
@@ -276,6 +278,9 @@ a:active {text-decoration: none; color: gray;}
 		const frm = document.productHpFrm
 		frm.action = "productHp.sue";
 		frm.submit();
+		
+	
+	
 	}
 	
 
