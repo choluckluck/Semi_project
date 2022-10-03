@@ -1,32 +1,49 @@
-package hyerin.member.model;
+package hasol.member.model;
 
-public class MemberVO {
-	private String userid; 
-	private String name; 
+public class J_MemberVO {
+	private String userid;
+	private String name;
 	private String pwd;
-	private String email; 
-	private String mobile;  
-	private String postcode;  
-	private String address;  
-	private String detailaddress;	 
-	private String extraaddress; 
-	private String gender; 
-	private String birthday; 
-	private String grade_code; 
-	private String point; 
-	private String account_name; 
+	private String email;
+	private String mobile;
+	private String postcode;
+	private String address;
+	private String detailaddress;
+	private String extraaddress;
+	private String gender;
+	private String birthday;
+	private String grade_code;
+	private int point;
+	private String account_name;
 	private String bank_name;
-	private String account;
-	private String registerday; 
-	private String lasw_pwd_change_date; 
-	private String status; 
-	private String idle; 
-	
-	private String like_prod_code; //관심 상품코드
-	private String cart_prod_code; //장바구니 상품코드
+	private int account;
+	private String registerday;
+	private String last_pwd_change_date;
+	private int status;
+	private int idle;
+	private String marketing_yn;
 	
 	
-
+	
+	public J_MemberVO() {}
+	
+	public J_MemberVO(String userid, String pwd, String name, String postcode, String address,
+			String detailaddress, String mobile, String email, String marketing_yn, String gender, String birthday) {
+		
+		this.userid = userid;
+		this.pwd = pwd;
+		this.name = name;
+		this.postcode = postcode;
+		this.address = address;
+		this.detailaddress = detailaddress;
+		this.mobile = mobile;
+		this.email = email;
+		this.marketing_yn = marketing_yn;
+		this.gender = gender;
+		this.birthday = birthday;
+		
+	}
+	
 	public String getUserid() {
 		return userid;
 	}
@@ -99,10 +116,10 @@ public class MemberVO {
 	public void setGrade_code(String grade_code) {
 		this.grade_code = grade_code;
 	}
-	public String getPoint() {
+	public int getPoint() {
 		return point;
 	}
-	public void setPoint(String point) {
+	public void setPoint(int point) {
 		this.point = point;
 	}
 	public String getAccount_name() {
@@ -117,11 +134,10 @@ public class MemberVO {
 	public void setBank_name(String bank_name) {
 		this.bank_name = bank_name;
 	}
-	
-	public String getAccount() {
+	public int getAccount() {
 		return account;
 	}
-	public void setAccount(String account) {
+	public void setAccount(int account) {
 		this.account = account;
 	}
 	public String getRegisterday() {
@@ -130,37 +146,30 @@ public class MemberVO {
 	public void setRegisterday(String registerday) {
 		this.registerday = registerday;
 	}
-	public String getLasw_pwd_change_date() {
-		return lasw_pwd_change_date;
+	public String getLast_pwd_change_date() {
+		return last_pwd_change_date;
 	}
-	public void setLasw_pwd_change_date(String lasw_pwd_change_date) {
-		this.lasw_pwd_change_date = lasw_pwd_change_date;
+	public void setLast_pwd_change_date(String last_pwd_change_date) {
+		this.last_pwd_change_date = last_pwd_change_date;
 	}
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
-	public String getIdle() {
+	public int getIdle() {
 		return idle;
 	}
-	public void setIdle(String idle) {
+	public void setIdle(int idle) {
 		this.idle = idle;
 	}
-	public String getLike_prod_code() {
-		return like_prod_code;
+	public String getMarketing_yn() {
+		return marketing_yn;
 	}
-	public void setLike_prod_code(String like_prod_code) {
-		this.like_prod_code = like_prod_code;
+	public void setMarketing_yn(String marketing_yn) {
+		this.marketing_yn = marketing_yn;
 	}
-	public String getCart_prod_code() {
-		return cart_prod_code;
-	}
-	public void setCart_prod_code(String cart_prod_code) {
-		this.cart_prod_code = cart_prod_code;
-	}
-	
 	
 	
 }

@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import hasol.purchase.model.J_InterMemberDAO;
-import hasol.purchase.model.J_MemberVO;
+import hasol.member.model.J_InterMemberDAO;
+import hasol.member.model.J_MemberVO;
 import member.model.InterMemberDAO;
 import member.model.MemberDAO;
 import member.model.MemberVO;

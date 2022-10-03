@@ -30,10 +30,10 @@
 			
 			// 전체 선택/전체 해제
 		    if($('#Allagree_chx').is(':checked')){
-			       $("input[name=agree_chx]").prop('checked',true);     
+			       $("input.agree_chx").prop('checked',true);     
 			}
 			else {        
-				$("input[name=agree_chx]").prop('checked',false);     
+				$("input.agree_chx").prop('checked',false);     
 			} 
 		});
 		
@@ -42,8 +42,8 @@
 			const total = $("input[name=agree_chx]").length;
 			const checked = $("input[name=agree_chx]:checked").length;
 
-			if(total != checked) $("#Allagree_chx").prop("checked", false);
-			else $("#Allagree_chx").prop("checked", true); 
+			if(total != checked) { $("#Allagree_chx").prop("checked", false); }
+			else { $("#Allagree_chx").prop("checked", true); }
 		});
 		
 
@@ -57,9 +57,9 @@
 	
 	function checkAll() {
 		if($("#Allagree_chx").is(":checked")) {
-			$("input[name=agree_chx]").prop("checked", true);
+			$("input.agree_chx").prop("checked", true);
 		} else {
-			$("input[name=agree_chx]").prop("checked", false);
+			$("input.agree_chx").prop("checked", false);
 		}
 	}
 	
@@ -69,14 +69,14 @@
 		<div class="row mt-5">
 			<div class="col-3"></div>
 			<div class="col-6">
-				<form name="agree_form">
+				<form name="agree_form" action="/WEB-INF/hyerin/member/agreement.jsp" method="post">
 					<table id="login" class="container">
 						<tr>
 							<td colspan="4" id="login_text">회원가입</td>
 						</tr>
 						<tr>
 							<td colspan="4" id="Allagree">
-								<input id="Allagree_chx" type="checkbox" class="agree_chx" />
+								<input id="Allagree_chx" type="checkbox" name="Allagree_chx"class="agree_chx" value="1" />
 								<label for="Allagree_chx" class="font-weight-bold">전체동의</label>
 							</td>
 						</tr>
@@ -85,7 +85,7 @@
 								<table class="agreebox">
 									<tr>
 										<td colspan="2" class="pt-4 px-4">
-											<input id="agree_1_chx" type="checkbox" name="agree_chx" class="agree_chx"/>
+											<input id="agree_1_chx" type="checkbox" name="agree_chx" class="agree_chx" />
 											<label for="agree_1_chx" class="font-weight-bold">이용약관 동의(필수)</label>
 										</td>
 									</tr>
@@ -100,7 +100,7 @@
 								<table class="agreebox">
 									<tr>
 										<td colspan="2" class="pt-4 px-4">
-											<input id="agree_2_chx" type="checkbox" name="agree_chx" class="agree_chx"/>
+											<input id="agree_2_chx" type="checkbox" name="agree_chx2" class="agree_chx"/>
 											<label for="agree_2_chx" class="font-weight-bold">개인정보 수집 및 이용(필수)</label>
 										</td>
 									</tr>
