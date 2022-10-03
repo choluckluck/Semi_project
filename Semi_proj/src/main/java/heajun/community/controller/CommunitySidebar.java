@@ -1,16 +1,16 @@
-package hasol.purchase.controller;
+package heajun.community.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class Purchase_popup extends AbstractController {
+public class CommunitySidebar extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/hasol/purchase/purchase_popup.jsp");
+				//super.setRedirect(false);
+				super.setViewPage("/WEB-INF/heajun/community/communitySidebar.jsp");		
 	}
 
 }

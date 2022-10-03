@@ -106,16 +106,15 @@ const pop_top = Math.ceil( (window.screen.height - pop_height)/2 );
  } --%>
  
  
- // 쿠폰적용 팝업창 띄우기
- function selectCoupon() {
-	 const url = "<%= request.getContextPath()%>/hasol/purchase/purchase_popup.sue";
+ // 쿠폰적용/수정 팝업창 띄우기
+ function selectCoupon(userid) {
+
+	 const url = "<%= request.getContextPath()%>/hasol/purchase/selectCoupon_popup.sue?userid="+userid;
 	 
 	window.open(url,"selectCoupon",
-            width="800", height="800");
+            "width=800, height=800");
  }
  
- 
- // 수정 팝업창 띄우기
 
  
  
@@ -131,20 +130,28 @@ const pop_top = Math.ceil( (window.screen.height - pop_height)/2 );
  	 }
  }
 
+ // 결제 정보 기억하기... 할까말까
+ 
  
  // 결제하기
  function goPurchase(userid) {
 	
-	 if(!$("input:checkbox[agree_purchase]").is("checked")) {
+	 if(!$("input:checkbox[id=agree_purchase]").is(":checked")) {
 		 alert("결제 진행 약관에 동의가 필요합니다!");
 	 }
 	 else {
-		 const userid = "${sessionScope.loginuser.userid}"; 
-	     const url = "<%= request.getContextPath()%>/hasol/purchase/purchaseEnd.sue";
+		 if($("input:radio[id=pay_nonaccount]").is(":checked")
+			  && $("input:text[id=account_name]").val().trim() == "") {
+		 		alert("입금자명을 입력해 주세요!");
+		 }
+	 	 else {
 		
-		 window.open(url, "coinPurchaseEnd",
-				    "left=350px, top=100px, width=1000px, height=600px");
-	 }
+			 const userid = "${sessionScope.loginuser.userid}"; 
+		     const url = "<%= request.getContextPath()%>/hasol/purchase/purchaseEnd.sue";
+			
+			 window.open(url, "coinPurchaseEnd",
+					    "left=350px, top=100px, width=1000px, height=600px");
+		 }
  }
 
 </script>
@@ -307,7 +314,7 @@ const pop_top = Math.ceil( (window.screen.height - pop_height)/2 );
                     <td><button type="button" class="btn_tbl_amount_info" id="btn_coupon_select" onClick="selectCoupon()">쿠폰적용</button></td>
                     <td rowspan="2" style="padding: 15px 0 0 50px;">
                         <strong>0000</strong>원
-                        <button type="button" class="btn_tbl_amount_info" id="btn_coupon_modify">수정</button> 
+                        <button type="button" class="btn_tbl_amount_info" id="btn_coupon_modify" onClick="selectCoupon()">수정</button> 
                     <p id="useable_copon_info">[주문별] [신규회원] 5% 할인쿠폰 (~2022-10-13 23:59:59) 2000원</p>
                     </td>
                 </tr>
@@ -351,7 +358,7 @@ const pop_top = Math.ceil( (window.screen.height - pop_height)/2 );
                             <table class="pay_method_nonaccount" id="info_radio_nonaccount">
                                 <tr>
                                     <td>입금자명</td>
-                                    <td><input type="text"/></td>
+                                    <td><input type="text" id="account_name"/></td>
                                 </tr>
                                 <tr>
                                     <td>입금은행</td>

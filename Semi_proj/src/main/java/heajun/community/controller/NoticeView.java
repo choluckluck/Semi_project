@@ -48,7 +48,7 @@ public class NoticeView extends AbstractController {
 				request.setAttribute("goBackURL", goBackURL);
 				
 			//	super.setRedirect(false);
-				super.setViewPage("/WEB-INF/hyerin/community/noticeShow.jsp");
+				super.setViewPage("/WEB-INF/heajun/community/noticeView.jsp");
 
 			
 			} else {
@@ -60,7 +60,7 @@ public class NoticeView extends AbstractController {
 			request.setAttribute("loc", loc);
 			
 			//super.setRedirect(false);
-			super.setViewPage("/WEB-INF/hyerin/community/noticeView.jsp");
+			super.setViewPage("/WEB-INF/heajun/community/noticeView.jsp");
 		}
 		
 	}

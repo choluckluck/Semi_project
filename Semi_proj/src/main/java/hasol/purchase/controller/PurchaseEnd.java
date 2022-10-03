@@ -5,8 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import hasol.purchase.model.JMemberVO;
-import hyerin.member.model.MemberVO;
+import hasol.purchase.model.J_MemberVO;
+
+
 
 public class PurchaseEnd extends AbstractController {
 
@@ -19,7 +20,7 @@ public class PurchaseEnd extends AbstractController {
 					
 					HttpSession session = request.getSession();
 					
-					JMemberVO loginuser = (JMemberVO)session.getAttribute("loginuser");
+					J_MemberVO loginuser = (J_MemberVO)session.getAttribute("loginuser");
 					
 					if( loginuser.getUserid().equals(userid) ) { 
 						

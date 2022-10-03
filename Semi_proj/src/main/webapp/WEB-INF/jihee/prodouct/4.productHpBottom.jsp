@@ -3,10 +3,11 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
 <%
-    String ctxPath = request.getContextPath();
-    //     /MyMVC
+    String ctxPath= request.getContextPath();
+    
 %>       
 <!DOCTYPE html>
 <html>
@@ -15,12 +16,6 @@
 <title>Insert title here</title>
 
 <script type="text/javascript">
-
-function gocheck() {
-	
-	alert("체크박스 체크");
-	
-}
 
 function godelete() {
 	
@@ -32,7 +27,7 @@ function godelete() {
 <body>
 <div class="container">
 
-	<div style="margin-top: 15%;">
+	<div style="margin-top: 10%;">
 		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;">
 		  <option selected>인기상품순</option>
 		  <option value="1">신상품순</option>
@@ -47,23 +42,32 @@ function godelete() {
 		<p class="fw-bolder" style="text-align: left; font-size: 25px; padding-bottom: 30px;">힐/펌프스</p>
 	</div>
 	
-<c:forEach var="i" begin="1" end="4">
+
 <div class="row">
 	<c:forEach var="pvo" items="${requestScope.productList}">
 	<div class="col-lg-3" id="sideinfo" style="margin-bottom: 5%;">
   		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
+  			<img src="<%= ctxPath%>/images/product/${pvo.prod_kind}/${pvo.prod_image}" class="card-img-top" alt="...">
   				<div class="card-body">
-    				<p class="card-title">${pvo.prod_color} 리뷰(코딩)</p>
-    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-    				<a class="btn btn-outline-primary" style="color:blue;" onclick="check();">플랫/로퍼</a>
+    				<div class="card-title" >
+    				<c:forTokens var="color" items="${pvo.prod_color}" delims=",">
+    				<span class="best_color" style="background-color: ${color};"> </span>      
+    				</c:forTokens>
+    				<span> &nbsp;&nbsp;&nbsp;&nbsp; 리뷰 ${pvo.prod_review_count} </span>
+    				</div>
+    				
+    				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
+    				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
+    				
+    				<a class="btn btn-dark" style="color:white;" onclick="check();">상세페이지</a>
   				</div>
 		</div>
      </div>
+
      </c:forEach>
      
   	</div>	
- </c:forEach>  	
+ 	
  
  
   
@@ -74,7 +78,7 @@ function godelete() {
 		        <span aria-hidden="true">&laquo;</span>
 		      </a>
 		    </li>
-		    <li class="page-item"><a class="page-link">${requestScope.pageBar}</a></li>
+		    <li class="page-item"><a >${requestScope.pageBar}</a></li>
 		    
 		    <li class="page-item">
 		      <a class="page-link" href="#" aria-label="Next">
