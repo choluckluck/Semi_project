@@ -81,31 +81,54 @@
 		$("input[name=userid]").blur((e)=>{	
 			const $target = $(e.target);
 			const userid = $target.val().trim();
-			const regExp = new RegExp(/^[a-z0-9]{4,16}$/); // 영문소문자,숫자를 입력하여 4-16자리
+			const regExp = new RegExp(/^(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,16}$/)// 영문소문자,숫자를 입력하여 4-16자리
 			const bool = regExp.test($target.val());
 			
 			if(userid == ""){ // 입력하지 않거나 공백만 입력한 경우
 				id_check = false;
-				$target.parent().find("#id_approval").hide();
-				$target.parent().find("#id_warning2").hide();
+				$(".register_warning").hide();
+				$(".register_approval").hide();
 				
 				$target.parent().find("#id_warning").show();
 			}
 			else { // 공백이 아닌 글자를 입력한 경우
 				id_check = false;
-				$target.parent().find("#id_warning").hide();
+				$(".register_warning").hide();
+				$(".register_approval").hide();
 
-				if(!bool){// 아이디가 정규 표현식에서 위배됐다면
+				if(!bool){// 아이디가 정규 표현식에서 위배됐다면 or 숫자로만 이뤄졌다면
 					id_check = false;
-					$target.parent().find("#id_approval").hide();
 					$target.parent().find("#id_warning2").show();
 				}
 				else{
-					$target.parent().find("#id_warning2").hide();
-					$target.parent().find("#id_approval").show();
-					id_check = true;
+					// 아이디 중복 사용 체크
+					$.ajax({
+						url:"<%= ctxPath%>/hasol/member/idDuplicateCheck.sue",
+						data:{"userid":$("input#userid").val()}, //userid => getParameter해온 내용														 // data 는 /MyMVC/member/idDuplicateCheck.up 로 전송해야할 데이터를 말한다.
+						type:"post", 
+						async:true,	
+						success:function(text){ 
+							const json = JSON.parse(text);
+
+							if(json.isExists){ //입력한 userid가 이미 사용중이라면
+								$("div#idcheckResult").html($("input#userid").val()+"은 이미 사용 중인 아이디 입니다.");
+								$("div#idcheckResult").show();
+								id_check = false;
+							}
+							else{ //입력한 userid가 존재하지 않는 경우라면
+								$("div#idcheckResult").hide();
+								$target.parent().find("#id_approval").show();
+								id_check = true;
+							}
+						},
+						error: function(request, status, error){
+							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+					});
+
 				}
 			}
+
 		});
 		
 		
@@ -238,19 +261,42 @@
 			
 			if(email == "") { //입력하지 않거나 공백만 입력한 경우
 				email_check = false;
-				$target.parent().find("#email_warning2").hide();
+				$(".register_warning").hide();
+				
 				$target.parent().find("#email_warning").show();
 			}
-			else {
+			else {	
+				$(".register_warning").hide();
+				
 				if(!bool){ //이메일이 정규표현식에 위배된 경우라면
 					email_check = false;
-					$target.parent().find("#email_warning").hide();
 					$target.parent().find("#email_warning2").show();
 				}
 				else{ //이메일이 정규표현식에 맞는 경우라면
-					email_check = true;
-					$target.parent().find("#email_warning").hide();
-					$target.parent().find("#email_warning2").hide();
+					
+					// 아이디 중복 사용 체크
+					$.ajax({
+						url:"<%= ctxPath%>/hasol/member/emailDuplicateCheck.sue",
+						data:{"email":$("input#email").val()},
+						type:"post", 
+						async:true,	
+						success:function(text){ 
+							const json = JSON.parse(text);
+
+							if(json.isExists){ //입력한 userid가 이미 사용중이라면
+								$("div#emailcheckResult").html("등록된 이메일입니다.");
+								$("div#emailcheckResult").show();
+								email_check = false;
+							}
+							else{ //입력한 userid가 존재하지 않는 경우라면
+								email_check = true;
+							}
+						},
+						error: function(request, status, error){
+							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+					});
+
 				}
 			
 			}
@@ -322,7 +368,7 @@
 				}
 				
 				const frm = document.registerForm;
-				frm.action = "registerResult.sue";
+				frm.action = "<%= ctxPath%>/hyerin/member/registerResult.sue";
 				frm.method = "post";
 				frm.submit(); 
 			}
@@ -421,8 +467,9 @@
 								아이디<span class="necessary">*</span>
 							</td>
 							<td>
-								<input type="text" name="userid" class="register_input w-100"/>
+								<input type="text" id="userid" name="userid" class="register_input w-100"/>
 								<div id="id_approval" class="register_approval"> 사용 가능한 아이디입니다.</div>
+								<div id="idcheckResult" class="register_warning"></div>
 								<div id="id_warning" class="register_warning">아이디를 입력해주세요.</div>
 								<div id="id_warning2" class="register_warning">대문자/공백/특수문자가 포함되었거나, 숫자로 시작 또는 숫자로만 이루어진 아이디는 사용할 수 없습니다.</div> 
 								<div class="register_description">(영문소문자/숫자, 4~16자)</div>
@@ -441,7 +488,7 @@
 									<p>!@#$%^&*()_-=[]{}|;:&lt;&gt;,./?</p>
 								</div>
 								-->
-								<input type="text" name="pwd" class="register_input w-100"/>
+								<input type="password" name="pwd" class="register_input w-100"/>
 								<div id="pwd_approval" class="register_warning">사용 가능한 비밀번호입니다.</div> 
 								<div id="pwd_warning" class="register_warning">비밀번호를 입력해주세요.</div>
 								<div id="pwd_warning2" class="register_warning">사용 불가능한 비밀번호입니다.</div>
@@ -505,7 +552,8 @@
 								이메일<span class="necessary">*</span>
 							</td>
 							<td>
-								<input type="text" name="email" class="register_input w-100"/>
+								<input type="text" id="email" name="email" class="register_input w-100"/>
+								<div id="emailcheckResult" class="register_warning"></div>
 								<div id="email_warning" class="register_warning">이메일을 입력해주세요.</div>
 								<div id="email_warning2" class="register_warning">올바른 이메일 형식을 입력해 주세요.</div>
 							</td>

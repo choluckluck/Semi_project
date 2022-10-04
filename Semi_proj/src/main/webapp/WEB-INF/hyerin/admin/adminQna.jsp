@@ -78,10 +78,9 @@
 	});
 	
 	
-	
+	// 답변하기 팝업
 	function qna_answer(){
-		// 나의 정보 수정하기 팝업창 띄우기
-		const url = "<%= ctxPath%>/hyerin/admin/adminQnaAnswer.sue";
+		const url = "<%= ctxPath%>/hasol/admin/adminQnaAnswer.sue";
 		
 		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
 		
@@ -96,9 +95,11 @@
 		
 	}
 	
+	// 답변수정하기 팝업
 	function qna_answerEdit(){
+		
 		// 나의 정보 수정하기 팝업창 띄우기
-		const url = "<%= ctxPath%>/hyerin/admin/adminQnaAnswer.sue";
+		const url = "<%= ctxPath%>/hasol/admin/adminQnaAnswer.sue";
 		
 		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
 		
@@ -110,6 +111,25 @@
 		
 		window.open(url, "qnaAnswer",
 				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
+		
+	}
+	
+	
+	
+	
+	
+	
+	// Function Declaration
+	
+	// 문의 리스트 불러오기
+	function admin_qnaList() {
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/hasol/admin/adminQnaListJSON.sue",
+			type: "POST",
+			data: ""
+			
+		});
 		
 	}
 
@@ -139,45 +159,47 @@
 				</form>
 			</div>
 			<form name="admin_qna_frm">
-				<table id="admin_qna" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
-					<thead>
-						<tr>
-							<th width="5%" class="admin_qna_th text-center" ><input type="checkbox" id=""/></th>
-							<th width="5%" height="50px" class="admin_qna_th text-center">No</th>
-							<th width="15%" class="admin_qna_th text-center">상품정보</th>
-							<th width="10%" class="admin_qna_th text-center">카테고리</th>
-							<th width="5%" class="admin_qna_th text-center">회원명</th>
-							<th width="25%" class="admin_qna_th text-center">제목</th>
-							<th width="10%" class="admin_qna_th text-center">작성일자</th>
-							<th width="5%" class="admin_qna_th text-center">답변상태</th>
-							<th width="10%" class="admin_qna_th text-center">답변</th>
-							<th width="10%" class="admin_qna_th text-center">삭제</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="admin_qna_tbody text-center" style="border-top:none;"><input type="checkbox" id=""/></td>
-							<td height="160px" class="admin_qna_tbody text-center">!상품코드</td>
-							<td class="admin_qna_tbody" >
-								<img id="admin_product_img_1" class="ml-4" height="100px" src="<%= ctxPath%>/images/hyerin/best_img_2.jpg">
-								<span class="ml-2">!상품명</span>
-							</td>
-							<td class="text-center admin_qna_tbody">!카테고리</td>
-							<td class="text-center admin_qna_tbody">!회원명</td>	
-							<td class="text-center admin_qna_tbody">
-								<div>!제목</div>
-								<div>!내용</div>
-							</td>
-							<td class="text-center admin_qna_tbody">!작성일자</td>
-							<td class="text-center admin_qna_tbody">!Y/N</td>
-							<td class="text-center admin_qna_tbody">
-								<button type="button" class="white admin_answer_btn" onclick="qna_answer();">답변</button>
-								<button type="button" class="white admin_answer_btn" onclick="qna_answerEdit();">답변수정</button>
-							</td>
-							<td class="text-center admin_qna_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;">삭제</button></td>
-						</tr>
-					</tbody>
-				</table>
+				<div id="admin_qnaList">
+					<%-- <table id="admin_qna" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기
+						<thead>
+							<tr>
+								<th width="5%" class="admin_qna_th text-center" ><input type="checkbox" id=""/></th>
+								<th width="5%" height="50px" class="admin_qna_th text-center">No</th>
+								<th width="15%" class="admin_qna_th text-center">상품정보</th>
+								<th width="10%" class="admin_qna_th text-center">카테고리</th>
+								<th width="5%" class="admin_qna_th text-center">회원명</th>
+								<th width="25%" class="admin_qna_th text-center">제목</th>
+								<th width="10%" class="admin_qna_th text-center">작성일자</th>
+								<th width="5%" class="admin_qna_th text-center">답변상태</th>
+								<th width="10%" class="admin_qna_th text-center">답변</th>
+								<th width="10%" class="admin_qna_th text-center">삭제</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="admin_qna_tbody text-center" style="border-top:none;"><input type="checkbox" id=""/></td>
+								<td height="160px" class="admin_qna_tbody text-center">!상품코드</td>
+								<td class="admin_qna_tbody" >
+									<img id="admin_product_img_1" class="ml-4" height="100px" src="<%= ctxPath%>/images/hyerin/best_img_2.jpg">
+									<span class="ml-2">!상품명</span>
+								</td>
+								<td class="text-center admin_qna_tbody">!카테고리</td>
+								<td class="text-center admin_qna_tbody">!회원명</td>	
+								<td class="text-center admin_qna_tbody">
+									<div>!제목</div>
+									<div>!내용</div>
+								</td>
+								<td class="text-center admin_qna_tbody">!작성일자</td>
+								<td class="text-center admin_qna_tbody">!Y/N</td>
+								<td class="text-center admin_qna_tbody">
+									<button type="button" class="white admin_answer_btn" onclick="qna_answer();">답변</button>
+									<button type="button" class="white admin_answer_btn" onclick="qna_answerEdit();">답변수정</button>
+								</td>
+								<td class="text-center admin_qna_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;">삭제</button></td>
+							</tr>
+						</tbody>
+					</table> --%>
+				</div>
 				<div class="mt-3">
 					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
 				</div>

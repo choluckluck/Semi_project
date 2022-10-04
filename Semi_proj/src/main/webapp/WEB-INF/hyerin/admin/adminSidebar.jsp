@@ -49,9 +49,9 @@
 		<div class="admin_product_sub mt-2"><a href="<%= ctxPath %>/hyerin/admin/adminProductRegister.sue">상품등록</a></div>
 		<div class="admin_product_sub mt-2 mb-1"><a href="<%= ctxPath %>/hyerin/admin/adminProductReview.sue">상품리뷰</a></div>
 	</div>
-	<div id="sidebar_admin_order" class="mt-4" style="color:gray; font-size:11pt;"><a href="<%= ctxPath %>/hyerin/admin/adminOrder.sue">주문 관리</a></div>
+	<div id="sidebar_admin_order" class="mt-4" style="color:gray; font-size:11pt;"><a href="<%= ctxPath %>/hyerin/admin/adminOrder.sue">주dhdu문 관리</a></div>
 	<div id="sidebar_admin_member" class="mt-4" style="color:gray; font-size:11pt;"><a href="<%= ctxPath %>/hyerin/admin/adminMember.sue">회원 관리</a></div>
-	<div id="sidebar_admin_member" class="mt-4" style="color:gray; font-size:11pt;"><a href="<%= ctxPath %>/hyerin/admin/adminQna.sue">문의 관리</a></div>
+	<div id="sidebar_admin_member" class="mt-4" style="color:gray; font-size:11pt;"><a href="<%= ctxPath %>/hasol/admin/adminQna.sue">문의 관리</a></div>
 	<hr style="margin-top: 125px;">
 	<div class="sidebar_info" style="font-size:8pt;" ><span class="font-weight-bold">평일</span>10:00 - 18:00 / <span class="font-weight-bold">점심</span>12:00-13:00</div>
 	<div class="sidebar_info" style="font-size:8pt;"><span class="font-weight-bold">주말, 공휴일 휴무</span></div>

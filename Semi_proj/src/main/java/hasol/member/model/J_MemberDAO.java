@@ -52,7 +52,7 @@ public class J_MemberDAO implements J_InterMemberDAO {
    }
 
    
-   // 
+   // 회원가입
    @Override
    public int registerMember(J_MemberVO member) throws SQLException {
 		
@@ -88,5 +88,60 @@ public class J_MemberDAO implements J_InterMemberDAO {
        }
        
        return result;
-   }   
+   }
+
+   
+   // 아이디 중복 검사
+   @Override
+   public boolean idDuplicateCheck(String userid) throws SQLException {
+	      boolean isExists = false;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select userid "
+	                  + " from tbl_member "
+	                  + " where userid = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, userid);
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         isExists = rs.next(); // 행이 있으면(중복된 userid) true ,
+	                               // 행이 없으면(사용가능한 userid) false 
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return isExists;
+   }
+
+   
+   // 이메일 중복 검사
+	@Override
+	public boolean emailDuplicateCheck(String email) throws SQLException {
+		   boolean isExists = false;
+		      
+		      try {
+		         conn = ds.getConnection();
+		         
+		         String sql = " select email "
+		                  + " from tbl_member "
+		                  + " where email = ? ";
+		         
+		         pstmt = conn.prepareStatement(sql);
+		         pstmt.setString(1, email);
+		         
+		         rs = pstmt.executeQuery();
+		         
+		         isExists = rs.next(); 
+		         
+		      } finally {
+		         close();
+		      }
+		      
+		      return isExists;
+	}   
 }
