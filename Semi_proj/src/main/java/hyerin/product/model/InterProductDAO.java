@@ -1,8 +1,7 @@
 package hyerin.product.model;
 
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public interface InterProductDAO {
 	
@@ -20,14 +19,30 @@ public interface InterProductDAO {
 	
 	
 	///////////////////////////////////////////////////////////////
-	// 관리자 페이지
+	// ** 관리자 페이지 ** //
+	
+	
+	// * 상품 목록 *
 	
 	// 검색이 있거나 없는, 두번째 셀렉트박스의 조건이 있거나 없는 상품에 대한 총페이지 알아오기
 	int getTotalPage(Map<String, String> paraMap) throws SQLException;
 	
+	// 첫 화면일때는 모든 상품정보를, 셀렉트박스를 변경했을때는 선택한 종류의 상품정보를 조회(select)
+	List<ProductVO> selectPagingProductByKind(Map<String, String> paraMap) throws SQLException;
 	
-	// 셀렉트박스 조건과 검색조건을 실행한 상품 보여주기
-	List<ProductVO> selectProduct(Map<String, String> paraMap) throws SQLException;
+	
+	// * 상품 등록 * 
+	
+	//상품종류 목록을 가져오기
+	List<String> selectProdKindList() throws SQLException;
+	
+	
+
+	
+	
+	
+	
+	
 
 
 }

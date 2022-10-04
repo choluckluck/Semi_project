@@ -16,6 +16,7 @@ public class MemberVO {
 	private String point; 
 	private String account_name; 
 	private String bank_name;
+	private String account;
 	private String registerday; 
 	private String lasw_pwd_change_date; 
 	private String status; 
@@ -115,6 +116,13 @@ public class MemberVO {
 	}
 	public void setBank_name(String bank_name) {
 		this.bank_name = bank_name;
+	}
+	
+	public String getAccount() {
+		return account;
+	}
+	public void setAccount(String account) {
+		this.account = account;
 	}
 	public String getRegisterday() {
 		return registerday;

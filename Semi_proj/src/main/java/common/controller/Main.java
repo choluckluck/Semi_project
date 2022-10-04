@@ -23,7 +23,6 @@ public class Main extends AbstractController {
 	
 		
 		InterProductDAO pdao = new ProductDAO();
-		InterMemberDAO mdao = new MemberDAO();
 		
 //		HttpSession session = request.getSession();
 //		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
@@ -31,7 +30,6 @@ public class Main extends AbstractController {
 		
 		//Best => 주문순 많은 순으로 상품을 불러온다
 		List<ProductVO> best_pvoList = pdao.selectBestProduct();
-		
 		
 		
 		//New arrival => 새로운 등록순으로 상품을 불러온다
@@ -50,7 +48,6 @@ public class Main extends AbstractController {
 //		if(wish_check_result) {
 //			heart_result = "Y";
 //		}
-		
 		
 		
 		request.setAttribute("best_pvoList", best_pvoList);

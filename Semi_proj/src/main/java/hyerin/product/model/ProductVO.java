@@ -20,6 +20,8 @@ public class ProductVO {
 	 
 	 private String md_pick_yn; //메인노출여부
 	 
+	 private ProductDetailVO pdvo;
+	 
 	
 	public String getProd_code() {
 		return prod_code;
@@ -137,6 +139,13 @@ public class ProductVO {
 	}
 	
 	
+	
+	public ProductDetailVO getPdvo() {
+		return pdvo;
+	}
+	public void setPdvo(ProductDetailVO pdvo) {
+		this.pdvo = pdvo;
+	}
 	/////////////////////////////////////////////////////////////
 	public ProductVO() {}
 	
