@@ -115,8 +115,29 @@
 			  </tr>
 			</thead>
 			<tbody>	
- 		 		<jsp:include page="./recentOrder.jsp"></jsp:include>
-
+			 <c:forEach begin="1" end="4" var="ovo" items="${requestScope.recentOrderList}">
+					
+			  <tr style="vertical-align:middle">
+			  
+			  
+			  
+			 	<td>2022-09-15<br><a class="orderview" href=#>[20220915-0000403]</a></td>
+		 		<td><a href=# ><img src="./images/shoes1.jpg"></a></td>
+		 		<td style="text-align:left"><a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >띠아모 플랫 (1.5cm)</a><br>[옵션: LEOPARD/235]</td>
+		 		<td>1</td>
+		 		<td>49,800원</td>
+		 		<td>입금 전</td>	
+		       </tr>
+		     </c:forEach>
+		      
+			  <tr style="vertical-align:middle">
+			 	<td>2022-09-15<br><a class="orderview" href=#>[20220915-0000403]</a></td>
+		 		<td><a class = "prd" href=#><img src="./images/shoes1.jpg"></a></td>
+		 		<td style="text-align:left"><a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >띠아모 플랫 (1.5cm)</a><br>[옵션: LEOPARD/235]</td>
+		 		<td>1</td>
+		 		<td>49,800원</td>
+		 		<td>입금 전</td>	
+		      </tr>
 		    </tbody>
 		  </table>
 	      

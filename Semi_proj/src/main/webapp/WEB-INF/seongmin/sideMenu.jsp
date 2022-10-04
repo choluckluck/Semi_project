@@ -30,6 +30,10 @@
 		$("button#reviewManage").click(function(){
 			location.href="<%=request.getContextPath() %>/seongmin/member/reviewManage.sue"
 		});	
+		
+		$("button#mypagemain").click(function(){
+			location.href="<%=request.getContextPath() %>/seongmin/member/mypage_Main.sue"			
+		})
 
 	});
 	

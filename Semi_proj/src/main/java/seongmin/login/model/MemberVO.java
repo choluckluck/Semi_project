@@ -19,6 +19,8 @@ public class MemberVO {
 	private String account_name; 
 	private String bank_name;
 	private int account;
+
+	
 	public int getAccount() {
 		return account;
 	}
