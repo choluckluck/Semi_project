@@ -29,10 +29,24 @@ public class mypage_Main extends AbstractController {
 		
 		InterOrderDAO odao = new OrderDAO();
 		List<OrderVO> recentOrderList = odao.recentOrderList(paraMap);
+				
+		List<Integer> totalOrderList = new ArrayList<>();
+		totalOrderList = odao.totalOrderList(paraMap);
+		
+		int total_amount = totalOrderList.get(0);
+		int total_count = totalOrderList.get(1);
+		
+		request.setAttribute("total_amount", total_amount);
+		request.setAttribute("total_count", total_count);
 		
 		
 		request.setAttribute("recentOrderList", recentOrderList);
 		session.setAttribute("loginuser", loginuser);
+		
+		
+		
+		
+
 		
 		super.setViewPage("/WEB-INF/seongmin/mypage_Main.jsp");
 		

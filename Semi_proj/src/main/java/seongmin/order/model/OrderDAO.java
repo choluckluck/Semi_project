@@ -105,9 +105,11 @@ public class OrderDAO implements InterOrderDAO {
 				ovo.setTvo(tvo);
 				//  very Important 				
 
-				ovoList.add(ovo);
-	             
+				ovoList.add(ovo);	             
 			}//end of while
+			
+			
+			
 			
 		}finally {
 			close();
@@ -115,6 +117,47 @@ public class OrderDAO implements InterOrderDAO {
 		
 		
 		return ovoList;
-	}
+	} //end of public List<OrderVO> recentOrderList
+
+	
+
+	// 총 주문조회
+	@Override
+	public List<Integer> totalOrderList(Map<String, String> paraMap) throws SQLException{
+		List<Integer> totalOrderList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select sum(total_order_amount) as total_amount, count(*) as total_count\n"+
+					"from tbl_order\n"+
+					"where fk_userid = ? ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				totalOrderList.add(rs.getInt(1));
+				totalOrderList.add(rs.getInt(2));            
+			}//end of while
+			
+			
+			
+			
+		}finally {
+			close();
+			}
+		
+		
+		return totalOrderList;
+	} //end of public List<OrderVO> recentOrderList
+	
+	
+	
+	
+	
 
 }

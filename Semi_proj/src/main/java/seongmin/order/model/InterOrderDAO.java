@@ -8,4 +8,6 @@ public interface InterOrderDAO {
 
 	List<OrderVO> recentOrderList(Map<String, String> paraMap) throws SQLException;
 
+	List<Integer> totalOrderList(Map<String, String> paraMap) throws SQLException;
+
 }

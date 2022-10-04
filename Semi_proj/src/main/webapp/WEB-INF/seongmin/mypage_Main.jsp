@@ -88,7 +88,7 @@
 	      <div id=buttons>
 		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/point.sue'" ><div style="text-align:center; font-weight:bold">적립금</div><div style="text-align:center">${sessionScope.loginuser.point} 원</div></button>
 		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/coupon.sue'"><div style="text-align:center; font-weight:bold">쿠폰</div><div style="text-align:center">00개</div></button>
-		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/orderView.sue'"><div style="text-align:center; font-weight:bold">총 주문</div><div style="text-align:center">00,000원(00회)</div></button>
+		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/orderView.sue'"><div style="text-align:center; font-weight:bold">총 주문</div><div style="text-align:center">${requestScope.total_amount}원 (${requestScope.total_count}회)</div></button>
 	      </div>
 	      <br><br>
 		      <div style="display:inline; font-size:13pt;">최근 주문 내역</div>
@@ -116,7 +116,6 @@
 			</thead>
 			<tbody>	
  		 		<jsp:include page="./recentOrder.jsp"></jsp:include>
-
 		    </tbody>
 		  </table>
 	      
