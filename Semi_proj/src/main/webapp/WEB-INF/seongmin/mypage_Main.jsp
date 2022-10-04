@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
- 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
     
 <!DOCTYPE html>
 <html>
@@ -58,7 +58,7 @@
   	font-size: 14px;
   }
 
-
+  
 </style>
 
 <meta charset="UTF-8">
@@ -88,7 +88,7 @@
 	      <div id=buttons>
 		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/point.sue'" ><div style="text-align:center; font-weight:bold">적립금</div><div style="text-align:center">${sessionScope.loginuser.point} 원</div></button>
 		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/coupon.sue'"><div style="text-align:center; font-weight:bold">쿠폰</div><div style="text-align:center">00개</div></button>
-		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/orderView.sue'"><div style="text-align:center; font-weight:bold">총 주문</div><div style="text-align:center">${requestScope.total_amount}원 (${requestScope.total_count}회)</div></button>
+		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/orderView.sue'"><div style="text-align:center; font-weight:bold">총 주문</div><div style="text-align:center"><fmt:formatNumber value="${requestScope.total_amount}" pattern="#,###"/>원 (${requestScope.total_count}회)</div></button>
 	      </div>
 	      <br><br>
 		      <div style="display:inline; font-size:13pt;">최근 주문 내역</div>
@@ -124,47 +124,10 @@
 		      <div style="display:inline; font-size:13pt; position:relative; left:75%;"><a class="prd" href="<%=request.getContextPath() %>/seongmin/member/interestPrd.sue">더보기 ▶</a></div>
 	      <br><br>
 	      
-	 <div class="row" style="width:90%">
+	 <div class="row" style="width:100%">
 	  
-		  <div class="col" style="border:none">		  
-			<div class="card" style="width: 250px; height:400px;">
-			 <a href="#" class="btn btn-white">
-			  <img src="./images/pic22.jpg" class="card-img-top" alt="...">
-			  <br><br>
-			    <div style="text-align:left">드레이 로퍼(1cm) <br> 29,800원 </div>
-			  </a>
-			</div>			 
-		  </div>
-
-   		  <div class="col">
-			<div class="card" style="width: 250px; height:400px;">
-			 <a href="#" class="btn btn-white">
-			  <img src="./images/pic22.jpg" class="card-img-top" alt="...">
-			  <br><br>
-			    <div style="text-align:left">드레이 로퍼(1cm) <br> 29,800원 </div>
-			  </a>
-			</div>
-		  </div>
-
-		  <div class="col">			
-			<div class="card" style="width: 250px; height:400px;">
-			 <a href="#" class="btn btn-white">
-			  <img src="./pic22.jpg" class="card-img-top" alt="...">
-			  <br><br>
-			    <div style="text-align:left">드레이 로퍼(1cm) <br> 29,800원 </div>
-			  </a>
-			</div>
-		  </div>
-
-		  <div class="col">			
-			<div class="card" style="width: 250px; height:400px;">
-			 <a href="#" class="btn btn-white">
-			  <img src="./pic22.jpg" class="card-img-top" alt="...">
-			  <br><br>
-			    <div style="text-align:left">드레이 로퍼(1cm) <br> 29,800원 </div>
-			  </a>
-			</div>
-		  </div>
+ 		 <jsp:include page="./likeView.jsp"></jsp:include>
+		
 
 		  		  								  			  
 	 </div>

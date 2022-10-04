@@ -11,6 +11,7 @@ import seongmin.login.model.MemberVO;
 import seongmin.order.model.InterOrderDAO;
 import seongmin.order.model.OrderDAO;
 import seongmin.order.model.OrderVO;
+import seongmin.product.model.ProductVO;
 
 public class mypage_Main extends AbstractController {
 
@@ -20,28 +21,31 @@ public class mypage_Main extends AbstractController {
 		HttpSession session = request.getSession(); 
 		  
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		session.setAttribute("loginuser", loginuser);
 		
 		String userid = loginuser.getUserid();
 
-		
 		Map<String, String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		
 		InterOrderDAO odao = new OrderDAO();
 		List<OrderVO> recentOrderList = odao.recentOrderList(paraMap);
-				
-		List<Integer> totalOrderList = new ArrayList<>();
-		totalOrderList = odao.totalOrderList(paraMap);
+		request.setAttribute("recentOrderList", recentOrderList);
+		////////////////////////////////////////////////////////
 		
+		List<Integer> totalOrderList = new ArrayList<>();
+		totalOrderList = odao.totalOrderList(paraMap);		
 		int total_amount = totalOrderList.get(0);
 		int total_count = totalOrderList.get(1);
 		
 		request.setAttribute("total_amount", total_amount);
 		request.setAttribute("total_count", total_count);
+		///////////////////////////////////////////
 		
+		List<ProductVO> likeList = new ArrayList<>();
+		likeList = odao.likeList(paraMap);
 		
-		request.setAttribute("recentOrderList", recentOrderList);
-		session.setAttribute("loginuser", loginuser);
+		request.setAttribute("likeList", likeList);
 		
 		
 		

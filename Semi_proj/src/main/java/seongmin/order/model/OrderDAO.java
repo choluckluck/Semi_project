@@ -61,7 +61,7 @@ public class OrderDAO implements InterOrderDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select userid, to_char(orderdate,'yyyy-mm-dd') as orderdate, order_code, prod_name, order_buy_count, order_state, subthumb_file, order_price \n"+
+			String sql = "select userid, to_char(orderdate,'yyyy-mm-dd') as orderdate, order_code, prod_name, order_buy_count, order_state, prod_image, order_price, prod_kind \n"+
 					"from tbl_order o\n"+
 					"join\n"+
 					"tbl_member m\n"+
@@ -70,8 +70,6 @@ public class OrderDAO implements InterOrderDAO {
 					"on order_code = fk_order_code\n"+
 					"join tbl_product p\n"+
 					"on fk_prod_code = p.prod_code\n"+
-					"join tbl_subthumb s\n"+
-					"on s.fk_prod_code = p.prod_code\n"+
 					"where userid = ?";
 											
 					
@@ -90,6 +88,8 @@ public class OrderDAO implements InterOrderDAO {
 			//  very Important 								
 				ProductVO pvo = new ProductVO();
 				pvo.setProd_name(rs.getString(4));
+				pvo.setProd_image(rs.getString(7));
+				pvo.setProd_kind(rs.getString(9));
 				ovo.setPvo(pvo);
 				
 				OrderDetailVO odvo = new OrderDetailVO();
@@ -100,9 +100,7 @@ public class OrderDAO implements InterOrderDAO {
 				
 				ovo.setOrder_state(rs.getString(6));
 				
-				ThumbVO tvo = new ThumbVO();
-				tvo.setSubthumb_file(rs.getString(7));
-				ovo.setTvo(tvo);
+
 				//  very Important 				
 
 				ovoList.add(ovo);	             
@@ -154,9 +152,46 @@ public class OrderDAO implements InterOrderDAO {
 		
 		return totalOrderList;
 	} //end of public List<OrderVO> recentOrderList
+
+	@Override
+	public List<ProductVO> likeList(Map<String, String> paraMap) throws SQLException {
+
+		List<ProductVO> likeList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select prod_name, prod_price, prod_image, prod_kind \n"+
+					"from\n"+
+					"tbl_like\n"+
+					"join tbl_product\n"+
+					"on fk_prod_code = prod_code\n"+
+					"where fk_userid = ? ";			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ProductVO lpvo = new ProductVO();
+				lpvo.setProd_name(rs.getString(1));
+				lpvo.setProd_price(rs.getString(2));
+				lpvo.setProd_image(rs.getString(3));
+				lpvo.setProd_kind(rs.getString(4));
+				
+				
+				likeList.add(lpvo);
+			}//end of while
+		
+		}finally {
+			close();
+			}
 	
-	
-	
+		return likeList;
+		
+	} //end of public List<OrderVO> recentOrderList
+
 	
 	
 
