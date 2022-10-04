@@ -61,16 +61,16 @@ public class OrderDAO implements InterOrderDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select userid, to_char(orderdate,'yyyy-mm-dd') as orderdate, order_code, prod_name, order_buy_count, order_state, prod_image, order_price, prod_kind \n"+
-					"from tbl_order o\n"+
-					"join\n"+
-					"tbl_member m\n"+
-					"on fk_userid = userid\n"+
-					"join tbl_order_detail d\n"+
-					"on order_code = fk_order_code\n"+
-					"join tbl_product p\n"+
-					"on fk_prod_code = p.prod_code\n"+
-					"where userid = ?";
+			String sql = " select userid, to_char(orderdate,'yyyy-mm-dd') as orderdate, order_code, prod_name, order_buy_count, order_state, prod_image, order_price, prod_kind \n"+
+					" from tbl_order o\n"+
+					" left join\n"+
+					" tbl_member m\n"+
+					" on fk_userid = userid\n"+
+					" left join tbl_order_detail d\n"+
+					" on order_code = fk_order_code\n"+
+					" left join tbl_product p\n"+
+					" on fk_prod_code = p.prod_code\n"+
+					" where userid = ? ";
 											
 					
 			pstmt = conn.prepareStatement(sql);
@@ -113,7 +113,7 @@ public class OrderDAO implements InterOrderDAO {
 			close();
 			}
 		
-		
+		System.out.println(ovoList.size());
 		return ovoList;
 	} //end of public List<OrderVO> recentOrderList
 
