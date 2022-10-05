@@ -148,17 +148,7 @@ public class ProductDAO implements InterProductDAO {
 					"    on PO.prod_code = OD.fk_prod_code\n"+
 					"    left join\n"+
 					"    (\n"+
-					"        select prod_code, LISTAGG(P.prod_color,',') WITHIN GROUP (ORDER BY P.prod_color) AS prod_color\n"+
-					"            ,LISTAGG(P.prod_size,',') WITHIN GROUP (ORDER BY P.prod_size) AS prod_size \n"+
-					"        from\n"+
-					"        (\n"+
-					"            select distinct prod_code, prod_color, prod_size\n"+
-					"            from tbl_product\n"+
-					"            join\n"+
-					"            tbl_prod_detail\n"+
-					"            on prod_code = fk_prod_code\n"+
-					"        ) P\n"+
-					"        group by prod_code\n"+
+					"      V_COLOR "+
 					"    ) CS\n"+
 					"    on PO.prod_code = CS.prod_code\n"+
 					"    left join\n"+
@@ -168,8 +158,8 @@ public class ProductDAO implements InterProductDAO {
 					"        group by fk_prod_code\n"+
 					"    )R\n"+
 					"    on PO.prod_code = r.fk_prod_code\n"+
-					"    where prod_kind like '%'\n" ;
-			
+					"    where prod_kind= ? or prod_kind= '나나' ";
+
 			
 			// 1-1 검색어를 입력하여 검색하는 경우
 			
@@ -345,7 +335,7 @@ public class ProductDAO implements InterProductDAO {
 				 */
 			 
 					 			
-		 System.out.println("dao 최종확인 selectitem : " +selectItem);
+		// System.out.println("dao 최종확인 selectitem : " +selectItem);
 			 
 			
 			//사이즈 sql
@@ -364,27 +354,71 @@ public class ProductDAO implements InterProductDAO {
 					") T \n"+
 					" where T.RNO2 between ? and ? ";
 					
-			 			
-			  
-			 
-		
 		
 			 int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			 int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			 
+			 
+			
+			 
+			 String tem = "bloafer";
+				//String tem2 = "'2', '3.5'";
 			 
 			pstmt = conn.prepareStatement(sql);
 			
 			//System.out.println("searchPriceStart :" +searchPriceStart);
 			//System.out.println("searchPriceEnd :" +searchPriceEnd);
 			
+			String productType_1 = paraMap.get("productType_1");
+		
+		   System.out.println("productType_1 : " +productType_1);
+			
 			
 			// 위치홀더 넣어주기 
 			
 			if( searchWord != null && !searchWord.trim().isEmpty() ) {
 				
-				pstmt.setString(1, searchWord);
+				pstmt.setString(1, productType_1);
+				//pstmt.setString(2, tem2);
 				
+				
+				
+				pstmt.setString(2, searchWord);
+				
+				pstmt.setInt(3,  searchPriceStart);
+				pstmt.setInt(4,  searchPriceEnd);
+				
+				pstmt.setString(5, green);  //시작
+				pstmt.setString(6, yellow);
+				pstmt.setString(7, aquamarine);
+				pstmt.setString(8, black);
+				pstmt.setString(9, orange);
+				pstmt.setString(10, pink);
+				pstmt.setString(11, purple);
+				pstmt.setString(12, red);
+				pstmt.setString(13, skyblue);
+				pstmt.setString(14, silver);
+				pstmt.setString(15, brown);
+				
+				pstmt.setString(16, s220);  //사이즈 시작
+				pstmt.setString(17, s225);
+				pstmt.setString(18, s230);
+				pstmt.setString(19, s235);
+				pstmt.setString(20, s240);
+				pstmt.setString(21, s245);
+				pstmt.setString(22, s250);
+				pstmt.setString(23, s255);				
+				
+				
+				pstmt.setInt(24, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
+				pstmt.setInt(25, (currentShowPageNo*sizePerPage) ); // 공식
+				
+				
+			 }
+			 else {
+				 pstmt.setString(1, productType_1);
+			//	 pstmt.setString(2, tem2);
+				 
 				pstmt.setInt(2,  searchPriceStart);
 				pstmt.setInt(3,  searchPriceEnd);
 				
@@ -407,43 +441,12 @@ public class ProductDAO implements InterProductDAO {
 				pstmt.setString(19, s240);
 				pstmt.setString(20, s245);
 				pstmt.setString(21, s250);
-				pstmt.setString(22, s255);				
+				pstmt.setString(22, s255);		
 				
 				
 				pstmt.setInt(23, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
+	
 				pstmt.setInt(24, (currentShowPageNo*sizePerPage) ); // 공식
-				
-				
-			 }
-			 else {
-				pstmt.setInt(1,  searchPriceStart);
-				pstmt.setInt(2,  searchPriceEnd);
-				
-				pstmt.setString(3, green);  //시작
-				pstmt.setString(4, yellow);
-				pstmt.setString(5, aquamarine);
-				pstmt.setString(6, black);
-				pstmt.setString(7, orange);
-				pstmt.setString(8, pink);
-				pstmt.setString(9, purple);
-				pstmt.setString(10, red);
-				pstmt.setString(11, skyblue);
-				pstmt.setString(12, silver);
-				pstmt.setString(13, brown);
-				
-				pstmt.setString(14, s220);  //사이즈 시작
-				pstmt.setString(15, s225);
-				pstmt.setString(16, s230);
-				pstmt.setString(17, s235);
-				pstmt.setString(18, s240);
-				pstmt.setString(19, s245);
-				pstmt.setString(20, s250);
-				pstmt.setString(21, s255);		
-				
-				
-				pstmt.setInt(22, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
-		
-				pstmt.setInt(23, (currentShowPageNo*sizePerPage) ); // 공식
 		
 			 }
 
@@ -457,7 +460,7 @@ public class ProductDAO implements InterProductDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			
+		//System.out.println(sql);
 			
 			while(rs.next() ) {
 				
@@ -475,8 +478,10 @@ public class ProductDAO implements InterProductDAO {
 				pvo.setProd_registerday(rs.getString(10));
 				pvo.setProd_review_count(rs.getInt(11));
 				
-				
+			
 				productList.add(pvo);
+			
+			//	System.out.println(pvo.getProd_color());
 				
 			}// end of while-----
 			
@@ -528,7 +533,7 @@ public class ProductDAO implements InterProductDAO {
 							"    group by fk_prod_code\n"+
 							")R\n"+
 							"on PO.prod_code = r.fk_prod_code\n"+
-							"where prod_kind like '%' ";
+							" where prod_kind in('loafer','bloafer') and prod_high in ('2', '3.5')\n" ;
 					
 					
 					// 1-1 검색어를 입력하여 검색하는 경우
@@ -680,6 +685,8 @@ public class ProductDAO implements InterProductDAO {
 					pstmt = conn.prepareStatement(sql);
 					
 					//위치홀더 넣어주기
+					
+					
 					
 					if( searchWord != null && !searchWord.trim().isEmpty() ) {
 						

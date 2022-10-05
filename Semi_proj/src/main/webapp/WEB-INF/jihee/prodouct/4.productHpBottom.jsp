@@ -60,6 +60,7 @@ function goSearche() {
   			<img src="<%= ctxPath%>/images/product/${pvo.prod_kind}/${pvo.prod_image}" class="card-img-top" alt="...">
   				<div class="card-body">
     				<div class="card-title" >
+    				
     				<c:forTokens var="color" items="${pvo.prod_color}" delims=",">
     				<span class="best_color" style="background-color: ${color};"> </span>      
     				</c:forTokens>

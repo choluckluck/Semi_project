@@ -11,7 +11,7 @@ import jihee.product.model.*;
 
 
 
-public class ProductHp extends AbstractController {
+public class ProductHp7cm extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -542,7 +542,7 @@ public class ProductHp extends AbstractController {
 		// ******** === 페이지바 만들기 끝 === ******** //
 
 		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/jihee/prodouct/4.productHpSide.jsp");
+		super.setViewPage("/WEB-INF/jihee/prodouct/4.productHp7cm.jsp");
 		
 
 	}

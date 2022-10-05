@@ -42,8 +42,8 @@ a:active {text-decoration: none; color: gray;}
 				</div>
 			</div>
 				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
-					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp.sue" class="link">4~6cm</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp/7cm.sue" class="link">7cm~</a><li>
+					<li class="fw-bolder"> <a href="<%=ctxPath%>jihee/product/productHp/7cm.sue" class="link">4~6cm</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>jihee/product/productHp/7cm.sue" class="link">7cm~</a><li>
 				</ul>
 				<br>
 			<div class="row">
