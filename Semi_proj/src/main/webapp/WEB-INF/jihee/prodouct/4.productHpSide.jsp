@@ -183,7 +183,7 @@ a:active {text-decoration: none; color: gray;}
 			</div>
 			
 			<br><br>
-			<select class="form-select-lg-3" aria-label="Default select example" style="" name="selectItem"  id="selectItem" onchange="goSearch()">
+			<select class="form-select-lg-3" aria-label="Default select example" style="" name="selectItem"  id="selectItem" >
 		  <option value="popularityitem" selected >인기상품순</option>
 		  <option value="newItem">신상품순</option>
 		  <option value="lowPriceItem">낮은가격순</option>
@@ -282,6 +282,7 @@ a:active {text-decoration: none; color: gray;}
 	    
 	    
 	});// end of ready---------------
+	
 	function goSearch() {
 		
 		const frm = document.productHpFrm

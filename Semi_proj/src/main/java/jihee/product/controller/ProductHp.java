@@ -43,60 +43,12 @@ public class ProductHp extends AbstractController {
 		}
 		*/
 		
-		//2. 페이징 처리를 한 모든 상품 또는 검색한 상품 보여주기 //
+		
 		
 		
 		Map<String, String> paraMap = new HashMap<>();
 		
-		String sizePerPage = "20";
-		// 한 페이지당 화면상에 보여줄 카드의 개수
-
-		/*
-		 * if(sizePerPage == null || !("3".equals(sizePerPage) ||
-		 * "5".equals(sizePerPage) || "10".equals(sizePerPage))) { sizePerPage = "10"; }
-		 */
 		
-		String currentShowPageNo = request.getParameter("currentShowPageNo");
-		// currentShowPageNo 은 사용자가 보고자하는 페이지바의 페이지번호 이다.
-         // 메뉴에서 회원목록 만을 클릭했을 경우에는 currentShowPageNo 은 null 이 된다.
-         // currentShowPageNo 이 null 이라면 currentShowPageNo 을 1 페이지로 바꾸어야 한다.
-		
-		if(currentShowPageNo == null) {
-			currentShowPageNo = "1";
-		}
-		
-		// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 숫자가 아닌 문자를 입력한 경우 또는 
-         //     int 범위를 초과한 숫자를 입력한 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== // 
-		try {
-			if(Integer.parseInt(currentShowPageNo) < 1) {
-				currentShowPageNo = "1";
-			}
-			
-		}catch(NumberFormatException e) {
-			currentShowPageNo = "1"; //숫자가 아닌 문자를 get방식으로 입력했을 때 무조건 1로 바꾸어준다
-		}
-		
-		
-		paraMap.put("sizePerPage", sizePerPage);
-		paraMap.put("currentShowPageNo", currentShowPageNo);
-		
-		
-
-		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
-		int totalPage = pdao.getTotalPage(paraMap);
-		//System.out.println(totalPage);
-		//sizePerPage가 10일때 totalPage는 21
-		//sizePerPage가  5일때 totalPage는 41
-		//sizePerPage가  3일때 totalPage는 68
-		
-		
-		// 시작 <= GET방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo에 토탈페이지수보다 큰 값을 입력하여 장난친 경우에는 1페이지로 가게끔 막아줌
-		if(Integer.parseInt(currentShowPageNo) > totalPage ) {
-			currentShowPageNo = "1";
-		}
-		
-		// 끝 <= GET방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo에 토탈페이지수보다 큰 값을 입력하여 장난친 경우에는 1페이지로 가게끔 막아줌
-
 		
 		
 		
@@ -195,6 +147,8 @@ public class ProductHp extends AbstractController {
 		String orangeColor = request.getParameter("orangeColor");
 		String pinkColor = request.getParameter("pinkColor");
 		String AquamarineColor = request.getParameter("AquamarineColor");	
+		
+		
 		
 		
 		// System.out.println("확인용 controllor :" +redColor);
@@ -364,13 +318,66 @@ public class ProductHp extends AbstractController {
 		System.out.println("java 확인용2 : " +selectItem);
 		
 		
+				
 		
-		//2- 상품목록 가져오기/////////////////////////////////////////////////////////////
-		List<ProductVO> productList = pdao.selectProductAll(paraMap);
-	
-		request.setAttribute("productList", productList);
-		request.setAttribute("sizePerPage", sizePerPage);
-		request.setAttribute("searchWord", searchWord);
+		//3-1. 페이징 처리를 한 모든 상품 또는 검색한 상품 보여주기 //
+				String sizePerPage = "20";
+				// 한 페이지당 화면상에 보여줄 카드의 개수
+
+				/*
+				 * if(sizePerPage == null || !("3".equals(sizePerPage) ||
+				 * "5".equals(sizePerPage) || "10".equals(sizePerPage))) { sizePerPage = "10"; }
+				 */
+				
+				String currentShowPageNo = request.getParameter("currentShowPageNo");
+				// currentShowPageNo 은 사용자가 보고자하는 페이지바의 페이지번호 이다.
+		         // 메뉴에서 회원목록 만을 클릭했을 경우에는 currentShowPageNo 은 null 이 된다.
+		         // currentShowPageNo 이 null 이라면 currentShowPageNo 을 1 페이지로 바꾸어야 한다.
+				
+				if(currentShowPageNo == null) {
+					currentShowPageNo = "1";
+				}
+				
+				// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 숫자가 아닌 문자를 입력한 경우 또는 
+		         //     int 범위를 초과한 숫자를 입력한 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== // 
+				try {
+					if(Integer.parseInt(currentShowPageNo) < 1) {
+						currentShowPageNo = "1";
+					}
+					
+				}catch(NumberFormatException e) {
+					currentShowPageNo = "1"; //숫자가 아닌 문자를 get방식으로 입력했을 때 무조건 1로 바꾸어준다
+				}
+				
+				
+				paraMap.put("sizePerPage", sizePerPage);
+				paraMap.put("currentShowPageNo", currentShowPageNo);
+				
+				//3-2 상품목록 가져오기/////////////////////////////////////////////////////////////
+				List<ProductVO> productList = pdao.selectProductAll(paraMap);
+			
+				request.setAttribute("productList", productList);
+				
+				request.setAttribute("searchWord", searchWord);
+				
+				
+
+				// 3-3페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
+				int totalPage = pdao.getTotalPage(paraMap);
+				//System.out.println(totalPage);
+				//sizePerPage가 10일때 totalPage는 21
+				//sizePerPage가  5일때 totalPage는 41
+				//sizePerPage가  3일때 totalPage는 68
+				
+				
+				// 시작 <= GET방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo에 토탈페이지수보다 큰 값을 입력하여 장난친 경우에는 1페이지로 가게끔 막아줌
+				if(Integer.parseInt(currentShowPageNo) > totalPage ) {
+					currentShowPageNo = "1";
+				}
+				
+				// 끝 <= GET방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo에 토탈페이지수보다 큰 값을 입력하여 장난친 경우에는 1페이지로 가게끔 막아줌
+
+				
 		
 		
 		
@@ -456,14 +463,30 @@ public class ProductHp extends AbstractController {
 		
 		
 		
+		if(searchWord == null) {
+			searchWord = "";
+		}
+		
+		if(searchPrice1 ==null) {
+			searchPrice1= "0";
+		}
+		
+		if(searchPrice2 ==null) {
+			searchPrice2= "5000000";
+		}
+		
+	
+		
 		/////////////////////////////////////////////////////////////////////
 		
 		
 		// **** [맨처음][이전] 만들기 **** //
-		if(pageNo != 1) {
-			//pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo=1"'>" + "</a></li>";
-			pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>" + "</a></li>";
-		}
+		
+		  if(pageNo != 1) { //pageBar +=
+			  if(pageNo != 1) 
+					pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo=1&searchWord="+searchWord+"'>" + "[맨처음]</a></li>";
+					pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"&searchWord="+searchWord+"'>" + "[이전]</a></li>";
+				}
 		
 		// **** [맨처음][이전] 만들기 끝 **** //
 		
@@ -474,7 +497,7 @@ public class ProductHp extends AbstractController {
 				
 			}
 			else {
-				pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"&searchPrice1="+searchPrice1+"&searchPrice2="+searchPrice2+"&selectItem="+selectItem+"'>" + pageNo + "</a></li>";
 			}
 			loop++; // 1 2 3 4 5 6 7 8 9 10
 			pageNo++; // 1   2  3  4  5  6  7  8  9 10
@@ -490,15 +513,19 @@ public class ProductHp extends AbstractController {
 		//세번째 블럭( 21 )인경우 pageNo 22
 		
 		// **** [다음][마지막] 만들기 **** //
+		
 		if( pageNo <= totalPage ) { //페이지가 totalPage보다 작거나 같을때만 (마지막 블럭 제외)  
-			pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>" + "</a></li>";
-			pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"'>" + "</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"'>" + "[다음]</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"&searchWord="+searchWord+"'>" + "[마지막]</a></li>";
 		}
 		// **** [다음][마지막] 만들기 끝**** //
 		
 						
 		request.setAttribute("pageBar", pageBar);
 		
+		System.out.println("pagebar :" +pageBar +"\n tatalpage: " +totalPage);
+		
+
 		
 		// ******** === 페이지바 만들기 끝 === ******** //
 
