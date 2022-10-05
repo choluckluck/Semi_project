@@ -1,4 +1,4 @@
-package hyerin.product.model;
+package seongmin.product.model;
 
 import java.sql.*;
 import java.util.*;

@@ -1,4 +1,4 @@
-package hyerin.product.model;
+package seongmin.product.model;
 
 public class ProductVO {
 
@@ -28,8 +28,7 @@ public class ProductVO {
 	}
 	public void setProd_code(String prod_code) {
 		this.prod_code = prod_code;
-	}
-	
+	}	
 	
 	public String getProd_name() {
 		return prod_name;
