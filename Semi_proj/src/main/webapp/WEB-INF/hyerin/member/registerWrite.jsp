@@ -5,8 +5,8 @@
 
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 
-<!-- <style tpye="css/text">
-.tooltip {
+<style tpye="css/text">
+/* .tooltip {
 	display:none;
 	position: absolute;
 	background: #ffffff;
@@ -36,8 +36,15 @@
 	border-top-color: #f57171;
 	border-width: 11px;
 	margin-left: -11px;
+} */
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+	  -webkit-appearance: none;
+	  margin: 0;
 }
-</style>-->
+
+</style>
  
 <script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> 
 <script>
@@ -86,15 +93,15 @@
 			
 			if(userid == ""){ // 입력하지 않거나 공백만 입력한 경우
 				id_check = false;
-				$(".register_warning").hide();
-				$(".register_approval").hide();
+				$target.parent().find(".register_warning").hide();
+				$target.parent().find(".register_approval").hide();
 				
 				$target.parent().find("#id_warning").show();
 			}
 			else { // 공백이 아닌 글자를 입력한 경우
-				id_check = false;
-				$(".register_warning").hide();
-				$(".register_approval").hide();
+				$target.parent().find(".register_warning").hide();
+				$target.parent().find(".register_approval").hide();
+				
 
 				if(!bool){// 아이디가 정규 표현식에서 위배됐다면 or 숫자로만 이뤄졌다면
 					id_check = false;
@@ -125,10 +132,8 @@
 							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 						}
 					});
-
 				}
 			}
-
 		});
 		
 		
@@ -140,23 +145,21 @@
 			const bool = regExp.test($target.val());
 					
 			if(pwd == ""){ // 입력하지 않거나 공백만 입력한 경우
-				pwd_check = false;
-				$target.parent().find("#pwd_warning2").hide();
-				$target.parent().find("#pwd_approval").hide();
+				$target.parent().find(".register_warning").hide();
+				$target.parent().find(".register_approval").hide();
 				
 				$target.parent().find("#pwd_warning").show();
 			}
 			else { // 공백이 아닌 글자를 입력한 경우
 				pwd_check = false;
-				$target.parent().find("#pwd_warning").hide();
+				$target.parent().find(".register_warning").hide();
+				$target.parent().find(".register_approval").hide();
 
 				if(!bool){ // 정규 표현식에서 위배됐다면
 					pwd_check = false;
-					$target.parent().find("#pwd_approval").hide();
 					$target.parent().find("#pwd_warning2").show();
 				}	
 				else{
-					$target.parent().find("#pwd_warning2").hide();
 					$target.parent().find("#pwd_approval").show();
 					pwd_check = true;
 				}
@@ -171,10 +174,16 @@
 			const pwdcheck = $target.val();
 			
 			if(pwdcheck == ""){ // 입력하지 않거나 공백만 입력한 경우
+				$target.parent().find(".register_warning").hide();
+				$target.parent().find(".register_approval").hide();
+				
 				pwdcheck_check = false;
 				$target.parent().find("#pwdcheck_warning").show();
 			}
 			else { // 공백이 아닌 글자를 입력한 경우
+				$target.parent().find(".register_warning").hide();
+				$target.parent().find(".register_approval").hide();
+				
 				if(pwd != pwdcheck) {//암호와 암호확인값이 틀린 경우
 					pwdcheck_check = false;
 					$target.parent().find("#pwdcheck_warning").show();
@@ -193,21 +202,25 @@
 			const name = $target.val().trim();
 			
 			if(name == ""){ //입력하지 않거나 공백만 입력한 경우
+				$target.parent().find(".register_warning").hide();
+				$target.parent().find(".register_approval").hide();
+				
 				name_check = false;
 				$target.parent().find(".register_warning").show();
 			}
 			else{ //공백이 아닌 글자를 입력한 경우				
 				$target.parent().find(".register_warning").hide();
+				$target.parent().find(".register_approval").hide();
+				
 				name_check = true;
 			}
 		});//end of blur
 		
 		
-		// 5. 주소는 바깥 함수로 되어 있음.
+		// 5. 주소는 바깥에~ 함수로 되어 있음.
 		
 		
-		//6. 핸드폰 번호 확인
-		
+		//6. 핸드폰 번호 확인		
 		// 핸드폰 번호 middle 의 blur이벤트
 		$("input[name=mobile2]").blur((e)=>{
 			const $target = $(e.target);
@@ -220,6 +233,8 @@
 				$target.parent().find(".register_warning").show();
 			}
 			else {
+				$target.parent().find(".register_warning").hide();
+
 				if(!bool){ //국번이 정규표현식에 위배된 경우라면
 					mobile_check = false;
 				}
@@ -242,6 +257,8 @@
 				$target.parent().find(".register_warning").show();
 			}
 			else {
+				$target.parent().find(".register_warning").hide();
+				
 				if(!bool) { //국번이 정규표현식에 위배된 경우라면
 					mobile_check = false;
 				}
@@ -260,21 +277,20 @@
 			const bool = regExp.test($target.val());
 			
 			if(email == "") { //입력하지 않거나 공백만 입력한 경우
+				$target.parent().find(".register_warning").hide();			
 				email_check = false;
-				$(".register_warning").hide();
-				
 				$target.parent().find("#email_warning").show();
 			}
 			else {	
-				$(".register_warning").hide();
+				$target.parent().find(".register_warning").hide();
 				
 				if(!bool){ //이메일이 정규표현식에 위배된 경우라면
 					email_check = false;
 					$target.parent().find("#email_warning2").show();
 				}
 				else{ //이메일이 정규표현식에 맞는 경우라면
-					
-					// 아이디 중복 사용 체크
+
+					// 이메일 중복 사용 체크
 					$.ajax({
 						url:"<%= ctxPath%>/hasol/member/emailDuplicateCheck.sue",
 						data:{"email":$("input#email").val()},
@@ -283,22 +299,21 @@
 						success:function(text){ 
 							const json = JSON.parse(text);
 
-							if(json.isExists){ //입력한 userid가 이미 사용중이라면
+							if(json.isExists){ //입력한 email이 이미 사용중이라면
 								$("div#emailcheckResult").html("등록된 이메일입니다.");
 								$("div#emailcheckResult").show();
 								email_check = false;
 							}
-							else{ //입력한 userid가 존재하지 않는 경우라면
+							else{ //입력한 email이 존재하지 않는 경우라면
 								email_check = true;
+								$("div#emailcheckResult").hide();
 							}
 						},
 						error: function(request, status, error){
 							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 						}
 					});
-
 				}
-			
 			}
 		});//end of blur
 		
@@ -331,8 +346,7 @@
 		
 		$("select#birthdd").html(dd_html);
 		
-		
-		
+
 		// 가입버튼 클릭이벤트
 		$("button#join_btn").click(function(){
 			
@@ -359,15 +373,28 @@
 			}
 			else {
 				
-				if($("input#agree_chx").is(":checked")) {
-				    $("input#agree_none").disabled = true;
-				    
-					if($("input#agree_chx:checked").length == 2) {
-						$("input[name=marketing_yn]").val('3');
+				// 마케팅 수신 여부 체크
+				let cnt = 0;
+				let val = 0;
+				
+				$("input:checkbox[name='marketing']").each(function(index, item) {
+					if( $(item).prop("checked") ) {
+					//	alert($(item).val());
+					    cnt++;
+					    val = Number($(item).val());
 					}
+				});
+				
+				if(cnt == 2) {
+					val = 3;
 				}
 				
+				// alert("val => " + val);
+				
 				const frm = document.registerForm;
+				frm.marketing_yn.value = val;
+
+				// form 값 전송
 				frm.action = "<%= ctxPath%>/hyerin/member/registerResult.sue";
 				frm.method = "post";
 				frm.submit(); 
@@ -500,7 +527,7 @@
 								비밀번호 확인<span class="necessary">*</span>
 							</td>
 							<td>							
-								<input type="text" name="pwdcheck" class="register_input w-100"/>
+								<input type="password" name="pwdcheck" class="register_input w-100"/>
 								<div id="pwdcheck_warning" class="register_warning">비밀번호가 일치하지 않습니다.</div>
 							</td>
 						</tr>
@@ -521,7 +548,7 @@
 								<input type="number" id="postcode" name="postcode" class="zipcode_input w-25" onClick="zipcodeSearch()" readonly/>
 								<button type="button" class="zipcode_btn w-25" onClick="zipcodeSearch()" >우편번호</button>
 								<div class="mt-2"></div>
-								<input type="text" id="address" name="address" class="register_input w-100"/>
+								<input type="text" id="address" name="address" class="register_input w-100" onClick="zipcodeSearch()" readonly/>
 								<div class="register_description">기본주소</div>
 								<input type="text" id="detailAddress" name="detailaddress" class="register_input w-100 mt-2"/>
 								<div class="register_description">나머지주소(선택입력가능)</div>
@@ -563,11 +590,11 @@
 								마케팅 수신동의
 							</td>
 							<td class="pt-2">
-								<input type="checkbox" id="agree_chx" name="marketing_yn" class="agree_chx pt-4" value="1"/>
+								<input type="checkbox" name="marketing" class="agree_chx pt-4" value="1"/>
 								<label for="agree_sms" class="mr-5">SMS</label>
-								<input type="checkbox" id="agree_chx" name="marketing_yn" class="agree_chx pt-4" value="2"/>
+								<input type="checkbox" name="marketing" class="agree_chx pt-4" value="2"/>
 								<label for="agree_email">이메일</label>
-								<input type="hidden" id="agree_none" name="marketing_yn" value="0"/>
+								<input type="hidden" name="marketing_yn" value="0"/> <!-- 값 전송하기 위한..! -->
 								<div class="register_description">쇼핑몰에서 제공하는 신상품 소식/할인쿠폰을 무상으로 보내드립니다.</div>
 							</td>
 						</tr>
@@ -588,11 +615,11 @@
 						<tr>
 							<td class="font-weight-bold align-baseline">생년월일</td>
 							<td>
-								<input type="number" id="birthyyyy" name="yyyy" class="register_input w-25" oninput="handleOnInput(this, 4)"/>
+								<input type="number" id="birthyyyy" name="birthyyyy" class="register_input w-25" min="1900" max="2200" oninput="handleOnInput(this, 4)"/>
 								<span class="pr-4">년</span>
-								<select id="birthmm" name="mm" class="register_select w-25" ></select>
+								<select id="birthmm" name="birthmm" class="register_select w-25" ></select>
 								<span class="pr-4">월</span>
-								<select id="birthdd" name="dd" class="register_select w-25"></select>
+								<select id="birthdd" name="birthdd" class="register_select w-25"></select>
 								<span class="pr-4">일</span>
 							</td>
 						</tr>

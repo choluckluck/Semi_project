@@ -72,7 +72,7 @@ public class J_MemberDAO implements J_InterMemberDAO {
 		   pstmt.setString(3, member.getName() );
 		   pstmt.setString(4, member.getPostcode() );
 		   pstmt.setString(5, member.getAddress());
-		   pstmt.setString(6, member.getUserid());
+		   pstmt.setString(6, member.getDetailaddress());
 		   pstmt.setString(7, aes.encrypt(member.getMobile()) );
 		   pstmt.setString(8, aes.encrypt(member.getEmail()) );
 		   pstmt.setString(9, member.getMarketing_yn());
@@ -122,26 +122,27 @@ public class J_MemberDAO implements J_InterMemberDAO {
    // 이메일 중복 검사
 	@Override
 	public boolean emailDuplicateCheck(String email) throws SQLException {
-		   boolean isExists = false;
-		      
-		      try {
-		         conn = ds.getConnection();
-		         
-		         String sql = " select email "
-		                  + " from tbl_member "
-		                  + " where email = ? ";
-		         
-		         pstmt = conn.prepareStatement(sql);
-		         pstmt.setString(1, email);
-		         
-		         rs = pstmt.executeQuery();
-		         
-		         isExists = rs.next(); 
-		         
-		      } finally {
-		         close();
-		      }
-		      
-		      return isExists;
+	   boolean isExists = false;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select email "
+	                  + " from tbl_member "
+	                  + " where email = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, aes.encrypt(email));
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         isExists = rs.next(); 
+
+	      } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	          e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      return isExists;
 	}   
 }

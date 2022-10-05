@@ -51,6 +51,8 @@
 
 <script>
 	$(document).ready(function(){
+	
+		
 		$(".qna_search").datepicker({
 			 dateFormat: 'yy-mm-dd'  //Input Display Format 변경
 			,showOtherMonths: true   //빈 공간에 현재월의 앞뒤월의 날짜를 표시
@@ -115,23 +117,20 @@
 	}
 	
 	
+	// 검색하기
+	function goSearch() {
+		const frm = document.qnaSearchFrm;
+		frm.action = "adminQna.sue";
+		frm.method = "GET";
+		frm.submit();
+	}
+	
 	
 	
 	
 	
 	// Function Declaration
 	
-	// 문의 리스트 불러오기
-	function admin_qnaList() {
-		
-		$.ajax({
-			url:"<%= request.getContextPath()%>/hasol/admin/adminQnaListJSON.sue",
-			type: "POST",
-			data: ""
-			
-		});
-		
-	}
 
 </script>
 
@@ -141,19 +140,18 @@
 		<div id="productqna">
 			<div style="font-weight:bold;">
 				<span class="mr-3 mt-1" style="font-size:20pt;">문의관리</span>
-				<span>
-					<select class="mt-1 mr-2 productqna_sort" >
-						<option value="adminQna_all" selected>전체</option>
-						<option value="adminQna_answer_y">답변완료</option>
-						<option value="adminQna_answer_n">답변대기</option>
-						<option value="adminQna_answer_n">작성일자</option>
-					</select>
-				</span>
-				<form name="productQna_search_form" class="mt-2" style="display:inline-block;">
+				<form name="qnaSearchFrm" class="mt-2" style="display:inline-block;">
+					<span>
+						<select class="mt-1 mr-2 productqna_sort" id="selectType" >
+							<option name="searchType" value="All" selected>전체</option>
+							<option name="searchType" value="Y">답변완료</option>
+							<option name="searchType" value="N">답변대기</option>
+						</select>
+					</span>				
 					<input type="text" id="qna_search_min" class="qna_search" name="qna_search_min" placeholder="날짜"/>
 					~
 					<input type="text" id="qna_search_max" class="qna_search" name="qna_search_max" placeholder="날짜"/>
-					<button type="button" id="qna_search_btn" name="qna_search_btn" style="border:none; background-color: transparent;">
+					<button type="button" id="qna_search_btn" name="qna_search_btn" onClick="goSearch()" style="border:none; background-color: transparent;">
 						<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
 					</button>
 				</form>
