@@ -9,7 +9,7 @@
 <script>
 	$(document).ready(function(){
 		//목록버튼 클릭이벤트
-		$("button#notice_list").click(function(){
+		$("button#notice").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
 		
@@ -17,12 +17,10 @@
 		$("div#sidebar_notice").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
-		//커뮤니티사이드바_커뮤니티 클릭 이벤트
+		//커뮤니티사이드바_문의하기 클릭 이벤트
 		$("div#sidebar_qna").click(function(){
-			location.href="<%= ctxPath%>/heajun/community/qnalist.sue";
+			location.href="<%= ctxPath%>/heajun/board/qnalist.sue";
 		});
-		
-		
 		
 		
 	});
@@ -52,7 +50,7 @@
 			</table>
 		</form>
 		<div class="mt-3 mb-5 ">
-			<span><button id="notice_list" type="button" class="white" style="height:35px;">목록</button></span>
+			<span><button id="notice" type="button" class="white" style="height:35px;">목록</button></span>
 		</div>
 		
 	</div>

@@ -16,9 +16,8 @@ public interface InterNoticeDAO {
 	void noticeCnt(String notice_code)throws Exception;
 
 	// 페이지바를 만들기 위해서 공지글에 대한 총페이지수 알아오기
-	int getTotalPage(String notice_code)throws Exception;
+	int getTotalPage(Map<String, String> paraMap)throws Exception;
 
-	
 	//공지사항에 속하는 글들을 페이지바를 사용해 페이징 처리하여 조회(select)해오기
 	List<NoticeVO> selectPagingNoticeList(Map<String, String> paraMap)throws Exception;
 

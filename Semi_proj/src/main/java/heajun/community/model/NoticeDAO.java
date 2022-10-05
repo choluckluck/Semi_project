@@ -197,24 +197,26 @@ public class NoticeDAO  implements InterNoticeDAO{
 
 	// 페이지바를 만들기 위해서 공지사항 글에 대한 총페이지수 알아오기
 	@Override
-	public int getTotalPage(String notice_code) throws Exception {
+	public int getTotalPage(Map<String, String> paraMap)throws SQLException {
+		
 		int totalPage = 0;
 		
 		try {
 			
 			conn = ds.getConnection();
 			
-			 String sql = " select ceil(count(*)/10) as totalCnt " +
+			 String sql = " select ceil(count(*)/10) as total " +
 					    "   from tbl_notice " ;
 			           
 		
-			pstmt = conn.prepareStatement(sql);
+			  pstmt = conn.prepareStatement(sql);
 			
-			rs = pstmt.executeQuery();
-			rs.next();
+			  rs = pstmt.executeQuery();
 			
-			totalPage = rs.getInt(1);
+			  rs.next();
 			
+			  totalPage = rs.getInt(1);
+		
 		} finally {
 			close();
 		}
@@ -227,7 +229,7 @@ public class NoticeDAO  implements InterNoticeDAO{
 	@Override
 	public List<NoticeVO> selectPagingNoticeList(Map<String, String> paraMap) throws SQLException {
 		
-		List<NoticeVO> Notice = new ArrayList<>(); 
+		List<NoticeVO> noticeList = new ArrayList<>(); 
 	      
 		try {
 	        conn = ds.getConnection();
@@ -264,7 +266,7 @@ public class NoticeDAO  implements InterNoticeDAO{
 				nvo.setNotice_file_3(rs.getString(9));
 				
 				
-				Notice.add(nvo);
+				noticeList.add(nvo);
 				
 			}//end of while
 			
@@ -272,7 +274,7 @@ public class NoticeDAO  implements InterNoticeDAO{
 	         close();
 	      }
 		
-		return Notice;
+		return noticeList;
 	}
 
 	

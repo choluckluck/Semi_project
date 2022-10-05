@@ -30,16 +30,15 @@ public class NoticeView extends AbstractController {
 				
 				String notice_code = request.getParameter("notice_code");
 				
-				// 해당글의 내용을 select 해와야 하는데 조건절은 where = ?
-				// 위치홀더에 board_num 넣기
-				
 				InterNoticeDAO ndao = new NoticeDAO();
+				
 				NoticeVO nvo = ndao.noticeOneDetail(notice_code);
 				ndao.noticeCnt(notice_code);
 				
 				request.setAttribute("nvo", nvo);
 				request.setAttribute("notice_code", notice_code);
 				request.setAttribute("userid", userid);
+				
 			// *** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 *** // 
 				String goBackURL = request.getParameter("goBackURL");
 			

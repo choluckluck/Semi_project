@@ -104,27 +104,7 @@ p{
 		});
 		
 		
-		// 타이틀 => 게시글 클릭이벤트
-		 $("td#qna_code").click(function(){
-			   var qna_code = $(this).next().next().next().next().next().text();	
-			   location.href="<%=ctxPath%>/heajun/board/qnaList.sue?qna_code="+qna_code; 
-		   });
-		 $("td#category").click(function(){
-			   var notice_code = $(this).next().next().text();	
-			   location.href="<%=ctxPath%>/heajun/board/qnaList.sue?qna_code="+qna_code; 
-		   });
-		   $("td#notice_subject").click(function(){
-			   var notice_code = $(this).next().next().next().next().text();	
-			   location.href="<%=ctxPath%>/heajun/board/qnaList.sue?qna_code="+qna_code; 
-		   });
-		   $("td#fk_member_code").click(function(){
-			   var qna_code = $(this).next().next().next().text();	
-			   location.href="<%=ctxPath%>/heajun/board/qnaList.sue?qna_code="+qna_code; 
-		   });
-		   $("td#registerday").click(function(){
-			   var qna_code = $(this).next().text();	
-			   location.href="<%=ctxPath%>/heajun/board/qnaList.sue?qna_code="+qna_code; 
-		   });
+	
 		  
 		  
 		   
@@ -185,7 +165,7 @@ p{
 		               <td id="qna_code">${qvo.qna_code}</td>
 		               <td id="category">${qvo.category}</td>
 		               <td id="subject">${qvo.subject}</td>
-		                <td id="fk_member_code">${qvo.fk_member_code}</td>
+		                <td id="fk_userid">${qvo.fk_userid}</td>
 		               <td id="registerday">${qvo.registerday}</td>
    					   <td style="display:none">${qvo.qna_code}</td>
 		            </tr>

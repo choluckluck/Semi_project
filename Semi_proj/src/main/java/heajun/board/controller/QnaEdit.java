@@ -16,7 +16,7 @@ public class QnaEdit extends AbstractController {
          // 기존의 글정보를 먼저 찍어주기위해서 다음과 같이 VO에 넣어준다.
         
     	 String qna_code = request.getParameter("qna_code");
-         String fk_member_code = request.getParameter("fk_member_code");
+         String fk_userid = request.getParameter("fk_userid");
          String category = request.getParameter("category");
          String subject = request.getParameter("subject");
          String contents = request.getParameter("contents");
@@ -24,7 +24,7 @@ public class QnaEdit extends AbstractController {
          
 
          request.setAttribute("qna_code",qna_code); 
-         request.setAttribute("fk_member_code",fk_member_code); 
+         request.setAttribute("fk_userid",fk_userid); 
          request.setAttribute("category",category); 
          request.setAttribute("subject",subject); 
          request.setAttribute("contents", contents);
