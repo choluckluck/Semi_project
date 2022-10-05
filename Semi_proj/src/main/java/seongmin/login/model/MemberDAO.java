@@ -82,7 +82,7 @@ public class MemberDAO implements InterMemberDAO {
 					" (\n" +
 					" select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender \n" +
 					" , birthday, grade_code, point, account_name, bank_name, account, to_char(registerday, 'yyyy-mm-dd') AS registerday \n" +
-					" , trunc( months_between(sysdate, lastpwdchangedate) ) AS pwdchangegap\n" +
+					" , trunc( months_between(sysdate, last_pwd_change_date) ) AS pwdchangegap\n" +
 					" from tbl_member\n" +
 					" where status = 1 and userid = ? and pwd = ? \n" +
 					" ) M \n" +
