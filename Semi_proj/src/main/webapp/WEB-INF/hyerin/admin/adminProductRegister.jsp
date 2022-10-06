@@ -13,9 +13,6 @@
 		width: 150px;
 	}
 	
-	#option_plus:hover, .option_minus:hover {
-		cursor: pointer;
-	}
 </style>
 
 <script>
@@ -23,50 +20,226 @@
 		$(".register_warning").hide();
 		$(".register_approval").hide();
 		
-		$(".option_minus").click(function(e){
-			const target = $(e.target);
-			target.parent().parent().remove();
-			
-		});//end of $(".option_minus").click
+		// 재고수량에 스피너 달아주기
+		$("input#spinnerPqty").spinner({
+			  spin:function(event,ui){
+					if(ui.value > 20) {
+						$(this).spinner("value", 20);
+						return false;
+					}
+					else if(ui.value < 0) {
+						$(this).spinner("value", 0);
+						return false;
+					}
+			  }
+		});// end of $("input#spinnerPqty").spinner()
 		
-		
-		var i = 1;
-		// 옵션추가 + 버튼 클릭 이벤트(행추가)
-		$("#option_plus").click(function(e){
+		  
+		// 스피너 이벤트
+		$("input#spinnerPqty").bind("spinstop", function() {
+			let html = '';
+			const cnt = $(this).val();
+			const appnedVal = 
 			
-			var html = '<tr>'+
-							'<td>'+
-								'<input type="checkbox" id="option'+i+'"/>'+
-							'</td>'+
-							'<td>'+
-								'<input type="text" id="option_color'+i+'" name="option_color'+i+'" class="option_input"/>'+
-							'</td>'+
-							'<td>'+
-								'<input type="text" id="option_size'+i+'" name="option_size'+i+'" class="option_input"/>'+
-							'</td>'+
-							'<td>'+
-								'<input type="number" id="prod_stock" name="prod_stock" class="option_input"/>'+
-							'</td>'+
-							'<td>'+
-								'<button type="button" id="delete_option" class="black" style="width:80%;height:30px; ">삭제</button>'+
-							'</td>'+
-							'<td>'+
-								'<span class="option_minus">-</span>'+
-							'</td>'+
-						'</tr>';
-			
+			html += '<tr>'+
+					'<td>'+
+						'<input type="checkbox" id="option'+cnt+'"/>'+
+					'</td>'+
+					'<td>'+
+						'<input type="text" id="prod_color'+cnt+'" name="prod_color'+cnt+'" class="option_input"/>'+
+					'</td>'+
+					'<td>'+
+						'<input type="text" id="prod_size'+cnt+'" name="prod_size'+cnt+'" class="option_input"/>'+
+					'</td>'+
+					'<td>'+
+						'<input type="number" id="prod_stock'+cnt+'" name="prod_stock'+cnt+'" class="option_input prod_stock"/>'+
+					'</td>'+
+				'</tr>';
+			  
+			//옵션 일괄삭제하는 버튼 삽입
+			let deleteAll = '<tr>' + 
+									'<td colspan="6"><button type="button" class="black" style="width:70px; height:30px;">일괄삭제</button></td>' +
+								'</tr>';
+			  
 			$("#option_contents").append(html);
-			i++;
+			$("#option_contents").append(deleteAll);
+			  
+			if(cnt == 0){
+				$("#option_contents").html("");
+			}
+			  
+			$("input#attachCount").val(cnt);
+			  
+			  
+			  
+			// input#prod_stock 이벤트
+			$("input.prod_stock").keyup(function(){
+				if($(this).val() <0 ){
+					$(this).val(0);
+				} 
+			});
+			  
+			$("input.prod_stock").change(function(){
+				if($(this).val() <0 ){
+					$(this).val(0);
+				} 
+				  
+			});
+			  
+			 
+		});//end of spinner spinstop
 		
-			// 옵션추가 - 버튼 클릭이벤트 (행삭제)
-			$(".option_minus").click(function(e){
-				const target = $(e.target);
-				target.parent().parent().remove();
+
+		
+		// md_pick에 값을 넣어주기
+		$("#md_pick_yn").change(function(){
+			
+			if($(this).is(":checked")){
+				$("#md_pick_yn_check").val("Y");
+			}
+			else{
+				$("#md_pick_yn_check").val("N");
+			}
+			
+		});
+		
+		////////////////////////////////////////////////////////////////////
+		
+		// 필수입력사항 검사하기
+		
+		let kindflag = false;
+		let nameflag = false;
+		let decriptionflag = false;
+		let highflag = false;
+		let priceflag = false;
+		let salepriceflag = false;
+		let imageflag = false;
+		let d_imageflag = false;
+		let pointflag = false;
+		
+		// 상품종류 변경 이벤트 => 추가 선택시 텍스트인풋박스 뜨게함
+		$("select#prod_kind").change(function(){
+			
+			if($(this).val()=="all" || $(this).val() == null){ //null이거나 all을 선택했을 때
+				kindflag = true;
+				$("#kind_warning").show();
+			}
+			else {
+				$("#kind_warning").hide();
+				if($(this).val()=="add"){
+					
+					addHtml = '<span><input type="text" id="addKind" name="addKind" class="register_input"/></span>';
+					$(this).parent().append(addHtml);
+				}
+				else{
+					$("input#addKind").remove();
+				}
 				
-			});//end of $(".option_minus").click
+			}
+		});//end of $("select#prod_kind").change
+		
+		
+		//prod_name 입력검사
+		$("#prod_name").blur(function(){
 			
+			if($(this).val().trim() == ""){
+				nameflag = true;
+				$("#name_warning").show();
+			}
+			else{
+				$("#name_warning").hide();
+			}
+		});
+		
+		
+		//prod_description 입력검사
+		$("#prod_description").blur(function(){
 			
-		});//end of $("#option_plus").click
+			if($(this).val().trim() == ""){
+				decriptionflag = true;
+				$("#description_warning").show();
+			}
+			else{
+				$("#description_warning").hide();
+			}
+		});
+		
+		
+		//prod_high 입력검사
+		$("#prod_high").blur(function(){
+			
+			if($(this).val().trim() == ""){
+				highflag = true;
+				$("#high_warning").show();
+			}
+			else{
+				$("#high_warning").hide();
+			}
+		});
+		
+		
+		//prod_price 입력검사
+		$("#prod_price").blur(function(){
+			
+			if($(this).val().trim() == ""){
+				priceflag = true;
+				$("#price_warning").show();
+			}
+			else{
+				$("#price_warning").hide();
+			}
+		});
+		
+		
+		//prod_saleprice 입력검사
+		$("#prod_saleprice").blur(function(){
+			
+			if($(this).val().trim() == ""){
+				salepriceflag = true;
+				$("#saleprice_warning").show();
+			}
+			else{
+				$("#saleprice_warning").hide();
+			}
+		});
+		
+		//prod_image 입력검사
+		$("#prod_image").blur(function(){
+			
+			if($(this).val().trim() == ""){
+				imageflag = true;
+				$("#image_warning").show();
+			}
+			else{
+				$("#image_warning").hide();
+			}
+		});
+		
+		//prod_image 입력검사
+		$("#product_image_file").blur(function(){
+			
+			if($(this).val().trim() == ""){
+				d_imageflag = true;
+				$("#image_file_warning").show();
+			}
+			else{
+				$("#image_file_warning").hide();
+			}
+		});
+		
+		//prod_point 입력검사
+		$("#prod_point").blur(function(){
+			
+			if($(this).val().trim() == ""){
+				pointflag = true;
+				$("#point_warning").show();
+			}
+			else{
+				$("#point_warning").hide();
+			}
+		});
+		
+		
 		
 	});//end of ready
 
@@ -76,21 +249,20 @@
 	//function declaration
 	
 	//입력받은 상품등록정보 전송
-	<%-- function fn_submit(){
+	function fn_submit(){
 		const frm = document.admin_productRegister_frm;
-		
-		
-		frm.action = "<%= ctxPath%>/hyerin/admin/adminProductRegisterEnd.sue";
-		frm.method = "get";
+		frm.action = "<%= ctxPath%>/hyerin/admin/adminProductRegister.sue";
+		frm.method = "post";
+		frm.submit();
 		
 	}//end of fn_submit()
- --%>
+	
 </script>
 
 <div class="row container-fluid mt-5">
 	<jsp:include page="/WEB-INF/hyerin/admin/adminSidebar.jsp" />
 	<div id="contents" class="col-10">
-		<form name="admin_productRegister_frm">
+		<form name="admin_productRegister_frm" enctype="multipart/form-data">
 			<table id="register_table" class="container register_table">
 				<tr>
 					<td colspan="4" id="register_text">상품등록</td>
@@ -102,38 +274,56 @@
 				<tr>
 					<td width="15%" class="font-weight-bold align-baseline pt-2">
 						상품종류
+						<span class="necessary">*</span>
 					</td>
 					<td>
-						<select id="product_kind" class="register_phoneselect">
-							<option value="all" selected>전체</option>
+						<select id="prod_kind" name="prod_kind" class="register_phoneselect" style="width:100px;">
+							<option value="all">전체</option>
 							<c:forTokens var="kind" items="${requestScope.prodKind}" delims=",">
-								<option value="${kind}">${kind}</option>
+								<option>${kind}</option>
 							</c:forTokens>
+							<option value="add">추가...</option>
 						</select>
-						<div id="id_warning" class="register_warning">상품종류를 선택해주세요.</div>
+						<div id="kind_warning" class="register_warning">상품종류를 선택해주세요.</div>
 					</td>
 				</tr>
 				<tr>
 					<td width="15%" class="font-weight-bold align-baseline pt-2">
 						상품명
+						<span class="necessary">*</span>
 					</td>
 					<td>
-						<input type="text" name="member_id" class="register_input w-100"/>
-						<div id="id_approval" class="register_approval">!상품명 는 사용가능한 상품명입니다.</div>
-						<div id="id_warning" class="register_warning">상품명을 입력해주세요.</div>
+						<input type="text" id="prod_name" name="prod_name" class="register_input w-100"/>
+						<div id="name_warning" class="register_warning">상품명을 입력해주세요.</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="15%" class="font-weight-bold align-baseline pt-2">
+						상품설명
+						<span class="necessary">*</span>
+					</td>
+					<td>
+						<textarea id="prod_description" name="prod_description" class="register_input w-100" style="height:100px; border:solid 1px #d9d9d9;"></textarea>
+						<div id="description_warning" class="register_warning">상품설명을 입력해주세요.</div>
 					</td>
 				</tr>
 				<tr>
 					<td width="15%" class="font-weight-bold align-baseline pt-2">
 						굽높이
+						<span class="necessary">*</span>
 					</td>
 					<td>
-						<input type="text" id="product_high" name="product_high" class="register_input"/> cm
-						<div id="id_warning" class="register_warning">굽높이를 입력해주세요.</div>
+						<input type="text" id="prod_high" name="prod_high" class="register_input"/> cm
+						<div id="high_warning" class="register_warning">굽높이를 입력해주세요.</div>
 					</td>
 				</tr>
 				<tr>
-					<td class="align-baseline"><span class="font-weight-bold">옵션</span> (색상, 사이즈)</td>
+					<td class="align-baseline">
+						<span class="font-weight-bold">옵션</span> (색상, 사이즈)
+						<div><input id="spinnerPqty" name="pqty" value="0" style="width:70px;"/>
+							<input type="hidden" id="attachCount" name="attachCount" value=""/>
+						</div>
+					</td>
 					<td>
 						<table class="table">
 							<thead>
@@ -148,81 +338,77 @@
 										사이즈
 									</td>
 									<td>
-										재고
-									</td>
-									<td>
-										삭제
-									</td>
-									<td>
-										<span id="option_plus">+</span>
+										재고수량
 									</td>
 								</tr>
 							</thead>
 							<tbody id="option_contents">
-								<tr>
-									<td>
-										<input type="checkbox" id="option1"/>
-									</td>
-									<td>
-										<input type="text" id="option_color1" name="option_color" class="option_input"/>
-									</td>
-									<td>
-										<input type="text" id="option_size1" name="option_size1" class="option_input"/>
-									</td>
-									<td>
-										<input type="number" class="option_input"/>
-									</td>
-									<td>
-										<button type="button" id="delete_option" class="black" style="width:80%;height:30px;">삭제</button>
-									</td>
-									<td>
-										<span class="option_minus">-</span>
-									</td>
-								</tr>
+								
 							</tbody>
-							<tr>
-								<td colspan="6"><button type="button" class="black" style="width:70px; height:30px;">일괄삭제</button></td>
-							</tr>
 						</table>
 					</td>
 				</tr>
 				<tr>
 					<td width="15%" class="font-weight-bold align-baseline pt-2">
 						정가
+						<span class="necessary">*</span>
 					</td>
 					<td>
-						<input type="text" name="prod_price" class="register_input w-100"/>
-						<div id="id_warning" class="register_warning">가격을 입력해주세요.</div>
+						<input type="text" id="prod_price" name="prod_price" class="register_input w-100"/>
+						<div id="price_warning" class="register_warning">가격을 입력해주세요.</div>
 					</td>
 				</tr>
 				<tr>
 					<td width="15%" class="font-weight-bold align-baseline pt-2">
 						판매가
+						<span class="necessary">*</span>
 					</td>
 					<td>
-						<input type="text" name="prod_saleprice" class="register_input w-100"/>
-						<div id="id_warning" class="register_warning">가격을 입력해주세요.</div>
+						<input type="text" id="prod_saleprice" name="prod_saleprice" class="register_input w-100"/>
+						<div id="saleprice_warning" class="register_warning">가격을 입력해주세요.</div>
 					</td>
 				</tr>
 				<tr>
 					<td width="15%" class="font-weight-bold align-baseline pt-2">
-						이미지
+						대표이미지
+						<span class="necessary">*</span>
 					</td>
 					<td class="pt-2">
-						<input type="file" name="member_id" class="w-100"/>
-						<div id="id_warning" class="register_warning">이미지 파일을 첨부해주세요.</div>
+						<input type="file" id="prod_image" name="prod_image" class="w-100"/>
+						<div id="image_warning" class="register_warning">이미지 파일을 첨부해주세요.</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="15%" class="font-weight-bold align-baseline pt-2">
+						상품상세이미지
+						<span class="necessary">*</span>
+					</td>
+					<td class="pt-2">
+						<input type="file" id="product_image_file" name="product_image_file" class="w-100"/>
+						<div id="image_file_warning" class="register_warning">이미지 파일을 첨부해주세요.</div>
 					</td>
 				</tr>
 				<tr>	
 					<td width="15%" class="font-weight-bold align-baseline pt-2">
-						메인	노출 여부
+						MD	노출 여부
+					</td>
+					<td class="pt-2">
+						<input type="checkbox" id="md_pick_yn"/>
+						<input type="hidden" id="md_pick_yn_check" name="md_pick_yn_check" value="N"/>
+					</td>
+				</tr>
+				<tr>	
+					<td width="15%" class="font-weight-bold align-baseline pt-2">
+						상품포인트
+						<span class="necessary">*</span>
 					</td>
 					<td class="pt-2"> 
-						<input type="checkbox" id="md_pick_yn" name="md_pick_yn"/>
+						<input type="text" id="prod_point" name="prod_point" class="register_input"/>
+						<div id="point_warning" class="register_warning">상품포인트를 입력해주세요.</div>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2" class="pt-5 pb-2"><button type="button" id="join_btn" class="black" style="width:100%;">등록</button></td>
+					<td colspan="2" class="pt-5 pb-2"><button type="button" id="join_btn" class="black" style="width:100%;" onclick="fn_submit();">등록</button></td>
 				</tr>
 				<tr>
 					<td colspan="2" class="pb-5"><button type="button" id="cancel_btn" class="white" style="width:100%;">취소</button></td>

@@ -17,7 +17,7 @@
 		font-size: 10pt;
 	}
 	
-	#admin_member_sort{
+	#memberSort{
 		border: solid 1px #d9d9d9;
 		height: 30px;
 		font-size: 10pt;
@@ -38,6 +38,12 @@
 		width:150px;
 		height:40px;
 	}
+	
+	#member_contents tr:hover {
+		cursor : pointer;
+	}
+	
+	
 </style>
 
 <script>
@@ -106,15 +112,29 @@
 								genderStr = "여";
 							}
 							
-							html += '<tr>'+
-										'<td height="70px" class="admin_member_tbody text-center"><input type="checkbox" id="'+item.userid+'" name="member_chx"/></td>'+
+							
+							//탈퇴회원 => 탈퇴처리버튼 비활성화, 체크박스 비활성화
+							var statushtml = '';
+							var chxhtml = '';
+							if(item.status == "0"){
+								statushtml = '<td class="text-center admin_member_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; background-color:#f2f2f2; border: solid 1px #f2f2f2; color:black;" disabled>탈퇴한회원</button></td>';
+								chxhtml = '<td height="70px" class="admin_member_tbody text-center"><input type="checkbox" id="'+item.userid+'" name="member_chx" disabled/></td>';
+							}
+							else{
+								statushtml = '<td class="text-center admin_member_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px;" onclick="member_resign(\''+item.userid+'\');">탈퇴처리</button></td>';
+								chxhtml = '<td height="70px" class="admin_member_tbody text-center"><input type="checkbox" id="'+item.userid+'" name="member_chx"/></td>';
+							}
+							
+							html += '<tr id="'+item.userid+'">'+
+										chxhtml+
 										'<td class="admin_member_tbody text-center">'+item.userid+'</td>'+
 										'<td class="text-center admin_member_tbody">'+item.name+'</td>'+
 										'<td class="text-center admin_member_tbody">'+item.email+'</td>'+
+										'<td class="text-center admin_member_tbody">'+item.mobile+'</td>'+
 										'<td class="text-center admin_member_tbody">'+genderStr+'</td>'+
 										'<td class="text-center admin_member_tbody">'+item.registerday+'</td>'+
-										'<td class="text-center admin_member_tbody"><button id="admin_productRevise_btn" type="button" class="white" style="height:30px;" onclick="member_edit(\''+item.userid+'\');">더보기/수정</button></td>'+
-										'<td class="text-center admin_member_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px;">삭제</button></td>'+
+										//'<td class="text-center admin_member_tbody"><button id="admin_productRevise_btn" type="button" class="white" style="height:30px;" onclick="member_edit(\''+item.userid+'\');">더보기</button></td>'+
+										statushtml+
 									'</tr>';
 							
 						}//end of else (회원정보조회)
@@ -123,6 +143,15 @@
 					
 					//조회한 회원정보 넣어주기
 					$("#member_contents").append(html);
+					
+					
+					
+					$("#member_contents > tr").click(function(){
+						
+						var user_id = $(this).attr('id');
+						member_edit(user_id);
+						
+					});
 					
 					
 				}//end of if
@@ -144,6 +173,7 @@
 	}//end of selectMember
 	
 	
+	
 	function member_edit(userid){
 		// 나의 정보 수정하기 팝업창 띄우기
 		const url = "<%= ctxPath%>/hyerin/admin/adminMemberEdit.sue?userid="+userid;
@@ -158,8 +188,42 @@
 		
 		window.open(url, "memberEdit",
 				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
+	}//end of member_edit
+	
+	
+	
+	
+	// 회원탈퇴처리
+	function member_resign(userid){
 		
-	}
+		if(confirm(userid + "님을 탈퇴처리 하시겠습니까?") == true){
+			//비동기방식으로 userid에 해당하는 멤버의 status를 0으로 바꿔주기
+			$.ajax({
+				url : "<%= ctxPath%>/hyerin/admin/adminMemberResignJson.sue?userid="+userid,
+				type: "get",
+				data:{"userid":userid},
+				dataType:"JSON",
+				success:function(json){
+					
+					alert(json.message);
+					selectMember($("#currentPage").val());
+					
+				},
+				
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});// end of ajax
+			
+			
+			
+			
+		} else{
+			return false;
+		}
+		
+	}//end of member_resign
+	
 	
 </script>
 
@@ -167,10 +231,10 @@
 	<jsp:include page="/WEB-INF/hyerin/admin/adminSidebar.jsp" />
 	<div id="contents" class="col-9 ml-5 mt-3 mb-5">
 		<div id="member">
-			<span class="mr-3 mt-1" style="font-size:20pt; font-weight:bold;">회원관리</span>
-			<form name="admin_member_frm">
-				<div id="member_searchInfo_container">
-					<span id="member_sort" class="pt-1 mr-2">
+			<form name="admin_member_frm" onsubmit="return false">
+				<span class="mr-3 mt-1" style="font-size:20pt; font-weight:bold;">회원관리</span>
+				<span id="member_searchInfo_container">
+					<span class="pt-2 mr-2">
 						<select id="memberSort" class="mt-1">
 							<option value="all" selected>전체선택</option>
 							<option value="userid">아이디</option>
@@ -184,36 +248,25 @@
 							<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
 						</button>
 					</span>
-				</div>
+				</span>
 				<table id="admin_member" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
 					<thead>
 						<tr>
 							<th width="5%" height="50px" class="admin_member_th text-center"><input type="checkbox" id="productAll" name="member_chx"/></th>
 							<th width="5%" class="admin_member_th text-center">아이디</th>
 							<th width="15%" class="admin_member_th text-center">이름</th>
-							<th width="10%" class="admin_member_th text-center">이메일</th>
-							<th width="10%" class="admin_member_th text-center">성별</th>
+							<th width="15%" class="admin_member_th text-center">이메일</th>
+							<th width="10%" class="admin_member_th text-center">휴대전화</th>
+							<th width="5%" class="admin_member_th text-center">성별</th>
 							<th width="10%" class="admin_member_th text-center">가입일자</th>
-							<th width="10%" class="admin_member_th text-center">더보기/수정</th>
 							<th width="10%" class="admin_member_th text-center">삭제</th>
 						</tr>
 					</thead>
 					<tbody id="member_contents">
-					<%--
-						<tr>
-							<td height="70px" class="admin_member_tbody text-center"><input type="checkbox" id="product_1" name="member_chx"/></td>
-							<td class="admin_member_tbody text-center">!아이디</td>
-							<td class="text-center admin_member_tbody">!회원명</td>
-							<td class="text-center admin_member_tbody">!이메일</td>
-							<td class="text-center admin_member_tbody">!성별</td>
-							<td class="text-center admin_member_tbody"><button id="admin_productRevise_btn" type="button" class="white" style="height:30px;" onclick="member_edit();">더보기/수정</button></td>
-							<td class="text-center admin_member_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px;">삭제</button></td>
-						</tr>
-					 --%>
 					</tbody>
 				</table>
 				<div class="mt-3">
-					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
+					<span><button type="button" id="" class="black" style="height:30px;">선택탈퇴처리</button></span>
 				</div>
 				<nav aria-label="Page navigation">
 				  <ul id="pageBar" class="pagination justify-content-center pagination-sm my-5">

@@ -21,12 +21,20 @@ public class MemberVO {
 	private String lasw_pwd_change_date; 
 	private String status; 
 	private String idle; 
+	private int marketing_yn;
 	
 	private String like_prod_code; //관심 상품코드
 	private String cart_prod_code; //장바구니 상품코드
 	
 	
-
+	
+	public int getMarketing_yn() {
+		return marketing_yn;
+	}
+	public void setMarketing_yn(int marketing_yn) {
+		this.marketing_yn = marketing_yn;
+	}
+	
 	public String getUserid() {
 		return userid;
 	}
