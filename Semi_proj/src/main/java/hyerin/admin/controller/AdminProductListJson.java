@@ -130,12 +130,9 @@ public class AdminProductListJson extends AbstractController {
 				jsonObj.put("prod_high", pvo.getProd_high());
 				jsonObj.put("prod_price", pvo.getProd_price());
 				jsonObj.put("prod_saleprice", pvo.getProd_saleprice());
-				jsonObj.put("prod_color", pvo.getProd_color());
+				jsonObj.put("prod_color", pvo.getPdvo().getProd_color());
 				jsonObj.put("prod_registerday", pvo.getProd_registerday());
 				jsonObj.put("md_pick_yn", pvo.getMd_pick_yn());
-				jsonObj.put("stock_color", pvo.getPdvo().getProd_color());
-				jsonObj.put("stock_size", pvo.getPdvo().getProd_size());
-				jsonObj.put("stock", pvo.getPdvo().getProd_stock());
 				
 				jsonArr.put(jsonObj);
 				

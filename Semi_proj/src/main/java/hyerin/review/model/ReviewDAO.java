@@ -109,12 +109,11 @@ public class ReviewDAO implements InterReviewDAO {
 						"from\n"+
 						"(\n"+
 						"    select rownum as rno, review_code, fk_prod_code, prod_kind, prod_name, prod_image, fk_userid, review_subject, review_contents, review_registerday, review_file_1, review_file_2, review_file_3, review_grade \n"+
-						"    from tbl_review\n"+
+						"    from (select * from tbl_review order by review_registerday desc )\n"+
 						"    left join\n"+
 						"    tbl_product\n"+
-						"    on fk_prod_code = prod_code\n"+
-						")" +
-						" where rno between ? and ? ";
+						"    on fk_prod_code = prod_code\n";
+						
 			
 			String review_sortType = paraMap.get("review_sortType"); //all, fk_userid, prod_name, review_registerday 
 			String review_searchWord = paraMap.get("review_searchWord");
@@ -122,24 +121,29 @@ public class ReviewDAO implements InterReviewDAO {
 			//검색 기준을 선택한 경우
 			if( review_searchWord != null && !review_searchWord.trim().isEmpty() ) {
 				if(!"all".equals(review_sortType)) {
-					sql += " and "+ review_sortType +" like '%'||?||'%' ";
+					sql += " where "+ review_sortType +" like '%'||?||'%' ";
 				}
 			}
-			
-			sql += " order by review_registerday desc ";
+			sql += ")" +
+					" where rno between ? and ? " +
+					" order by review_registerday desc ";
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
-			pstmt.setInt(2, (currentShowPageNo*sizePerPage));
-			
 			if( review_searchWord != null && !review_searchWord.trim().isEmpty() ) {
 				if(!"all".equals(review_sortType)) {
-					pstmt.setString(3, review_searchWord);
+					pstmt.setString(1, review_searchWord);
+					pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(3, (currentShowPageNo*sizePerPage));
 				}
+			}
+			else {
+				pstmt.setInt(1, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+				pstmt.setInt(2, (currentShowPageNo*sizePerPage));
+				
 			}
 			
 			rs = pstmt.executeQuery();
@@ -172,6 +176,34 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 		
 		return rvoList;
-	}
+	}//end of selectPagingReview
+	
+	
+	
+	//reviewcode에 해당하는 행을 삭제하기
+	@Override
+	public int deleteUserReview(String review_code) throws SQLException {
+		int result = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " delete tbl_review where review_code = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, review_code);
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		
+		return result;
+	}//end of deleteUserReview
 
 }
