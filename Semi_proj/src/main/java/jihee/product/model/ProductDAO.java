@@ -184,7 +184,26 @@ public class ProductDAO implements InterProductDAO {
 					+ "  and (prod_high = ? or prod_high= ? or prod_high= ? )\n" ;
 					
 				
-			//1-2  가격 검색하는 경우
+			
+					 
+					
+					
+ 
+			
+			// 1-1 검색어를 입력하여 검색하는 경우
+			
+			 String searchWord = paraMap.get("searchWord");
+			 
+			 if(searchWord !=null  && !searchWord.trim().isEmpty() ) {
+				 
+				 sql += " and prod_name like '%'|| ? ||'%' " ;
+				       
+				
+			 }   
+			
+			//System.out.println("searchWord" +searchWord);
+			
+			 //1-2  가격 검색하는 경우
 			 
 			 String searchPrice1 = paraMap.get("searchPrice1");
 			 String searchPrice2 = paraMap.get("searchPrice2");
@@ -209,25 +228,6 @@ public class ProductDAO implements InterProductDAO {
 			  }
 
 			 sql += " and prod_price between ? and ?\n" ;
-					 
-					
-					
- 
-			
-			// 1-1 검색어를 입력하여 검색하는 경우
-			
-			 String searchWord = paraMap.get("searchWord");
-			 
-			 if(searchWord !=null  && !searchWord.trim().isEmpty() ) {
-				 
-				 sql += " and prod_name like '%'|| ? ||'%' " ;
-				       
-				
-			 }   
-			
-			//System.out.println("searchWord" +searchWord);
-			
-			
 			
 			 
 			  

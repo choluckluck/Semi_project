@@ -48,7 +48,7 @@ a:active {text-decoration: none; color: gray;}
 			<div class="row">
 				<div>
 					<p class="fw-bolder" style="text-align: left; font-size: 18px;">Filter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<button type="button" class="btn btn-light">Reset all</button></p>	
+					<button type="button" class="btn btn-light" onclick="form_reset()">Reset all</button></p>	
 					<hr style="background: black; padding-top: 0px;">	
 				</div>
 			</div>
@@ -353,11 +353,22 @@ a:active {text-decoration: none; color: gray;}
 		const frm = document.productHpFrm
 		frm.action = "productHp7cm.sue";
 		frm.submit();
-		
-	
-	
+
 	
 	}
+	
+	function form_reset() {
+		
+		$("input#searchWord").val("");
+		
+		$("input#searchPrice1").val("");
+		 
+		$("input#searchPrice2").val("");
+		   
+		$("input:checkbox").prop("checked", false);
+	
+	}
+	
 	
 </script>			
     
