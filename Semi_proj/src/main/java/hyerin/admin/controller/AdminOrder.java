@@ -9,6 +9,11 @@ public class AdminOrder extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		
+		
+		
 		super.setViewPage("/WEB-INF/hyerin/admin/adminOrder.jsp");
 	}
 

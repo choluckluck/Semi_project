@@ -23,8 +23,8 @@
 		// 재고수량에 스피너 달아주기
 		$("input#spinnerPqty").spinner({
 			  spin:function(event,ui){
-					if(ui.value > 20) {
-						$(this).spinner("value", 20);
+					if(ui.value > 50) {
+						$(this).spinner("value", 50);
 						return false;
 					}
 					else if(ui.value < 0) {
@@ -34,14 +34,15 @@
 			  }
 		});// end of $("input#spinnerPqty").spinner()
 		
-		  
+		$("#deleteOption").hide();
 		// 스피너 이벤트
 		$("input#spinnerPqty").bind("spinstop", function() {
 			let html = '';
+			const old_cnt = $("input#attachCount").val();
 			const cnt = $(this).val();
-			const appnedVal = 
 			
-			html += '<tr>'+
+			
+			html += '<tr id="tr'+cnt+'">'+
 					'<td>'+
 						'<input type="checkbox" id="option'+cnt+'"/>'+
 					'</td>'+
@@ -55,17 +56,18 @@
 						'<input type="number" id="prod_stock'+cnt+'" name="prod_stock'+cnt+'" class="option_input prod_stock"/>'+
 					'</td>'+
 				'</tr>';
-			  
-			//옵션 일괄삭제하는 버튼 삽입
-			let deleteAll = '<tr>' + 
-									'<td colspan="6"><button type="button" class="black" style="width:70px; height:30px;">일괄삭제</button></td>' +
+			
+			//옵션 선택삭제하는 버튼 삽입
+			let deleteOption = '<tr>' + 
+									'<td colspan="6"><button type="button" class="black" style="width:70px; height:30px;">선택삭제</button></td>' +
 								'</tr>';
-			  
+			
 			$("#option_contents").append(html);
-			$("#option_contents").append(deleteAll);
-			  
+			$("#deleteOption").show();
+			
 			if(cnt == 0){
 				$("#option_contents").html("");
+				$("#deleteOption").hide();
 			}
 			  
 			$("input#attachCount").val(cnt);
@@ -86,7 +88,7 @@
 				  
 			});
 			  
-			 
+			
 		});//end of spinner spinstop
 		
 
@@ -106,28 +108,35 @@
 		////////////////////////////////////////////////////////////////////
 		
 		// 필수입력사항 검사하기
-		
+		/* 
 		let kindflag = false;
 		let nameflag = false;
 		let decriptionflag = false;
 		let highflag = false;
 		let priceflag = false;
 		let salepriceflag = false;
-		let imageflag = false;
-		let d_imageflag = false;
 		let pointflag = false;
+		
+		let pricenumberflag = false;
+		let salepricenumberflag = false;
+		let pointnumberflag = false;
+		*/
+		 
+		let flag = false;
 		
 		// 상품종류 변경 이벤트 => 추가 선택시 텍스트인풋박스 뜨게함
 		$("select#prod_kind").change(function(){
 			
 			if($(this).val()=="all" || $(this).val() == null){ //null이거나 all을 선택했을 때
-				kindflag = true;
+				flag = true;
 				$("#kind_warning").show();
+				$(this).focus();
 			}
 			else {
+				flag = false;
 				$("#kind_warning").hide();
+				
 				if($(this).val()=="add"){
-					
 					addHtml = '<span><input type="text" id="addKind" name="addKind" class="register_input"/></span>';
 					$(this).parent().append(addHtml);
 				}
@@ -143,23 +152,26 @@
 		$("#prod_name").blur(function(){
 			
 			if($(this).val().trim() == ""){
-				nameflag = true;
+				flag = true;
 				$("#name_warning").show();
+				$(this).focus();
 			}
 			else{
+				flag = false;
 				$("#name_warning").hide();
 			}
 		});
-		
 		
 		//prod_description 입력검사
 		$("#prod_description").blur(function(){
 			
 			if($(this).val().trim() == ""){
-				decriptionflag = true;
+				flag = true;
 				$("#description_warning").show();
+				$(this).focus();
 			}
 			else{
+				flag = false;
 				$("#description_warning").hide();
 			}
 		});
@@ -167,26 +179,57 @@
 		
 		//prod_high 입력검사
 		$("#prod_high").blur(function(){
-			
-			if($(this).val().trim() == ""){
-				highflag = true;
+			const high = $(this).val().trim();
+			if(high.trim() == ""){
+				flag = true;
 				$("#high_warning").show();
+				$(this).focus();
 			}
 			else{
+				flag = false;
 				$("#high_warning").hide();
+				
+				const reg = /[0-9]|[0-9]\.[0-9]$/;
+				const regResult = reg.test(high);
+				if(!regResult){
+					flag = true;
+					$("#high_regwarning").show();
+					$(this).focus();
+				}
+				else{
+					flag = false;
+					$("#high_regwarning").hide();
+					$("#prod_high").val(high);
+				}
 			}
+			
 		});
 		
 		
 		//prod_price 입력검사
 		$("#prod_price").blur(function(){
 			
-			if($(this).val().trim() == ""){
-				priceflag = true;
+			$("#price_numberwarning").hide();
+			const price = $(this).val();
+			
+			if(price.trim() == ""){
+				flag = true;
 				$("#price_warning").show();
+				$(this).focus();
 			}
 			else{
+				flag = false;
 				$("#price_warning").hide();
+				if(isNaN(price)){
+					flag = true;
+					$("#price_numberwarning").show();
+					$(this).focus();
+				}
+				else{
+					flag = false;
+					$("#price_numberwarning").hide();
+					$("#prod_price").val(price.trim());
+				}
 			}
 		});
 		
@@ -194,51 +237,87 @@
 		//prod_saleprice 입력검사
 		$("#prod_saleprice").blur(function(){
 			
-			if($(this).val().trim() == ""){
-				salepriceflag = true;
+			$("#saleprice_numberwarning").hide();
+			const saleprice = $(this).val().trim();
+			
+			if(saleprice == ""){
+				flag = true;
 				$("#saleprice_warning").show();
+				$(this).focus();
 			}
 			else{
+				flag = false;
 				$("#saleprice_warning").hide();
+				if(isNaN(saleprice)){
+					flag = true;
+					$("#saleprice_numberwarning").show();
+					$(this).focus();
+				}
+				else{
+					flag = false;
+					$("#saleprice_numberwarning").hide();
+					$("#prod_saleprice").val(saleprice.trim());
+				}
+				
 			}
 		});
 		
-		//prod_image 입력검사
-		$("#prod_image").blur(function(){
-			
-			if($(this).val().trim() == ""){
-				imageflag = true;
-				$("#image_warning").show();
-			}
-			else{
-				$("#image_warning").hide();
-			}
-		});
-		
-		//prod_image 입력검사
-		$("#product_image_file").blur(function(){
-			
-			if($(this).val().trim() == ""){
-				d_imageflag = true;
-				$("#image_file_warning").show();
-			}
-			else{
-				$("#image_file_warning").hide();
-			}
-		});
 		
 		//prod_point 입력검사
 		$("#prod_point").blur(function(){
 			
-			if($(this).val().trim() == ""){
-				pointflag = true;
+			$("#point_numberwarning").hide();
+			const point = $(this).val().trim();
+			
+			if(point == ""){
+				flag = true;
 				$("#point_warning").show();
+				$(this).focus();
 			}
 			else{
+				flag = false;
 				$("#point_warning").hide();
+				if(isNaN(point)){
+					flag = true;
+					$("#point_numberwarning").show();
+					$(this).focus();
+				}
+				else{
+					flag = false;
+					$("#point_numberwarning").hide();
+					$("#prod_point").val(point.trim());
+				}
 			}
 		});
 		
+		
+		/* 
+		//prod_image 입력검사
+		$("#prod_image").blur(function(){
+			if($("#prod_image").val().trim() == ""){
+				flag = true;
+				$("#image_warning").show();
+				$(this).focus();
+			}
+			else{
+				flag = false;
+				$("#image_warning").hide();
+			}
+		});
+		
+		//product_image_file 입력검사
+		$("#product_image_file").blur(function(){
+			if($("#product_image_file").val().trim() == ""){
+				flag = true;
+				$("#image_file_warning").show();
+				$(this).focus();
+			}
+			else{
+				flag = false;
+				$("#image_file_warning").hide();
+			}
+		});
+		 */
 		
 		
 	});//end of ready
@@ -250,10 +329,177 @@
 	
 	//입력받은 상품등록정보 전송
 	function fn_submit(){
-		const frm = document.admin_productRegister_frm;
-		frm.action = "<%= ctxPath%>/hyerin/admin/adminProductRegister.sue";
-		frm.method = "post";
-		frm.submit();
+		let flag = false;
+		
+		//prod_kind 입력검사
+		if($("#prod_kind").val()=="all" || $("#prod_kind").val() == null){
+			flag = true;
+			$("#kind_warning").show();
+			$("#prod_kind").focus();
+			return;
+		}
+		
+		//prod_name 입력검사
+		if($("#prod_name").val().trim() == ""){
+			flag = true;
+			$("#name_warning").show();
+			$("#prod_name").focus();
+			return;
+		}
+		else{
+			$("#name_warning").hide();
+		}
+		
+		
+		//prod_description 입력검사
+		if($("#prod_description").val().trim() == ""){
+			flag = true;
+			$("#description_warning").show();
+			$("#prod_description").focus();
+			return;
+		}
+		else{
+			flag = false;
+			$("#description_warning").hide();
+		}
+		
+		//prod_high 입력검사
+		const high = $("#prod_high").val().trim();
+		if(high.trim() == ""){
+			flag = true;
+			$("#high_warning").show();
+			$("#prod_high").focus();
+		}
+		else{
+			flag = false;
+			$("#high_warning").hide();
+			
+			const reg = /[0-9]|[0-9]\.[0-9]$/;
+			const regResult = reg.test(high);
+			if(!regResult){
+				flag = true;
+				$("#high_regwarning").show();
+				$("#prod_high").focus();
+			}
+			else{
+				flag = false;
+				$("#high_regwarning").hide();
+				$("#prod_high").val(high);
+			}
+		}
+		
+		
+		
+		//prod_price 입력검사
+		$("#price_numberwarning").hide();
+		const price = $("#prod_price").val();
+		
+		if(price.trim() == ""){
+			flag = true;
+			$("#price_warning").show();
+			$("#prod_price").focus();
+			return;
+		}
+		else{
+			flag = false;
+			$("#price_warning").hide();
+			if(isNaN(price)){
+				flag = true;
+				$("#price_numberwarning").show();
+				$("#prod_price").focus();
+				return;
+			}
+			else{
+				flag = false;
+				$("#price_numberwarning").hide();
+				$("#prod_price").val(price.trim());
+			}
+		}
+		
+		
+		//prod_saleprice 입력검사
+		$("#saleprice_numberwarning").hide();
+		const saleprice = $("#prod_saleprice").val().trim();
+		
+		if(saleprice == ""){
+			flag = true;
+			$("#saleprice_warning").show();
+			$("#prod_saleprice").focus();
+			return;
+		}
+		else{
+			flag = false;
+			$("#saleprice_warning").hide();
+			if(isNaN(saleprice)){
+				flag = true;
+				$("#saleprice_numberwarning").show();
+				$("#prod_saleprice").focus();
+				return;
+			}
+			else{
+				flag = false;
+				$("#saleprice_numberwarning").hide();
+				$("#prod_saleprice").val(saleprice.trim());
+			}
+			
+		}
+		
+		
+		//prod_point 입력검사
+		$("#point_numberwarning").hide();
+		const point = $("#prod_point").val().trim();
+		
+		if(point == ""){
+			flag = true;
+			$("#point_warning").show();
+			$("#point_numberwarning").focus();
+			return;
+		}
+		else{
+			flag = false;
+			$("#point_warning").hide();
+			if(isNaN(point)){
+				flag = true;
+				$("#point_numberwarning").show();
+				$("#point_numberwarning").focus();
+				return;
+			}
+			else{
+				flag = false;
+				$("#point_numberwarning").hide();
+				$("#prod_point").val(point.trim());
+			}
+		}
+		
+		
+		//prod_image 입력검사
+		if($("#prod_image").val().trim() == ""){
+			flag = true;
+			$("#image_warning").show();
+			$("#prod_image").focus();
+			return;
+		}
+		else{
+			$("#image_warning").hide();
+		}
+		
+		//product_image_file 입력검사
+		if($("#product_image_file").val().trim() == ""){
+			flag = true;
+			$("#image_file_warning").show();
+			$("#product_image_file").focus();
+			return;
+		}
+		else{
+			$("#image_file_warning").hide();
+		}
+		
+		if(!flag){
+			const frm = document.admin_productRegister_frm;
+			frm.action = "<%= ctxPath%>/hyerin/admin/adminProductRegister.sue";
+			frm.method = "post";
+			frm.submit();
+		}
 		
 	}//end of fn_submit()
 	
@@ -315,6 +561,7 @@
 					<td>
 						<input type="text" id="prod_high" name="prod_high" class="register_input"/> cm
 						<div id="high_warning" class="register_warning">굽높이를 입력해주세요.</div>
+						<div id="high_regwarning" class="register_warning">굽높이를 숫자 또는 형식(예>5.5)대로 입력해주세요.</div>
 					</td>
 				</tr>
 				<tr>
@@ -343,7 +590,9 @@
 								</tr>
 							</thead>
 							<tbody id="option_contents">
-								
+								<tr id="deleteOption"> 
+									<td colspan="6"><button type="button" class="black" style="width:70px; height:30px;">선택삭제</button></td>
+								</tr>
 							</tbody>
 						</table>
 					</td>
@@ -356,6 +605,7 @@
 					<td>
 						<input type="text" id="prod_price" name="prod_price" class="register_input w-100"/>
 						<div id="price_warning" class="register_warning">가격을 입력해주세요.</div>
+						<div id="price_numberwarning" class="register_warning">가격을 숫자로 입력해주세요.</div>
 					</td>
 				</tr>
 				<tr>
@@ -366,6 +616,7 @@
 					<td>
 						<input type="text" id="prod_saleprice" name="prod_saleprice" class="register_input w-100"/>
 						<div id="saleprice_warning" class="register_warning">가격을 입력해주세요.</div>
+						<div id="saleprice_numberwarning" class="register_warning">가격을 숫자로 입력해주세요.</div>
 					</td>
 				</tr>
 				<tr>
@@ -405,6 +656,7 @@
 					<td class="pt-2"> 
 						<input type="text" id="prod_point" name="prod_point" class="register_input"/>
 						<div id="point_warning" class="register_warning">상품포인트를 입력해주세요.</div>
+						<div id="point_numberwarning" class="register_warning">상품포인트를 숫자로 입력해주세요.</div>
 					</td>
 				</tr>
 				<tr>

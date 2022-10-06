@@ -130,7 +130,7 @@
 										'<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="'+item.prod_code+'_chx" name="productList_chx"/></td>'+
 										'<td height="160px" class="admin_productList_tbody text-center">'+item.prod_code+'</td>'+
 										'<td class="text-center admin_productList_tbody">'+item.prod_kind+'</td>'+
-										'<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="/Semi_proj/images/product/'+item.prod_kind+'/'+item.prod_image+'"/></td>'+
+										'<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="/Semi_proj/images/product/'+item.prod_image+'"/></td>'+
 										'<td class="text-center admin_productList_tbody">'+item.prod_name+'</td>'+
 										'<td class="text-center admin_productList_tbody">'+price+'</td>'+
 										'<td class="text-center admin_productList_tbody">'+saleprice+'</td>';
@@ -164,30 +164,6 @@
 									'<td class="text-center admin_productList_tbody"><button id="admin_productedit_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_edit(\''+item.prod_code+'\');">수정</button></td>'+
 									'<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>'+
 								'</tr>';
-							
-							/* 
-							html += '<tr>'+
-										'<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="'+item.prod_code+'_chx" name="productList_chx"/></td>'+
-										'<td height="160px" class="admin_productList_tbody text-center">'+item.prod_code+'</td>'+
-										'<td class="text-center admin_productList_tbody">'+item.prod_kind+'</td>'+
-										'<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="/Semi_proj/images/product/'+item.prod_kind+'/'+item.prod_image+'"/></td>'+
-										'<td class="text-center admin_productList_tbody">'+item.prod_name+'</td>'+
-										'<td class="text-center admin_productList_tbody">'+price+'</td>'+
-										'<td class="text-center admin_productList_tbody">'+saleprice+'</td>'+
-										'<td class="text-center admin_productList_tbody">'+
-											'<div><select id="color_'+item.prod_code+'" class="productSortDetail prod_color_select">'+
-												'<option value="prod_color" selected>색상</option>'+
-													colorHtml + 
-												'</select></div>'+
-											'<div><select id="size_'+item.prod_code+'" class="productSortDetail prod_size_select mt-1">'+
-												'<option value="prod_size" selected>사이즈</option>'+
-											'</select></div>'+
-											'<div id="stock_'+item.prod_code+'" class="mt-1"></div>'+
-										'<td class="text-center admin_productList_tbody"><input type="checkbox" id="'+item.prod_code+'" name="'+item.prod_code+'"/></td>'+
-										'<td class="text-center admin_productList_tbody"><button id="admin_productedit_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_edit(\''+item.prod_code+'\');">수정</button></td>'+
-										'<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>'+
-									'</tr>';
-							*/
 									
 						}
 						
@@ -204,9 +180,7 @@
 						var selectedColor = $(this).val();
 						var sizeselecthtml = $(this).parent().parent().find("select.prod_size_select");
 						
-						if(selectedColor == "prod_color"){
-							$("#stock_"+selectedProdcode).empty();
-						}
+						$("#stock_"+selectedProdcode).empty();
 						
 						if($(this).val() != "prod_color"){
 							sizeselecthtml.empty();						
