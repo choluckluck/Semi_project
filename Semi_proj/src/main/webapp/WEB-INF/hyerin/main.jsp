@@ -77,10 +77,10 @@
 	    			<c:forEach var="best_pvo" items="${requestScope.best_pvoList}" begin="0" end="3" step="1">
 						<td width="20%" class="pr-1">
 							<a href="#" style="text-decoration: none; color: black;">
-								<img src="<%= ctxPath%>/images/product/${best_pvo.prod_kind}/${best_pvo.prod_image}" width="100%"/>
+								<img src="<%= ctxPath%>/images/product/${best_pvo.prod_image}" width="100%"/>
 								<div class="mt-3">
 									<span style="float:left;">
-										<c:forTokens var="prod_color" items="${best_pvo.prod_color}" delims=",">
+										<c:forTokens var="prod_color" items="${best_pvo.pdvo.prod_color}" delims=",">
 											<div class="best_color" style="background-color: ${prod_color};"></div>
 										</c:forTokens>
 									</span>
@@ -120,10 +120,10 @@
 	    			<c:forEach var="best_pvo" items="${requestScope.best_pvoList}" begin="4" end="7" step="1">
 						<td width="20%" class="pr-1">
 							<a href="#" style="text-decoration: none; color: black;">
-								<img src="<%= ctxPath%>/images/product/${best_pvo.prod_kind}/${best_pvo.prod_image}" width="100%"/>
+								<img src="<%= ctxPath%>/images/product/${best_pvo.prod_image}" width="100%"/>
 								<div class="mt-3">
 									<span style="float:left;">
-										<c:forTokens var="prod_color" items="${best_pvo.prod_color}" delims=",">
+										<c:forTokens var="prod_color" items="${best_pvo.pdvo.prod_color}" delims=",">
 											<div class="best_color" style="background-color: ${prod_color};"></div>
 										</c:forTokens>
 									</span>
@@ -177,10 +177,10 @@
 				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="0" end="3" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
-							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
+							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
-									<c:forTokens var="prod_color" items="${new_pvo.prod_color}" delims=",">
+									<c:forTokens var="prod_color" items="${new_pvo.pdvo.prod_color}" delims=",">
 										<div class="best_color" style="background-color: ${prod_color};"></div>
 									</c:forTokens>
 								</span>
@@ -215,10 +215,10 @@
 				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="4" end="7" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
-							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
+							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
-									<c:forTokens var="prod_color" items="${new_pvo.prod_color}" delims=",">
+									<c:forTokens var="prod_color" items="${new_pvo.pdvo.prod_color}" delims=",">
 										<div class="best_color" style="background-color: ${prod_color};"></div>
 									</c:forTokens>
 								</span>
@@ -253,10 +253,10 @@
 				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="8" end="11" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
-							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
+							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
-									<c:forTokens var="prod_color" items="${new_pvo.prod_color}" delims=",">
+									<c:forTokens var="prod_color" items="${new_pvo.pdvo.prod_color}" delims=",">
 										<div class="best_color" style="background-color: ${prod_color};"></div>
 									</c:forTokens>
 								</span>
@@ -291,10 +291,10 @@
 				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="12" end="15" step="1">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
-							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_kind}/${new_pvo.prod_image}" width="100%"/>
+							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
-									<c:forTokens var="prod_color" items="${new_pvo.prod_color}" delims=",">
+									<c:forTokens var="prod_color" items="${new_pvo.pdvo.prod_color}" delims=",">
 										<div class="best_color" style="background-color: ${prod_color};"></div>
 									</c:forTokens>
 								</span>
@@ -339,10 +339,10 @@
 				<c:forEach var="md_pvo" items="${requestScope.md_pvoList}">
 					<td width="20%" class="pr-1">
 						<a href="#" style="text-decoration: none; color: black;">
-							<img src="<%= ctxPath%>/images/product/${md_pvo.prod_kind}/${md_pvo.prod_image}" width="100%"/>
+							<img src="<%= ctxPath%>/images/product/${md_pvo.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
-									<c:forTokens var="prod_color" items="${md_pvo.prod_color}" delims=",">
+									<c:forTokens var="prod_color" items="${md_pvo.pdvo.prod_color}" delims=",">
 										<div class="best_color" style="background-color: ${prod_color};"></div>
 									</c:forTokens>
 								</span>
