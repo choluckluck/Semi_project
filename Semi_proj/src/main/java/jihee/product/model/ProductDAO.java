@@ -359,6 +359,8 @@ public class ProductDAO implements InterProductDAO {
 			  else if (selectItem!=null && selectItem.equals("highPriceItehm")) {
 					 
 				  selectItem = "prod_price desc"; }
+			 
+			 
 			  
 				/*
 				 * else { discountItem }

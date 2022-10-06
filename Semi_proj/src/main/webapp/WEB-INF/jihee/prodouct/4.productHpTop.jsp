@@ -34,7 +34,7 @@ $(document).ready(function(){
 	<c:forEach var="pvo" items="${requestScope.bestProductList}" begin="0" end="3" step="1">
 	<div class="col-lg-3" id="sideinfo" style="margin-bottom: 5%;">
   		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/product/${pvo.prod_kind}/${pvo.prod_image}" class="card-img-top" alt="...">
+  			<img src="<%= ctxPath%>/images/product/${pvo.prod_image}" class="card-img-top" alt="...">
   				<div class="card-body">
     				<div class="card-title" >
     				<c:forTokens var="color" items="${pvo.prod_color}" delims=",">
@@ -44,7 +44,14 @@ $(document).ready(function(){
     				</div>
     				
     				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
-    				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
+    				<%-- <c:if test="${pvo.prod_price} == ${pvo.prod_saleprice}">
+    					</c:if> --%>
+    				<span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
+    				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span></p>
+    				
+    				
+    			
+    				
     				
     				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn btn-dark" style="color:white;">상세페이지</a>
   				</div>
