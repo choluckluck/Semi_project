@@ -15,7 +15,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 <style type="text/css">
-a:link {text-decoration: none; color: gray;}
 a:visited {text-decoration: none; color: gray;}
 a.link:hover {text-decoration: none; color: gray;}
 a:active {text-decoration: none; color: gray;}
@@ -42,8 +41,8 @@ a:active {text-decoration: none; color: gray;}
 				</div>
 			</div>
 				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
-					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp.sue" class="link">4~6cm</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link">7cm~</a><li>
+					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp4cm.sue" class="link" style="text-decoration: none; color: black;">4~6cm</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: gray;">7cm~</a><li>
 				</ul>
 				<br>
 			<div class="row">
@@ -352,7 +351,7 @@ a:active {text-decoration: none; color: gray;}
 	function goSearch() {
 		
 		const frm = document.productHpFrm
-		frm.action = "productHp.sue";
+		frm.action = "productHp4cm.sue";
 		frm.submit();
 		
 	

@@ -35,8 +35,8 @@ function goSearche() {
 
 
 	<div style="margin-top: 10%;">
-		<form name="selectItem">
-		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;" name="selectItem"  id="selectItem" onchange="goSearche()">
+	
+		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;" name="selectItem"  id="selectItem" onchange="goSearch()">
 		  <option value="popularityitem" selected >인기상품순</option>
 		  <option value="newItem">신상품순</option>
 		  <option value="lowPriceItem">낮은가격순</option>
@@ -44,7 +44,7 @@ function goSearche() {
 		  <option value="discountItem" >할인율순</option>
 		</select>
 		<!-- <p><button type="button" class="btn btn-dark" style="color: white ;" onclick="goSearch()">검색</button></p> -->
-		</form>
+		
 	</div>
 	
 	
@@ -70,7 +70,7 @@ function goSearche() {
     				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
     				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
     				
-    				<a class="btn btn-dark" style="color:white;" onclick="check();">상세페이지</a>
+    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn btn-dark" style="color:white;">상세페이지</a>
   				</div>
 		</div>
      </div>

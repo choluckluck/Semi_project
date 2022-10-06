@@ -21,9 +21,35 @@ public class ProductHp7cm extends AbstractController {
 		
 		
 		// 1. BEST 상품 가져오기
-		Map<String, String> bestParaMap = new HashMap<>();
+		Map<String, String> paraMap = new HashMap<>();
 		
-		List<ProductVO> bestProductList = pdao.selectBestProduct(bestParaMap);
+		//1-1 종류 넘겨주기
+		
+				String productType_1 = "pumps";
+				paraMap.put("productType_1", productType_1);
+				
+				String productType_2 = "slingback";
+				paraMap.put("productType_2", productType_2);
+				
+				String productType_3 = "나나";
+				paraMap.put("productType_3", productType_3);
+				
+				
+				String productHigh_1 ="7";
+				
+				paraMap.put("productHigh_1", productHigh_1);
+				
+				String productHigh_2 ="나나";
+				
+				paraMap.put("productHigh_2", productHigh_2);
+				
+				String productHigh_3 ="나나";
+				
+				paraMap.put("productHigh_3", productHigh_3);
+				
+				
+		
+		List<ProductVO> bestProductList = pdao.selectBestProduct(paraMap);
 		
 		request.setAttribute("bestProductList", bestProductList);
 		
@@ -44,9 +70,7 @@ public class ProductHp7cm extends AbstractController {
 		*/
 		
 		
-		
-		
-		Map<String, String> paraMap = new HashMap<>();
+	
 		
 		
 		
@@ -54,12 +78,8 @@ public class ProductHp7cm extends AbstractController {
 		
 		//--------------------------------------------------------------------
 		
-		//2-1 종류 넘겨주기
-		String productType_1 = "pumps";
+	
 		
-		paraMap.put("productType_1", productType_1);
-		
-		String productType_2 = "나나";
 		
 		//2-1 검색어 넘겨주기
 		
@@ -535,7 +555,7 @@ public class ProductHp7cm extends AbstractController {
 						
 		request.setAttribute("pageBar", pageBar);
 		
-		System.out.println("pagebar :" +pageBar +"\n tatalpage: " +totalPage);
+		//System.out.println("pagebar :" +pageBar +"\n tatalpage: " +totalPage);
 		
 
 		

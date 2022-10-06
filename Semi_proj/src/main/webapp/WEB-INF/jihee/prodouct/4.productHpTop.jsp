@@ -46,7 +46,7 @@ $(document).ready(function(){
     				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
     				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
     				
-    				<a class="btn btn-dark" style="color:white;" onclick="check();">상세페이지</a>
+    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn btn-dark" style="color:white;">상세페이지</a>
   				</div>
 		</div>
      </div>

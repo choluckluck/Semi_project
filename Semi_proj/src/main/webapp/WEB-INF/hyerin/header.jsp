@@ -203,8 +203,8 @@
 				<span><a href="#">블로퍼</a></span>
 			</div>
 			<div class="real_subbar real_subbar5 w-100">
-				<span><a href="#">4~6cm</a></span>
-				<span><a href="#">7cm</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productHp4cm.sue">4~6cm</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue">7cm</a></span>
 			</div>
 			<div class="real_subbar real_subbar6 w-100">
 				<span><a href="#">앵클1~6cm</a></span>

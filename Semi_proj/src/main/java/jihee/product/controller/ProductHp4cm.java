@@ -11,7 +11,7 @@ import jihee.product.model.*;
 
 
 
-public class ProductHp extends AbstractController {
+public class ProductHp4cm extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -35,15 +35,15 @@ public class ProductHp extends AbstractController {
 				paraMap.put("productType_3", productType_3);
 				
 				
-				String productHigh_1 ="7";
+				String productHigh_1 ="5";
 				
 				paraMap.put("productHigh_1", productHigh_1);
 				
-				String productHigh_2 ="5";
+				String productHigh_2 ="6.5";
 				
 				paraMap.put("productHigh_2", productHigh_2);
 				
-				String productHigh_3 ="6.5";
+				String productHigh_3 ="나나";
 				
 				paraMap.put("productHigh_3", productHigh_3);
 				
@@ -562,7 +562,7 @@ public class ProductHp extends AbstractController {
 		// ******** === 페이지바 만들기 끝 === ******** //
 
 		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/jihee/prodouct/4.productHpSide.jsp");
+		super.setViewPage("/WEB-INF/jihee/prodouct/4.productHp4cm.jsp");
 		
 
 	}

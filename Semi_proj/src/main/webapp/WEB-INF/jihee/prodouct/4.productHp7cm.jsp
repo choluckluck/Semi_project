@@ -15,7 +15,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 <style type="text/css">
-a:link {text-decoration: none; color: gray;}
 a:visited {text-decoration: none; color: gray;}
 a.link:hover {text-decoration: none; color: gray;}
 a:active {text-decoration: none; color: gray;}
@@ -26,7 +25,7 @@ a:active {text-decoration: none; color: gray;}
 
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 
-
+<form name="productHpFrm" >
 	<div class="container-fluid" id="container" style="position: relative; top:85px; padding: 0.1% 1.5%;">
       
 	  <div class="row">
@@ -34,7 +33,7 @@ a:active {text-decoration: none; color: gray;}
 			
 			
 
-			<form name="productHpFrm" >
+			
 			<div id="sidecontent" style="text-align: left; padding: 20px;">
 						<div class="row">
 				<div class="col ">
@@ -42,8 +41,8 @@ a:active {text-decoration: none; color: gray;}
 				</div>
 			</div>
 				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
-					<li class="fw-bolder"> <a href="<%=ctxPath%>jihee/product/productHp/7cm.sue" class="link">4~6cm</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>jihee/product/productHp/7cm.sue" class="link">7cm~</a><li>
+					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp4cm.sue" class="link" style="text-decoration: none; color: gray;">4~6cm</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: black;">7cm~</a><li>
 				</ul>
 				<br>
 			<div class="row">
@@ -151,7 +150,7 @@ a:active {text-decoration: none; color: gray;}
  						<label class="btn btn-outline-secondary form-check-inline" for="220" style="padding: 10%;">&nbsp;&nbsp;220&nbsp;&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" name="Size226" id="225" value="225" autocomplete="off">
+ 						<input type="checkbox" class="btn-check" name="Size225" id="225" value="225" autocomplete="off">
  						<label class="btn btn-outline-secondary form-check-inline" for="225" style="padding: 10%;">&nbsp;&nbsp;225&nbsp;&nbsp;</label>
 				</div>
 				<div>
@@ -184,25 +183,16 @@ a:active {text-decoration: none; color: gray;}
  						<label class="btn btn-outline-secondary form-check-inline" for="255" style="padding: 10%;">&nbsp;&nbsp;255&nbsp;&nbsp;</label>
 				</div>								
 			</div>
-			
-			<br><br>
-			<select class="form-select-lg-3" aria-label="Default select example" style="" name="selectItem"  id="selectItem" >
-		  <option value="popularityitem" selected >인기상품순</option>
-		  <option value="newItem">신상품순</option>
-		  <option value="lowPriceItem">낮은가격순</option>
-		  <option value="highPriceItehm">높은가격순</option>
-		  <option value="discountItem" >할인율순</option>
-		</select>
-		
+				
 			<br><br>
 			<p><button type="button" class="btn btn-dark" style="color: white;" onclick="goSearch()">검색</button></p>	
-		
+	
 			
 			
 			
 			
 			</div>
-			</form>
+			
 		 </div>
 		   
 		 
@@ -216,7 +206,7 @@ a:active {text-decoration: none; color: gray;}
 	 </div>
 	 </div>
 </div> 
-			
+</form>			
 			
 			
 <script type="text/javascript">
@@ -323,9 +313,6 @@ a:active {text-decoration: none; color: gray;}
 			 $("input:checkbox[id='${requestScope.Size220}']").prop("checked", true);
 		   } 
 	    
-		if("${requestScope.Size220}" != "") { //검색어가 null아닐때만 꽂아준다
-			 $("input:checkbox[id='${requestScope.Size220}']").prop("checked", true);
-		   } 
 		if("${requestScope.Size225}" != "") { //검색어가 null아닐때만 꽂아준다
 			 $("input:checkbox[id='${requestScope.Size225}']").prop("checked", true);
 		   } 
@@ -345,6 +332,17 @@ a:active {text-decoration: none; color: gray;}
 			 $("input:checkbox[id='${requestScope.Size250}']").prop("checked", true);
 		   } 
 		
+		if("${requestScope.Size255}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.Size255}']").prop("checked", true);
+		   } 
+		
+		if("$${requestScope.selectItem}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("#selectItem").val("${requestScope.selectItem}").prop("selected", true);
+		   } 
+		
+		
+		
+		
 	     
 	    
 	    
@@ -353,7 +351,7 @@ a:active {text-decoration: none; color: gray;}
 	function goSearch() {
 		
 		const frm = document.productHpFrm
-		frm.action = "productHp.sue";
+		frm.action = "productHp7cm.sue";
 		frm.submit();
 		
 	
