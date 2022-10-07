@@ -18,13 +18,13 @@ public class MemberVO {
 	private int point; 
 	private String account_name; 
 	private String bank_name;
-	private int account;
+	private double account;
 
 	
-	public int getAccount() {
+	public double getAccount() {
 		return account;
 	}
-	public void setAccount(int account) {
+	public void setAccount(double account) {
 		this.account = account;
 	}
 
