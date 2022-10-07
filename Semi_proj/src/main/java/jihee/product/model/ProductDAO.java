@@ -179,7 +179,7 @@ public class ProductDAO implements InterProductDAO {
 					"        from tbl_review\n"+
 					"        group by fk_prod_code\n"+
 					"    )R\n"+
-					"    on PO.prod_code = r.fk_prod_code\n" + 
+					"    on PO.prod_code = r.fk_prod_code\n"+
 					"	where ( prod_kind = ? or prod_kind= ? or prod_kind = ? )"
 					+ "  and (prod_high = ? or prod_high= ? or prod_high= ? )\n" ;
 					
@@ -359,6 +359,8 @@ public class ProductDAO implements InterProductDAO {
 			  else if (selectItem!=null && selectItem.equals("highPriceItehm")) {
 					 
 				  selectItem = "prod_price desc"; }
+			 
+			 
 			 
 			 
 			  
@@ -715,6 +717,8 @@ public class ProductDAO implements InterProductDAO {
 					  else if (selectItem!=null && selectItem.equals("highPriceItehm")) {
 							 
 						  selectItem = "prod_price desc"; }
+					 
+					 
 					  
 						/*
 						 * else { discountItem }

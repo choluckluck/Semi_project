@@ -98,7 +98,7 @@ a:active {text-decoration: none; color: gray;}
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
   						<input type="checkbox" class="btn-check colorcheck" name="redColor" id="red" value="red" autocomplete="off">
-  						<label class="btn btn-outline-danger form-check-inline" for="red" style="padding: 10%;">&nbsp;&nbsp;red&nbsp;</label>
+  						<label class="btn btn-outline-danger form-check-inline" for="red" style="padding: 10%;">&nbsp;&nbsp;&nbsp;red&nbsp;&nbsp;&nbsp;</label>
 					</div>
 					
 					<div>
@@ -377,6 +377,6 @@ a:active {text-decoration: none; color: gray;}
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 </body>
 </html>

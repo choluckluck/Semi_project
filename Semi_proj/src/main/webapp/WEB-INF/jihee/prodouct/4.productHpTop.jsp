@@ -46,13 +46,14 @@ $(document).ready(function(){
     				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
     				<%-- <c:if test="${pvo.prod_price} == ${pvo.prod_saleprice}">
     					</c:if> --%>
-    				<span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
-    				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span></p>
-    				
-    				
-    			
-    				
-    				
+    				<c:if test="${pvo.prod_saleprice ne pvo.prod_price}">
+	   				<span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
+    				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span>
+					<span style="color: red; "> ${pvo.discountPercentBest}% </span>	</p>
+					</c:if>	
+					<c:if test="${pvo.prod_saleprice eq pvo.prod_price}">
+    				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
+					</c:if>	
     				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn btn-dark" style="color:white;">상세페이지</a>
   				</div>
 		</div>

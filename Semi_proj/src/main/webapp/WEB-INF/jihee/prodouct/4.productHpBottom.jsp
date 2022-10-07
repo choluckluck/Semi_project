@@ -41,7 +41,6 @@ function goSearche() {
 		  <option value="newItem">신상품순</option>
 		  <option value="lowPriceItem">낮은가격순</option>
 		  <option value="highPriceItehm">높은가격순</option>
-		  <option value="discountItem" >할인율순</option>
 		</select>
 		<!-- <p><button type="button" class="btn btn-dark" style="color: white ;" onclick="goSearch()">검색</button></p> -->
 		
@@ -68,9 +67,14 @@ function goSearche() {
     				</div>
     				
     				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
-    				<span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
-    				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span></p>
-    				
+    				<c:if test="${pvo.prod_saleprice ne pvo.prod_price}">
+	   				<span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
+    				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span>
+    				<span style="color: red; "> ${pvo.discountPercent}% </span></p>
+					</c:if>	
+					<c:if test="${pvo.prod_saleprice eq pvo.prod_price}">
+    				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
+					</c:if>	
     				</p>
     				
     				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn btn-dark" style="color:white;">상세페이지</a>
