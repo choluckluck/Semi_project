@@ -102,6 +102,8 @@
 		
 	});//end of ready
 	
+	/////////////////////////////////////////////////////////////////////////////
+	
 	function selectReviewList(){
 		
 		const frm = document.productReviewFrm;
@@ -110,6 +112,40 @@
 		frm.submit();
 		
 	};//end of selectReviewList
+	
+	
+	//리뷰 삭제
+	function review_delete(reviewcode){
+		
+		if(confirm(reviewcode + "글을 삭제하시겠습니까?") == true){
+			//비동기방식으로 reviewcode에 해당하는 행을 삭제하기
+			
+			$.ajax({
+				url : "<%= ctxPath%>/hyerin/admin/adminProductReviewDeleteJson.sue?review_code="+reviewcode,
+				type: "get",
+				data:{"review_code":reviewcode},
+				dataType:"JSON",
+				success:function(json){
+					
+					alert(json.message);
+					selectReviewList();
+					
+				},
+				
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});// end of ajax
+			
+			
+		}
+		else{
+			return false;
+		}
+		
+		
+	}
+	
 
 </script>
 
@@ -117,10 +153,10 @@
 	<jsp:include page="/WEB-INF/hyerin/admin/adminSidebar.jsp" />
 	<div id="contents" class="col-9 ml-5 mt-3 mb-5">
 		<div id="productReview">
-			<span class="mr-3 mt-1" style="font-size:20pt; font-weight:bold">상품리뷰</span>
 			<form name = "productReviewFrm">
-				<div id="productReview_search_container" style="font-size:10pt; display:inline-block;">
-					<span id="productReview_sort_container">
+				<span class="mr-3 mt-1" style="font-size:20pt; font-weight:bold">상품리뷰</span>
+				<span id="productReview_search_container" style="font-size:10pt; display:inline-block;">
+					<div id="productReview_sort_container" class="mt-1">
 						<select id="review_sortType" name="review_sortType" class="mr-2 productReview_sort" >
 							<option value="all" selected>전체</option>
 							<option value="fk_userid">아이디</option>
@@ -129,19 +165,19 @@
 							<option value="review_registerday">날짜별</option>
 							 --%>
 						</select>
-					</span>
-					<div class="mt-2" style="display:inline-block; float:right;">
-						<input type="text" id="review_searchWord" class="review_search" name="review_searchWord" placeholder="검색" style="width:160px;"/>
-						<%--
-						<input type="text" id="review_search_min" class="review_search_date" name="review_search_min" placeholder="날짜"/>
-						<span class="review_search_date">~</span>
-						<input type="text" id="review_search_max" class="review_search_date" name="review_search_max" placeholder="날짜"/>
-						 --%>
-						<button type="button" id="review_search_btn" name="review_search_btn" style="border:none; background-color: transparent;">
-							<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
-						</button>
+						<span class="mt-1" style="float:right;">
+							<input type="text" id="review_searchWord" class="review_search" name="review_searchWord" placeholder="검색" style="width:160px;"/>
+							<%--
+							<input type="text" id="review_search_min" class="review_search_date" name="review_search_min" placeholder="날짜"/>
+							<span class="review_search_date">~</span>
+							<input type="text" id="review_search_max" class="review_search_date" name="review_search_max" placeholder="날짜"/>
+							 --%>
+							<button type="button" id="review_search_btn" name="review_search_btn" style="border:none; background-color: transparent;">
+								<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
+							</button>
+						</span>
 					</div>
-				</div>
+				</span>
 				<table id="admin_productReview" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
 					<thead>
 						<tr>
@@ -169,15 +205,21 @@
 									<div>${rvo.review_subject}</div>
 									<div>${rvo.review_contents}</div>
 								</td>
-								<td class="text-center admin_productReview_tbody">${rvo.review_grade }</td>
+								<c:if test="${rvo.review_grade == 1}"><td class="text-center admin_productReview_tbody">★☆☆☆☆</td></c:if>
+								<c:if test="${rvo.review_grade == 2}"><td class="text-center admin_productReview_tbody">★★☆☆☆</td></c:if>
+								<c:if test="${rvo.review_grade == 3}"><td class="text-center admin_productReview_tbody">★★★☆☆</td></c:if>
+								<c:if test="${rvo.review_grade == 4}"><td class="text-center admin_productReview_tbody">★★★★☆</td></c:if>
+								<c:if test="${rvo.review_grade == 5}"><td class="text-center admin_productReview_tbody">★★★★★</td></c:if>
 								<td class="text-center admin_productReview_tbody">${rvo.review_registerday }</td>
-								<td class="text-center admin_productReview_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;">삭제</button></td>
+								<td class="text-center admin_productReview_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;" onclick="review_delete('${rvo.review_code}')">삭제</button></td>
 							</tr>
 						</c:forEach>
+						<c:if test="${empty requestScope.rvoList}">
+							<tr><td colspan="8" class="py-3 text-center">조회된 리뷰가 없습니다.</td></tr>
+						</c:if>
 					</tbody>
 				</table>
 				<div class="mt-3">
-					<span class="mr-2"><button type="button" id="" class="white" style="height:30px;">선택확인</button></span>
 					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
 				</div>
 				<nav aria-label="Page navigation">

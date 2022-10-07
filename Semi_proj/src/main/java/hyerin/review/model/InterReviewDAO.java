@@ -16,5 +16,8 @@ public interface InterReviewDAO {
 	//페이징한 검색이 있는, 또는 없는 리뷰목록 조회(select)
 	List<ReviewVO> selectPagingReview(Map<String, String> paraMap) throws SQLException;
 
+	//reviewcode에 해당하는 행을 삭제하기
+	int deleteUserReview(String review_code) throws SQLException;
+
 	
 }

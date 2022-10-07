@@ -13,7 +13,7 @@
 	}
 	
 	
-	#product_search{
+	#searchword{
 		border: none;
 		border-bottom: solid 1px black;
 		font-size: 10pt;
@@ -83,6 +83,8 @@
 	//function declarartion
 	function selectProduct(num){
 		
+		window.scrollTo(0,0);
+		
 		$("#productList_content").empty();
 		$("#pageBar").empty();
 		var productSortJson = $("#byKind").val();
@@ -124,54 +126,45 @@
 							}
 							
 							
-							//prod_color => ,로 잘라서 배열에 담아주기
-							var prod_color = item.prod_color;
-							var prod_colorList = prod_color.split(",");
-							
-							var colorHtml = '';
-							for(var value of prod_colorList){
-								colorHtml += '<option value="'+value+'">'+value+'</option>';
-							}
-							
-							//재고량을 위한 색상, 사이즈 별 구분
-							/*
-							var stock_color = item.stock_color;
-							var stock_colorlist = stock_color.split(",");
-							
-							var stock_size = item.stock_size;
-							var stock_sizelist = stock_size.split(",");
-							
-							var stock = item.stock;
-							var stocklist = stock.split(",");
-							
-							console.log (stock_colorlist);
-							
-							var stockresult = [];
-							for(int i=0; i<stock_colorlist.length; i++){
-								stockresult.push(stock)
-							}
-							 */
-							
-							
-							
 							html += '<tr>'+
 										'<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="'+item.prod_code+'_chx" name="productList_chx"/></td>'+
 										'<td height="160px" class="admin_productList_tbody text-center">'+item.prod_code+'</td>'+
 										'<td class="text-center admin_productList_tbody">'+item.prod_kind+'</td>'+
-										'<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="/Semi_proj/images/product/'+item.prod_kind+'/'+item.prod_image+'"/></td>'+
+										'<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="/Semi_proj/images/product/'+item.prod_image+'"/></td>'+
 										'<td class="text-center admin_productList_tbody">'+item.prod_name+'</td>'+
 										'<td class="text-center admin_productList_tbody">'+price+'</td>'+
-										'<td class="text-center admin_productList_tbody">'+saleprice+'</td>'+
-										'<td class="text-center admin_productList_tbody">'+
-											'<div><select id="color_'+item.prod_code+'" class="productSortDetail prod_color_select">'+
+										'<td class="text-center admin_productList_tbody">'+saleprice+'</td>';
+							
+							//색상 디테일이 있는 경우
+							if(item.prod_color != null){
+								//prod_color => ,로 잘라서 배열에 담아주기
+								var prod_color = item.prod_color;
+								var prod_colorList = prod_color.split(",");
+								
+								var colorHtml = '';
+								for(var value of prod_colorList){
+									colorHtml += '<option value="'+value+'">'+value+'</option>';
+								}
+								
+								html += '<td class="text-center admin_productList_tbody">'+
+												'<div><select id="color_'+item.prod_code+'" class="productSortDetail prod_color_select">'+
 												'<option value="prod_color" selected>색상</option>'+
 													colorHtml + 
 												'</select></div>'+
-												'<div><select id="size_'+item.prod_code+'"></select></div>'+
-										'<td class="text-center admin_productList_tbody"><input type="checkbox" id="'+item.prod_code+'" name="'+item.prod_code+'"/></td>'+
-										'<td class="text-center admin_productList_tbody"><button id="admin_productedit_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_edit(\''+item.prod_code+'\');">수정</button></td>'+
-										'<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>'+
-									'</tr>';
+											'<div><select id="size_'+item.prod_code+'" class="productSortDetail prod_size_select mt-1">'+
+												'<option value="prod_size" selected>사이즈</option>'+
+											'</select></div>'+
+											'<div id="stock_'+item.prod_code+'" class="mt-1"></div>';
+							}
+							else {
+								html += '<td class="text-center admin_productList_tbody">정보없음</td>';
+							}
+							
+							html += '<td class="text-center admin_productList_tbody"><input type="checkbox" id="'+item.prod_code+'" name="'+item.prod_code+'"/></td>'+
+									'<td class="text-center admin_productList_tbody"><button id="admin_productedit_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_edit(\''+item.prod_code+'\');">수정</button></td>'+
+									'<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>'+
+								'</tr>';
+									
 						}
 						
 					});//end of $.each
@@ -179,6 +172,48 @@
 					
 					//조회해온 상품정보를 테이블에 추가해주기
 					$("#productList_content").append(html);
+					
+					
+					//컬러셀렉트 체인지이벤트
+					$(".prod_color_select").change(function(e){
+						var selectedProdcode = $(this).attr('id').substr(6);
+						var selectedColor = $(this).val();
+						var sizeselecthtml = $(this).parent().parent().find("select.prod_size_select");
+						
+						$("#stock_"+selectedProdcode).empty();
+						
+						if($(this).val() != "prod_color"){
+							sizeselecthtml.empty();						
+							goSelectSize(selectedProdcode, selectedColor);
+						}
+						else{
+							sizeselecthtml.empty();
+							sizeselecthtml.append('<option value="prod_size" selected>사이즈</option>');
+						}
+						
+						
+						
+						
+					});
+					
+					//사이즈셀렉트 체인지이벤트
+					$(".prod_size_select").change(function(e){
+						var selectedProdcode = $(this).attr('id').substr(5);
+						var selectedColor = $("#color_"+selectedProdcode).val();
+						var selectedSize = $(this).val();
+						
+						console.log(selectedColor + " " + selectedSize);
+						
+						if(selectedSize == "prod_size"){
+							$("#stock_"+selectedProdcode).empty();
+						}
+						
+						if(selectedSize != "prod_size"){
+							goSelectStock(selectedProdcode, selectedColor, selectedSize);
+						}
+						
+					});
+					
 					
 				}//end of if
 				
@@ -194,8 +229,64 @@
 			}
 		});// end of ajax
 		
-		
 	}//end of selectBySort
+	
+	
+	////////////////////////////////////////////////////////////////////////
+	
+	function goSelectSize(pcode, pcolor){
+		
+		$.ajax({
+			url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListSizeJson.sue",
+			type: "get",
+			data:{"pcode":pcode,
+				  "pcolor":pcolor},
+			dataType:"JSON",
+			success:function(json2){
+				
+				if(json2.length > 0){
+
+					var sizehtml = '<option value="prod_size" selected>사이즈</option>';
+					$.each(json2, function(index, item){
+						sizehtml += '<option value="'+item.psize+'">'+item.psize+'</option>';
+					});//end of $.each
+					
+					// 해당 컬러의 사이즈 옵션값을 넣어준다
+					$("#size_"+pcode).append(sizehtml);
+					
+				}
+				
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});// end of ajax
+				
+	}//end of goSelectSize;
+	
+	
+	function goSelectStock(p_code, p_color, p_size){
+		
+		$.ajax({
+			url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListStockJson.sue",
+			type: "get",
+			data:{"p_code":p_code,
+				  "p_color":p_color,
+				  "p_size":p_size},
+			dataType:"JSON",
+			success:function(json3){
+				
+				var stock = json3.p_stock;
+				// 해당 컬러의 사이즈 옵션값을 넣어준다
+				$("#stock_"+p_code).html(stock+"개");
+				
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});// end of ajax
+		
+	}//end of goSelectStock
 	
 	
 	
@@ -224,8 +315,8 @@
 	<div id="contents" class="col-9 ml-5 mt-3 mb-5">
 		
 		<div id="productList">
-			<div style="font-weight:bold;">
-				<form name="prodSelectFrm">
+			<div style="font-weight:bold;" class="mt-1">
+				<form name="prodSelectFrm" onsubmit="return false">
 					<span class="mr-3" style="font-size:20pt;">상품목록</span>
 					<%-- 
 					<span class="mr-1">
@@ -248,7 +339,7 @@
 							<option value="mule">뮬</option>
 						</select>
 					</span>
-					<span id="productSearch_btn">
+					<span id="productSearch" style="float:right;" class="mt-3">
 						<span><input type="text" id="searchword" name="searchword" placeholder="상품명으로 검색"/></span>
 						<span><button type="button" id="product_search_btn" style="border:none; background-color: transparent;">
 							<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>

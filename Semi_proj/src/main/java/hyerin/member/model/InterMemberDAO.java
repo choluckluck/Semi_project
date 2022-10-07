@@ -22,9 +22,22 @@ public interface InterMemberDAO {
 	int getTotalMemberPage(Map<String, String> paraMap) throws SQLException;
 
 
-
 	// 페이징 처리한 검색이 있는, 또는 없는 회원목록 조회(select)
 	List<MemberVO> selectPaginMember(Map<String, String> paraMap) throws SQLException;
+	
+	
+	
+	
+	// * 회원정보조회/수정 *
+
+	
+	//회원정보를 조회하기
+	MemberVO selectEditUserInfo(String userid) throws SQLException;
+
+
+
+	//userid에 해당하는 회원을 탈퇴처리하기 (update)
+	int upateUserStatus(String userid) throws SQLException;
 	
 	
 }

@@ -87,7 +87,10 @@ public class ProductDAO implements InterProductDAO {
 			
 			while(rs.next()) {
 				
+				
 				ProductVO best_pvo = new ProductVO();
+				ProductDetailVO pdvo = new ProductDetailVO();
+				
 				best_pvo.setProd_code(rs.getString(1));
 				best_pvo.setProd_name(rs.getString(2));
 				best_pvo.setProd_kind(rs.getString(3));
@@ -95,7 +98,8 @@ public class ProductDAO implements InterProductDAO {
 				best_pvo.setProd_high(rs.getString(5));
 				best_pvo.setProd_price(rs.getString(6));
 				best_pvo.setProd_saleprice(rs.getString(7));
-				best_pvo.setProd_color(rs.getString(8));
+				pdvo.setProd_color(rs.getString(8));
+				best_pvo.setPdvo(pdvo);
 				best_pvo.setProd_registerday(rs.getString(9));
 				best_pvo.setProd_review_count(rs.getString(11));
 				
@@ -158,6 +162,8 @@ public class ProductDAO implements InterProductDAO {
 			while(rs.next()) {
 				
 				ProductVO new_pvo = new ProductVO();
+				ProductDetailVO pdvo = new ProductDetailVO();
+				
 				new_pvo.setProd_code(rs.getString(1));
 				new_pvo.setProd_name(rs.getString(2));
 				new_pvo.setProd_kind(rs.getString(3));
@@ -165,7 +171,8 @@ public class ProductDAO implements InterProductDAO {
 				new_pvo.setProd_high(rs.getString(5));
 				new_pvo.setProd_price(rs.getString(6));
 				new_pvo.setProd_saleprice(rs.getString(7));
-				new_pvo.setProd_color(rs.getString(8));
+				pdvo.setProd_color(rs.getString(8));
+				new_pvo.setPdvo(pdvo);
 				new_pvo.setProd_registerday(rs.getString(9));
 				new_pvo.setProd_review_count(rs.getString(11));
 				
@@ -237,7 +244,11 @@ public class ProductDAO implements InterProductDAO {
 				md_pvo.setProd_high(rs.getString(5));
 				md_pvo.setProd_price(rs.getString(6));
 				md_pvo.setProd_saleprice(rs.getString(7));
-				md_pvo.setProd_color(rs.getString(8));
+				
+				ProductDetailVO pdvo = new ProductDetailVO();
+				pdvo.setProd_color(rs.getString(8));
+				md_pvo.setPdvo(pdvo);
+				
 				md_pvo.setProd_registerday(rs.getString(9));
 				md_pvo.setProd_review_count(rs.getString(11));
 				
@@ -335,11 +346,11 @@ public class ProductDAO implements InterProductDAO {
 			String prodSortbyKind = paraMap.get("prodSortbyKind");
 			String searchword = paraMap.get("searchword");
 			
-			String sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn, prod_colorList, prod_sizeList, prod_stockList\n"+
+			String sql = "select prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
 					"from \n"+
 					"(\n"+
-					"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn\n"+
-					"    from v_tbl_product\n";
+					"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn "+
+					"    from (select * from v_tbl_product order by prod_registerday desc) ";
 			
 			// 상품종류로 정렬했을 경우
 			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
@@ -361,9 +372,8 @@ public class ProductDAO implements InterProductDAO {
 			}
 			
 			sql += ")\n"+
-					" left join ( select * from v_tbl_prod_detail )VPD on VPD.fk_prod_code = prod_code "+
-					"where rno between ? and ?";
-			
+					" left join ( select * from v_tbl_prod_detail_stock )VPD on VPD.fk_prod_code = prod_code "+
+					" where rno between ? and ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -411,13 +421,12 @@ public class ProductDAO implements InterProductDAO {
 				pvo.setProd_high(rs.getString(5));
 				pvo.setProd_price(rs.getString(6));
 				pvo.setProd_saleprice(rs.getString(7));
-				pvo.setProd_color(rs.getString(8));
+
+				pdvo.setProd_color(rs.getString(8));
+				pvo.setPdvo(pdvo);
+				
 				pvo.setProd_registerday(rs.getString(9));
 				pvo.setMd_pick_yn(rs.getString(10));
-				
-				pdvo.setProd_color(rs.getString(11));
-				pdvo.setProd_size(rs.getString(12));
-				pdvo.setProd_stock(rs.getString(13));
 				pvo.setPdvo(pdvo);
 				
 				pvoList.add(pvo);
@@ -441,7 +450,6 @@ public class ProductDAO implements InterProductDAO {
 	
 	
 	// ** 상품 등록 **
-	
 	
 	
 	//상품종류 목록을 가져오기
@@ -470,6 +478,195 @@ public class ProductDAO implements InterProductDAO {
 		
 		return prodKindList;
 	}//end of selectProdKindList
+	
+	
+	
+	//해당 상품코드, 상품컬러에 대한 사이즈를 조회하기
+	@Override
+	public List<ProductDetailVO> getProductSize(String pcode, String pcolor) throws SQLException {
+		List<ProductDetailVO> pdvoList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select prod_size " +
+						 " from tbl_prod_detail "+
+						 " where fk_prod_code = ? and prod_color = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pcode);
+			pstmt.setString(2, pcolor);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ProductDetailVO pdvo = new ProductDetailVO();
+				pdvo.setProd_size(rs.getString(1));
+				
+				pdvoList.add(pdvo);
+			}
+			
+			
+		} finally {
+			close();
+		}
+		
+		
+		return pdvoList;
+	}
+	
+	
+	//재고량을 조회해온다
+	@Override
+	public String getStock(String p_code, String p_color, String p_size) throws SQLException {
+		String stock = "";
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select prod_stock " +
+						 " from tbl_prod_detail "+
+						 " where fk_prod_code = ? and prod_color = ? and prod_size = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, p_code);
+			pstmt.setString(2, p_color);
+			pstmt.setString(3, p_size);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				stock = rs.getString(1);
+			}
+			
+			
+		} finally {
+			close();
+		}
+		
+		return stock;
+	}
+	
+	
+	
+	
+	// 상품번호 채굴해오기
+	@Override
+	public String getProdCode() throws SQLException {
+		String prodcode = ""; //SEQ_PRODUCT_CODE
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " select 'prod-'||lpad(SEQ_PRODUCT_CODE.nextval,4,0) AS prod_code " +
+					      " from dual ";
+					   
+			 pstmt = conn.prepareStatement(sql);
+			 rs = pstmt.executeQuery();
+			 			 
+			 rs.next();
+			 prodcode = rs.getString(1);
+		
+		} finally {
+			close();
+		}
+		
+		return prodcode;
+	}//end of getProdCode
+	
+	
+	
+	//tbl_product 테이블에 제품 insert하기
+	@Override
+	public int insertProduct(ProductVO pvo) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_product( prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_registerday, prod_description, prod_point, md_pick_yn ) "
+					   + " values(?, ?, ?, ?, ?, ?, ?, sysdate, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pvo.getProd_code());
+			pstmt.setString(2, pvo.getProd_name());
+			pstmt.setString(3, pvo.getProd_kind());
+			pstmt.setString(4, pvo.getProd_image());
+			pstmt.setString(5, pvo.getProd_high());
+			pstmt.setInt(6, Integer.parseInt(pvo.getProd_price()));
+			pstmt.setInt(7, Integer.parseInt(pvo.getProd_saleprice()));
+			pstmt.setString(8, pvo.getProd_description());
+			pstmt.setInt(9, Integer.parseInt(pvo.getProd_point()));
+			pstmt.setString(10, pvo.getMd_pick_yn());
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}//end of insertProduct
+
+	
+	
+	// tbl_product_image에 상품상세 이미지를 insert 해주기
+	@Override
+	public int insertProductImage(String prod_code, String product_image_file) throws SQLException {
+		int n = 0;
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_product_image(product_image_code, fk_prod_code, product_image_file) "
+					   + " values('d-img-'||lpad(SEQ_PRODUCT_IMAGE_CODE.nextval,4,0), ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, prod_code);
+			pstmt.setString(2, product_image_file);
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}//end of insertProductImage
+	
+	
+	
+	
+	//옵션 정보가 있을 때 tbl_prod_detail에 insert 해주기
+	@Override
+	public int insertProductDetail(ProductDetailVO pdvo) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_prod_detail(prod_detail_code, fk_prod_code, prod_color, prod_size, prod_stock) "
+					   + " values('d-prod-'||lpad(SEQ_PROD_DETAIL_CODE.nextval,4,0), ?, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pdvo.getFk_prod_code());
+			pstmt.setString(2, pdvo.getProd_color());
+			pstmt.setString(3, pdvo.getProd_size());
+			pstmt.setInt(4, Integer.parseInt(pdvo.getProd_stock()));
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		return n;
+	}//end of insertProductDetail
 
 	
 	
