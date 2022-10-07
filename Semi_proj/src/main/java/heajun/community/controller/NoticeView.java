@@ -15,31 +15,37 @@ public class NoticeView extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String userid = "";
+		String fk_userid = "";
 		   
 		   try {
 			   HttpSession session = request.getSession();
 			   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-			   userid = loginuser.getUserid();
+			   fk_userid = loginuser.getUserid();
 		   }catch(NullPointerException e) {
-			   userid = "no";
+			   fk_userid = "no";
 		   }
+		   
 		   String method = request.getMethod();
 			
 			if("GET".equalsIgnoreCase(method)) {
 				
 				String notice_code = request.getParameter("notice_code");
-				
-				InterNoticeDAO ndao = new NoticeDAO();
-				
-				NoticeVO nvo = ndao.noticeOneDetail(notice_code);
-				ndao.noticeCnt(notice_code);
-				
-				request.setAttribute("nvo", nvo);
 				request.setAttribute("notice_code", notice_code);
-				request.setAttribute("userid", userid);
+
 				
-			// *** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 *** // 
+				 InterNoticeDAO ndao = new NoticeDAO();
+				 
+				 NoticeVO nvo = ndao.noticeOneDetail(notice_code);
+				 
+				 ndao.noticeCnt(notice_code);
+				 
+ 
+			        request.setAttribute("nvo", nvo);
+					request.setAttribute("fk_userid", fk_userid);
+					
+				
+				
+				// *** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 *** // 
 				String goBackURL = request.getParameter("goBackURL");
 			
 				request.setAttribute("goBackURL", goBackURL);

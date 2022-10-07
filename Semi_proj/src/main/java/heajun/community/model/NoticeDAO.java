@@ -138,7 +138,7 @@ public class NoticeDAO  implements InterNoticeDAO{
 	            nvo.setNotice_subject(rs.getString(3));
 	            nvo.setNotice_contents(rs.getString(4));
 	            nvo.setNotice_count(rs.getInt(5));
-	            nvo.setNotice_registerday(rs.getDate(6));
+	            nvo.setNotice_registerday(rs.getString(6));
 	            nvo.setNotice_file_1(rs.getString(7));
 	            nvo.setNotice_file_2(rs.getString(8));
 	            nvo.setNotice_file_3(rs.getString(9));
@@ -237,7 +237,7 @@ public class NoticeDAO  implements InterNoticeDAO{
 	        String sql = " select B.notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
 			        		+ " from(select rownum rn, A.notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
 			        		+ " from(select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
-			        		+ " from tbl_notice order by notice_code desc)A)B  " +
+			        		+ " from tbl_notice order by notice_code acs)A)B  " +
 			        		       "    where rn between ? and ? " ;
 			
 			
@@ -260,7 +260,7 @@ public class NoticeDAO  implements InterNoticeDAO{
 				nvo.setNotice_subject(rs.getString(3));
 				nvo.setNotice_contents(rs.getString(4));
 				nvo.setNotice_count(rs.getInt(5));
-				nvo.setNotice_registerday(rs.getDate(6));
+				nvo.setNotice_registerday(rs.getString(6));
 				nvo.setNotice_file_1(rs.getString(7));
 				nvo.setNotice_file_2(rs.getString(8));
 				nvo.setNotice_file_3(rs.getString(9));

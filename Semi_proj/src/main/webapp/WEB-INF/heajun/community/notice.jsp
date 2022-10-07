@@ -23,12 +23,16 @@
 		$("div#sidebar_notice").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
+		
 		//커뮤니티사이드바_문의하기 클릭 이벤트
 		$("div#sidebar_qna").click(function(){
-			location.href="<%= ctxPath%>/heajun/board/qnalist.sue";
+			location.href="<%= ctxPath%>/heajun/board/qnaList.sue";
 		});
 		
-		
+		//공지사항_문의하기 클릭 이벤트
+		$("th.notice_subject").click(function(){
+			location.href="<%= ctxPath%>/heajun/community/noticeView.sue";
+		});
 		
 	});
 </script>
@@ -39,30 +43,36 @@
 	<div id="contents" class="col-9 ml-5">
 		
 		<form name="noticeFrm">
+		
 			<div style="font-weight:bold;">NOTICE</div>	
 			<table id="notice_list" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
+			
 				<thead>
-					<tr>
-						<th width="15%" height="50px" class="notice_th text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">No</th>
-						<th width="45%" class="notice_th" style="text-align:center; font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">Title</th>
-						<th width="15%" class="notice_th text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">Writer</th>
-						<th width="15%" class="notice_th text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">Date</th>
-						<th width="10%" class="notice_th text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">Hits</th>
+					<tr >
+						<th width="15%" height="50px" class="notice_th text-center" style="font-size:11pt; border-top:solid 1px black; border-bottom: solid 1px black ">No</th>
+						<th width="45%" class="notice_th" style="text-align:center; font-size:11pt; border-top:solid 1px black; border-bottom: solid 1px black">Title</th>
+						<th width="15%" class="notice_th text-center" style="font-size:11pt; border-top:solid 1px black; border-bottom: solid 1px black">Writer</th>
+						<th width="15%" class="notice_th text-center" style="font-size:11pt; border-top:solid 1px black; border-bottom: solid 1px black">Date</th>
+						<th width="10%" class="notice_th text-center" style="font-size:11pt; border-top:solid 1px black; border-bottom: solid 1px black">Hits</th>
 					</tr>
 				</thead>
 				
-				 <tbody id="notice_tbody">
-		         <c:forEach var="nvo" items="${requestScope.notice}">
-		            <tr>
-						<td id="notice_code" height="50px" class="text-center notice_td" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_code}</td>
-						<td id="notice_subject" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_subject}</td>
-						<td id="fk_userid" class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.fk_userid}</td>
-						<td id="notice_count" class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_count}</td>
-						<td id="notice_registerday" class="text-center" style="border-bottom: solid 1px #d9d9d9">${nvo.notice_registerday}</td>
+				
+				
+				<thead>
+				 <c:forEach var="nvo" items="${requestScope.noticeList}">
+					<tr>
+						<th width="15%" height="50px" class="notice_code text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_code}</th>
+						<th width="45%" class="notice_subject" style="text-align:center; font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.notice_subject}</th>
+						<th width="15%" class="fk_userid text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.fk_userid}</th>
+						<th width="15%" class="notice_count text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.notice_registerday}</th>
+						<th width="10%" class="notice_registerday text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.notice_count}</th>
 					</tr>
-			         </c:forEach>
-			     </tbody>
-			     
+					</c:forEach>
+				</thead>
+				
+				
+				
 		    
 			</table>
 		

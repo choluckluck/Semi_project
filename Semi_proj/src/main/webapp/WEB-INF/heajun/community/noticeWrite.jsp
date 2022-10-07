@@ -3,7 +3,48 @@
 <%
     String ctxPath = request.getContextPath();
 %>
+<style type="text/css">
 
+   
+
+button#notice {
+	width: 90px;
+	height: 30px;
+    float: left;
+    text-align: center;
+    margin-right: 5px;
+    background-color: #ffffff;
+    padding: 6px;
+    border: 1px solid #8c8c8c;
+    font-size: 9pt;
+}
+
+button#reset {
+	width: 90px;
+	height: 31px;
+	border: 1px solid #8c8c8c;
+	background-color: black;
+    float: right;
+    text-align: center;
+    font-size: 9pt;
+    padding: 5px;
+    margin-right: 10px;
+    color: #ffffff;
+}
+button#submit {
+	width: 90px;
+	height: 31px;
+	border: 1px solid #8c8c8c;
+	background-color: #ffffff;
+    float: right;
+    text-align: center;
+    font-size: 9pt;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+
+    </style>  
  <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> 
 
 <script>
@@ -26,16 +67,14 @@
 		
 		
 		//목록버튼 클릭이벤트
-		$("input#notice").click(function(){
-			
-			frm.reset();
+		$("button#notice").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
-			
 		});
 		
 		
+		
 		  //등록버튼 클릭이벤트 
-		  $("input#submit").click(function(){
+		  $("button#submit").click(function(){
 			  
 			  let flag = false;
 			  
@@ -58,7 +97,8 @@
 
 		
 		//취소버튼 클릭이벤트
-		$("input#reset").click(function(){
+		$("button#reset").click(function(){
+			$("span.error").hide();
 			frm.reset();
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
@@ -546,18 +586,17 @@
 					<td><input name="file3" type="file"/></td>
 				</tr>
 				
-				
-					<tr>
-						<td  class="my-5">
-						<input id="notice" type="button" value="목록"class="white" style="height:40px;" />	
-						<input id="reset" type="reset" value="취소" class="float-right mr-2 white" style="height:40px;" />	
-					    <input type="button" value="등록" id="submit" class="float-right mr-2 black" style="height:40px;" /> 
-					   </td>
-					</tr>
+			  
 						
 			    </table>
 			</form>
-			
+			 <div class="mt-3 mb-5 ">
+			     
+			  <span><button id="notice" type="button" onclick="javascript:history.back();">목록</button></span>
+			  <span><button id="reset" type="button" onclick="javascript:history.back();">취소</button></span>
+			  <span><button id="submit" type="button" onclick="javascript:history.back();">등록</button></span>
+   
+			   </div>
 	</div>
 </div>
  <jsp:include page="/WEB-INF/hyerin/footer.jsp"/>

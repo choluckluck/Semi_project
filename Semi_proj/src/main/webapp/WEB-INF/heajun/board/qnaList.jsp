@@ -115,6 +115,7 @@ p{
    
 </script>
 
+<jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> 
 
 
 <div class="detail row-my-3">
@@ -213,3 +214,4 @@ p{
    
   </body>
 </html>
+ <jsp:include page="/WEB-INF/hyerin/footer.jsp"/>

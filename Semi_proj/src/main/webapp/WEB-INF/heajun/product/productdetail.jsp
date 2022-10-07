@@ -3,6 +3,9 @@
 <%
     String ctxPath = request.getContextPath();
 %>
+
+
+ <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,6 +44,7 @@ div{
 td{padding: 10px;}
     
 
+
   ul{
     list-style-type: none;
     position:relative;
@@ -68,7 +72,7 @@ td{padding: 10px;}
 
   button#submit3{
    margin-left:-3px;
-   background-color: #1c284a;
+   background-color: black;
    color: white;
   }
   
@@ -91,15 +95,63 @@ right:35px;
 <script type="text/javascript">
 
 	
+$(document).ready(function() {
+	   
+	   // === 주문개수 스피터 달기 === //
+	   $("input#spinner").spinner( {
+		   spin: function(event, ui) {
+			   if(ui.value > 100) {
+				   $(this).spinner("value", 100);
+				   return false;
+			   }
+			   else if(ui.value < 1) {
+				   $(this).spinner("value", 1);
+				   return false;
+			   }
+		   }
+	   } );// end of $("input#spinner").spinner({});-------------
+	   
+}//end of $(document).ready(function() {--------------------
 	
-	
+//Function Declaration
+function goCart() {
+	   
+	   // === 주문량에 대한 유효성 검사하기 === //
+	   const frm = document.cartFrm;
+	   
+	   const regExp = /^[0-9]+$/; // 숫자만 체크하는 정규표현식
+	   const count = frm.oqty.value; 
+	   const bool = regExp.test(oqty);
+	   
+	   if(!bool) {
+		   // 숫자 이외의 값이 들어온 경우 
+		   alert("주문개수는 1개 이상이어야 합니다.");
+		   frm.count.value = "1";
+		   frm.count.focus();
+		   return; // 종료
+	   }
+	   
+	   // 문자형태로 숫자로만 들어온 경우
+	   if( Number(count) < 1 ) {
+		   alert("주문개수는 1개 이상이어야 합니다.");
+		   frm.count.value = "1";
+		   frm.count.focus();
+		   return; // 종료
+	   }
+	   
+	   // 주문개수가 1개 이상인 경우 
+	   frm.method = "POST";
+	   frm.action = "<%= request.getContextPath()%>/seongmin/cartAdd.up";
+	   frm.submit();
+	   
+}// end of function goCart()------------------------------ 
+
 
 </script>
 
 
 </head>
 <body>
-<%-- <jsp:include page="../hyerin/header.jsp"></jsp:include> --%>
 <div id="container" style=" margin:0 auto; width:90%; position:relative;">
 
 	<div id="quickView" style="width:55px; height:240px; background-color:#172A41; position:fixed; bottom:100px; right:50px; z-index:100;">
@@ -125,54 +177,33 @@ right:35px;
 		   <img src="https://www.jinnykimcollection.co.kr/web/product/extra/small/202208/a71ea7169a3030bfdf98fce73d65ee6f.jpg"  style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">
 		   <br><br>
 		   
-			<div class="row" style="border:solid 1px gray; heigth:200px; text-align:center; margin:auto;">
-				<div class="col-2">
-					<img src="https://www.jinnykimcollection.co.kr/web/product/extra/small/202208/a71ea7169a3030bfdf98fce73d65ee6f.jpg"  style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">					
-				</div>
-				<div class="col-2">
-					<img src="https://www.jinnykimcollection.co.kr/web/product/extra/small/202208/a71ea7169a3030bfdf98fce73d65ee6f.jpg"  style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">					
-				</div>
-
-				<div class="col-2">
-					<img src="https://www.jinnykimcollection.co.kr/web/product/extra/small/202208/a71ea7169a3030bfdf98fce73d65ee6f.jpg"  style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">					
-				</div>			
-				<div class="col-2">
-					<img src="https://www.jinnykimcollection.co.kr/web/product/extra/small/202208/a71ea7169a3030bfdf98fce73d65ee6f.jpg"  style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">					
-				</div>			
-				<div class="col-2">
-					<img src="https://www.jinnykimcollection.co.kr/web/product/extra/small/202208/a71ea7169a3030bfdf98fce73d65ee6f.jpg"  style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">					
-				</div>			
-				<div class="col-2">
-					<img src="https://www.jinnykimcollection.co.kr/web/product/extra/small/202208/a71ea7169a3030bfdf98fce73d65ee6f.jpg"  style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">					
-				</div>			
-			</div>
-
 		</div>
 		  
 		 
 
 	
-		<div class="col-6" style="margin-left:150px;">
-			<div style="font-size: 15px; margin-left:100px;">(특가)<strong style="font-size: 15px;">드레이 로퍼</strong >(1cm)</div>
-			<div style="font-size: 15px; margin-left:100px;"><strong style="color:red;">63% </strong><strong>29,800원</strong><strike>&nbsp;79,900원</strike></div>
+		<div class="col-6" style="margin-left:50px;">
+			<div style="font-size: 20px; margin-left:50px;">(특가)<strong style="font-size: 20px;">드레이 로퍼{requestScope.pvo.prod_name}</strong >(1cm)</div>
+			<div style="font-size: 20px; margin-left:50px;"><strong style="color:red;">63% </strong><strong>29,800원{requestScope.pvo.prod_saleprice}</strong><strike>&nbsp;79,900원{requestScope.pvo.prod_price}</strike></div>
 			<br>
 			<div style="width: 100%;">
-				<table id="code" style="margin-left:100px;">
+				<table id="code" style="margin-left:50px;">
 					<tr>
 						<th style="width: 115px; text-align: center;">Code</th>
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P0000FXM</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P0000FXM{requestScope.pvo.prod_code}</td>
 					</tr>
 					<tr>
 						<th style="width: 115px; text-align: center;">적립금</th>
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;300원</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;300원${requestScope.pvo.prod_point}</td>
 					</tr>
 					<tr>
 						<th style="width: 115px; text-align: center;">배송비</th>
 						<td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3,000원</strong> (70,000원 이상 구매 시 무료)</td>
 					</tr>
 				</table >
-				     
-				<table style="margin-left:100px;">   
+				
+			   
+				<table style="margin-left:50px; margin-bottom:10px;">   
 					<tr>
 						<th style="width: 115px; text-align:left;">COLOR</th>
 							<td>
@@ -182,9 +213,10 @@ right:35px;
 									<option>LIGHT GREEN SUEDE</option>
 									<option>PEACOCK SUEDE</option>
 								</select>
+						
 							</td>
 						</tr>
-					
+					<br>
 					<tr>
 						<th style="width: 115px; text-align:left;">SIZE</th>
 						<td>
@@ -195,7 +227,30 @@ right:35px;
 							</select>
 						</td>
 					</tr>
+					
+					
+					
 				</table>
+				    
+				    
+				     <%-- ==== 장바구니담기 또는 바로주문하기 폼 ==== --%>
+		    <form name="cartFrm">	    
+			    <ul class="list-unstyled mt-6">
+			    	<li >
+			        	<label style="margin-left:80px ; for="spinner">주문수량&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+	  					<input id="spinner" name="count" value="1" style="width: 210px;">
+					</li>
+					<li class="my-5 mx-6" >
+						<button type ="button" id="submit2"  class="buttons border btn btn-outline-secondary" onclick="goWish();  ">♡</button>
+						<button type ="button" id="submit"   class="buttons border btn btn-outline-secondary  col-4"  onclick="goCart();">장바구니</button>
+						<button type ="button" id="submit3"  class="buttons border btn btn-outline-secondary  col-4" onclick="goOrder();">바로구매</button>
+					</li>
+					
+				</ul>
+				<input type="hidden" name="prod_code" value="${requestScope.pvo.prod_code}" />
+			</form>	
+				
+				
 				
 				<table class="cartList">     
 				</table>
@@ -203,27 +258,13 @@ right:35px;
 				<input type ="hidden" name="opseq" value="0">
 				<input type ="hidden" name="oqty"  value="0">
 				   
-			</div>
-			<hr>
-			<div class="totalPrice" style="font-size:13px;" align="right" >
-			<strong style="font-size: 13px;">총 상품금액 (수량): &nbsp;</strong>
-			<span id="tprice">
-				0원
-			</span>
-			&nbsp;/&nbsp;
-			<span id="tcnt">
-				0
-			</span>
-				개
-			</div>
-			<br/>
-			<hr>
 			
-			<div class="my-5" >
-				<button type ="submit" id="submit2"  class="buttons border btn btn-outline-secondary   ">♡</button>
-				<button type ="submit" id="submit"   class="buttons border btn btn-outline-secondary  col-5">장바구니</button>
-				<button type ="submit" id="submit3"  class="buttons border btn btn-outline-secondary  col-6">바로구매</button>
+			
 			</div>
+			
+			
+			
+			
 		</div>
 	</div> 
 	<br><br>
@@ -830,7 +871,7 @@ right:35px;
 
 
 
-<%-- <jsp:include page="../hyerin/footer.jsp"></jsp:include> --%>
-
+ 
 </body>
 </html>
+ <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include> 
