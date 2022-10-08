@@ -299,15 +299,15 @@
 					<option value="8">반품</option>
 				</select>
    			  </div>
-			<span class="period">
+		<!-- 	<span class="period">
 				<a class="prd" id="today00" href="#" days="00"><span>오늘</span></a>
 				<a class="prd" id="today07"  href="#" days="07"><span>1주일</span></a>
 				<a class="prd" id="today30"  href="#" days="30"><span>1개월</span></a>
 				<a class="prd" id="today90"  href="#" days="90"><span>3개월</span></a>
 				<a class="prd" id="today180"  href="#" days="180"><span>6개월</span></a>
-			</span>
+			</span> -->
 			
-			<div class="daterange" style="display:inline">
+			<div class="daterange" style="display:inline; margin-left:50px;">
 			   <input type="text" class="datepicker" id="startDate" name="startDate">
 				~
 			   <input type="text" class="datepicker" id="endDate" name="endDate">
@@ -328,24 +328,55 @@
 
 		<h5>주문 상품 정보</h5>
 
+ 	<div class="row">
+<%--  	   <div class="col-2">
+ 	   	 <table class="table table" style="text-align:center; width:100%">
+ 			<thead>
+			  <tr>
+				<th scope="col">주문일 <br> 주문번호</th>
+ 			  </tr>
+ 			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${not empty requestScope.recentOrderList}">
+					
+						<c:forEach var="rspan" items="${requestScope.rowspan}">
+							<tr style="height:137px;" >
+								<td rowspan="${rspan.row_count}" class="recentordertd">${rspan.orderdate}<br>
+								  <a class="orderview" href="<%=request.getContextPath() %>/seongmin/member/orderDetail.sue">[${rspan.order_code}]</a>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:when>				
+					<c:otherwise>
+						<tr style="vertical-align: middle">
+							<td>-</td>
+						</tr>
+					</c:otherwise>
+				</c:choose>				
+ 			</tbody>				   	
+ 	   	</table>
+	   </div> --%>
+
+	   <div class="col-10">	   
 		  <table class="table table" style="text-align:center; width:90%">
 			<colgroup>
-				<col style="width:210px;">
 				<col style="width:75px;">
-				<col style="width:250px;">
+				<col style="width:75px;">
+				<col style="width:100px;">
 				<col style="width:80px;">
-				<col style="width:120px;">
-				<col style="width:120px;">
-				<col style="width:160px;">
+				<col style="width:80px;">
+				<col style="width:80px;">
+				<col style="width:80px;">
 			</colgroup>
 			<thead>
 			  <tr>
-				<th scope="col">주문일 / 주문번호</th>
+				<th scope="col">주문일 <br> 주문번호</th>
 				<th scope="col" colspan="2">주문내역</th>
 				<th scope="col">수량</th>
-				<th scope="col">금액</th>
+				<th scope="col">상품금액</th>
+				<th scope="col">총 금액<br>(배송비 포함)</th>
 				<th scope="col">주문상태</th>
-				<th scope="col">취소/교환/반품</th>
 			  </tr>
 			</thead>
 			<tbody>
@@ -353,14 +384,24 @@
 					<c:when test="${not empty requestScope.recentOrderList}">
 					
 						<c:forEach var="rovo" items="${requestScope.recentOrderList}">
-							<tr >
-								<td class="recentordertd">${rovo.orderdate}<br>
-								<a class="orderview" href=#>[${rovo.order_code}]</a></td>
-								<td class="recentordertd"><a href="#"><div><img id="recentorderimg" src="<%=request.getContextPath() %>/images/product/${rovo.pvo.prod_kind}/${rovo.pvo.prod_image}"></div></a></td>
+							<tr>
+								<td rowspan="" class="recentordertd">${rovo.orderdate}<br>
+								  <a class="orderview" href="<%=request.getContextPath() %>/seongmin/member/orderDetail.sue">[${rovo.order_code}]</a>
+								</td>
+
+
+								<td class="recentordertd"><a href="#"><div><img id="recentorderimg" src="<%=request.getContextPath() %>/images/product/${rovo.pvo.prod_image}"></div></a></td>
 								<td class="recentordertd"style="text-align: left">
 								<a class="prd" href="#">${rovo.pvo.prod_name}</a></td>
 								<td class="recentordertd">${rovo.odvo.order_buy_count}</td>
-								<td class="recentordertd"><fmt:formatNumber value="${rovo.odvo.order_price}" pattern="#,###"/>원</td>
+								<td class="recentordertd">
+								(1족 기준) <br>
+								정가 : <fmt:formatNumber value="${rovo.odvo.order_price}" pattern="#,###"/>원<br>
+								할인가 : <fmt:formatNumber value="${rovo.pvo.prod_saleprice}" pattern="#,###"/>원<br>
+								</td>
+								
+								
+								<td class="recentordertd">${rovo.order_state}</td>
 								<td class="recentordertd">${rovo.order_state}</td>
 							</tr>
 						</c:forEach>
@@ -381,8 +422,8 @@
 		  </nav>
      </div>
    </div>
-   
-   
+  </div> 
+   </div>
 <jsp:include page="../hyerin/footer.jsp"></jsp:include>	
 	
   </body>

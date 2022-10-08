@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
 <%
     String ctxPath = request.getContextPath();
 %>
@@ -33,6 +34,9 @@
 
 
 <style type="text/css">
+
+
+
   div#container {
   	margin: 0 auto;
   	width : 95%;
@@ -124,7 +128,8 @@
 
  	<div class="row">
   	   <div class="col-2">
-  	   <br><br>
+  	    	<br><br>
+  	   
  		 <jsp:include page="sideMenu.jsp" />	   
 	   </div>	
 
@@ -138,7 +143,7 @@
             <tr>
                     <td rowspan='2'>혜택정보</td>
                     <td rowspan='2' width:10px style="padding: 0 3px;"></td>
-                    <td>{userid} 님은 [WELCOME] 회원입니다. <br>
+                    <td>${recentOrderList.get(0)} 님은 [WELCOME] 회원입니다. <br>
                         1원 이상 구매시 0% 추가적립 받으실 수 있습니다. (최대 100,000원)
                     </td>
                 </tr>

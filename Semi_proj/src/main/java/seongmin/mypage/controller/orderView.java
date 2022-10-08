@@ -74,6 +74,9 @@ public class orderView extends AbstractController {
 		   InterOrderDAO odao = new OrderDAO();
 
 		   
+		   
+		   
+		   
 		   // 페이징 처리를 위해 검색이 있거나 없는 전체 주문에 대한 총 페이지 알아오기
 		   int totalPage = odao.getTotalPage(paraMap);
 		   System.out.println(totalPage);
@@ -86,8 +89,16 @@ public class orderView extends AbstractController {
 		   
   
 	
-		List<OrderVO> recentOrderList = odao.recentOrderList(paraMap);
+		   List<OrderVO> recentOrderList = odao.recentOrderList(paraMap);
+		   
+		   List<OrderVO> rowspan = odao.rowspan(paraMap);
+			
 		
+		
+		
+		// 타입 : OrderVO
+		
+		request.setAttribute("rowspan", rowspan);
 		request.setAttribute("recentOrderList", recentOrderList);
 		request.setAttribute("sizePerPage", sizePerPage);
 
