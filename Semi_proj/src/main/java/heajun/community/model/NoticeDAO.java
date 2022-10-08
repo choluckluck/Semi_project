@@ -288,9 +288,9 @@ public class NoticeDAO  implements InterNoticeDAO{
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, paraMap.get("notice_code"));
-			pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
-			pstmt.setInt(3, (currentShowPageNo*sizePerPage));
+			
+			pstmt.setInt(1, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(2, (currentShowPageNo*sizePerPage));
 			
 			rs = pstmt.executeQuery();
 			
