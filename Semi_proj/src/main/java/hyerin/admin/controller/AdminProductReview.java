@@ -118,7 +118,8 @@ public class AdminProductReview extends AbstractController {
 		
 		String currentURL = HyerinUtil.getCurrentURL(request);
 		currentURL = currentURL.replaceAll("&", " ");
-
+		
+		request.setAttribute("currentURL", currentURL);
 		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/hyerin/admin/adminProductReview.jsp");

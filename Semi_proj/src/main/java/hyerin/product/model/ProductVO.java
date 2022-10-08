@@ -8,11 +8,8 @@ public class ProductVO {
 	 private String prod_kind; //상품종류      
 	 private String prod_image; //이미지파일명
 	 private String prod_high;  //상품 굽높이
-	 private String prod_color;  //상품 색상
-	 private String prod_size;   //상품 사이즈
 	 private String prod_price;	 // 상품 가격    
 	 private String prod_saleprice;	 // 상품 판매가격 (할인적용)    
-	 private String prod_stock; // 상품 재고
 	 private String prod_registerday; // 상품
 	 private String prod_review_count; // 리뷰개수
 	 private String prod_description; //상품설명
@@ -63,35 +60,11 @@ public class ProductVO {
 	}
 	
 	
-	public String getProd_color() {
-		return prod_color;
-	}
-	public void setProd_color(String prod_color) {
-		this.prod_color = prod_color;
-	}
-	
-	
-	public String getProd_size() {
-		return prod_size;
-	}
-	public void setProd_size(String prod_size) {
-		this.prod_size = prod_size;
-	}
-	
-	
 	public String getProd_price() {
 		return prod_price;
 	}
 	public void setProd_price(String prod_price) {
 		this.prod_price = prod_price;
-	}
-	
-	
-	public String getProd_stock() {
-		return prod_stock;
-	}
-	public void setProd_stock(String prod_stock) {
-		this.prod_stock = prod_stock;
 	}
 	
 	

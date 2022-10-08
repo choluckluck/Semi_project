@@ -143,7 +143,7 @@ public class MemberDAO implements InterMemberDAO {
 						"from\n"+
 						"(\n"+
 						"    select rownum as rno, userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, grade_code, point, account_name, bank_name, account, registerday, status, idle\n"+
-						"    from tbl_member\n"+
+						"    from (select * from tbl_member order by registerday desc )\n"+
 						")\n"+
 						"where rno between ? and ?";
 			
@@ -190,10 +190,19 @@ public class MemberDAO implements InterMemberDAO {
 			while(rs.next()) {
 				MemberVO mvo = new MemberVO();
 				
+				
+				//핸드폰 - 처리해주기
+				String mobile = rs.getString("mobile");
+				String mobile1 = mobile.substring(0,3);
+				String mobile2 = mobile.substring(3,7);
+				String mobile3 = mobile.substring(7);
+				
+				mobile = mobile1 + "-" + mobile2 + "-" + mobile3;
+				
 				mvo.setUserid(rs.getString(1));
 				mvo.setName(rs.getString(2));
 				mvo.setEmail(rs.getString(3));
-				mvo.setMobile(rs.getString(4));
+				mvo.setMobile(mobile);
 				mvo.setPostcode(rs.getString(5));
 				mvo.setAddress(rs.getString(6));
 				mvo.setDetailaddress(rs.getString(7));
@@ -219,5 +228,96 @@ public class MemberDAO implements InterMemberDAO {
 		
 		return mvoList;
 	}
+	
+	
+	
+	
+	// * 회원정보조회/수정 *
+	
+	
+	// 회원정보 조회하기
+	@Override
+	public MemberVO selectEditUserInfo(String userid) throws SQLException {
+		MemberVO mvo = new MemberVO();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, grade_code, point, account_name, bank_name, account, to_char(registerday,'yyyy-mm-dd') as registerday, marketing_yn " +
+						 " from tbl_member "+
+						 " where userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				
+				//핸드폰 - 처리해주기
+				String mobile = rs.getString("mobile");
+				String mobile1 = mobile.substring(0,3);
+				String mobile2 = mobile.substring(3,7);
+				String mobile3 = mobile.substring(7);
+				
+				mobile = mobile1 + "-" + mobile2 + "-" + mobile3;
+				
+				
+				mvo.setUserid(rs.getString(1));
+				mvo.setName(rs.getString(2));
+				mvo.setEmail(rs.getString(3));
+				mvo.setMobile(mobile);
+				mvo.setPostcode(rs.getString(5));
+				mvo.setAddress(rs.getString(6));
+				mvo.setDetailaddress(rs.getString(7));
+				mvo.setExtraaddress(rs.getString(8));
+				mvo.setGender(rs.getString(9));
+				mvo.setBirthday(rs.getString(10));
+				mvo.setGrade_code(rs.getString(11));
+				mvo.setPoint(rs.getString(12));
+				mvo.setAccount_name(rs.getString(13));
+				mvo.setBank_name(rs.getString(14));
+				mvo.setAccount(rs.getString(15));
+				mvo.setRegisterday(rs.getString(16));
+				mvo.setMarketing_yn(rs.getInt(17));
+				
+				// userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday,
+				// grade_code, point, account_name, bank_name, account, registerday
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return mvo;
+	}//end of selectEditUserInfo
+	
+	
+	
+	
+	//userid에 해당하는 회원을 탈퇴처리하기 (update)
+	@Override
+	public int upateUserStatus(String userid) throws SQLException {
+		int result = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_member set status = 0 "+
+						 " where userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userid);
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}//end of upateUserStatus
 	
 }

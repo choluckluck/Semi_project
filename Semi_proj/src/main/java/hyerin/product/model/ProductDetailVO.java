@@ -7,8 +7,15 @@ public class ProductDetailVO {
 	private String prod_size;
 	private String prod_stock;
 	
+	private String prod_stockresult;
 	
 	
+	public String getProd_stockresult() {
+		return prod_stockresult;
+	}
+	public void setProd_stockresult(String prod_stockresult) {
+		this.prod_stockresult = prod_stockresult;
+	}
 	public String getProd_detail_code() {
 		return prod_detail_code;
 	}

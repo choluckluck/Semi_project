@@ -35,16 +35,15 @@ function goSearche() {
 
 
 	<div style="margin-top: 10%;">
-		<form name="selectItem">
-		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;" name="selectItem"  id="selectItem" onchange="goSearche()">
+	
+		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;" name="selectItem"  id="selectItem" onchange="goSearch()">
 		  <option value="popularityitem" selected >인기상품순</option>
 		  <option value="newItem">신상품순</option>
 		  <option value="lowPriceItem">낮은가격순</option>
 		  <option value="highPriceItehm">높은가격순</option>
-		  <option value="discountItem" >할인율순</option>
 		</select>
 		<!-- <p><button type="button" class="btn btn-dark" style="color: white ;" onclick="goSearch()">검색</button></p> -->
-		</form>
+		
 	</div>
 	
 	
@@ -57,9 +56,10 @@ function goSearche() {
 	<c:forEach var="pvo" items="${requestScope.productList}">
 	<div class="col-lg-3" id="sideinfo" style="margin-bottom: 5%;">
   		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/product/${pvo.prod_kind}/${pvo.prod_image}" class="card-img-top" alt="...">
+  			<img src="<%= ctxPath%>/images/product/${pvo.prod_image}" class="card-img-top" alt="...">
   				<div class="card-body">
     				<div class="card-title" >
+    				
     				<c:forTokens var="color" items="${pvo.prod_color}" delims=",">
     				<span class="best_color" style="background-color: ${color};"> </span>      
     				</c:forTokens>
@@ -67,9 +67,17 @@ function goSearche() {
     				</div>
     				
     				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
+    				<c:if test="${pvo.prod_saleprice ne pvo.prod_price}">
+	   				<span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
+    				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span>
+    				<span style="color: red; "> ${pvo.discountPercent}% </span></p>
+					</c:if>	
+					<c:if test="${pvo.prod_saleprice eq pvo.prod_price}">
     				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
+					</c:if>	
+    				</p>
     				
-    				<a class="btn btn-dark" style="color:white;" onclick="check();">상세페이지</a>
+    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn btn-dark" style="color:white;">상세페이지</a>
   				</div>
 		</div>
      </div>

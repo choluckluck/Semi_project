@@ -31,10 +31,38 @@ public interface InterProductDAO {
 	List<ProductVO> selectPagingProductByKind(Map<String, String> paraMap) throws SQLException;
 	
 	
+	//해당 상품코드, 상품컬러에 대한 사이즈를 조회하기
+	List<ProductDetailVO> getProductSize(String pcode, String pcolor) throws SQLException;
+	
+	//재고량을 조회하기
+	String getStock(String p_code, String p_color, String p_size) throws SQLException;
+	
+	
+	
+	
+	
 	// * 상품 등록 * 
 	
 	//상품종류 목록을 가져오기
 	List<String> selectProdKindList() throws SQLException;
+	
+	//상품번호를 채굴해오기
+	String getProdCode() throws SQLException;
+	
+	
+	//tbl_product 테이블에 제품 insert하기
+	int insertProduct(ProductVO pvo) throws SQLException;
+	
+	
+	// tbl_product_image에 상품상세 이미지를 insert 해주기
+	int insertProductImage(String prod_code, String product_image_file) throws SQLException;
+
+	//옵션 정보가 있을 때 tbl_prod_detail에 insert 해주기
+	int insertProductDetail(ProductDetailVO pdvo) throws SQLException;
+
+	
+	
+	
 	
 	
 

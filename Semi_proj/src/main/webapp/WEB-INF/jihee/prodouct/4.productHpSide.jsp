@@ -3,7 +3,10 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-    
+
+ <% 
+ 	String ctxPath = request.getContextPath(); 
+ %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +15,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 <style type="text/css">
-a:link {text-decoration: none; color: gray;}
 a:visited {text-decoration: none; color: gray;}
 a.link:hover {text-decoration: none; color: gray;}
 a:active {text-decoration: none; color: gray;}
@@ -23,7 +25,7 @@ a:active {text-decoration: none; color: gray;}
 
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 
-
+<form name="productHpFrm" >
 	<div class="container-fluid" id="container" style="position: relative; top:85px; padding: 0.1% 1.5%;">
       
 	  <div class="row">
@@ -39,19 +41,19 @@ a:active {text-decoration: none; color: gray;}
 				</div>
 			</div>
 				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
-					<li class="fw-bolder"> <a href="#" class="link">4~6cm</a><li>
-					<li class="fw-bolder"><a href="#" class="link">7cm~</a><li>
+					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp4cm.sue" class="link" style="text-decoration: none; color: gray;">4~6cm</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: gray;">7cm~</a><li>
 				</ul>
 				<br>
 			<div class="row">
 				<div>
 					<p class="fw-bolder" style="text-align: left; font-size: 18px;">Filter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<button type="button" class="btn btn-light">Reset all</button></p>	
+					<button type="button" class="btn btn-light" onclick="form_reset()">Reset all</button></p>	
 					<hr style="background: black; padding-top: 0px;">	
 				</div>
 			</div>
 			
-			<form name="productHpFrm" >
+			
 			 <div>
 					<label for="usr" class="fw-bolder" style="padding-bottom: 20px; ">검색어</label>
   					<input type="text" class="form-control" id="searchWord" name="searchWord" >	
@@ -73,13 +75,13 @@ a:active {text-decoration: none; color: gray;}
 				
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
-  						<input type="checkbox" class="btn-check colorcheck" name="greenColor" id="green" value="green" autocomplete="off">
-  						<label class="btn btn-success form-check-inline" for="green" style="padding: 10%;" >green</label>&nbsp;
+  						<input type="checkbox" class="btn-check colorcheck" name="brownColor" id="brown" value="brown" autocomplete="off">
+  						<label class="btn form-check-inline" for="brown" style="padding: 10%; background-color:brown; color: white;" >brown</label>&nbsp;
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check colorcheck" name="yellowColor" id="yellow" value="yellow" autocomplete="off">
- 				 		<label class="btn btn-warning form-check-inline" for="yellow" style="padding: 10%;">yellow</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="silverColor" id="silver" value="silver" autocomplete="off">
+ 				 		<label class="btn form-check-inline" for="silver" style="padding: 10%; background-color:silver; color: white;">silver</label>
 					</div>
 					
 					<div>
@@ -96,7 +98,7 @@ a:active {text-decoration: none; color: gray;}
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
   						<input type="checkbox" class="btn-check colorcheck" name="redColor" id="red" value="red" autocomplete="off">
-  						<label class="btn btn-outline-danger form-check-inline" for="red" style="padding: 10%;">&nbsp;&nbsp;red&nbsp;</label>
+  						<label class="btn btn-outline-danger form-check-inline" for="red" style="padding: 10%;">&nbsp;&nbsp;&nbsp;red&nbsp;&nbsp;&nbsp;</label>
 					</div>
 					
 					<div>
@@ -105,13 +107,13 @@ a:active {text-decoration: none; color: gray;}
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check colorcheck" name="brownColor" id="brown" value="brown" autocomplete="off">
-  						<label class="btn btn-outline-primary form-check-inline" for="brown" style="padding: 10%;">brown</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="greenColor" id="green" value="green" autocomplete="off">
+  						<label class="btn btn-outline-success form-check-inline" for="green" style="padding: 10%;">green</label>
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check colorcheck" name="silverColor" id="silver" value="silver" autocomplete="off">
-  						<label class="btn btn-outline-success form-check-inline" for="silver" style="padding: 10%; ">&nbsp;silver&nbsp;</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="yellowColor" id="yellow" value="yellow" autocomplete="off">
+  						<label class="btn btn-outline-warning form-check-inline" for="yellow" style="padding: 10%; ">&nbsp;yellow&nbsp;</label>
   					</div>
   					
   					
@@ -148,7 +150,7 @@ a:active {text-decoration: none; color: gray;}
  						<label class="btn btn-outline-secondary form-check-inline" for="220" style="padding: 10%;">&nbsp;&nbsp;220&nbsp;&nbsp;</label>
 				</div>
 				<div>
- 						<input type="checkbox" class="btn-check" name="Size226" id="225" value="225" autocomplete="off">
+ 						<input type="checkbox" class="btn-check" name="Size225" id="225" value="225" autocomplete="off">
  						<label class="btn btn-outline-secondary form-check-inline" for="225" style="padding: 10%;">&nbsp;&nbsp;225&nbsp;&nbsp;</label>
 				</div>
 				<div>
@@ -181,24 +183,16 @@ a:active {text-decoration: none; color: gray;}
  						<label class="btn btn-outline-secondary form-check-inline" for="255" style="padding: 10%;">&nbsp;&nbsp;255&nbsp;&nbsp;</label>
 				</div>								
 			</div>
-			
-			<br><br>
-			<select class="form-select-lg-3" aria-label="Default select example" style="" name="selectItem"  id="selectItem" onchange="goSearch()">
-		  <option value="popularityitem" selected >인기상품순</option>
-		  <option value="newItem">신상품순</option>
-		  <option value="lowPriceItem">낮은가격순</option>
-		  <option value="highPriceItehm">높은가격순</option>
-		  <option value="discountItem" >할인율순</option>
-		</select>
-		
+				
 			<br><br>
 			<p><button type="button" class="btn btn-dark" style="color: white;" onclick="goSearch()">검색</button></p>	
-		
+	
 			
 			
-			</form>
+			
 			
 			</div>
+			
 		 </div>
 		   
 		 
@@ -212,11 +206,13 @@ a:active {text-decoration: none; color: gray;}
 	 </div>
 	 </div>
 </div> 
-			
+</form>			
 			
 			
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+	
 		
 		// 검색어 이벤트 
 		$("input#searchWord").bind("keyup", function(e) {
@@ -257,6 +253,8 @@ a:active {text-decoration: none; color: gray;}
 		if("${requestScope.searchPrice2}" != "") { //검색어가 null아닐때만 꽂아준다
 		 	   $("input#searchPrice2").val("${requestScope.searchPrice2}");
 		   }
+	
+		
 		
 		//체크박스 이벤트
 		
@@ -270,26 +268,104 @@ a:active {text-decoration: none; color: gray;}
 	    });
 	     */
 		
+	   /////////////////
 		if("${requestScope.redColor}" != "") { //검색어가 null아닐때만 꽂아준다
 				 $("input:checkbox[id='${requestScope.redColor}']").prop("checked", true);
 			   } 
+	     if("${requestScope.greenColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.greenColor}']").prop("checked", true);
+		   } 
+	     if("${requestScope.purpleColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.purpleColor}']").prop("checked", true);
+		   } 
+	     if("${requestScope.yellowColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.yellowColor}']").prop("checked", true);
+		   } 
+	     if("${requestScope.blackColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.blackColor}']").prop("checked", true);
+		   } 
+	     if("${requestScope.brownColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.brownColor}']").prop("checked", true);
+		   } 
+	     if("${requestScope.silverColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.silverColor}']").prop("checked", true);
+		   } 
+	     if("${requestScope.orangeColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.orangeColor}']").prop("checked", true);
+		   } 
+	     if("${requestScope.pinkColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.pinkColor}']").prop("checked", true);
+		   } 
+	     if("${requestScope.AquamarineColorColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.AquamarineColorColor}']").prop("checked", true);
+		   } 
+	     if("${requestScope.redColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.redColor}']").prop("checked", true);
+		   } 
+	     if("${requestScope.redColor}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.redColor}']").prop("checked", true);
+		   } 
+	     
+	     
+	   ///////////////////////  
 	     
 		if("${requestScope.Size220}" != "") { //검색어가 null아닐때만 꽂아준다
 			 $("input:checkbox[id='${requestScope.Size220}']").prop("checked", true);
 		   } 
 	    
+		if("${requestScope.Size225}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.Size225}']").prop("checked", true);
+		   } 
+		if("${requestScope.Size230}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.Size230}']").prop("checked", true);
+		   } 
+		if("${requestScope.Size235}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.Size235}']").prop("checked", true);
+		   } 
+		if("${requestScope.Size240}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.Size240}']").prop("checked", true);
+		   } 
+		if("${requestScope.Size245}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.Size245}']").prop("checked", true);
+		   } 
+		if("${requestScope.Size250}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.Size250}']").prop("checked", true);
+		   } 
+		
+		if("${requestScope.Size255}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("input:checkbox[id='${requestScope.Size255}']").prop("checked", true);
+		   } 
+		
+		if("$${requestScope.selectItem}" != "") { //검색어가 null아닐때만 꽂아준다
+			 $("#selectItem").val("${requestScope.selectItem}").prop("selected", true);
+		   } 
+		
+		
+		
+		
 	     
 	    
 	    
 	});// end of ready---------------
+	
 	function goSearch() {
 		
 		const frm = document.productHpFrm
-		frm.action = "productHp.sue";
+		frm.action = "productHp4cm.sue";
 		frm.submit();
 		
-	
-	
+
+	}
+
+	function form_reset() {
+		
+		$("input#searchWord").val("");
+		
+		$("input#searchPrice1").val("");
+		 
+		$("input#searchPrice2").val("");
+		   
+		$("input:checkbox").prop("checked", false);
 	
 	}
 	
