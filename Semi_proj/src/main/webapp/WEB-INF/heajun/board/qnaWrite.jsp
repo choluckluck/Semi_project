@@ -3,63 +3,152 @@
 <%
     String ctxPath = request.getContextPath();
 %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>1:1문의 작성</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 
-<script>
+<!-- Font Awesome 5 Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="//img.echosting.cafe24.com/editors/froala/3.2.2/css/froala_editor.pkgd.min.css?vs=2209081131">
+<link rel="stylesheet" href="//img.echosting.cafe24.com/editors/froala/css/themes/ec_froala.css?vs=2209081131">
+
+   
+<!-- JavaScript -->
+<script type="text/javascript" src="//img.echosting.cafe24.com/editors/froala/js/polyfill.min.js?vs=2209081131"></script>
+<script type="text/javascript" src="//img.echosting.cafe24.com/editors/froala/3.2.2/js/froala_editor.pkgd.min.js?vs=2209081131"></script>
+<script type="text/javascript" src="//img.echosting.cafe24.com/editors/froala/js/i18n/ko_KR.js?vs=2209081131"></script>
+
+    
+  </head>
+   
+ <script>
 	$(document).ready(function(){
+		
+	
 		//에디터1은 중복이므로 숨긴다 (삭제하면 기능을 못함)
 		$("div#editor1").hide(); 
 		
+		 $("span.error").hide();
+		
 		//커뮤니티사이드바_공지사항 클릭 이벤트
 		$("div#sidebar_notice").click(function(){
-			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
+			location.href="<%= ctxPath%>/heajun/community/notice.sue";
+		});
+		//커뮤니티사이드바_커뮤니티 클릭 이벤트
+		$("div#sidebar_qna").click(function(){
+			location.href="<%= ctxPath%>/heajun/board/qnaList.sue";
 		});
 		
 		
-		const frm = document.notice_contents_form;
 		//목록버튼 클릭이벤트
-		$("button#notice_list").click(function(){
+		$("input#notice").click(function(){
 			
 			frm.reset();
-			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
+			location.href="<%= ctxPath%>/heajun/board/qnaList.sue";
 			
 		});
 		
-		//등록버튼 클릭이벤트 => 자기가 작성한 글 페이지로
-		$("button#notice_submit").click(function(){
-			
-			location.href="<%= ctxPath%>/hyerin/community/noticeView.sue";
-			/* 
-				frm.action = " 오류나서 여기 일단 제대로 안썼응..  ctxPath  /community/noticeView.up";
-				frm.method = "post";
-				frm.submit();
-			*/
-		});
 		
+		  //등록버튼 클릭이벤트 
+		  $("input#submit").click(function(){
+			  
+			  let flag = false;
+			  
+			  $(".infoData").each(function(){
+				  const val = $(this).val().trim();
+				  if(val == "") {
+					  $(this).next().show();
+					  flag = true;
+					  return false;
+				  }
+			  });
+			  
+			  if(!flag) {
+				  const frm = document.qna_contents_form;
+				  frm.submit();
+			  }
+			  
+		  });
+		  
+
 		
 		//취소버튼 클릭이벤트
-		$("button#notice_reset").click(function(){
+		$("input#reset").click(function(){
 			frm.reset();
-			location.href="<%= ctxPath%>/hyerin/community/notice.sue";
+			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
 		
+		
+		
+		 
+		  
 	});
 	
 </script>
 
 <div class="row container-fluid mt-5">
-	<jsp:include page="/WEB-INF/hyerin/community/communitySidebar.jsp" />
+	 <jsp:include page="/WEB-INF/heajun/community/communitySidebar.jsp" /> 
 	<div id="contents" class="col-9 ml-5">
-		<form id="notice_contents_form" name="notice_contents_form">
-			<div style="font-weight:bold;">NOTICE</div>	
+	
+	
+		
+			
+	<form id="qna_contents_form" name="notice_contents_form"
+      action="<%= request.getContextPath()%>/heajun/board/qnaWrite.sue"
+      method="post"
+      enctype="multipart/form-data">
+      
+		      <h4 class="text-center" >문의하기</h4>
+		   <br><br>
+		   <div class=" gap-2 col-10 mx-auto"  >
+		
+		      <a class="btn  btn-outline-dark col-md-2" href="#" role="button">상품문의</a>
+		      <a class="btn  btn-outline-dark col-md-2" href="#" role="button">배송문의</a>
+		      <a class="btn  btn-outline-dark col-md-2" href="#" role="button">교환 / 반품</a>
+		      <a class="btn  btn-outline-dark col-md-2" href="#" role="button">취소 / 변경</a>
+		      <a class="btn  btn-outline-dark col-md-2" href="#" role="button">AS 문의</a>
+		      <a class="btn  btn-outline-dark col-md-1" href="#" role="button">FAQ</a>
+		
+		    </div>
+		
+		<br><br>
+		  <hr>
+		<tbody>
+		  <tr>
+		  <th scope="row">제목&nbsp</th>
+		    <select id="optionselect" style="width: auto; font-size:15px;">
+		                   <option selected value="0" style="width: 350px;">상품문의</option>
+		                   <option>취소변경문의</option>
+		                   <option>배송문의</option>
+		                   <option>쇼환반품문의</option>
+		                    <option>AS문의</option>
+		                    </select>
+		  </tr>
+		  </tbody>
+          <div style="font-weight:bold;">NOTICE</div>	
 			<table id="notice_write" class="table table-condensed mt-4" style="font-size:10pt;">
+			
 				<tr>
-					<td class="col-1 align-middle">제목</td>
-					<td class="col-11"><input name="subject" type="text" class="form-control" placeholder="제목을 입력하세요"/></td>
+					<td class="col-1 subject infoData">제목</td>
+					<td class="col-11"><input name="subject" type="text" class="form-control" placeholder="제목을 입력하세요"/>
+					<span class="error">필수입력</span>
+					</td>
+					
 				</tr>
+				
 				<tr>
-					<td colspan="2" class="clear">
+				
+					<td colspan="2" class="contents infoData">
 		            <!-- CSS -->
 		            <link rel="stylesheet" href="//img.echosting.cafe24.com/editors/froala/3.2.2/css/froala_editor.pkgd.min.css?vs=2209081131">
 		            <link rel="stylesheet" href="//img.echosting.cafe24.com/editors/froala/css/themes/ec_froala.css?vs=2209081131">
@@ -486,28 +575,45 @@
 		                }
 		            }
 		            
-		            </script>
-		            </td>
+		                </script>
+		                <span class="error">필수입력</span>
+		              </td>
+		            
               		</tr>
+              		
+              		
 				<tr>
 					<td>첨부파일1</td>
 					<td><input name="file1" type="file"/></td>
 				</tr>
+				
 				<tr>
 					<td>첨부파일2</td>
 					<td><input name="file2" type="file"/></td>
 				</tr>
+				
 				<tr>
 					<td>첨부파일3</td>
 					<td><input name="file3" type="file"/></td>
 				</tr>
-			</table>
-		</form>
-		<div class="my-5">
-			<span><button id="notice_list" type="button" class="white" style="height:40px;">목록</button></span>
-			<span><button id="notice_reset" type="reset" class="float-right mr-2 white" style="height:40px;">취소</button></span>
-			<span><button id="notice_submit" type="button" class="float-right mr-2 black" style="height:40px;">등록</button></span>
-		</div>
+				
+				<th scope="row">비밀글설정</th>
+				 <td><input id="secure0" name="secure" fw-filter="isFill" fw-label="비밀글설정" fw-msg="" value="F" type="radio" checked="checked"  /><label for="secure0" >공개글</label>
+				<input id="secure1" name="secure" fw-filter="isFill" fw-label="비밀글설정" fw-msg="" value="T" type="radio"  /><label for="secure1" >비밀글</label><span class="error">필수입력</span></td>
+				 </tr>
+
+				
+					<tr>
+						<td  class="my-5">
+						<input id="notice" type="button" value="목록"class="white" style="height:40px;" />	
+						<input id="reset" type="reset" value="취소" class="float-right mr-2 white" style="height:40px;" />	
+					    <input type="button" value="등록" id="submit" class="float-right mr-2 black" style="height:40px;" /> 
+					   </td>
+					</tr>
+						
+			    </table>
+			</form>
+			
 	</div>
 </div>
-<jsp:include page="/WEB-INF/hyerin/footer.jsp"/>
+ <jsp:include page="/WEB-INF/hyerin/footer.jsp"/>

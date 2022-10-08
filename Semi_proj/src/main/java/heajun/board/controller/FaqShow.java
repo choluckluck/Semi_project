@@ -10,7 +10,7 @@ import heajun.board.model.FaqVO;
 import heajun.board.model.InterFaqDAO;
 import heajun.member.model.MemberVO;
 
-public class Faqshow extends AbstractController {
+public class FaqShow extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -46,9 +46,7 @@ public class Faqshow extends AbstractController {
 					
 				// *** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 *** // 
 					String goBackURL = request.getParameter("goBackURL");
-				//	System.out.println("~~~ 확인용 goBackURL => " + goBackURL);
-				//  ~~~ 확인용 goBackURL => /member/memberList.up?currentShowPageNo=5 sizePerPage=5 searchType=name searchWord=유	
-					
+				
 					request.setAttribute("goBackURL", goBackURL);
 					
 				//	super.setRedirect(false);
@@ -65,7 +63,7 @@ public class Faqshow extends AbstractController {
 				
 			
 		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/heajun/board/faqshow.jsp");
+		super.setViewPage("/WEB-INF/heajun/board/faqShow.jsp");
 	  }
 	}
 }
