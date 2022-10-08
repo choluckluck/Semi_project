@@ -19,6 +19,14 @@
 			frm.submit();
 		});
 		
+		// 공지사항 글 보기 클릭 이벤트
+		$("th#notice_subject").click(function(){
+			const frm = document.noticeFrm;
+			frm.action="noticeView.sue";
+			frm.method = "get";
+			frm.submit();
+		});
+		
 		//커뮤니티사이드바_공지사항 클릭 이벤트
 		$("div#sidebar_notice").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
@@ -30,9 +38,11 @@
 		});
 		
 		//공지사항_문의하기 클릭 이벤트
-		$("th.notice_subject").click(function(){
+		$("th#notice_subject").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/noticeView.sue";
 		});
+		
+		
 		
 	});
 </script>
@@ -63,7 +73,7 @@
 				 <c:forEach var="nvo" items="${requestScope.noticeList}">
 					<tr>
 						<th width="15%" height="50px" class="notice_code text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_code}</th>
-						<th width="45%" class="notice_subject" style="text-align:center; font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.notice_subject}</th>
+						<th width="45%" id="notice_subject" class="notice_subject" style="text-align:center; font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.notice_subject}</th>
 						<th width="15%" class="fk_userid text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.fk_userid}</th>
 						<th width="15%" class="notice_count text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.notice_registerday}</th>
 						<th width="10%" class="notice_registerday text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.notice_count}</th>
@@ -72,8 +82,7 @@
 				</thead>
 				
 				
-				
-		    
+				   
 			</table>
 		
 		
@@ -82,7 +91,7 @@
 		    		<ul class="pagination" style="margin: auto">${requestScope.pageBar}</ul>
 		    	</div>
             </nav>
-		
+		 
 		</form>
 		
 	</div>

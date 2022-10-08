@@ -5,34 +5,7 @@
 %>
 
 
- <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>상품상세페이지</title>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-
-<!-- Font Awesome 5 Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-<!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
-
-<!-- Optional JavaScript -->
-<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
-
-<!-- jQueryUI CSS-->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
-<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> 
 
 
 <style type="text/css">
@@ -96,8 +69,8 @@ right:35px;
 
 	
 $(document).ready(function() {
-	   
-	   // === 주문개수 스피터 달기 === //
+	
+	   /* // === 주문개수 스피터 달기 === //
 	   $("input#spinner").spinner( {
 		   spin: function(event, ui) {
 			   if(ui.value > 100) {
@@ -109,10 +82,10 @@ $(document).ready(function() {
 				   return false;
 			   }
 		   }
-	   } );// end of $("input#spinner").spinner({});-------------
+	   } );// end of $("input#spinner").spinner({});------------- */
 	   
-}//end of $(document).ready(function() {--------------------
-	
+});//end of $(document).ready(function() {--------------------
+
 //Function Declaration
 function goCart() {
 	   
@@ -120,8 +93,8 @@ function goCart() {
 	   const frm = document.cartFrm;
 	   
 	   const regExp = /^[0-9]+$/; // 숫자만 체크하는 정규표현식
-	   const count = frm.oqty.value; 
-	   const bool = regExp.test(oqty);
+	   const count = frm.count.value; 
+	   const bool = regExp.test(count);
 	   
 	   if(!bool) {
 		   // 숫자 이외의 값이 들어온 경우 
@@ -138,38 +111,21 @@ function goCart() {
 		   frm.count.focus();
 		   return; // 종료
 	   }
-	   
-	   // 주문개수가 1개 이상인 경우 
+	   // 주문개수가 1개 이상인 경우
 	   frm.method = "POST";
-	   frm.action = "<%= request.getContextPath()%>/seongmin/cartAdd.up";
+	   frm.action = "<%= request.getContextPath()%>/jihee/bag/bag.sue";
+	   
 	   frm.submit();
 	   
 }// end of function goCart()------------------------------ 
 
 
-</script>
 
+</script>
 
 </head>
 <body>
 <div id="container" style=" margin:0 auto; width:90%; position:relative;">
-
-	<div id="quickView" style="width:55px; height:240px; background-color:#172A41; position:fixed; bottom:100px; right:50px; z-index:100;">
-		<div id="" type="button" style="text-align:center; margin-top:5px;">
-			<img src="./images/heart.jpg" class="" alt="..." style="">
-			<br>
-			<span style="color:white;">11개</span>
-		</div>
-		<div  id="" type="button" style="text-align:center; margin-top:10px;">
-			<img src="./images/timer.jpg" class="" alt="..." style="height:">
-		</div>
-		<div  id="" type="button" style="text-align:center; margin-top:10px;">
-			<img src="./images/up.jpg" class="" alt="..." style="">
-		</div>
-		<div  id="" type="button" style="text-align:center; margin-top:10px;">
-			<img src="./images/down.jpg" class="" alt="..." style="">
-		</div>
-	</div>
 
 	<br><br>
 	<div class="row">	
@@ -194,20 +150,22 @@ function goCart() {
 					</tr>
 					<tr>
 						<th style="width: 115px; text-align: center;">적립금</th>
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;300원${requestScope.pvo.prod_point}</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;300${requestScope.pvo.prod_point}원</td>
 					</tr>
 					<tr>
 						<th style="width: 115px; text-align: center;">배송비</th>
-						<td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3,000원</strong> (70,000원 이상 구매 시 무료)</td>
+						<td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3,000${requestScope.pvo.prod_price}원</strong> (70,000원 이상 구매 시 무료)</td>
 					</tr>
 				</table >
 				
 			   
+			<%-- ==== 장바구니담기 또는 바로주문하기 폼 ==== --%>
+		    <form name="cartFrm">
 				<table style="margin-left:50px; margin-bottom:10px;">   
 					<tr>
 						<th style="width: 115px; text-align:left;">COLOR</th>
 							<td>
-								<select id="optionselect" style="width: auto; font-size:15px;">
+								<select id="optionselect" name="prod_color" style="width: auto; font-size:15px;">
 									<option selected value="0" style="width: 350px;">-[필수] 옵션을 선택해 주세요-</option>
 									<option>CREAM COLOR</option>
 									<option>LIGHT GREEN SUEDE</option>
@@ -216,11 +174,11 @@ function goCart() {
 						
 							</td>
 						</tr>
-					<br>
+					
 					<tr>
 						<th style="width: 115px; text-align:left;">SIZE</th>
 						<td>
-							<select id="optionselect" style="width: auto; font-size:15px;">
+							<select id="optionselect" name="prod_size" style="width: auto; font-size:15px;">
 								<option selected value="0" style="width: 350px;">-[필수] 옵션을 선택해 주세요-</option>
 								<option>235</option>
 								<option>240</option>
@@ -233,32 +191,31 @@ function goCart() {
 				</table>
 				    
 				    
-				     <%-- ==== 장바구니담기 또는 바로주문하기 폼 ==== --%>
-		    <form name="cartFrm">	    
+				     	    
 			    <ul class="list-unstyled mt-6">
 			    	<li >
 			        	<label style="margin-left:80px ; for="spinner">주문수량&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 	  					<input id="spinner" name="count" value="1" style="width: 210px;">
 					</li>
 					<li class="my-5 mx-6" >
-						<button type ="button" id="submit2"  class="buttons border btn btn-outline-secondary" onclick="goWish();  ">♡</button>
-						<button type ="button" id="submit"   class="buttons border btn btn-outline-secondary  col-4"  onclick="goCart();">장바구니</button>
-						<button type ="button" id="submit3"  class="buttons border btn btn-outline-secondary  col-4" onclick="goOrder();">바로구매</button>
+						<button type ="button" id="button2"  class="buttons border btn btn-outline-secondary" onclick="goWish();  ">♡</button>
+						<button type ="button" id="button"   class="buttons border btn btn-outline-secondary  col-4"  onclick="goCart();">장바구니</button>
+						<button type ="button" id="button3"  class="buttons border btn btn-outline-secondary  col-4" onclick="goOrder();">바로구매</button>
 					</li>
 					
 				</ul>
+				<%-- 
 				<input type="hidden" name="prod_code" value="${requestScope.pvo.prod_code}" />
+				
+				<input type="text" id="prod_code" name="prod_code" value="prod-0001"/>
+								
+				<input type ="hidden" name="opseq" value="0">
+				<input type ="hidden" name="oqty"  value="0">
+				 --%>
 			</form>	
 				
 				
-				
-				<table class="cartList">     
-				</table>
-				
-				<input type ="hidden" name="opseq" value="0">
-				<input type ="hidden" name="oqty"  value="0">
-				   
-			
+		
 			
 			</div>
 			
@@ -291,7 +248,6 @@ function goCart() {
 		  <div class="col" style="border:none">		  
 			<div class="card" style="width: 250px; height:400px;">
 			 <a href="#" class="btn btn-white">
-			  <img src="./images/pic22.jpg" class="card-img-top" alt="...">
 			  <br><br>
 			    <div style="text-align:left;">드레이 로퍼(1cm) <br> 29,800원 </div>
 			  </a>
@@ -301,7 +257,6 @@ function goCart() {
    		  <div class="col">
 			<div class="card" style="width: 250px; height:400px;">
 			 <a href="#" class="btn btn-white">
-			  <img src="./images/pic22.jpg" class="card-img-top" alt="...">
 			  <br><br>
 			    <div style="text-align:left">드레이 로퍼(1cm) <br> 29,800원 </div>
 			  </a>
@@ -311,7 +266,6 @@ function goCart() {
 		  <div class="col">			
 			<div class="card" style="width: 250px; height:400px;">
 			 <a href="#" class="btn btn-white">
-			  <img src="./pic22.jpg" class="card-img-top" alt="...">
 			  <br><br>
 			    <div style="text-align:left">드레이 로퍼(1cm) <br> 29,800원 </div>
 			  </a>
@@ -321,7 +275,6 @@ function goCart() {
 		  <div class="col">			
 			<div class="card" style="width: 250px; height:400px;">
 			 <a href="#" class="btn btn-white">
-			  <img src="./pic22.jpg" class="card-img-top" alt="...">
 			  <br><br>
 			    <div style="text-align:left">드레이 로퍼(1cm) <br> 29,800원 </div>
 			  </a>
@@ -675,8 +628,8 @@ function goCart() {
 		  <div style=" display: grid; place-items: center;">
 		    <div style="inline">
 		    
-			    <button type="button" class="btn btn-white"> << </button>
-			    <button type="button" class="btn btn-white"><</button>
+			    <button type="button" class="btn btn-white"></button>
+			    <button type="button" class="btn btn-white"></button>
 			    <button type="button" class="btn btn-outline-secondary">1</button>
 			    <button type="button" class="btn btn-outline-secondary">2</button>
 			    <button type="button" class="btn btn-outline-secondary">3</button>
@@ -777,8 +730,8 @@ function goCart() {
 		  <div style=" display: grid; place-items: center;">
 		    <div style="inline">
 		    
-			    <button type="button" class="btn btn-white"> << </button>
-			    <button type="button" class="btn btn-white"><</button>
+			    <button type="button" class="btn btn-white"></button>
+			    <button type="button" class="btn btn-white"></button>
 			    <button type="button" class="btn btn-outline-secondary">1</button>
 			    <button type="button" class="btn btn-outline-secondary">2</button>
 			    <button type="button" class="btn btn-outline-secondary">3</button>

@@ -234,11 +234,10 @@ public class NoticeDAO  implements InterNoticeDAO{
 		try {
 	        conn = ds.getConnection();
 	        
-	        String sql = " select B.notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
-			        		+ " from(select rownum rn, A.notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
-			        		+ " from(select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
-			        		+ " from tbl_notice order by notice_code acs)A)B  " +
-			        		       "    where rn between ? and ? " ;
+	        String sql = " select B.notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3  "+
+	        		"    from(select rownum rn, A.notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3  "+
+	        		"    from(select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3  from tbl_notice order by notice_code desc)A)B "+
+	        		"    where rn between ? and ? " ;
 			
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
