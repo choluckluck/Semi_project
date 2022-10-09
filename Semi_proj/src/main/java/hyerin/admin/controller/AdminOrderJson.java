@@ -55,7 +55,7 @@ public class AdminOrderJson extends AbstractController {
 		paraMap.put("updateorderstate", updateorderstate);
 		
 		//페이징
-		String sizePerPage = "3";
+		String sizePerPage = "5";
 		
 		if(currentShowPageNo == null) {
 			currentShowPageNo = "1";

@@ -68,7 +68,7 @@ public class OrderDAO implements InterOrderDAO {
 			String maxprice = paraMap.get("maxprice");
 			String searchword = paraMap.get("searchword");
 			
-			String sql = " select ceil(count(*)/3) "+
+			String sql = " select ceil(count(*)/5) "+
 						 " from tbl_order ";
 			
 			if("".equals(orderstate)) { //orderstate로 정렬하지 않았을 경우

@@ -24,9 +24,6 @@ public class AdminProductReview extends AbstractController {
 		paraMap.put("review_sortType", review_sortType);
 		paraMap.put("review_searchWord", review_searchWord);
 		
-		if("all".equals(review_searchWord)) {
-			review_searchWord = "";
-		}
 		
 		String sizePerPage = "5";
 		/*

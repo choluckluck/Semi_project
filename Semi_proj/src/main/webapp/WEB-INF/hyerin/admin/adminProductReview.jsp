@@ -261,9 +261,9 @@
 						<tr>
 							<th width="5%" class="admin_productReview_th text-center" ><input type="checkbox" id="chxAll"/></th>
 							<th width="10%" height="50px" class="admin_productReview_th text-center">No</th>
-							<th width="15%" class="admin_productReview_th text-center">상품정보</th>
+							<th width="10%" class="admin_productReview_th text-center">상품정보</th>
 							<th width="10%" class="admin_productReview_th text-center">아이디</th>
-							<th width="40%" class="admin_productReview_th text-center">제목</th>
+							<th width="45%" class="admin_productReview_th text-center">제목</th>
 							<th width="5%" class="admin_productReview_th text-center">평점</th>
 							<th width="10%" class="admin_productReview_th text-center">작성일자</th>
 							<th width="10%" class="admin_productReview_th text-center">삭제</th>

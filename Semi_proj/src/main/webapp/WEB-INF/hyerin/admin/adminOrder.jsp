@@ -39,6 +39,9 @@
 		height:30px;
 	}
 	
+	#orderList_contents tr:hover {
+		cursor : pointer;
+	}
 	
 	
 </style>
@@ -118,7 +121,6 @@
 	
 	//주문조회하는 함수
 	function orderList(num){
-		window.scrollTo(0,0);
 		$("#orderList_contents").empty();
 		$("#chxAll").prop("checked",false);
 		
@@ -166,15 +168,15 @@
 						}
 						else {
 							//order_code, fk_userid, orderdate, fk_order_state_name, total_order_amount, real_amount
-							html += '<tr>'+
-										'<td class="admin_productOrder_tbody text-center" style="border-top:none;"><input type="checkbox" class="check" name="order_chx" value="'+item.order_code+'"/></td>'+
+							html += '<tr id="'+item.order_code+'">'+
+										'<td class="admin_productOrder_tbody text-center" style="border-top:none;"><input type="checkbox" class="check" name="order_chx" value="'+item.order_code+'" onclick="event.stopPropagation();"/></td>'+
 										'<td height="70px" class="admin_productOrder_tbody text-center">'+item.order_code+'</td>'+
 										'<td class="text-center admin_productOrder_tbody">'+item.fk_userid+'</td>'+
 										'<td class="text-center admin_productOrder_tbody">'+item.orderdate+'</td>'+
 										'<td class="text-center admin_productOrder_tbody">'+item.fk_order_state_name+'</td>'+
 										'<td class="text-center admin_productOrder_tbody">'+item.total_order_amount.toLocaleString('en')+'원</td>'+
 										'<td class="text-center admin_productOrder_tbody">'+item.real_amount.toLocaleString('en')+'원</td>'+
-										'<td class="text-center admin_productOrder_tbody"><button id="admin_productedit_btn" type="button" class="white" style="width:90%; height:30px;" onclick="order_edit(\''+item.order_code+'\');">더보기</button></td>'+
+										//'<td class="text-center admin_productOrder_tbody"><button id="admin_productedit_btn" type="button" class="white" style="width:90%; height:30px;" onclick="order_edit(\''+item.order_code+'\');">더보기</button></td>'+
 										'<td class="text-center admin_productOrder_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;" onclick="deleteOneOrder(\''+item.order_code+'\')">삭제</button></td>'+
 									'</tr>';
 						}
@@ -183,6 +185,15 @@
 					
 					// 조회한 주문정보 넣어주기
 					$("#orderList_contents").append(html);
+					
+					
+					$("#orderList_contents > tr").click(function(){
+						
+						var ordercodeVal = $(this).attr('id');
+						order_edit(ordercodeVal);
+						
+					});
+					
 					
 					
 					//체크박스 하나라도 해제되면 전체 해제되게 만들기
@@ -255,7 +266,7 @@
 	
 	//해당하는 주문코드를 삭제해주는 함수
 	function deleteOneOrder(deletenum){
-		
+		event.stopPropagation();
 		const bool = confirm("주문코드 '" + deletenum +"'을 삭제하시겠습니까?");
 		if(bool){
 			$.ajax({
@@ -446,7 +457,7 @@
 						<th width="10%" class="admin_productOrder_th text-center">주문상태</th>
 						<th width="10%" class="admin_productOrder_th text-center">주문금액</th>
 						<th width="10%" class="admin_productOrder_th text-center">실결제금액</th>
-						<th width="5%" class="admin_productOrder_th text-center">더보기</th>
+						<%-- <th width="5%" class="admin_productOrder_th text-center">더보기</th> --%>
 						<th width="5%" class="admin_productOrder_th text-center">삭제</th>
 					</tr>
 				</thead>
