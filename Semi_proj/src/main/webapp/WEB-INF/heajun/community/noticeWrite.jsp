@@ -3,7 +3,48 @@
 <%
     String ctxPath = request.getContextPath();
 %>
+<style type="text/css">
 
+   
+
+button#notice {
+	width: 90px;
+	height: 30px;
+    float: left;
+    text-align: center;
+    margin-right: 5px;
+    background-color: #ffffff;
+    padding: 6px;
+    border: 1px solid #8c8c8c;
+    font-size: 9pt;
+}
+
+button#reset {
+	width: 90px;
+	height: 31px;
+	border: 1px solid #8c8c8c;
+	background-color: black;
+    float: right;
+    text-align: center;
+    font-size: 9pt;
+    padding: 5px;
+    margin-right: 10px;
+    color: #ffffff;
+}
+button#submit {
+	width: 90px;
+	height: 31px;
+	border: 1px solid #8c8c8c;
+	background-color: #ffffff;
+    float: right;
+    text-align: center;
+    font-size: 9pt;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+
+    </style>  
  <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> 
 
 <script>
@@ -13,42 +54,59 @@
 		//에디터1은 중복이므로 숨긴다 (삭제하면 기능을 못함)
 		$("div#editor1").hide(); 
 		
+		 $("span.error").hide();
+		
 		//커뮤니티사이드바_공지사항 클릭 이벤트
 		$("div#sidebar_notice").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
+		//커뮤니티사이드바_커뮤니티 클릭 이벤트
+		$("div#sidebar_qna").click(function(){
+			location.href="<%= ctxPath%>/heajun/board/qnalist.sue";
+		});
 		
 		
-		const frm = document.notice_contents_form;
 		//목록버튼 클릭이벤트
-		$("button#notice_list").click(function(){
-			
-			frm.reset();
+		$("button#notice").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
-			
 		});
 		
-		//등록버튼 클릭이벤트 => 자기가 작성한 글 페이지로
-		$("button#notice_submit").click(function(){
-			
-			
-			var frm = document.registerFrm;
-			frm.action = "noticeView.sue";
-			frm.method = "post";
-			frm.submit();
-			
-		});
 		
+		
+		  //등록버튼 클릭이벤트 
+		  $("button#submit").click(function(){
+			  
+			  let flag = false;
+			  
+			  $(".infoData").each(function(){
+				  const val = $(this).val().trim();
+				  if(val == "") {
+					  $(this).next().show();
+					  flag = true;
+					  return false;
+				  }
+			  });
+			  
+			  if(!flag) {
+				  const frm = document.notice_contents_form;
+				  frm.submit();
+			  }
+			  
+		  });
+		  
+
 		
 		//취소버튼 클릭이벤트
-		$("button#notice_reset").click(function(){
+		$("button#reset").click(function(){
+			$("span.error").hide();
 			frm.reset();
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
 		
 		
 		
-		
+		 
+		  
 	});
 	
 </script>
@@ -56,15 +114,30 @@
 <div class="row container-fluid mt-5">
 	 <jsp:include page="/WEB-INF/heajun/community/communitySidebar.jsp" /> 
 	<div id="contents" class="col-9 ml-5">
-		<form id="notice_contents_form" name="notice_contents_form">
-			<div style="font-weight:bold;">NOTICE</div>	
+	
+	
+		
+			
+	<form id="notice_contents_form" name="notice_contents_form"
+      action="<%= request.getContextPath()%>/heajun/community/noticeWrite.sue"
+      method="post"
+      enctype="multipart/form-data">
+      
+      
+      <div style="font-weight:bold;">NOTICE</div>	
 			<table id="notice_write" class="table table-condensed mt-4" style="font-size:10pt;">
+			
 				<tr>
-					<td class="col-1 align-middle">제목</td>
-					<td class="col-11"><input name="subject" type="text" class="form-control" placeholder="제목을 입력하세요"/></td>
+					<td class="col-1 subject infoData">제목</td>
+					<td class="col-11"><input name="subject" type="text" class="form-control" placeholder="제목을 입력하세요"/>
+					<span class="error">필수입력</span>
+					</td>
+					
 				</tr>
+				
 				<tr>
-					<td colspan="2" class="clear">
+				
+					<td colspan="2" class="contents infoData">
 		            <!-- CSS -->
 		            <link rel="stylesheet" href="//img.echosting.cafe24.com/editors/froala/3.2.2/css/froala_editor.pkgd.min.css?vs=2209081131">
 		            <link rel="stylesheet" href="//img.echosting.cafe24.com/editors/froala/css/themes/ec_froala.css?vs=2209081131">
@@ -491,28 +564,39 @@
 		                }
 		            }
 		            
-		            </script>
-		            </td>
+		                </script>
+		                <span class="error">필수입력</span>
+		              </td>
+		            
               		</tr>
+              		
+              		
 				<tr>
 					<td>첨부파일1</td>
 					<td><input name="file1" type="file"/></td>
 				</tr>
+				
 				<tr>
 					<td>첨부파일2</td>
 					<td><input name="file2" type="file"/></td>
 				</tr>
+				
 				<tr>
 					<td>첨부파일3</td>
 					<td><input name="file3" type="file"/></td>
 				</tr>
-			</table>
-		</form>
-		<div class="my-5">
-			<span><button id="notice_list" type="button" class="white" style="height:40px;">목록</button></span>
-			<span><button id="notice_reset" type="reset" class="float-right mr-2 white" style="height:40px;">취소</button></span>
-			<span><button id="notice_submit" type="button" class="float-right mr-2 black" style="height:40px;">등록</button></span>
-		</div>
+				
+			  
+						
+			    </table>
+			</form>
+			 <div class="mt-3 mb-5 ">
+			     
+			  <span><button id="notice" type="button" onclick="javascript:history.back();">목록</button></span>
+			  <span><button id="reset" type="button" onclick="javascript:history.back();">취소</button></span>
+			  <span><button id="submit" type="button" onclick="javascript:history.back();">등록</button></span>
+   
+			   </div>
 	</div>
 </div>
  <jsp:include page="/WEB-INF/hyerin/footer.jsp"/>

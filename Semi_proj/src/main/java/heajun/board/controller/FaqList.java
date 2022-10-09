@@ -10,7 +10,7 @@ import heajun.board.model.FaqDAO;
 import heajun.board.model.FaqVO;
 import heajun.board.model.InterFaqDAO;
 
-public class Faqlist extends AbstractController {
+public class FaqList extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -37,7 +37,7 @@ public class Faqlist extends AbstractController {
 		
   
 		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/heajun/board/faqlist.jsp");
+		super.setViewPage("/WEB-INF/heajun/board/faqList.jsp");
 		
 		return;	
 	}

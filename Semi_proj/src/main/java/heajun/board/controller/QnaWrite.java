@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import heajun.member.model.MemberVO;
 
-public class Qnawrite extends AbstractController {
+public class QnaWrite extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -27,7 +27,7 @@ public class Qnawrite extends AbstractController {
 		   if("GET".equalsIgnoreCase(method) && userid != "no") {
 			
 				request.setAttribute("userid", userid);
-				super.setViewPage("/WEB-INF/heajun/board/qnawrite.jsp");	
+				super.setViewPage("/WEB-INF/heajun/board/qnaWrite.jsp");	
 			
 			} else {
 		         String message = "로그인 이후 가능합니다.";            
@@ -38,7 +38,7 @@ public class Qnawrite extends AbstractController {
 		                
 		
 		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/heajun/board/qnawrite.jsp");
+		super.setViewPage("/WEB-INF/heajun/board/qnaWrite.jsp");
      	}
 	}
 
