@@ -118,11 +118,11 @@
 							var chxhtml = '';
 							if(item.status == "0"){
 								statushtml = '<td class="text-center admin_member_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; background-color:#f2f2f2; border: solid 1px #f2f2f2; color:black;" disabled>탈퇴한회원</button></td>';
-								chxhtml = '<td height="70px" class="admin_member_tbody text-center"><input type="checkbox" id="'+item.userid+'" name="member_chx" disabled/></td>';
+								chxhtml = '<td height="70px" class="admin_member_tbody text-center" onclick="event.stopPropagation();"><input type="checkbox" id="'+item.userid+'" name="member_chx" disabled class="member_chx"/></td>';
 							}
 							else{
 								statushtml = '<td class="text-center admin_member_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px;" onclick="member_resign(\''+item.userid+'\');">탈퇴처리</button></td>';
-								chxhtml = '<td height="70px" class="admin_member_tbody text-center"><input type="checkbox" id="'+item.userid+'" name="member_chx"/></td>';
+								chxhtml = '<td height="70px" class="admin_member_tbody text-center" onclick="event.stopPropagation();"><input type="checkbox" id="'+item.userid+'" name="member_chx" class="member_chx"/></td>';
 							}
 							
 							html += '<tr id="'+item.userid+'">'+
@@ -143,7 +143,6 @@
 					
 					//조회한 회원정보 넣어주기
 					$("#member_contents").append(html);
-					
 					
 					
 					$("#member_contents > tr").click(function(){
@@ -195,6 +194,7 @@
 	
 	// 회원탈퇴처리
 	function member_resign(userid){
+		event.stopPropagation();
 		
 		if(confirm(userid + "님을 탈퇴처리 하시겠습니까?") == true){
 			//비동기방식으로 userid에 해당하는 멤버의 status를 0으로 바꿔주기
@@ -214,9 +214,6 @@
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 				}
 			});// end of ajax
-			
-			
-			
 			
 		} else{
 			return false;

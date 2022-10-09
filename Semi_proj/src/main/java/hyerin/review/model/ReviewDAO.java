@@ -201,9 +201,34 @@ public class ReviewDAO implements InterReviewDAO {
 			close();
 		}
 		
-		
-		
 		return result;
 	}//end of deleteUserReview
+
+	
+	//해당하는 리뷰들을 삭제해준다
+	@Override
+	public int deleteMultiReview(Map<String, String[]> paraMap) throws SQLException {
+		int result = 0;
+		try {
+			String[] review_codeArr = paraMap.get("review_codeArr");
+			
+			conn = ds.getConnection();
+			
+			String sql = " delete tbl_review where review_code = ? ";
+			
+			for(String review_code : review_codeArr) {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, review_code);
+				
+				result = pstmt.executeUpdate();
+			}
+			
+		} finally {
+			close();
+		}
+		return result;
+	}//end of deleteMultiReview
+	
 
 }

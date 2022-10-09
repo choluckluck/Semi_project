@@ -37,7 +37,6 @@ public class AdminProductRegister extends AbstractController {
 		//post방식이라면 => 폼전송
 		else {
 			
-			
 			MultipartRequest mtrequest = null;
 			
 			ServletContext svlCtx = session.getServletContext();
