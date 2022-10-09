@@ -52,32 +52,41 @@
 <script>
 	$(document).ready(function(){
 	
+
+		$(function() {
+		    //모든 datepicker에 대한 공통 옵션 설정
+		    $.datepicker.setDefaults({
+		        dateFormat: 'yy-mm-dd' //Input Display Format 변경
+		        ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+		        ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+		        ,changeYear: true //콤보박스에서 년 선택 가능
+		        ,changeMonth: true //콤보박스에서 월 선택 가능                
+		     // ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+		     // ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+		     // ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+		     // ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
+		        ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+		        ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+		        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+		        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+		        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+		     // ,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+		     // ,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                    
+		    });
 		
-		$(".qna_search").datepicker({
-			 dateFormat: 'yy-mm-dd'  //Input Display Format 변경
-			,showOtherMonths: true   //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-			,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
-			,changeYear: true        //콤보박스에서 년 선택 가능
-			,changeMonth: true       //콤보박스에서 월 선택 가능                
-			,showOn: "both"          //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-			,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-			,buttonImageOnly: true   //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-			,buttonText: "선택"       //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
-			,yearSuffix: "년"         //달력의 년도 부분 뒤에 붙는 텍스트
-			,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-			,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-			,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-			,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-			//,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-			//,maxDate: "+1M" //최대 선택일자(+1D:하루후, +1M:한달후, +1Y:일년후)                
-		});                    
+		    //input을 datepicker로 선언
+		    $(".qna_search").datepicker();                    
+
+		    //From의 초기값을 오늘 날짜로 설정
+		    $("input#qna_search_min").datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+		    $("input#qna_search_max").datepicker('setDate', 'today');
+		   
+		});
 		
-		//초기값을 오늘 날짜로 설정
-		$('.qna_search').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
-		
-		$(".ui-datepicker-trigger").hide();
+		goSearch();
 		
 	});
+	
 	
 	
 	// 답변하기 팝업
@@ -117,12 +126,83 @@
 	}
 	
 	
-	// 검색하기
-	function goSearch() {
-		const frm = document.qnaSearchFrm;
-		frm.action = "adminQna.sue";
-		frm.method = "GET";
-		frm.submit();
+	// "검색" 버튼 클릭
+	function goSearch(num) {
+		
+		$("#qnaList").empty();
+		$("#pageBar").empty();
+		
+		let searchType = $("#searchType").val();
+		let searchWord = $("#searchWord").val().trim();
+		let qna_search_min = $("#qna_search_min").val();
+		let qna_search_max = $("#qna_search_max").val();
+		
+		console.log(qna_search_min);
+		
+		let currentPageNo = num;
+		$("#currentPageNo").val(currentPageNo);
+		
+		$.ajax({
+			url: "<%= ctxPath%>/hasol/admin/adminQnaListJSON.sue",
+			data: { "searchType": searchType,
+					"searchWord": searchWord,
+					"qna_search_min" : qna_search_min,
+					"qna_search_max" : qna_search_max,
+					"currentPageNo" : currentPageNo },
+			dataType: "JSON",
+			success: function(json){
+				
+				console.log(json);
+				
+				let html = "";
+				if (json.length > 1){
+					
+					$.each(json, function(index, item){
+						//index가 0인 경우 => 페이징처리를 위해 값 넣어주기
+						if(index == 0){
+							console.log(item.currentPageNo);
+							$("#pageBar").html(item.pageBar);
+						}
+
+						else{
+							html += '<tr>'+
+							   		'<td class="admin_qna_tbody text-center" style="border-top:none;"> '+
+							   		'<input type="checkbox" name="checkQna" id="checkQna"/>' +
+							   		'</td>'+
+								    '<td height="160px" class="admin_qna_tbody text-center">'+item.prod_code+'</td>'+
+								    '<td class="admin_qna_tbody" >'+
+									   '<img id="'+item.prod_image+'" class="ml-4" height="100px" src="<%= ctxPath%>/images/product/'+item.prod_kind+'/'+item.prod_image+'">'+
+									   '<span class="ml-2">'+item.prod_name+'</span>'+
+							   	    '</td>' +
+								    '<td class="text-center admin_qna_tbody">'+item.category+'</td>'+
+								    '<td class="text-center admin_qna_tbody">'+item.fk_userid+'</td>'+
+								    '<td class="text-center admin_qna_tbody">'+
+									   '<a href="#">'+item.subject+'</a>'+
+								    '</td>'+
+								    '<td class="text-center admin_qna_tbody">'+item.registerday+'</td>'+
+								    '<td class="text-center admin_qna_tbody">'+item.answer_yn+'</td>'+
+								    '<td class="text-center admin_qna_tbody">'+
+									   '<button type="button" class="white admin_answer_btn" onclick="qna_answer();">답변</button>'+
+									   '<button type="button" class="white admin_answer_btn" onclick="qna_answerEdit();">답변수정</button>'+
+								    '</td>'+
+								    '<td class="text-center admin_qna_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;">삭제</button></td>'+
+							    '</tr>';
+						}
+						
+					});
+					
+					$("#qnaList").append(html);
+				}
+				else {
+					html += '<td colspan ="10" class="w-100" style="text-align:center;"> 조회된 문의 글이 없습니다. </td>';
+					$("#qnaList").html(html);
+				}
+
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}	
+		});				
 	}
 	
 	
@@ -137,28 +217,41 @@
 <div class="row container-fluid mt-5">
 	<jsp:include page="/WEB-INF/hyerin/admin/adminSidebar.jsp" />
 	<div id="contents" class="col-9 ml-5 mt-3 mb-5">
-		<div id="productqna">
-			<div style="font-weight:bold;">
-				<span class="mr-3 mt-1" style="font-size:20pt;">문의관리</span>
-				<form name="qnaSearchFrm" class="mt-2" style="display:inline-block;">
-					<span>
-						<select class="mt-1 mr-2 productqna_sort" id="selectType" >
-							<option name="searchType" value="All" selected>전체</option>
-							<option name="searchType" value="Y">답변완료</option>
-							<option name="searchType" value="N">답변대기</option>
-						</select>
-					</span>				
+		<div id="productqna" style="width:100%;">
+		
+		<!-- 여기 검색 창 옆으로 가게 하기.. -->
+			<div class="w-100" style="font-weight:bold;">
+			<span class="mr-3 mt-1" style="font-size:20pt;">문의관리</span>
+				<form name="qnaSearchFrm" class="mt-3" style="width:100%; display:flex; flex-decoration:column; justify-content: betweeen-space;">
+				<div>
 					<input type="text" id="qna_search_min" class="qna_search" name="qna_search_min" placeholder="날짜"/>
 					~
 					<input type="text" id="qna_search_max" class="qna_search" name="qna_search_max" placeholder="날짜"/>
-					<button type="button" id="qna_search_btn" name="qna_search_btn" onClick="goSearch()" style="border:none; background-color: transparent;">
+				</div>
+				<div>
+					<select class="productqna_sort" id="searchType" >
+						<option value="All" selected>전체</option>
+						<option value="fk_userid">회원명</option>
+						<option value="qna_code">문의번호</option>
+						<option value="fk_prod_code">상품코드</option>
+					</select>
+					<input type="text" class="ml-1" id="searchWord"  placeholder="검색 유형을 선택해 주세요" />
+					<button type="button" id="qna_search_btn" name="qna_search_btn" onclick="goSearch()" style="border:none; background-color: transparent;">
 						<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
 					</button>
+				</div>
 				</form>
 			</div>
-			<form name="admin_qna_frm">
-				<div id="admin_qnaList">
-					<%-- <table id="admin_qna" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기
+			<form name="admin_qna_frm" >
+				<div>
+					<select class="mt-1 mr-2 productqna_sort" style="float: right;" id="searchType_yn" >
+						<option value="All" selected>전체</option>
+						<option value="답변완료">답변완료</option>
+						<option value="답변대기">답변대기</option>
+					</select>
+				</div>
+				<div id="admin_qnaList">						
+					<table id="admin_qna" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;">
 						<thead>
 							<tr>
 								<th width="5%" class="admin_qna_th text-center" ><input type="checkbox" id=""/></th>
@@ -173,34 +266,15 @@
 								<th width="10%" class="admin_qna_th text-center">삭제</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td class="admin_qna_tbody text-center" style="border-top:none;"><input type="checkbox" id=""/></td>
-								<td height="160px" class="admin_qna_tbody text-center">!상품코드</td>
-								<td class="admin_qna_tbody" >
-									<img id="admin_product_img_1" class="ml-4" height="100px" src="<%= ctxPath%>/images/hyerin/best_img_2.jpg">
-									<span class="ml-2">!상품명</span>
-								</td>
-								<td class="text-center admin_qna_tbody">!카테고리</td>
-								<td class="text-center admin_qna_tbody">!회원명</td>	
-								<td class="text-center admin_qna_tbody">
-									<div>!제목</div>
-									<div>!내용</div>
-								</td>
-								<td class="text-center admin_qna_tbody">!작성일자</td>
-								<td class="text-center admin_qna_tbody">!Y/N</td>
-								<td class="text-center admin_qna_tbody">
-									<button type="button" class="white admin_answer_btn" onclick="qna_answer();">답변</button>
-									<button type="button" class="white admin_answer_btn" onclick="qna_answerEdit();">답변수정</button>
-								</td>
-								<td class="text-center admin_qna_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;">삭제</button></td>
-							</tr>
+						<tbody id = "qnaList">	
 						</tbody>
-					</table> --%>
+					</table>
 				</div>
-				<div class="mt-3">
+				<div class="mt-3" style="clear:both;">
 					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
 				</div>
+				<!-- 페이지 바 -->
+				<nav id ="pageBar"> </nav>
 			</form>
 		</div>
 	</div>

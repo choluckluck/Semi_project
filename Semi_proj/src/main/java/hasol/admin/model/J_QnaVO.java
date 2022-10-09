@@ -1,9 +1,11 @@
 package hasol.admin.model;
 
+import hasol.board.model.J_ProductVO;
+
 public class J_QnaVO {
 
 	private int qna_code;			// qna 글 번호
-	private String fk_member_code;	// qna 글 작성자
+	private String fk_userid;	// qna 글 작성자
 	private String category;		// qna 글 카테고리
 	private String subject;			// qna 글 제목
 	private String contents;		// qna 글 내용
@@ -15,17 +17,29 @@ public class J_QnaVO {
 	
 	////////////////////////////////////////////////////////////////////////////////////////
 	
+	// 상품 VO
+	private J_ProductVO pvo;
+
+	public J_ProductVO getPvo() {
+		return pvo;
+	}
+	public void setPvo(J_ProductVO pvo) {
+		this.pvo = pvo;
+	}
+	
+	
+	
 	public int getQna_code() {
 		return qna_code;
 	}
 	public void setQna_code(int qna_code) {
 		this.qna_code = qna_code;
 	}
-	public String getFk_member_code() {
-		return fk_member_code;
+	public String getFk_userid() {
+		return fk_userid;
 	}
-	public void setFk_member_code(String fk_member_code) {
-		this.fk_member_code = fk_member_code;
+	public void setFk_userid(String fk_userid) {
+		this.fk_userid = fk_userid;
 	}
 	public String getCategory() {
 		return category;
@@ -75,6 +89,7 @@ public class J_QnaVO {
 	public void setAnswer_yn(String answer_yn) {
 		this.answer_yn = answer_yn;
 	}
+
 
 		
 }

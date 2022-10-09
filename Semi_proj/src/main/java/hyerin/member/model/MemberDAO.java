@@ -219,6 +219,7 @@ public class MemberDAO implements InterMemberDAO {
 				mvo.setIdle(rs.getString(18));
 				
 				mvoList.add(mvo);
+
 			}
 			
 		} finally {

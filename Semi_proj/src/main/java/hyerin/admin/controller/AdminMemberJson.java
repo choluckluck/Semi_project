@@ -59,6 +59,7 @@ public class AdminMemberJson extends AbstractController {
 		// 페이징 처리한 검색이 있는, 또는 없는 회원목록 조회(select)
 		List<MemberVO> mvoList = mdao.selectPaginMember(paraMap);
 		
+		System.out.println("mvoList:" +mvoList);
 		
 		String pageBar = "";
 		
