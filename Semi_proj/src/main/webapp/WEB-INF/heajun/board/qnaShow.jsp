@@ -111,35 +111,35 @@ button#edit {
   <script type="text/javascript">
   $(document).ready(function(){
 		
-		$("span.button").click(function(){
+		$("span.edit").click(function(){
 			
 			if("${requestScope.userid}"=="no"){
 				alert("로그인 후 이용 가능합니다");
 			}
-			else if("${requestScope.userid}"!="${requestScope.qvo.fk_member_code}"){
+			else if("${requestScope.userid}"!="${requestScope.qvo.fk_userid}"){
 				alert("다른작성자의 게시글 수정은 불가 합니다.");
 			}
 			else{
-				 var frm = document.goEdit;
-				 frm.action = "qnaEdit.sue";
+				 var frm = document.qnaFrm;
+				 frm.action =<%= request.getContextPath()%>/heajun/board/qnaEdit.sue";
 				 frm.method = "post";
 				 frm.submit();
 			}
 			
 		}); // end of $("span.button").click(function()-------------------------------
 		
-		$("button#btn").click(function(){
+		$("button#delete").click(function(){
 			
 			if("${requestScope.userid}"=="no"){
 				alert("로그인 후 이용 가능합니다");
 			}
-			else if("${requestScope.userid}"!="${requestScope.qvo.fk_member_code}"){
+			else if("${requestScope.userid}"!="${requestScope.qvo.fk_userid}"){
 				alert("다른작성자의 게시글 삭제는 불가 합니다.");
 			}
 			else{
 				 
-			         var frm = document.goToDeleteFrm;
-			         frm.action = "qnalist.sue";
+			         var frm = document.qnaFrm;
+			         frm.action = <%= request.getContextPath()%>/heajun/board/qnaList.sue";
 			         frm.method = "post";
 			         frm.submit();
 			      
@@ -148,8 +148,8 @@ button#edit {
 		
 		$("button#reply").click(function(){
 			
-				 var frm = document.goReply;
-				 frm.action = "qnaReply.go";
+				 var frm = document.qnaFrm;
+				 frm.action = <%= request.getContextPath()%>/heajun/board/qna_reply.sue";
 				 frm.method = "post";
 				 frm.submit();
 		});
@@ -158,21 +158,16 @@ button#edit {
 </script>
 
    <div class="detail row-my-3">
+<div id="sidebar" class="col-2 pl-5 ml-2">
+	<div id="sidebar_community" style="font-weight: bold; font-size:20px;">고객센터</div>
+	<br><br>
+	<div id="sidebar_qna"  style="color:black; font-size:13pt;  href="<%=ctxPath%>/heajun/board/qnaList.sue">문의하기</div>
+	<div id="sidebar_notice"  style="color:gray; font-size:13pt;  href="<%=ctxPath%>/heajun/community/notice.sue">notice</div>
+	<hr style="margin-top: 125px;">
+	<div class="sidebar_info" style="font-size:9pt;" ><span class="font-weight-bold">평일</span>10:00 - 18:00 / <span class="font-weight-bold">점심</span>12:00-13:00</div>
+	<div class="sidebar_info" style="font-size:9pt;"><span class="font-weight-bold">주말, 공휴일 휴무</span></div>
+</div>
 
-   <div class="board-menu col-md-2" id="customer_menu">
-      <h3>고객센터</h3>
-      <br>
-      <ul><li type="button"><a href="">문의하기</a></li>
-         <li type="button"><a href="">NOTICE</a></li>
-      </ul>
-      <hr>
-   
-   <p class="tel" style="display:none;">1600-1858</p>
-   <p class="time">
-            평일 10:00 - 18:00 / 점심 12:00 - 13:00<br/>
-            주말,공휴일 휴무			
-         </p>
-   </div>
 
 
 
@@ -194,38 +189,52 @@ button#edit {
 
 <br><br>
   <hr>
-
- <tr id="top">
-<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목</span></th>
+ <form id="qnaFrm" >
+			<div style="font-weight:bold;">Qna</div>	
+			<table class="table table-condensed mt-4" style="font-size:10pt;">
+				
+<tr id="subject">
+<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.qvo.subject}</span></th>
   
  </tr>
-  <hr>
-<tr id="mid">
-<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성자<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;아이디</span></th>
+<hr>
+<tr id="fk_userid">
+<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성자<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.qvo.fk_userid}</span></th>
    
 </tr>
           
-  <hr>
-<tr id="mid2">   
- <td><span class="date">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성일</span><span class="txtNum">&nbsp;&nbsp;날짜</span></td>  
+<hr>
+<tr id="registerday">   
+ <td><span class="date">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성일</span><span class="txtNum">&nbsp;&nbsp;${requestScope.qvo.registerday}</span></td>  
 </tr>
-  <hr>
+<hr>
  
-<tr id="btt">
+<tr id="contents">
 <td style="width:750px; height:200px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;내용</td>
 </tr>
-<p>문의</p>
+<p>${requestScope.qvo.contents}</p>
+    
+    
+</table>
+		
     
  
+	<input type="hidden" name="subject" value="${requestScope.qvo.subject}"/>
+	<input type="hidden" name="fk_userid" value="${requestScope.qvo.fk_userid}"/>
+	<input type="hidden" name="registerday" value="${requestScope.qvo.registerday}"/>
+	<input type="hidden" name="contents" value="${requestScope.qvo.contents}"/>
+
 
   <hr>
-
-   <button id="list" type="button" onclick="javascript:history.back();">목록</button>
+ 
+   <span><button id="list" type="button" onclick="javascript:history.back();">목록</button></span>
   
    
    <button id="delete" type="button" onclick="">삭제</button>
    <button id="edit" >수정</button>
    <button id="reply" type="button">답글</button>	
+  
+  </form>
 </div>
 </div>
 

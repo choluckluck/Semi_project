@@ -42,7 +42,7 @@ a:active {text-decoration: none; color: gray;}
 			</div>
 				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
 					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp4cm.sue" class="link" style="text-decoration: none; color: gray;">4~6cm</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: gray;">7cm~</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: black;">7cm~</a><li>
 				</ul>
 				<br>
 			<div class="row">
@@ -75,13 +75,13 @@ a:active {text-decoration: none; color: gray;}
 				
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
-  						<input type="checkbox" class="btn-check colorcheck" name="brownColor" id="brown" value="brown" autocomplete="off">
-  						<label class="btn form-check-inline" for="brown" style="padding: 10%; background-color:brown; color: white;" >brown</label>&nbsp;
+  						<input type="checkbox" class="btn-check colorcheck" name="greenColor" id="green" value="green" autocomplete="off">
+  						<label class="btn btn-success form-check-inline" for="green" style="padding: 10%;" >green</label>&nbsp;
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check colorcheck" name="silverColor" id="silver" value="silver" autocomplete="off">
- 				 		<label class="btn form-check-inline" for="silver" style="padding: 10%; background-color:silver; color: white;">silver</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="yellowColor" id="yellow" value="yellow" autocomplete="off">
+ 				 		<label class="btn btn-warning form-check-inline" for="yellow" style="padding: 10%;">yellow</label>
 					</div>
 					
 					<div>
@@ -98,7 +98,7 @@ a:active {text-decoration: none; color: gray;}
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
   						<input type="checkbox" class="btn-check colorcheck" name="redColor" id="red" value="red" autocomplete="off">
-  						<label class="btn btn-outline-danger form-check-inline" for="red" style="padding: 10%;">&nbsp;&nbsp;&nbsp;red&nbsp;&nbsp;&nbsp;</label>
+  						<label class="btn btn-outline-danger form-check-inline" for="red" style="padding: 10%;">&nbsp;&nbsp;red&nbsp;</label>
 					</div>
 					
 					<div>
@@ -107,13 +107,13 @@ a:active {text-decoration: none; color: gray;}
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check colorcheck" name="greenColor" id="green" value="green" autocomplete="off">
-  						<label class="btn btn-outline-success form-check-inline" for="green" style="padding: 10%;">green</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="brownColor" id="brown" value="brown" autocomplete="off">
+  						<label class="btn btn-outline-primary form-check-inline" for="brown" style="padding: 10%;">brown</label>
 					</div>
 					
 					<div>
-  						<input type="checkbox" class="btn-check colorcheck" name="yellowColor" id="yellow" value="yellow" autocomplete="off">
-  						<label class="btn btn-outline-warning form-check-inline" for="yellow" style="padding: 10%; ">&nbsp;yellow&nbsp;</label>
+  						<input type="checkbox" class="btn-check colorcheck" name="silverColor" id="silver" value="silver" autocomplete="off">
+  						<label class="btn btn-outline-success form-check-inline" for="silver" style="padding: 10%; ">&nbsp;silver&nbsp;</label>
   					</div>
   					
   					
@@ -351,12 +351,12 @@ a:active {text-decoration: none; color: gray;}
 	function goSearch() {
 		
 		const frm = document.productHpFrm
-		frm.action = "productHp4cm.sue";
+		frm.action = "productHp7cm.sue";
 		frm.submit();
-		
 
+	
 	}
-
+	
 	function form_reset() {
 		
 		$("input#searchWord").val("");
@@ -368,6 +368,7 @@ a:active {text-decoration: none; color: gray;}
 		$("input:checkbox").prop("checked", false);
 	
 	}
+	
 	
 </script>			
     
