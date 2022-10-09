@@ -94,7 +94,7 @@ public class OrderDAO implements InterOrderDAO {
 						sql += " and total_order_amount between ? and ? ";
 					}
 					else { //주문코드나 아이디로 검색할 경우
-						sql += " and  " + searchBy + " like '%'|| ? ||'%' ";
+						sql += " and  " + searchBy + " like '%'|| lower( ? ) ||'%' ";
 					}
 				}
 			}
@@ -133,7 +133,7 @@ public class OrderDAO implements InterOrderDAO {
 						pstmt.setString(3, maxprice);
 					}
 					else { //주문코드나 아이디로 검색할 경우
-						pstmt.setString(2, searchword);
+						pstmt.setString(2, searchword.toLowerCase());
 					}
 				}
 			}
@@ -413,4 +413,91 @@ public class OrderDAO implements InterOrderDAO {
 		
 		return n;
 	}//end of updateOrderstate
+	
+	
+	
+	//체크된 주문들의 주문상태를 변경해준다
+	@Override
+	public int updateOrderStateChecked(Map<String, Object> paraMap) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String[] order_codeArr =  (String[]) paraMap.get("order_codeArr");
+			String updateOrderstate = (String) paraMap.get("updateOrderstate");
+			
+			
+			for(String order_code : order_codeArr) {
+				String sql = " update tbl_order set fk_order_state_name = ? where order_code = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, updateOrderstate);
+				pstmt.setString(2, order_code);
+				
+				result = pstmt.executeUpdate();
+			}
+			
+			
+		} finally {
+			
+		}
+		
+		return result;
+	}//end of updateOrderStateChecked
+	
+	
+	//체크된 주문들을 삭제해준다
+	@Override
+	public int deleteOrderChecked(String[] order_codeArr) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			for(String order_code : order_codeArr) {
+				String sql = " delete tbl_order where order_code = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, order_code);
+				
+				result = pstmt.executeUpdate();
+			}
+			
+			
+		} finally {
+			
+		}
+		
+		return result;
+	}//end of updateOrderStateChecked
+	
+	
+	
+	//받아온 order_code로 주문을 삭제해준다
+	@Override
+	public int deleteOneOrder(String order_code) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete tbl_order where order_code = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, order_code);
+			result = pstmt.executeUpdate();
+			
+			
+		} finally {
+			
+		}
+		
+		return result;
+	}//end of deleteOneOrder
+	
+	
+	
+	
 }

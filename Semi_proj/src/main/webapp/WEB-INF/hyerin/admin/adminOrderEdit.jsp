@@ -11,7 +11,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>주문수정</title>
+	<title>주문더보기</title>
 
 	<%-- Bootstrap CSS --%>
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
@@ -37,6 +37,12 @@
 			height: 30px;
 			font-size: 10pt;
 		}
+		
+		.userid:hover{
+			cursor: pointer;
+			text-decoration: underline;
+		}
+		
 	</style>
 	<script>
 		$(document).ready(function(){
@@ -44,6 +50,15 @@
 			const orderstateVal = "${requestScope.ovo.fk_order_state_name}";
 			
 			$("#fk_order_state_name").val(orderstateVal).prop("selected", true);
+			
+			
+			//모달 사용
+			var myModal = document.getElementById('myModal')
+			var myInput = document.getElementById('myInput')
+
+			myModal.addEventListener('shown.bs.modal', function () {
+			  myInput.focus()
+			})
 			
 			
 		});//end of ready
@@ -72,6 +87,10 @@
 		frm.submit();	
 		
 	}//end of updateOrderState
+	
+	
+	//유저아이디를 클릭하면 유저에 대한 정보가 보이는 모달창
+	
 		
 	
 	</script>
@@ -103,8 +122,9 @@
 					<td width="30%">${requestScope.ovo.orderdate }</td>
 				</tr>
 				<tr>
-					<td width="20%" class="font-weight-bold align-baseline">아이디</td>
-					<td width="30%">${requestScope.ovo.mvo.userid }</td>
+					<td width="20%" class="font-weight-bold align-basel	ine">아이디</td>
+					<td width="30%">
+						<button type="button" style="border:none; background-color:white; padding-left:0;">${requestScope.ovo.mvo.userid }</button></td>
 				</tr>
 				<tr>
 					<td width="20%" class="font-weight-bold align-baseline">이름</td>
@@ -194,6 +214,24 @@
 				
 			</table>
 			<div class="col-1"></div>
+		</div>
+		
+		<div class="modal" tabindex="-1">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Modal title</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+		        <p>Modal body text goes here.</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
 		</div>
 	</form>
 </body>

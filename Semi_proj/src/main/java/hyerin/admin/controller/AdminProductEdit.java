@@ -77,7 +77,7 @@ public class AdminProductEdit extends AbstractController {
 			    request.setAttribute("message", "업로드 되어질 경로가 잘못되었거나 또는 최대용량 10MB를 초과했으므로 파일업로드 실패함!!");
 			    request.setAttribute("loc", request.getContextPath()+"/hyerin/admin/adminProduct.sue"); 
 		  
-			    super.setViewPage("/WEB-INF/msg.jsp");
+			    super.setViewPage("/WEB-INF/hyerin/admin/adminMsg.jsp");
 			    return; // 종료
 			    
 			}
@@ -115,9 +115,6 @@ public class AdminProductEdit extends AbstractController {
 			pvo.setProd_image(prod_image);
 			
 			String message = "";
-			String loc = "adminProductEdit.sue?prod_code="+prod_code+"&currPageNo="+currPageNo;
-			
-			
 			try {
 				// 1. 폼의 내용을 받아서 update해주기
 				int n = pdao.updateProduct(pvo);
@@ -190,7 +187,7 @@ public class AdminProductEdit extends AbstractController {
 			}
 			
 			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
+			request.setAttribute("loc", "javascript:window.close()");
 			super.setViewPage("/WEB-INF/hyerin/admin/adminMsg.jsp");
 			
 			

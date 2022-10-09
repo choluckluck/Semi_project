@@ -67,7 +67,7 @@ public class ReviewDAO implements InterReviewDAO {
 			
 			//검색 기준을 선택한 경우
 			if( review_searchWord != null && !review_searchWord.trim().isEmpty() ) {
-				if(!"all".equals(review_sortType)) {
+				if(!"all".equals(review_sortType) || !"".equals(review_sortType)) {
 					sql += " where "+ review_sortType +" like '%'||?||'%' ";
 				}
 			}

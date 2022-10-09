@@ -320,4 +320,33 @@ public class MemberDAO implements InterMemberDAO {
 		return result;
 	}//end of upateUserStatus
 	
+	
+	
+	//체크된 회원들을 탈퇴처리하기(update)
+	@Override
+	public int updateCheckedMember(String[] useridArr) throws SQLException {
+		int result = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_member set status = 0 "+
+						 " where userid = ? ";
+			
+			for(String userid : useridArr) {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, userid);
+				
+				result = pstmt.executeUpdate();
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}//end of updateCheckedMember
+	
 }

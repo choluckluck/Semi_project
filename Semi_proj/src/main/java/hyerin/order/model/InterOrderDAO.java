@@ -22,6 +22,15 @@ public interface InterOrderDAO {
 	
 	//주문상태를 변경해준다
 	int updateOrderstate(String order_code, String fk_order_state_name) throws SQLException;
+	
+	//체크된 주문들의 주문상태를 변경해준다
+	int updateOrderStateChecked(Map<String, Object> paraMap) throws SQLException;
+	
+	//체크된 주문들을 삭제해준다
+	int deleteOrderChecked(String[] order_codeArr) throws SQLException;
+	
+	//받아온 order_code로 주문을 삭제해준다
+	int deleteOneOrder(String order_code) throws SQLException;
 
 	
 	

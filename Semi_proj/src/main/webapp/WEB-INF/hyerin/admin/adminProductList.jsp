@@ -333,14 +333,12 @@
 		
 		//팝업창이 닫히면 부모창을 새로고침해준다
 		popup.addEventListener('beforeunload', function() {
+			alert(currPageNo);
 			selectProduct(currPageNo);
-			
-			
 		});
 		
 		
 	};//end of product_edit
-	
 	
 	
 	// 상품을 삭제하는 함수
@@ -348,7 +346,7 @@
 		if(confirm("상품번호 " + prod_code + "를 삭제하시겠습니까?") == true){
 			//비동기방식으로 prod_code에 해당하는 상품을 삭제하기
 			$.ajax({
-				url : "<%= ctxPath%>/hyerin/admin/adminProductDelete.sue?prod_code="+prod_code,
+				url : "<%= ctxPath%>/hyerin/admin/adminProductDelete.sue",
 				type: "get",
 				data:{"prod_code":prod_code},
 				dataType:"JSON",

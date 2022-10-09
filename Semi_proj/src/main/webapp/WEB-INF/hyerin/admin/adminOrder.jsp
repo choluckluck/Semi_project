@@ -118,7 +118,7 @@
 	
 	//주문조회하는 함수
 	function orderList(num){
-		
+		window.scrollTo(0,0);
 		$("#orderList_contents").empty();
 		$("#chxAll").prop("checked",false);
 		
@@ -175,7 +175,7 @@
 										'<td class="text-center admin_productOrder_tbody">'+item.total_order_amount.toLocaleString('en')+'원</td>'+
 										'<td class="text-center admin_productOrder_tbody">'+item.real_amount.toLocaleString('en')+'원</td>'+
 										'<td class="text-center admin_productOrder_tbody"><button id="admin_productedit_btn" type="button" class="white" style="width:90%; height:30px;" onclick="order_edit(\''+item.order_code+'\');">더보기</button></td>'+
-										'<td class="text-center admin_productOrder_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;">삭제</button></td>'+
+										'<td class="text-center admin_productOrder_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;" onclick="deleteOneOrder(\''+item.order_code+'\')">삭제</button></td>'+
 									'</tr>';
 						}
 						
@@ -253,8 +253,34 @@
 	}//end of order_edit
 	
 	
+	//해당하는 주문코드를 삭제해주는 함수
+	function deleteOneOrder(deletenum){
+		
+		const bool = confirm("주문코드 '" + deletenum +"'을 삭제하시겠습니까?");
+		if(bool){
+			$.ajax({
+				url : "<%= ctxPath%>/hyerin/admin/adminOrderDelete.sue",
+				type: "get",
+				data:{"order_code":deletenum},
+				dataType:"JSON",
+				success:function(json){
+					
+					alert(json.message);
+					orderList($("#currentPage").val());
+					
+				},
+				
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});//end of ajax
+		}
+		
+	}//end of deleteOneOrder
 	
-	//선택한 주문코드를 알려주는 함수
+	
+	
+	//선택한 주문코드의 배열을 알려주는 함수
 	function getOrdercodeArr(){
 		const allCnt = $("input:checkbox[name='order_chx']").length;
 		const order_codeArr = new Array();
@@ -276,53 +302,91 @@
 	//선택한 주문정보의 주문상태를 모두 변경하는 함수
 	function updateChecked(){
 		const updateVal = $("#updateOrderstate").val();
+		const checkCnt = $("input:checkbox[name='order_chx']:checked").length;
 		
 		if(updateVal == "all"){
 			alert("변경할 주문상태를 선택해 주세요.");
 			return;
 		}
-		else{
-			if(updateVal == "입금전"){$("#updatestate_checked").val("1");}
-			if(updateVal == "결제확인"){$("#updatestate_checked").val("2");}
-			if(updateVal == "상품준비중"){$("#updatestate_checked").val("3");}
-			if(updateVal == "배송중"){$("#updatestate_checked").val("4");}
-			if(updateVal == "배송완료"){$("#updatestate_checked").val("5");}
-			if(updateVal == "취소"){$("#updatestate_checked").val("6");}
-			if(updateVal == "교환"){$("#updatestate_checked").val("7");}
-			if(updateVal == "반품"){$("#updatestate_checked").val("8");}
-			
-			const updateOrderstate = $("#updatestate_checked").val();
-			const order_codeJoin = getOrdercodeArr();
-			
-			$.ajax({
-				url : "<%= ctxPath%>/hyerin/admin/adminOrderChecked.sue",
-				type: "get",
-				data:{"updateOrderstate":updateOrderstate,
-					  "order_codeJoin":order_codeJoin},
-				dataType:"JSON",
-				success:function(json){
-					
-					alert(json.message);
-					orderList($("#currentPage").val());
-					
-				},
-				
-				error: function(request, status, error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				}
-			});//end of ajax
+		else if (checkCnt < 1){
+			alert("변경할 주문을 1개 이상 선택해주세요.");
+			return;
 		}
-		
-		
+		else{
+			
+			const bool = confirm("선택한 주문들의 주문상태를 '" + updateVal + "'으로 변경하시겠습니까?");
+			
+			if(bool){
+				if(updateVal == "입금전"){$("#updatestate_checked").val("1");}
+				if(updateVal == "결제확인"){$("#updatestate_checked").val("2");}
+				if(updateVal == "상품준비중"){$("#updatestate_checked").val("3");}
+				if(updateVal == "배송중"){$("#updatestate_checked").val("4");}
+				if(updateVal == "배송완료"){$("#updatestate_checked").val("5");}
+				if(updateVal == "취소"){$("#updatestate_checked").val("6");}
+				if(updateVal == "교환"){$("#updatestate_checked").val("7");}
+				if(updateVal == "반품"){$("#updatestate_checked").val("8");}
+				
+				
+				const updateOrderstate = $("#updatestate_checked").val();
+				const order_codeJoin = getOrdercodeArr();
+				
+				$.ajax({
+					url : "<%= ctxPath%>/hyerin/admin/adminOrderChecked.sue",
+					type: "get",
+					data:{"updateOrderstate":updateOrderstate,
+						  "order_codeJoin":order_codeJoin},
+					dataType:"JSON",
+					success:function(json){
+						
+						alert(json.message);
+						orderList($("#currentPage").val());
+						
+					},
+					
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+				});//end of ajax
+				
+			}
+		}
 		
 	}//end of updateChecked
 	
 	//선택한 주문정보를 모두 삭제하는 이벤트
 	function deleteChecked(){
+		const checkCnt = $("input:checkbox[name='order_chx']:checked").length;
 		
+		if (checkCnt < 1){
+			alert("삭제할 주문을 1개 이상 선택해주세요.");
+			return;
+		}
+		else{
+			
+			const deleteCheckedbool = confirm("선택한 주문들을 전부 삭제하시겠습니까?");
+			
+			if(deleteCheckedbool){
+				const order_codeJoin = getOrdercodeArr();
+				
+				$.ajax({
+					url : "<%= ctxPath%>/hyerin/admin/adminOrderChecked.sue",
+					type: "post",
+					data:{"order_codeJoin":order_codeJoin},
+					dataType:"JSON",
+					success:function(json){
+						
+						alert(json.message);
+						orderList($("#currentPage").val());
+						
+					},
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+				});//end of ajax
+			}
+		}
 		
 	}//end of deleteChecked
-	
 	
 
 </script>
