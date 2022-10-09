@@ -18,6 +18,9 @@ public interface InterReviewDAO {
 
 	//reviewcode에 해당하는 행을 삭제하기
 	int deleteUserReview(String review_code) throws SQLException;
+	
+	//해당하는 리뷰들을 삭제해준다
+	int deleteMultiReview(Map<String, String[]> paraMap) throws SQLException;
 
 	
 }

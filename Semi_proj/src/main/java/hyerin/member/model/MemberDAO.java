@@ -1,5 +1,7 @@
 package hyerin.member.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +18,8 @@ import javax.sql.DataSource;
 
 import hyerin.product.model.ProductVO;
 import hyerin.review.model.ReviewVO;
+import util.security.AES256;
+import util.security.SecretMyKey;
 
 public class MemberDAO implements InterMemberDAO {
 	private DataSource ds;	//DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool)
@@ -23,13 +27,20 @@ public class MemberDAO implements InterMemberDAO {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
+	private AES256 aes;
+	
 	// 생성자
 	public MemberDAO() {
 		try {
 			Context initContext = new InitialContext();
 		    Context envContext  = (Context)initContext.lookup("java:/comp/env");
 		    ds = (DataSource)envContext.lookup("jdbc/semi");
+		    
+		    aes = new AES256(SecretMyKey.KEY);
+		
 		} catch(NamingException e) {
+			e.printStackTrace();
+		} catch(UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 	}
@@ -256,7 +267,7 @@ public class MemberDAO implements InterMemberDAO {
 			while(rs.next()){
 				
 				//핸드폰 - 처리해주기
-				String mobile = rs.getString("mobile");
+				String mobile = aes.decrypt(rs.getString("mobile"));
 				String mobile1 = mobile.substring(0,3);
 				String mobile2 = mobile.substring(3,7);
 				String mobile3 = mobile.substring(7);
@@ -266,7 +277,7 @@ public class MemberDAO implements InterMemberDAO {
 				
 				mvo.setUserid(rs.getString(1));
 				mvo.setName(rs.getString(2));
-				mvo.setEmail(rs.getString(3));
+				mvo.setEmail(aes.decrypt(rs.getString(3)));
 				mvo.setMobile(mobile);
 				mvo.setPostcode(rs.getString(5));
 				mvo.setAddress(rs.getString(6));
@@ -285,7 +296,8 @@ public class MemberDAO implements InterMemberDAO {
 				// userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday,
 				// grade_code, point, account_name, bank_name, account, registerday
 			}
-			
+		 } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+		     e.printStackTrace();
 		} finally {
 			close();
 		}
@@ -320,5 +332,34 @@ public class MemberDAO implements InterMemberDAO {
 		
 		return result;
 	}//end of upateUserStatus
+	
+	
+	
+	//체크된 회원들을 탈퇴처리하기(update)
+	@Override
+	public int updateCheckedMember(String[] useridArr) throws SQLException {
+		int result = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_member set status = 0 "+
+						 " where userid = ? ";
+			
+			for(String userid : useridArr) {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, userid);
+				
+				result = pstmt.executeUpdate();
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}//end of updateCheckedMember
 	
 }

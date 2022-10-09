@@ -5,6 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -188,6 +192,133 @@ public class QnaDAO implements InterQnaDAO {
 	      }
 	      
 	return qvo;
+	}
+
+	// 페이지바를 만들기 위해서 문의글 대한 총페이지수 알아오기
+	@Override
+	public int getTotalPage(String qna_code) throws Exception {
+      int totalPage = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select ceil(count(*)/10) " 
+						+ "from tbl_qna "
+						+ " where fk_member_code = 'null' " ; 
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, qna_code);
+			
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			totalPage = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		return totalPage;
+	}
+
+	//문의사항 속하는 글들을 페이지바를 사용해 페이징 처리하여 조회(select)해오기
+	@Override
+	public List<QnaVO> selectPagingQnaList(Map<String, String> paraMap) throws Exception {
+		List<QnaVO> QnaList = new ArrayList<>(); //new를 해줬기 때문에 null이 아니다! 사이즈가 0일 뿐임.
+	      
+		try {
+	        conn = ds.getConnection();
+	        
+	        String sql = " select qna_code, fk_member_code, category , subject, contents, registerday  " +
+	        		"	        		 from ( " +
+	        		"	        		    select rownum AS qna_code, fk_member_code, category , subject, contents, registerday " +
+	        		"	        		    from( " +
+	        		"	        		        select qna_code, fk_member_code, category , subject, contents, registerday  " +
+	        		"	        		        from tbl_qna  " +
+	        		"                            where fk_member_code != ' null '  " +
+	        		"	        		   ) V " +
+	        		"	        		 )T " +
+	        		"	        		 where qna_code between ? and ? " +
+	        		"                       order by qna_code ASC " ;
+			
+	       
+	        
+			// === 페이징 처리의 공식 ===
+			// where RNO between (조회하고자하는 페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는 페이지번호 * 한페이지당보여줄행의개수)
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage = 10;
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("qna_code"));
+			pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(3, (currentShowPageNo*sizePerPage));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				QnaVO qvo = new QnaVO();
+	             
+				qvo.setQna_code(rs.getInt(1));
+				qvo.setFk_member_code(rs.getString(2));
+				qvo.setCategory(rs.getString(3));
+				qvo.setSubject(rs.getString(4));
+				qvo.setContents(rs.getString(5));
+				qvo.setRegisterday(rs.getDate(6));
+				
+				
+				
+				QnaList.add(qvo);
+				
+			}//end of while
+			
+	      } finally {
+	         close();
+	      }
+		
+		return QnaList;
+	}
+	//VO 를 사용하지 않고 Map으로 처리 => 한 번만 실행하려고 abstract에서 실행
+	//tbl_qna 테이블에서 글번호(qna_code), id(fk_member_code), 제목(subject),날짜(registerday)을 조회해오기
+	@Override
+	public List<HashMap<String, String>> getQnaList() throws Exception {
+        
+		List<HashMap<String, String>> QnaList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select qna_code, fk_member_code, category , subject, contents, registerday , file_1, file_2, file_3 ,answer_yn "
+						+ "from tbl_qna "
+						+ "order by qna_code asc " ; 
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				HashMap<String, String> map = new HashMap<>();
+				map.put("qna_code", rs.getString(1));
+				map.put("fk_member_code", rs.getString(2));
+				map.put("category", rs.getString(3));
+				map.put("subject", rs.getString(4));
+				map.put("contents", rs.getString(5));
+				map.put("registerday", rs.getString(6));
+				map.put("file_1", rs.getString(7));
+				map.put("file_2", rs.getString(8));
+				map.put("file_3", rs.getString(9));
+				map.put("answer_yn", rs.getString(9));
+				
+				
+				QnaList.add(map);
+			}
+				
+		} finally {
+			close();
+		}
+		
+		return QnaList;
 	}
 
 

@@ -2,12 +2,10 @@ package heajun.community.model;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +14,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import heajun.community.controller.Notice;
+
 import util.security.AES256;
 import util.security.SecretMyKey;
 
@@ -93,14 +91,15 @@ public class NoticeDAO  implements InterNoticeDAO{
 		try {
   			conn = ds.getConnection();
   			
-  			String sql = " insert into tbl_notice(notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_date) "
-  					   + " values(notice_code.nextval, ?, ?, ?, ?, default, default) ";
+  			String sql = " insert into tbl_notice(notice_code, fk_userid, notice_subject, notice_contents )"
+  					   + " values(notice_code.nextval, ?, ?, ? ) ";
   			
   			pstmt = conn.prepareStatement(sql);
   			
   			pstmt.setString(1, fk_userid);
   			pstmt.setString(2, notice_subject);
   			pstmt.setString(3, notice_contents);
+  			
   			
   	        pstmt.executeUpdate();
   	        
@@ -121,7 +120,7 @@ public class NoticeDAO  implements InterNoticeDAO{
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday "
+			String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
 					   + " from tbl_notice " 
                        + " where notice_code = ? ";
 			
@@ -139,7 +138,10 @@ public class NoticeDAO  implements InterNoticeDAO{
 	            nvo.setNotice_subject(rs.getString(3));
 	            nvo.setNotice_contents(rs.getString(4));
 	            nvo.setNotice_count(rs.getInt(5));
-	            nvo.setNotice_registerday(rs.getDate(6));
+	            nvo.setNotice_registerday(rs.getString(6));
+	            nvo.setNotice_file_1(rs.getString(7));
+	            nvo.setNotice_file_2(rs.getString(8));
+	            nvo.setNotice_file_3(rs.getString(9));
 
 	        }
 			
@@ -160,9 +162,9 @@ public class NoticeDAO  implements InterNoticeDAO{
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select notice_count "+
-						 " from tbl_notice "+
-						 " where notice_code = ? ";
+			String sql = " select notice_count " +
+						 " from tbl_notice " +
+						 " where notice_code = ? " ;
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -193,104 +195,58 @@ public class NoticeDAO  implements InterNoticeDAO{
 		}
 	}
 
-	// 페이지바를 만들기 위해서 특정카테고리의 제품개수에 대한 총페이지수 알아오기
+	// 페이지바를 만들기 위해서 공지사항 글에 대한 총페이지수 알아오기
 	@Override
-	public int getTotalPage(String notice_code) throws Exception {
+	public int getTotalPage(Map<String, String> paraMap)throws SQLException {
+		
 		int totalPage = 0;
 		
 		try {
 			
 			conn = ds.getConnection();
 			
-			String sql = " select ceil(count(*)/10) " 
-						+ "from tbl_notice "
-						+ " where notice_code = ? "; 
+			 String sql = " select ceil(count(*)/10) as total " +
+					    "   from tbl_notice " ;
+			           
 		
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, notice_code);
+			  pstmt = conn.prepareStatement(sql);
 			
-			rs = pstmt.executeQuery();
-			rs.next();
+			  rs = pstmt.executeQuery();
 			
-			totalPage = rs.getInt(1);
+			  rs.next();
 			
+			  totalPage = rs.getInt(1);
+		
 		} finally {
 			close();
 		}
 		return totalPage;
 	}
 
-	//VO 를 사용하지 않고 Map으로 처리 => 한 번만 실행하려고 abstract에서 실행
-	//tbl_notice 테이블에서 글번호(notice_code), id(fk_userid), 제목(notice_subject), 조회수(notice_count) , 날짜(notice_registerday) 을 조회해오기
-	@Override
-	public List<HashMap<String, String>> getNotice() throws Exception {
-		
-		List<HashMap<String, String>> notice = new ArrayList<>();
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday "
-						+ "from tbl_notice "
-						+ "order by notice_code asc "; 
-			
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				
-				HashMap<String, String> map = new HashMap<>();
-				map.put("notice_code", rs.getString(1));
-				map.put("fk_userid", rs.getString(2));
-				map.put("notice_subject", rs.getString(3));
-				map.put("notice_contents", rs.getString(4));
-				map.put("notice_count", rs.getString(5));
-				map.put("notice_registerday", rs.getString(6));
-				
-				notice.add(map);
-			}
-				
-		} finally {
-			close();
-		}
-		
-		return notice;
-	}
+	
 
 	//공지사항에 속하는 글들을 페이지바를 사용해 페이징 처리하여 조회(select)해오기
 	@Override
 	public List<NoticeVO> selectPagingNoticeList(Map<String, String> paraMap) throws SQLException {
-		List<NoticeVO> notice = new ArrayList<>(); //new를 해줬기 때문에 null이 아니다! 사이즈가 0일 뿐임.
+		
+		List<NoticeVO> noticeList = new ArrayList<>(); 
 	      
 		try {
 	        conn = ds.getConnection();
 	        
-	        String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday " +
-	        		" from " +
-	        		" ( " +
-	        		"    select rownum AS RNO, notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday " +
-	        		"    from " +
-	        		"    ( " +
-	        		"        select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday " +
-	        		"        from tbl_notice " +
-	        		"        where fk_userid != ' null ' " +
-	        		"        order by notice_registerday desc " +
-	        		"    ) V " +
-	        		" )T " +
-	        		" where RNO between ? and ? " ;
+	        String sql = " select B.notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3  "+
+	        		"    from(select rownum rn, A.notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3  "+
+	        		"    from(select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3  from tbl_notice order by notice_code desc)A)B "+
+	        		"    where rn between ? and ? " ;
 			
-	       
-	        
-			// === 페이징 처리의 공식 ===
-			// where RNO between (조회하고자하는 페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는 페이지번호 * 한페이지당보여줄행의개수)
+			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			int sizePerPage = 10;
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, paraMap.get("notice_code"));
-			pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
-			pstmt.setInt(3, (currentShowPageNo*sizePerPage));
+			pstmt.setInt(1, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(2, (currentShowPageNo*sizePerPage));
 			
 			rs = pstmt.executeQuery();
 			
@@ -298,14 +254,18 @@ public class NoticeDAO  implements InterNoticeDAO{
 				
 				NoticeVO nvo = new NoticeVO();
 	             
-				nvo.setNotice_code(rs.getInt("notice_code"));
-				nvo.setFk_userid(rs.getString("fk_userid"));
-				nvo.setNotice_subject(rs.getString("notice_subject"));
-				nvo.setNotice_contents(rs.getString("notice_contents"));
-				nvo.setNotice_registerday(rs.getDate("notice_registerday"));
-				nvo.setNotice_count(rs.getInt("notice_count"));
+				nvo.setNotice_code(rs.getInt(1));
+				nvo.setFk_userid(rs.getString(2));
+				nvo.setNotice_subject(rs.getString(3));
+				nvo.setNotice_contents(rs.getString(4));
+				nvo.setNotice_count(rs.getInt(5));
+				nvo.setNotice_registerday(rs.getString(6));
+				nvo.setNotice_file_1(rs.getString(7));
+				nvo.setNotice_file_2(rs.getString(8));
+				nvo.setNotice_file_3(rs.getString(9));
 				
-				notice.add(nvo);
+				
+				noticeList.add(nvo);
 				
 			}//end of while
 			
@@ -313,7 +273,7 @@ public class NoticeDAO  implements InterNoticeDAO{
 	         close();
 	      }
 		
-		return notice;
+		return noticeList;
 	}
 
 	

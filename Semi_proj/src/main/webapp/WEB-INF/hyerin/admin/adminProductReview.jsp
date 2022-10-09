@@ -44,7 +44,10 @@
 		height:40px;
 	}
 	
-	
+	.review_subject:hover{
+		cursor : pointer;
+		font-weight: bold;
+	}
 	
 </style>
 
@@ -80,6 +83,12 @@
 		
 		$(".review_search_date").hide();
 		
+		$(".review_contents").hide();
+		
+		
+		$(".review_subject").click(function(){
+			$(this).next().toggle();
+		});
 		
 		/////////////////////////////////////////////////////
 		
@@ -100,6 +109,32 @@
 		}
 		
 		
+		//체크박스 하나라도 해제되면 전체 해제되게 만들기
+		$(".check").click(function(){
+		   var bFlag = false;
+		   $(".check").each(function(){
+		      var bChecked = $(this).prop("checked");
+		      if(!bChecked) {
+		         $("#chxAll").prop("checked",false);
+		         bFlag = true;
+		         return false;
+		      }
+		   });
+		   
+		   if(!bFlag) {
+		      $("#chxAll").prop("checked",true);
+		   }
+		   
+		});//end of $(".check").click
+		
+		
+		//체크박스 체크 이벤트
+		$("#chxAll").click(function(){
+			var bool = $(this).is(":checked");
+			$(".check").prop("checked", bool);
+		});
+		
+		
 	});//end of ready
 	
 	/////////////////////////////////////////////////////////////////////////////
@@ -114,7 +149,7 @@
 	};//end of selectReviewList
 	
 	
-	//리뷰 삭제
+	//해당하는 리뷰 하나 삭제
 	function review_delete(reviewcode){
 		
 		if(confirm(reviewcode + "글을 삭제하시겠습니까?") == true){
@@ -142,9 +177,52 @@
 		else{
 			return false;
 		}
-		
+	}//end of review_delete
+	
+	
+	//선택된 모든 리뷰 삭제
+	function review_deleteMulti(){
+		const checkCnt = $("input:checkbox[name='review_check']:checked").length;
+		 if(checkCnt < 1){
+			 alert("삭제할 리뷰를 선택해주세요.");
+			 return;
+		 }
+		 else{
+			const allCnt = $("input:checkbox[name='review_check']").length;
+			const review_codeArr = new Array();
+ 			
+			for(var i=0; i<allCnt; i++){
+				if($("input:checkbox[name='review_check']").eq(i).is(":checked")){
+					review_codeArr.push( $("input:checkbox[name='review_check']").eq(i).val() );
+				}
+			}//end of for
+			
+			const review_codeJoin = review_codeArr.join();
+			//console.log(review_codeJoin);
+			
+			const bool = confirm("리뷰코드 " + review_codeJoin + "을 모두 삭제하시겠습니까?");
+			if(bool){
+				$.ajax({
+					url : "<%= ctxPath%>/hyerin/admin/adminProductReviewDeleteJson.sue",
+					type : "post",
+					data : {"review_codeJoin" : review_codeJoin},
+					dataType : "json",
+					success : function(json){
+						alert(json.message);
+						selectReviewList();
+						
+					},
+					error : function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+					
+				});//end of ajax
+				
+			}
+		 }
 		
 	}
+	
 	
 
 </script>
@@ -181,11 +259,11 @@
 				<table id="admin_productReview" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
 					<thead>
 						<tr>
-							<th width="5%" class="admin_productReview_th text-center" ><input type="checkbox" id=""/></th>
+							<th width="5%" class="admin_productReview_th text-center" ><input type="checkbox" id="chxAll"/></th>
 							<th width="10%" height="50px" class="admin_productReview_th text-center">No</th>
-							<th width="15%" class="admin_productReview_th text-center">상품정보</th>
+							<th width="10%" class="admin_productReview_th text-center">상품정보</th>
 							<th width="10%" class="admin_productReview_th text-center">아이디</th>
-							<th width="40%" class="admin_productReview_th text-center">제목</th>
+							<th width="45%" class="admin_productReview_th text-center">제목</th>
 							<th width="5%" class="admin_productReview_th text-center">평점</th>
 							<th width="10%" class="admin_productReview_th text-center">작성일자</th>
 							<th width="10%" class="admin_productReview_th text-center">삭제</th>
@@ -194,16 +272,16 @@
 					<tbody>
 						<c:forEach var="rvo" items="${requestScope.rvoList}">
 							<tr>
-								<td class="admin_productReview_tbody text-center" style="border-top:none;"><input type="checkbox" id=""/></td>
+								<td class="admin_productReview_tbody text-center" style="border-top:none;"><input type="checkbox" name="review_check" class="check" value="${rvo.review_code}"/></td>
 								<td height="130px" class="admin_productReview_tbody text-center">${rvo.review_code}</td>
 								<td class="admin_productReview_tbody" >
-									<div align="center"><img id="admin_product_img_1" height="100px" src="<%= ctxPath%>/images/product/${rvo.pvo.prod_kind}/${rvo.pvo.prod_image}"/></div>
+									<div align="center"><img id="admin_product_img_1" height="100px" src="<%= ctxPath%>/images/product/${rvo.pvo.prod_image}"/></div>
 									<div align="center">${rvo.pvo.prod_name}</div>
 								</td>
 								<td class="text-center admin_productReview_tbody">${rvo.fk_userid}</td>
 								<td class="text-center admin_productReview_tbody">
-									<div>${rvo.review_subject}</div>
-									<div>${rvo.review_contents}</div>
+									<div class="review_subject">${rvo.review_subject}</div>
+									<div class="review_contents">${rvo.review_contents}</div>
 								</td>
 								<c:if test="${rvo.review_grade == 1}"><td class="text-center admin_productReview_tbody">★☆☆☆☆</td></c:if>
 								<c:if test="${rvo.review_grade == 2}"><td class="text-center admin_productReview_tbody">★★☆☆☆</td></c:if>
@@ -220,7 +298,7 @@
 					</tbody>
 				</table>
 				<div class="mt-3">
-					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
+					<span><button type="button" id="" class="black" style="height:30px;" onclick="review_deleteMulti();">선택삭제</button></span>
 				</div>
 				<nav aria-label="Page navigation">
 					<ul	class="pagination justify-content-center pagination-sm my-5">

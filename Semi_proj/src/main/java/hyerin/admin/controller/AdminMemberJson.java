@@ -152,7 +152,7 @@ public class AdminMemberJson extends AbstractController {
 		}
 		
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/hyerin/admin/adminMemberJson.jsp");
+		super.setViewPage("/WEB-INF/hyerin/jsonView.jsp");
 		
 	}
 

@@ -35,7 +35,7 @@ public class AdminMemberResignJson extends AbstractController {
 		String json = jsonObj.toString();
 		
 		request.setAttribute("json", json);
-		super.setViewPage("/WEB-INF/hyerin/admin/adminMemberResignJson.jsp");
+		super.setViewPage("/WEB-INF/hyerin/jsonView.jsp");
 	}
 
 }
