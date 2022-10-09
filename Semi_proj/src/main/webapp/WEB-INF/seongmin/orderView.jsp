@@ -374,7 +374,7 @@
 				<th scope="col">주문일 <br> 주문번호</th>
 				<th scope="col" colspan="2">주문내역</th>
 				<th scope="col">수량</th>
-				<th scope="col">상품금액</th>
+				<th scope="col">상품금액<br>(1족 기준)</th>
 				<th scope="col">총 금액<br>(배송비 포함)</th>
 				<th scope="col">주문상태</th>
 			  </tr>
@@ -395,7 +395,6 @@
 								<a class="prd" href="#">${rovo.pvo.prod_name}</a></td>
 								<td class="recentordertd">${rovo.odvo.order_buy_count}</td>
 								<td class="recentordertd">
-								(1족 기준) <br>
 								정가 : <fmt:formatNumber value="${rovo.odvo.order_price}" pattern="#,###"/>원<br>
 								할인가 : <fmt:formatNumber value="${rovo.pvo.prod_saleprice}" pattern="#,###"/>원<br>
 								</td>

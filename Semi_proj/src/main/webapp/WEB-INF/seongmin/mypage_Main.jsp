@@ -65,13 +65,26 @@
 
 	$(document).ready(function(){
 		
+		$("a.orderview").click(function(e){
+			const orderCode = $(e.target).html();
+//			alert(orderCode);
+			$("input#ord_code").val(orderCode);
+			alert($("input#ord_code").val() );
+			submit();		
+		});
 		
-		
-		
-		
-	
+
 	});
 
+	
+	function submit() {
+	    const frm = document.orderViewFrm; 
+	    frm.action = "<%= request.getContextPath()%>/seongmin/member/orderDetail.sue";
+	    frm.method = "get";
+	    frm.submit();
+
+		
+	};
 
 </script>
 
@@ -126,12 +139,15 @@
 				<th scope="col">주문일 / 주문번호</th>
 				<th scope="col" colspan="2">주문내역</th>
 				<th scope="col">수량</th>
-				<th scope="col">상품구매금액</th>
+				<th scope="col">상품구매금액 <br>(1족 기준)</th>
 				<th scope="col">주문상태</th>
 			  </tr>
 			</thead>
 			<tbody>	
  		 		<jsp:include page="./recentOrder.jsp"></jsp:include>
+ 		 		<form method="GET" id="orderViewFrm" name="orderViewFrm">
+ 		 			<input type="text" id="ord_code" name="ord_code" value="" />
+ 		 		</form>
 		    </tbody>
 		  </table>
 	      

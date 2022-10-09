@@ -17,12 +17,10 @@ public class orderDetail extends AbstractController {
 
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		String userid = loginuser.getUserid();		
 		session.setAttribute("loginuser", loginuser);
+		String order_code = request.getParameter("ord_code");
+		System.out.println(order_code);
 		
-		List<OrderVO> recentOrderList = (List<OrderVO>) session.getAttribute("recentOrderList");
-		
-
 		
 
 		super.setViewPage("/WEB-INF/seongmin/orderDetail.jsp");

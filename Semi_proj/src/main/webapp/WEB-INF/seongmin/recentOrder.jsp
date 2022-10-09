@@ -14,7 +14,25 @@
 		vertical-align: middle;
 	}
 	
+	
 </style>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		  $("a.orderview").click(function(e){
+//		  	alert($(e.target).html());
+		  	$(e.target).html()
+		  });
+		
+		
+		
+		
+	
+	});
+
+
+</script>
 
 
 <c:choose>
@@ -22,13 +40,13 @@
 		<c:forEach var="rovo" begin="0" end="3" items="${requestScope.recentOrderList}">
 			<tr >
 				<td class="recentordertd">${rovo.orderdate}<br>
-				<a class="orderview" href="<%=request.getContextPath() %>/seongmin/member/orderDetail.sue">[${rovo.order_code}]</a></td>
+				<a class="orderview" href="<%=request.getContextPath() %>/seongmin/member/orderDetail.sue?order_code=${rovo.order_code}">[${rovo.order_code}]</a></td>				
 				<td class="recentordertd"><a href=""><div><img id="recentorderimg" src="<%=request.getContextPath() %>/images/product/${rovo.pvo.prod_image}"></div></a></td>
 				<td class="recentordertd"style="text-align: left">
 				<a class="prd" href="#">${rovo.pvo.prod_name}</a></td>
 				<td class="recentordertd">${rovo.odvo.order_buy_count}</td>
 				<td class="recentordertd">
-				(1족 기준) <br>
+				
 				정가 : <fmt:formatNumber value="${rovo.odvo.order_price}" pattern="#,###"/>원<br>
 				할인가 : <fmt:formatNumber value="${rovo.pvo.prod_saleprice}" pattern="#,###"/>원<br>
 				</td>
@@ -38,23 +56,8 @@
 				<td class="recentordertd">${rovo.order_state}</td>
 			</tr>
 		</c:forEach>
+		
 	</c:when>
-	<c:when test="${not empty requestScope.recentOrderList and empty requestScope.likeList}">
-	
-		<c:forEach var="rovo" items="${requestScope.recentOrderList}">
-			<tr >
-				<td class="recentordertd">${rovo.orderdate}<br>
-				<a class="orderview" href=#>[${rovo.order_code}]</a></td>
-				<td class="recentordertd"><a href="#"><div><img id="recentorderimg" src="<%=request.getContextPath() %>/images/product/${rovo.pvo.prod_kind}/${rovo.pvo.prod_image}"></div></a></td>
-				<td class="recentordertd"style="text-align: left">
-				<a class="prd" href="#">${rovo.pvo.prod_name}</a></td>
-				<td class="recentordertd">${rovo.odvo.order_buy_count}</td>
-				<td class="recentordertd"><fmt:formatNumber value="${rovo.odvo.order_price}" pattern="#,###"/>원</td>
-				<td class="recentordertd">${rovo.order_state}</td>
-			</tr>
-		</c:forEach>
-	</c:when>
-
 	
 	<c:otherwise>
 		<tr style="vertical-align: middle">

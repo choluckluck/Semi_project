@@ -57,7 +57,7 @@ public class orderView extends AbstractController {
 			   currentShowPageNo = "1";
 		}
 		
-		System.out.println(currentShowPageNo );
+//		System.out.println(currentShowPageNo );
 
 		   try {
 			     if(Integer.parseInt(currentShowPageNo) < 1) {
@@ -72,22 +72,15 @@ public class orderView extends AbstractController {
 		   paraMap.put("currentShowPageNo", currentShowPageNo);
 
 		   InterOrderDAO odao = new OrderDAO();
-
-		   
-		   
-		   
-		   
+	   
 		   // 페이징 처리를 위해 검색이 있거나 없는 전체 주문에 대한 총 페이지 알아오기
 		   int totalPage = odao.getTotalPage(paraMap);
 		   System.out.println(totalPage);
-		   
-		   
-		   
+	   
 		   if( Integer.parseInt(currentShowPageNo) > totalPage ) {
 			   currentShowPageNo = "1";
 		   }
-		   
-  
+		     
 	
 		   List<OrderVO> recentOrderList = odao.recentOrderList(paraMap);
 		   
