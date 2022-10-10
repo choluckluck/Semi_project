@@ -7,7 +7,7 @@
 
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 <style>
-	.option_input{
+	.optioninput{
 		border: solid 1px #d9d9d9;
 		height: 30px;
 		width: 150px;
@@ -17,81 +17,11 @@
 
 <script>
 	$(document).ready(function(){
+		
+		//유효성검사 숨기기
 		$(".register_warning").hide();
 		$(".register_approval").hide();
-		
-		// 재고수량에 스피너 달아주기
-		$("input#spinnerPqty").spinner({
-			  spin:function(event,ui){
-					if(ui.value > 50) {
-						$(this).spinner("value", 50);
-						return false;
-					}
-					else if(ui.value < 0) {
-						$(this).spinner("value", 0);
-						return false;
-					}
-			  }
-		});// end of $("input#spinnerPqty").spinner()
-		
-		$("#deleteOption").hide();
-		// 스피너 이벤트
-		$("input#spinnerPqty").bind("spinstop", function() {
-			let html = '';
-			const old_cnt = $("input#attachCount").val();
-			const cnt = $(this).val();
-			
-			
-			html += '<tr id="tr'+cnt+'">'+
-					'<td>'+
-						'<input type="checkbox" id="option'+cnt+'"/>'+
-					'</td>'+
-					'<td>'+
-						'<input type="text" id="prod_color'+cnt+'" name="prod_color'+cnt+'" class="option_input"/>'+
-					'</td>'+
-					'<td>'+
-						'<input type="text" id="prod_size'+cnt+'" name="prod_size'+cnt+'" class="option_input"/>'+
-					'</td>'+
-					'<td>'+
-						'<input type="number" id="prod_stock'+cnt+'" name="prod_stock'+cnt+'" class="option_input prod_stock"/>'+
-					'</td>'+
-				'</tr>';
-			
-			//옵션 선택삭제하는 버튼 삽입
-			let deleteOption = '<tr>' + 
-									'<td colspan="6"><button type="button" class="black" style="width:70px; height:30px;">선택삭제</button></td>' +
-								'</tr>';
-			
-			$("#option_contents").append(html);
-			$("#deleteOption").show();
-			
-			if(cnt == 0){
-				$("#option_contents").html("");
-				$("#deleteOption").hide();
-			}
-			  
-			$("input#attachCount").val(cnt);
-			  
-			  
-			  
-			// input#prod_stock 이벤트
-			$("input.prod_stock").keyup(function(){
-				if($(this).val() <0 ){
-					$(this).val(0);
-				} 
-			});
-			  
-			$("input.prod_stock").change(function(){
-				if($(this).val() <0 ){
-					$(this).val(0);
-				} 
-				  
-			});
-			  
-			
-		});//end of spinner spinstop
-		
-
+		$("#deleteOptionbtn").hide();
 		
 		// md_pick에 값을 넣어주기
 		$("#md_pick_yn").change(function(){
@@ -105,23 +35,9 @@
 			
 		});
 		
-		////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////
 		
-		// 필수입력사항 검사하기
-		/* 
-		let kindflag = false;
-		let nameflag = false;
-		let decriptionflag = false;
-		let highflag = false;
-		let priceflag = false;
-		let salepriceflag = false;
-		let pointflag = false;
-		
-		let pricenumberflag = false;
-		let salepricenumberflag = false;
-		let pointnumberflag = false;
-		*/
-		 
+		//유효성검사 해주기 
 		let flag = false;
 		
 		// 상품종류 변경 이벤트 => 추가 선택시 텍스트인풋박스 뜨게함
@@ -290,218 +206,277 @@
 			}
 		});
 		
-		
-		/* 
-		//prod_image 입력검사
-		$("#prod_image").blur(function(){
-			if($("#prod_image").val().trim() == ""){
-				flag = true;
-				$("#image_warning").show();
-				$(this).focus();
-			}
-			else{
-				flag = false;
-				$("#image_warning").hide();
-			}
-		});
-		
-		//product_image_file 입력검사
-		$("#product_image_file").blur(function(){
-			if($("#product_image_file").val().trim() == ""){
-				flag = true;
-				$("#image_file_warning").show();
-				$(this).focus();
-			}
-			else{
-				flag = false;
-				$("#image_file_warning").hide();
-			}
-		});
-		 */
-		
+		//////////////////////////////////////////////////////////////////////////////////		
 		
 	});//end of ready
 
 	
-	//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+//function declaration
+
+// 옵션입력칸 추가해주는 함수
+function addOption(){
+	var i = $("#attachCount").val();
+	var addhtml = '<tr id="detail_option'+i+'" class="detail_option">'+
+					'<td><input type="checkbox" id="optionCheck'+i+'" name="optionCheck"/></td>'+
+					'<td><input id="prod_color'+i+'" class="prod_color optioninput" type="text"/></td>'+
+					'<td><input id="prod_size'+i+'" class="prod_size optioninput" type="text"/><div class="font-weight-bold register_warning" style="display:none;">숫자로 입력해주세요.</div></td>'+								
+					'<td><input id="prod_stock'+i+'" class="prod_stock optioninput" type="text"/><div class="font-weight-bold register_warning" style="display:none;">숫자로 입력해주세요.</div></td>'+						
+					'<td><button type="button" id="deltebtn_'+i+'" class="black deleteOneOption" style="width: 70px; height: 30px;" onclick="deleteOption('+i+');">삭제</button></td>'+							
+				'</tr>';
+	i++;
+	$("#attachCount").val(i);
+	$("#option_contents").append(addhtml);
 	
-	//function declaration
+	if(i == 0){
+		$("#deleteOptionbtn").hide();
+	}
+	else{
+		$("#deleteOptionbtn").show();
+	}
 	
-	//입력받은 상품등록정보 전송
-	function fn_submit(){
-		let flag = false;
-		
-		//prod_kind 입력검사
-		if($("#prod_kind").val()=="all" || $("#prod_kind").val() == null){
-			flag = true;
-			$("#kind_warning").show();
-			$("#prod_kind").focus();
-			return;
-		}
-		
-		//prod_name 입력검사
-		if($("#prod_name").val().trim() == ""){
-			flag = true;
-			$("#name_warning").show();
-			$("#prod_name").focus();
-			return;
+	// 옵션 => 숫자입력 유효성 검사
+	$(".prod_size").blur(function(){
+		const val = $(this).val();
+		if(isNaN(val)){
+			$(this).next().show();
+			$(this).focus();
 		}
 		else{
-			$("#name_warning").hide();
+			$(this).next().hide();
 		}
-		
-		
-		//prod_description 입력검사
-		if($("#prod_description").val().trim() == ""){
-			flag = true;
-			$("#description_warning").show();
-			$("#prod_description").focus();
-			return;
+	}); 
+	
+	$(".prod_stock").blur(function(){
+		const val = $(this).val();
+		if(isNaN(val)){
+			$(this).next().show();
+			$(this).focus();
 		}
 		else{
-			flag = false;
-			$("#description_warning").hide();
+			$(this).next().hide();
 		}
+	}); 
+	
+	
+}//end of addOption
+
+//옵션입력칸 지워주는 함수
+function deleteOption(num){
+	var i = $("#attachCount").val();
+	i--;
+	$("#attachCount").val(i);
+	$("#detail_option"+num).remove();
+	if(i == 0){
+		$("#deleteOptionbtn").hide();
+	}
+	else{
+		$("#deleteOptionbtn").show();
+	}
+}
+
+//이름을 다시 정렬해주는 함수
+function rename(){
+	$(".prod_color").each(function(index, item){
+		$(item).attr("name","prod_color"+index);
+	});
+	$(".prod_size").each(function(index, item){
+		$(item).attr("name","prod_size"+index);
+	});
+	$(".prod_stock").each(function(index, item){
+		$(item).attr("name","prod_stock"+index);
+	});
+	
+}//end of rename
+
+
+
+
+//입력받은 상품등록정보 전송
+function fn_submit(){
+	//이름을 다시 정렬해주기
+	rename(); 
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//유효성검사 해주기
+	let flag = false;
+	
+	//prod_kind 입력검사
+	if($("#prod_kind").val()=="all" || $("#prod_kind").val() == null){
+		flag = true;
+		$("#kind_warning").show();
+		$("#prod_kind").focus();
+		return;
+	}
+	
+	//prod_name 입력검사
+	if($("#prod_name").val().trim() == ""){
+		flag = true;
+		$("#name_warning").show();
+		$("#prod_name").focus();
+		return;
+	}
+	else{
+		$("#name_warning").hide();
+	}
+	
+	
+	//prod_description 입력검사
+	if($("#prod_description").val().trim() == ""){
+		flag = true;
+		$("#description_warning").show();
+		$("#prod_description").focus();
+		return;
+	}
+	else{
+		flag = false;
+		$("#description_warning").hide();
+	}
+	
+	//prod_high 입력검사
+	const high = $("#prod_high").val().trim();
+	if(high.trim() == ""){
+		flag = true;
+		$("#high_warning").show();
+		$("#prod_high").focus();
+	}
+	else{
+		flag = false;
+		$("#high_warning").hide();
 		
-		//prod_high 입력검사
-		const high = $("#prod_high").val().trim();
-		if(high.trim() == ""){
+		const reg = /[0-9]|[0-9]\.[0-9]$/;
+		const regResult = reg.test(high);
+		if(!regResult){
 			flag = true;
-			$("#high_warning").show();
+			$("#high_regwarning").show();
 			$("#prod_high").focus();
 		}
 		else{
 			flag = false;
-			$("#high_warning").hide();
-			
-			const reg = /[0-9]|[0-9]\.[0-9]$/;
-			const regResult = reg.test(high);
-			if(!regResult){
-				flag = true;
-				$("#high_regwarning").show();
-				$("#prod_high").focus();
-			}
-			else{
-				flag = false;
-				$("#high_regwarning").hide();
-				$("#prod_high").val(high);
-			}
+			$("#high_regwarning").hide();
+			$("#prod_high").val(high);
 		}
-		
-		
-		
-		//prod_price 입력검사
-		$("#price_numberwarning").hide();
-		const price = $("#prod_price").val();
-		
-		if(price.trim() == ""){
+	}
+	
+	
+	
+	//prod_price 입력검사
+	$("#price_numberwarning").hide();
+	const price = $("#prod_price").val();
+	
+	if(price.trim() == ""){
+		flag = true;
+		$("#price_warning").show();
+		$("#prod_price").focus();
+		return;
+	}
+	else{
+		flag = false;
+		$("#price_warning").hide();
+		if(isNaN(price)){
 			flag = true;
-			$("#price_warning").show();
+			$("#price_numberwarning").show();
 			$("#prod_price").focus();
 			return;
 		}
 		else{
 			flag = false;
-			$("#price_warning").hide();
-			if(isNaN(price)){
-				flag = true;
-				$("#price_numberwarning").show();
-				$("#prod_price").focus();
-				return;
-			}
-			else{
-				flag = false;
-				$("#price_numberwarning").hide();
-				$("#prod_price").val(price.trim());
-			}
+			$("#price_numberwarning").hide();
+			$("#prod_price").val(price.trim());
 		}
-		
-		
-		//prod_saleprice 입력검사
-		$("#saleprice_numberwarning").hide();
-		const saleprice = $("#prod_saleprice").val().trim();
-		
-		if(saleprice == ""){
+	}
+	
+	
+	//prod_saleprice 입력검사
+	$("#saleprice_numberwarning").hide();
+	const saleprice = $("#prod_saleprice").val().trim();
+	
+	if(saleprice == ""){
+		flag = true;
+		$("#saleprice_warning").show();
+		$("#prod_saleprice").focus();
+		return;
+	}
+	else{
+		flag = false;
+		$("#saleprice_warning").hide();
+		if(isNaN(saleprice)){
 			flag = true;
-			$("#saleprice_warning").show();
+			$("#saleprice_numberwarning").show();
 			$("#prod_saleprice").focus();
 			return;
 		}
 		else{
 			flag = false;
-			$("#saleprice_warning").hide();
-			if(isNaN(saleprice)){
-				flag = true;
-				$("#saleprice_numberwarning").show();
-				$("#prod_saleprice").focus();
-				return;
-			}
-			else{
-				flag = false;
-				$("#saleprice_numberwarning").hide();
-				$("#prod_saleprice").val(saleprice.trim());
-			}
-			
+			$("#saleprice_numberwarning").hide();
+			$("#prod_saleprice").val(saleprice.trim());
 		}
 		
-		
-		//prod_point 입력검사
-		$("#point_numberwarning").hide();
-		const point = $("#prod_point").val().trim();
-		
-		if(point == ""){
+	}
+	
+	
+	//prod_point 입력검사
+	$("#point_numberwarning").hide();
+	const point = $("#prod_point").val().trim();
+	
+	if(point == ""){
+		flag = true;
+		$("#point_warning").show();
+		$("#point_numberwarning").focus();
+		return;
+	}
+	else{
+		flag = false;
+		$("#point_warning").hide();
+		if(isNaN(point)){
 			flag = true;
-			$("#point_warning").show();
+			$("#point_numberwarning").show();
 			$("#point_numberwarning").focus();
 			return;
 		}
 		else{
 			flag = false;
-			$("#point_warning").hide();
-			if(isNaN(point)){
-				flag = true;
-				$("#point_numberwarning").show();
-				$("#point_numberwarning").focus();
-				return;
-			}
-			else{
-				flag = false;
-				$("#point_numberwarning").hide();
-				$("#prod_point").val(point.trim());
-			}
+			$("#point_numberwarning").hide();
+			$("#prod_point").val(point.trim());
 		}
-		
-		
-		//prod_image 입력검사
-		if($("#prod_image").val().trim() == ""){
-			flag = true;
-			$("#image_warning").show();
-			$("#prod_image").focus();
-			return;
-		}
-		else{
-			$("#image_warning").hide();
-		}
-		
-		//product_image_file 입력검사
-		if($("#product_image_file").val().trim() == ""){
-			flag = true;
-			$("#image_file_warning").show();
-			$("#product_image_file").focus();
-			return;
-		}
-		else{
-			$("#image_file_warning").hide();
-		}
-		
-		if(!flag){
-			const frm = document.admin_productRegister_frm;
-			frm.action = "<%= ctxPath%>/hyerin/admin/adminProductRegister.sue";
-			frm.method = "post";
-			frm.submit();
-		}
-		
-	}//end of fn_submit()
+	}
+	
+	
+	//prod_image 입력검사
+	if($("#prod_image").val().trim() == ""){
+		flag = true;
+		$("#image_warning").show();
+		$("#prod_image").focus();
+		return;
+	}
+	else{
+		$("#image_warning").hide();
+	}
+	
+	//product_image_file 입력검사
+	if($("#product_image_file").val().trim() == ""){
+		flag = true;
+		$("#image_file_warning").show();
+		$("#product_image_file").focus();
+		return;
+	}
+	else{
+		$("#image_file_warning").hide();
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	if(!flag){
+		const frm = document.admin_productRegister_frm;
+		frm.action = "<%= ctxPath%>/hyerin/admin/adminProductRegister.sue";
+		frm.method = "post";
+		frm.submit();
+	}
+	
+}//end of fn_submit()
 	
 </script>
 
@@ -567,17 +542,13 @@
 				<tr>
 					<td class="align-baseline">
 						<span class="font-weight-bold">옵션</span> (색상, 사이즈)
-						<div><input id="spinnerPqty" name="pqty" value="0" style="width:70px;"/>
-							<input type="hidden" id="attachCount" name="attachCount" value=""/>
-						</div>
+						<input type="hidden" id="attachCount" name="attachCount" value="0"/>
 					</td>
 					<td>
 						<table class="table">
 							<thead>
 								<tr>
-									<td>
-										<input type="checkbox" id="selectAll"/>
-									</td>
+									<td><input type="checkbox" id="optionCheckAll" name="optionCheck"/></td>
 									<td>
 										색상
 									</td>
@@ -587,13 +558,19 @@
 									<td>
 										재고수량
 									</td>
+									<td>
+										삭제
+									</td>
 								</tr>
 							</thead>
 							<tbody id="option_contents">
-								<tr id="deleteOption"> 
-									<td colspan="6"><button type="button" class="black" style="width:70px; height:30px;">선택삭제</button></td>
-								</tr>
 							</tbody>
+						</table>
+						<table id="optionBtn">
+							<tr id="deleteOption"> 
+								<td class="pr-2"><button id="addOptionbtn" type="button" class="white" style="width:70px; height:30px;" onclick="addOption();">추가</button></td>
+								<td><button id="deleteOptionbtn" type="button" class="black" style="width:70px; height:30px;">선택삭제</button></td>
+							</tr>
 						</table>
 					</td>
 				</tr>

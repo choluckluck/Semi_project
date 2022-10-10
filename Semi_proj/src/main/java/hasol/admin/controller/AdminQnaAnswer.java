@@ -1,15 +1,15 @@
-package hyerin.admin.controller;
+package hasol.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class AdminQna extends AbstractController {
+public class AdminQnaAnswer extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		super.setViewPage("/WEB-INF/hyerin/admin/adminQna.jsp");
+		super.setViewPage("/WEB-INF/hyerin/admin/adminQnaAnswer.jsp");
 	}
 
 }
