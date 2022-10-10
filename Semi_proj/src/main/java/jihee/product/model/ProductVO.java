@@ -16,6 +16,8 @@ public class ProductVO {
 	 private int prod_review_count; //제품 리뷰 개수
 	 private int prod_order_count; // 상품 주문수
 	 private int prod_saleprice; // 상품 할인가격
+	 private int prod_point; // 상품 포인트
+	 private String Qnty; //상품 수량
 
 	 //////////////////////////
 	 
@@ -126,7 +128,24 @@ public class ProductVO {
 	public void setProd_saleprice(int prod_saleprice) {
 		this.prod_saleprice = prod_saleprice;
 	}
+	
 	 
+	public int getProd_point() {
+		return prod_point;
+	}
+	public void setProd_point(int prod_point) {
+		this.prod_point = prod_point;
+	}
+	
+
+	
+	
+	public String getQnty() {
+		return Qnty;
+	}
+	public void setQnty(String qnty) {
+		Qnty = qnty;
+	}
 	public int getDiscountPercent() {
 		// 정가   :  판매가 = 100 : x
 		

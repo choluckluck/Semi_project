@@ -17,4 +17,7 @@ public interface InterProductDAO {
 	//BEST 상품 알아오기 
 	List<ProductVO> selectBestProduct(Map<String, String> paraMap) throws SQLException;
 
+	// 장바구니 목록 가져오기
+	List<ProductVO> selectCartList(Map<String, String> paraMap) throws SQLException;
+
 }

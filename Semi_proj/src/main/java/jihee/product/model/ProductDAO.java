@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+
 public class ProductDAO implements InterProductDAO {
 	private DataSource ds;	//DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool)
 	private Connection conn;
@@ -856,6 +857,50 @@ public class ProductDAO implements InterProductDAO {
 			
 			
 			}
+			
+	//장바구니 목록 불러오		
+	@Override
+	public List<ProductVO> selectCartList(Map<String, String> paraMap) throws SQLException    {
+		
+		List<ProductVO> cartList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "select prod_image, prod_name, prod_price, prod_point, prod_saleprice, Qnty\n"+
+					"from tbl_product\n"+
+					"join tbl_cart\n"+
+					"on prod_code = fk_prod_code\n"+
+					"where fk_userid = ? ";
+						
+
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ProductVO pvo = new ProductVO();
+				pvo.setProd_image(rs.getString(1));
+				pvo.setProd_name(rs.getString(2));
+				pvo.setProd_price(rs.getInt(3));
+				pvo.setProd_point(rs.getInt(4));
+				pvo.setProd_saleprice(rs.getInt(5));
+				pvo.setQnty(rs.getString(6));
+				
+				cartList.add(pvo);
+			} // end of while
+
+		} finally {
+			close();
+		}
+
+		return cartList;
+		
+	
+	
+	}
 	
 	
 	

@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    
 <%
     String ctxPath = request.getContextPath();
     //     /MyMVC
@@ -161,12 +164,15 @@
                      </tr>
                   </thead>
                   <tbody id="notice_tbody">
+                  
+                  <!-- for each 시작 -->
+                  <c:forEach var="pvo" items="${requestScope.cartList}" varStatus="status">
                      <tr style="vertical-align:middle; height : 150px;">
                         <td style="border:none;"> <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="margin-left: 1%"></td>
                         <td style="border:none;">
                          <div class="row">
                          	<div class="col-lg-2">
-                       	 	<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" style="margin-left: 10%;">
+                       	 	<img src="<%= ctxPath%>/images/product/${pvo.prod_image}" class="card-img-top" style="margin-left: 10%;">
                        	 	</div >
                        	 	<div class="col-lg-10">
                        	 	<ul style="float: left;">
@@ -268,226 +274,12 @@
 						 </div>
                         </td>
                      </tr>
-                     
-                     
-                     
-                     <tr>
-                        <td style="border:none;"> <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="margin-left: 1%"></td>
-                        <td style="border:none;">
-                         <div class="row">
-                         	<div class="col-lg-2">
-                       	 	<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" style="margin-left: 10%;">
-                       	 	</div >
-                       	 	<div class="col-lg-10">
-                       	 	<ul style="float: left;">
-                       	 		<li><a>신발이름(코딩)</a></li>
-                       	 		<li style="color:gray; margin-top: 2%;">[옵션(코딩): BLACK/245]</li>
-                       	 		<li>
-                       	 	
-                       	 		<!-- Button trigger modal -->
-									<button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"  style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
-									옵션변경
-									</button>
-								</li>
-							</ul>		
-									<!-- Modal -->
-									<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-									  <div class="modal-dialog">
-									    <div class="modal-content">
-									      <div class="modal-header" style="background-color: navy;">
-									        <h6 class="modal-title" id="exampleModalLabel" style="color: white;">옵션변경</h6>
-									        <button type="button" class="btn-close-outline-light" data-bs-dismiss="modal" aria-label="Close" ></button>
-									      </div>
-									      <div class="modal-body">
-									    	<ul>
-									    		<li class="fw-bolder">코딩</li>
-									    		<li>코딩</li>
-									    	</ul>
-									    	
-									    	<hr style=" background: black; height: 1px; background: black; border : 0px;">
-									    	<ul>
-									    		<li class="fw-bolder">상품옵션</li>
-									    		
-									    		<li style="margin-top: 1%;"> 
-									    		<div class="row">
-									    		<p class="col-md-2 fst-normal"> COLOR</p> 
-										    		<select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
-													  <option selected>Open this select menu</option>
-													  <option value="1">One</option>
-													  <option value="2">Two</option>
-													  <option value="3">Three</option>
-													</select>
-												</div>	
-									    		</li>
-									    		
-									    		<li style="margin-top: 1%;"> 
-									    		<div class="row">
-									    		<p class="col-md-2 fst-normal"> SIZE</p> 
-										    		<select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
-													  <option selected>Open this select menu</option>
-													  <option value="1">One</option>
-													  <option value="2">Two</option>
-													  <option value="3">Three</option>
-													</select>
-												</div>	
-									    		</li>									   
-									    	</ul>	
-									      <div>		    	
-									    </div>      
-									      </div>
-									      <div class="modal-footer">
-									        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-									        <button type="button" class="btn btn-primary">Save changes</button>
-									      </div>
-									    </div>
-									  </div>
-									</div>
-								    <!-- Modal 끝 -->                     	 
-                       	 	</div>
-                       	 
-                       	 </div>
-                        
-                        </td>
-                        <td style="border:none;">
-                        <div class="row">
-                        	<button type="button" class="col-lg-1" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
-                           	-
-                           	</button>
-                           	<input type="text" class="col-lg-2" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt; padding: 0px;" name="quantity" id="quantity"/>
-                            
-                           	 
-                           
-                           	<button type="button" class="col-lg-1" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
-                           	+
-                           	</button>
-                        </div>   	
-                        </td>
-                        <td style="border:none;">
-                        <img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">600원
-                        </td>
-                        <td style="border:none;">배송비 코딩</td>
-                        <td style="border:none;">합계 코딩</td>
-                        <td style="border:none;">
-	                     <div>
-			 		 		<button type="button" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">주문하기</button>
-			 		 	 </div>	
-			 		 	 <div>
-			 		 		 <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">관심상품</button>
-			 		 	 </div>	
-			 		 	 <div>	
-			 		 		 <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">삭제</button>
-						 </div>
-                        </td>
-                     </tr>
-                     
-                     <tr >
-                        <td style="border:none;"> <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="margin-left: 1%"></td>
-                        <td style="border:none;">
-                         <div class="row">
-                         	<div class="col-lg-2">
-                       	 	<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" style="margin-left: 10%;">
-                       	 	</div >
-                       	 	<div class="col-lg-10">
-                       	 	<ul style="float: left;">
-                       	 		<li><a href="link">신발이름(코딩)</a></li>
-                       	 		<li style="color:gray; margin-top: 2%;">[옵션(코딩): BLACK/245]</li>
-                       	 		<li>
-                       	 	
-                       	 		<!-- Button trigger modal -->
-									<button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"  style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
-									옵션변경
-									</button>
-								</li>
-							</ul>		
-									<!-- Modal -->
-									<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-									  <div class="modal-dialog">
-									    <div class="modal-content">
-									      <div class="modal-header" style="background-color: navy;">
-									        <h6 class="modal-title" id="exampleModalLabel" style="color: white;">옵션변경</h6>
-									        <button type="button" class="btn-close-outline-light" data-bs-dismiss="modal" aria-label="Close" ></button>
-									      </div>
-									      <div class="modal-body">
-									    	<ul>
-									    		<li class="fw-bolder">코딩</li>
-									    		<li>코딩</li>
-									    	</ul>
-									    	
-									    	<hr style=" background: black; height: 1px; background: black; border : 0px;">
-									    	<ul>
-									    		<li class="fw-bolder">상품옵션</li>
-									    		
-									    		<li style="margin-top: 1%;"> 
-									    		<div class="row">
-									    		<p class="col-md-2 fst-normal"> COLOR</p> 
-										    		<select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
-													  <option selected>Open this select menu</option>
-													  <option value="1">One</option>
-													  <option value="2">Two</option>
-													  <option value="3">Three</option>
-													</select>
-												</div>	
-									    		</li>
-									    		
-									    		<li style="margin-top: 1%;"> 
-									    		<div class="row">
-									    		<p class="col-md-2 fst-normal"> SIZE</p> 
-										    		<select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
-													  <option selected>Open this select menu</option>
-													  <option value="1">One</option>
-													  <option value="2">Two</option>
-													  <option value="3">Three</option>
-													</select>
-												</div>	
-									    		</li>									   
-									    	</ul>	
-									      <div>		    	
-									    </div>      
-									      </div>
-									      <div class="modal-footer">
-									        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-									        <button type="button" class="btn btn-primary">Save changes</button>
-									      </div>
-									    </div>
-									  </div>
-									</div>
-								    <!-- Modal 끝 -->                     	 
-                       	 	</div>
-                       	 
-                       	 </div>
-                        
-                        </td>
-                        <td style="border:none;">
-                        <div class="row">
-                        	<button type="button" class="col-lg-1" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
-                           	-
-                           	</button>
-                           	<input type="text" class="col-lg-2" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt; padding: 0px;" name="quantity" id="quantity"/>
-                           	 
-                           
-                           	<button type="button" class="col-lg-1" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
-                           	+
-                           	</button>
-                        </div>   	
-                        </td>
-                        <td style="border:none;">
-                        <img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">600원
-                        </td>
-                        <td style="border:none; text-align: center;">배송비 코딩</td>
-                        <td style="border:none;">합계 코딩</td>
-                        <td style="border:none;">
-	                     <div>
-			 		 		<button type="button" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">주문하기</button>
-			 		 	 </div>	
-			 		 	 <div>
-			 		 		 <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">관심상품</button>
-			 		 	 </div>	
-			 		 	 <div>	
-			 		 		 <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">삭제</button>
-						 </div>
-                        </td>
-                     </tr>
-                     
+                     </c:forEach>
+                     <!-- 상품 한행 끝 -->
+
+
+
+					
                      <tr style="vertical-align: baseline;" >
                       	<td colspan="6" style="text-align: right;"> 상품 (코딩) + 배송비 (코딩) = </td>
                       	<td class="fw-bolder" style="font-size: 20px;"> 총금액 코딩</td>
