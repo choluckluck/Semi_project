@@ -59,6 +59,33 @@ public interface InterProductDAO {
 
 	//옵션 정보가 있을 때 tbl_prod_detail에 insert 해주기
 	int insertProductDetail(ProductDetailVO pdvo) throws SQLException;
+	
+	
+	
+	
+	// * 상품 수정 *
+	
+	
+	//해당 prod_code의 상품정보를 보여주기(select) 
+	ProductVO getOneEditProduct(String prod_code) throws SQLException;
+	
+	//해당 prod_code의 상품상세정보를 보여주기 (select)
+	List<ProductDetailVO> getOneProductDetail(String prod_code) throws SQLException;
+	
+	// tbl_product에 받아온 상품 정보를 update해주기
+	int updateProduct(ProductVO pvo) throws SQLException;
+	
+	// tbl_product_image에 상품상세 이미지를 update 해주기
+	int updateProductImage(String prod_code, String product_image_file) throws SQLException;
+	
+	// 기존에 있던 옵션 모두 지워주기
+	int deleteProductDetailAll(String prod_code) throws SQLException;
+	
+	//한 상품을 삭제하기
+	int deleteOneProduct(String prod_code) throws SQLException;
+	
+	//해당하는 상품들을 삭제해준다
+	int deleteMultiProduct(Map<String, String[]> paraMap) throws SQLException;
 
 	
 	

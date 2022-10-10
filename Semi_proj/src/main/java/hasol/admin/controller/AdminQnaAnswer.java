@@ -1,19 +1,15 @@
-package heajun.board.controller;
-
+package hasol.admin.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class QnaList extends AbstractController {
+public class AdminQnaAnswer extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		
-		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/heajun/board/qnaList.jsp");
+		super.setViewPage("/WEB-INF/hyerin/admin/adminQnaAnswer.jsp");
 	}
 
 }

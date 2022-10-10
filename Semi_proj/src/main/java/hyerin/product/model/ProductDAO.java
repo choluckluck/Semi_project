@@ -350,7 +350,7 @@ public class ProductDAO implements InterProductDAO {
 					"from \n"+
 					"(\n"+
 					"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn "+
-					"    from (select * from v_tbl_product order by prod_registerday desc) ";
+					"    from (select * from v_tbl_allproduct order by prod_registerday desc) ";
 			
 			// 상품종류로 정렬했을 경우
 			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
@@ -374,7 +374,7 @@ public class ProductDAO implements InterProductDAO {
 			sql += ")\n"+
 					" left join ( select * from v_tbl_prod_detail_stock )VPD on VPD.fk_prod_code = prod_code "+
 					" where rno between ? and ? ";
-			
+
 			pstmt = conn.prepareStatement(sql);
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
@@ -667,14 +667,303 @@ public class ProductDAO implements InterProductDAO {
 		
 		return n;
 	}//end of insertProductDetail
+	
+	
+	//해당 prod_code의 상품정보를 보여주기(select) 
+	@Override
+	public ProductVO getOneEditProduct(String prod_code) throws SQLException {
+		ProductVO pvo = new ProductVO();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select prod_code, prod_name, prod_description, prod_kind, prod_image, prod_high, prod_saleprice, prod_price, prod_registerday, md_pick_yn,  prod_point "
+						+ " from tbl_product "
+						+  " where prod_code = ? "; 
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, prod_code);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				
+				pvo.setProd_code(rs.getString(1));
+				pvo.setProd_name(rs.getString(2));
+				pvo.setProd_description(rs.getString(3));
+				pvo.setProd_kind(rs.getString(4));
+				pvo.setProd_image(rs.getString(5));
+				pvo.setProd_high(rs.getString(6));
+				pvo.setProd_price(rs.getString(7));
+				pvo.setProd_saleprice(rs.getString(8));
+				pvo.setProd_registerday(rs.getString(9));
+				pvo.setMd_pick_yn(rs.getString(10));
+				pvo.setProd_point(rs.getString(11));
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return pvo;
+	}
+	
+	
+	//해당 prod_code의 상품상세정보를 보여주기 (select)
+	@Override
+	public List<ProductDetailVO> getOneProductDetail(String prod_code) throws SQLException {
+		List<ProductDetailVO> pdvoList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select prod_detail_code, fk_prod_code, prod_color, prod_size, prod_stock "
+						+ " from tbl_prod_detail "
+						+ " where fk_prod_code = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, prod_code);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ProductDetailVO pdvo = new ProductDetailVO();
+				
+				pdvo.setProd_detail_code(rs.getString(1));
+				pdvo.setFk_prod_code(rs.getString(2));
+				pdvo.setProd_color(rs.getString(3));
+				pdvo.setProd_size(rs.getString(4));
+				pdvo.setProd_stock(rs.getString(5));
+				
+				pdvoList.add(pdvo);
+			}
+			
+			
+		} finally {
+			close();
+		}
+		
+		return pdvoList;
+	}
+	
+	
+	// tbl_product에 받아온 상품 정보를 update해주기
+	@Override
+	public int updateProduct(ProductVO pvo) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			//prod_image가 null일 때는 prod_image를 제외하고 업데이트 해준다
+			
+			String sql = " update tbl_product set prod_name = ?, prod_kind = ?, "
+					   + " prod_high = ?, prod_price = ?, prod_saleprice = ?, prod_description = ?, prod_point = ?, md_pick_yn = ? ";
+			
+			String prod_image = pvo.getProd_image();
+			if(prod_image != null) {
+				sql += ", prod_image = ? ";
+			}
+			
+			sql += " where prod_code = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pvo.getProd_name());
+			pstmt.setString(2, pvo.getProd_kind());
+			pstmt.setString(3, pvo.getProd_high());
+			pstmt.setInt(4, Integer.parseInt(pvo.getProd_price()));
+			pstmt.setInt(5, Integer.parseInt(pvo.getProd_saleprice()));
+			pstmt.setString(6, pvo.getProd_description());
+			pstmt.setInt(7, Integer.parseInt(pvo.getProd_point()));
+			pstmt.setString(8, pvo.getMd_pick_yn());
+			
+			if(prod_image != null) {
+				pstmt.setString(9, pvo.getProd_image());
+				pstmt.setString(10, pvo.getProd_code());
+			}
+			else {
+				pstmt.setString(9, pvo.getProd_code());
+			}
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+		
+	}//end of updateProduct
 
 	
-	
-	
-	
-	
-	
+	// tbl_product_image에 상품상세 이미지를 update 해주기
+	@Override
+	public int updateProductImage(String prod_code, String product_image_file) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_product_image set product_image_file = ? "
+					   + " where fk_prod_code = ? ";
+					
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, product_image_file);
+			pstmt.setString(2, prod_code);
+			
+			n = pstmt.executeUpdate();
+		} finally {
+			close();
+		}
+		
+		
+		return n;
+	}//end of updateProductImage
 
+	
+	// 기존에 있던 옵션 모두 지워주기
+	@Override
+	public int deleteProductDetailAll(String prod_code) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete tbl_prod_detail "
+					   + " where fk_prod_code = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, prod_code);
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}//end of deleteProductDetailAll
+	
+	
+	//한 상품을 삭제하기
+	@Override
+	public int deleteOneProduct(String prod_code) throws SQLException {
+		int n3 = 0;
+		try {
+			int n = 0;
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_prod_detail "
+						+ " where fk_prod_code = ? ";
+		
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, prod_code);
+			
+			n = pstmt.executeUpdate();
+			
+			//성공 시 tbl_product_image에 있는 정보도 지워준다
+			if (n == 1 || n==0) {
+				int n2 = 0;
+				
+				String sql2 = " delete tbl_product_image "
+							+ " where fk_prod_code = ? ";
+			
+				pstmt = conn.prepareStatement(sql2);
+				
+				pstmt.setString(1, prod_code);
+				
+				n2 = pstmt.executeUpdate();
+			
+				//성공시 tbl_product에 있는 상품을 지워준다
+				if(n2 == 1 ) {
+					
+					String sql3 = " delete tbl_product "
+							   + " where prod_code = ? ";
+					
+					pstmt = conn.prepareStatement(sql3);
+					
+					pstmt.setString(1, prod_code);
+					
+					n3 = pstmt.executeUpdate();
+					
+				}
+			}
+	
+			
+		} finally {
+			close();
+		}
+		
+		return n3;
+	}//end of deleteOneProduct
+	
+	
+	//해당하는 상품들을 삭제해준다
+	@Override
+	public int deleteMultiProduct(Map<String, String[]> paraMap) throws SQLException {
+		int n3 = 0;
+		
+		try {
+			String[] prod_codeArr = paraMap.get("prod_codeArr");
+			
+			int n = 0;
+			conn = ds.getConnection();
+			
+			for(String prod_code : prod_codeArr) {
+			
+				String sql = " delete from tbl_prod_detail "
+							+ " where fk_prod_code = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, prod_code);
+				n = pstmt.executeUpdate();
+				
+				
+				//성공 시 tbl_product_image에 있는 정보도 지워준다
+				int n2 = 0;
+				
+				String sql2 = " delete tbl_product_image "
+							+ " where fk_prod_code = ? ";
+			
+				pstmt = conn.prepareStatement(sql2);
+				pstmt.setString(1, prod_code);
+				n2 = pstmt.executeUpdate();
+			
+				//성공시 tbl_product에 있는 상품을 지워준다
+				if(n2 == 1 ) {
+					
+					String sql3 = " delete tbl_product "
+							   + " where prod_code = ? ";
+					
+					pstmt = conn.prepareStatement(sql3);
+					
+					pstmt.setString(1, prod_code);
+					
+					n3 = pstmt.executeUpdate();
+					
+				}
+			
+			}//end of for
+			
+		} finally {
+			close();
+		}
+		
+		return n3;
+	}//end of deleteMultiProduct
+
+	
 	
 	
 	

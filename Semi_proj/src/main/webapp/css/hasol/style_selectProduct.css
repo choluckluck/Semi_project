@@ -1,0 +1,153 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200&family=Noto+Serif+KR&display=swap');
+
+/*  font-family: 'Montserrat', sans-serif; */
+
+@font-face {
+    font-family: 'RIDIBatang';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUIT-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'InfinitySans-RegularA1';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+	font-family: 'SUIT-Medium';
+}
+
+input {
+    border: solid 1px #d9d9d9;
+	height: 30px;
+    padding-left: 8px;
+}
+
+select {
+    border: solid 1px #d9d9d9;
+    padding: 5px;
+}
+
+button {
+    border: solid 1px #d9d9d9;
+    width:50%;
+    border-radius: 10%;
+    padding: 5px;
+}
+
+
+/* header */
+.header {
+	width: 100%;
+	height: 40px;
+	background-color:rgb(4, 4, 58);
+	display: flex;
+	align-items: center;
+}
+
+.header span {
+	font-weight: bold;
+	color: white;
+	margin-left: 10px;
+}
+
+
+/* 전체 넓이 */
+
+.container {
+    padding: 1%;
+}
+
+
+/* 상품 검색 영역 */
+
+.tbl_prodct_select {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.tbl_prodct_select tr:first-child {
+   	height: 20px;
+    padding: 2%; 
+}
+
+
+.tbl_prodct_select td {
+	border: solid 1px lightgrey;
+    padding: 30px;   
+    text-align: center; 
+}
+
+
+/* 상품 리스트*/
+.product_select {
+    margin: 3% auto;
+}
+
+.product_count {
+    font-size: 13px;
+    color: rgb(63, 122, 242);
+}
+
+.product_select_tab{
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
+}
+
+.product_select_tab thead {
+    border-top: solid 1px black;
+    border-bottom: solid 2px lightgray;
+    font-weight: bold;
+    color: grey;
+}
+
+.product_select_tab tbody {
+    font-size: 13px; 
+}
+
+.product_select_tab tbody tr {
+    border-bottom: solid 1px lightgray;
+}
+
+.product_select_tab tbody p {
+    margin: 5px;
+}
+
+
+#btn_search {
+	background-color:rgb(4, 4, 58);
+	color:white;
+    height: 34px;
+    width: 50px;
+}

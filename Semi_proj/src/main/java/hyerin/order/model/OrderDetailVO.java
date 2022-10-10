@@ -1,5 +1,7 @@
 package hyerin.order.model;
 
+import hyerin.product.model.ProductVO;
+
 public class OrderDetailVO {
 	private String order_detail_code;
 	private String fk_order_code;
@@ -9,6 +11,18 @@ public class OrderDetailVO {
 	private String fk_prod_color;
 	private String fk_prod_size;
 	
+	
+	private ProductVO pvo;
+	
+	
+	
+	
+	public ProductVO getPvo() {
+		return pvo;
+	}
+	public void setPvo(ProductVO pvo) {
+		this.pvo = pvo;
+	}
 	public String getOrder_detail_code() {
 		return order_detail_code;
 	}
@@ -51,4 +65,20 @@ public class OrderDetailVO {
 	public void setFk_prod_size(String fk_prod_size) {
 		this.fk_prod_size = fk_prod_size;
 	}
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////
+	// 하나의 디테일오더만큼 가격을 구해주는 메소드
+	public int getOneDetailPrice() {
+		int price = 0;
+		
+		price = order_buy_count * order_price;
+		
+		return price;
+	}
+	
+	
+	
+	
 }
