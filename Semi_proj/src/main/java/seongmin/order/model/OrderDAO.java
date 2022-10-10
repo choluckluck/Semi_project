@@ -450,4 +450,55 @@ public class OrderDAO implements InterOrderDAO {
 
 	}
 
+	@Override
+	public List<OrderVO> totalOrderList(String order_code) {
+		
+		List<OrderVO> totalList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "select case when sum(delivery_fee) >= 2500\n"+
+					"then 2500 else 0 end as totalprice\n"+
+					", sum(total)\n"+
+					"from \n"+
+					"(\n"+
+					"select order_code, prod_saleprice, prod_saleprice*order_buy_count as total, delivery_fee\n"+
+					"from tbl_order\n"+
+					"join\n"+
+					"tbl_order_detail\n"+
+					"on order_code = fk_order_code\n"+
+					"join\n"+
+					"tbl_product\n"+
+					"on fk_prod_code=prod_code\n"+
+					")\n"+
+					"where order_code = ? \n"+
+					"group by order_code";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, order_code);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				OrderVO ovo = new OrderVO();
+				
+				ovo.setShipfee(rs.getString(1));
+				ovo.setTotal(rs.getString(2));
+				
+				totalList.add(ovo);
+				
+			} // end of while
+			
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return totalList;
+		
+	}
+
 }

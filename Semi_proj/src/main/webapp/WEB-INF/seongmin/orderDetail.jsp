@@ -144,7 +144,7 @@
 	
 		<h5>주문정보</h5>
 	<c:forEach var="rovo" items="${requestScope.oList}">
-		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
+		  <table class="table table" style="text-align:center; width:90%; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:300px;">
 				<col style="width:auto;">
@@ -185,12 +185,11 @@
 		
 		<h5>주문상품 정보</h5>
 	   <div id="prd-info" >
-	   		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
+	   		  <table class="table table" style="text-align:center; width:90%; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:100px;">
 				<col style="width:auto;">
-				<col style="width:100px;">
-				<col style="width:100px;">
+				<col style="width:200px;">
 				<col style="width:100px;">
 				<col style="width:100px;">
 				<col style="width:100px;">
@@ -202,48 +201,48 @@
 				<th scope="col">판매가</th>
 				<th scope="col">수량</th>
 				<th scope="col">적립금</th>
-				<th scope="col">배송비</th>
 				<th scope="col">합계</th>
 			  </tr>
 			</thead>
 			<tbody>
+			 <c:forEach var="detailList" items="${requestScope.detailList}">			
 			  <tr style="">
 			  	<td>
-			  		<div style=" height:100px; width:75px;"><img src="" style="width:100%; height:100%; object-fit:cover;"/></div>
+			  		<div style=" height:100px; width:75px;"><img src="<%=request.getContextPath() %>/images/product/${detailList.prod_image}" style="width:100%; height:100%; object-fit:cover;"/></div>
 			  	</td>
 			  	<td style="text-align:left; vertical-align:middle;">
 					<div style="">
-					<a href="#" style="color:black;"><span>(특가) 띠아모 플랫(1.5cm)</span></a><br><span>[옵션: blue / 240mm ]</span>
+					<a href="#" style="color:black;"><span>${detailList.prod_name }</span></a><br><span>[옵션: ${detailList.odvo.fk_prod_color} / ${detailList.odvo.fk_prod_size}mm ]</span>
 					</div> 			  	
 			  	</td>
 			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>29,800원</span>
+			  		<span>정가 : <fmt:formatNumber value="${detailList.prod_price}" pattern="#,###"/>원 <br> 할인가 : <fmt:formatNumber value="${detailList.prod_saleprice}" pattern="#,###"/>원 </span>
 			  	</td>
 			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>1</span>
+			  		<span>${detailList.odvo.order_buy_count}개</span>
 			  	</td>
 			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>300원</span>
+			  		<span><fmt:formatNumber value="${detailList.prod_point*detailList.odvo.order_buy_count}" pattern="#,###"/>원</span>
 			  	</td>
 			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>3000</span>
-			  	</td>
-			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>29,800원</span>
+			  		<span><fmt:formatNumber value="${detailList.prod_saleprice * detailList.odvo.order_buy_count}" pattern="#,###"/>원</span>
 			  	</td>			  	
 		      </tr>
+		     </c:forEach>   
+		      <c:forEach var="totalList" items="${requestScope.totalList}">			
 		      <tr>
-		      	<td style="text-align:left;"><span></span></td>
+		     	<td style="text-align:left;"><span></span></td>
 		      	<td colspan="6" style="text-align:right;">
-		      		상품구매금액 <span>29,800</span> + 배송비 <span>2,500</span> = 합계 : <span>32,800원</span>
+		      		상품구매금액 : <span>${totalList.total}원 </span>   +   배송비 : <span>${totalList.shipfee }</span>   =   합계 : <span>${totalList.total+totalList.shipfee}원</span>
 		      	</td>
-		      </tr>		      
+		      </tr>		 
+		      </c:forEach>		       
 		    </tbody>
 		  </table>
 	   	<br><br><br>
 
 		<h5>결제정보</h5>		
-		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
+		  <table class="table table" style="text-align:center; width:90%; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:300px;">
 				<col style="width:auto;">
@@ -266,7 +265,7 @@
 		  </table>
 		  	   	
 	   	<div id="total">
-	   	  <table class="table table" style=" width:100%">
+	   	  <table class="table table" style=" width:90%">
 			<colgroup>
 				<col style="width:50%;">
 				<col style="width:50%;">
