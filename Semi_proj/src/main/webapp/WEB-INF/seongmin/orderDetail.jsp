@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <%
     String ctxPath = request.getContextPath();
 %>
@@ -140,7 +143,7 @@
 	<br><br>
 	
 		<h5>주문정보</h5>
-		
+	<c:forEach var="rovo" items="${requestScope.oList}">
 		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:300px;">
@@ -150,13 +153,13 @@
 			<thead>
 			  <tr>
 				<td scope="col" style="font-weight:bold;">주문번호</td>
-				<td scope="col" style="text-align:left; "><span>??? </span></td>
+				<td scope="col" style="text-align:left; "><span>${rovo.order_code } </span></td>
 			  </tr>
 			</thead>
 			<tbody>
 			  <tr>
 				<td style="text-align:center; font-weight:bold;">주문일자</td>
-				<td style="text-align:left;"><div>???</div></td>
+				<td style="text-align:left;"><div>${rovo.orderdate}</div></td>
 		      </tr>
 			  <tr>
 				<td style="text-align:center; font-weight:bold;">주문자 성명</td>
@@ -164,11 +167,11 @@
 			  </tr>
 			  <tr>
 				<td style="text-align:center; font-weight:bold;">주문처리상태</td>
-				<td style="text-align:left;"><div>???</div></td>
+				<td style="text-align:left;"><div>${rovo.order_state}</div></td>
 			  </tr>
 		    </tbody>
 		  </table>
-
+	</c:forEach>
       
       
       <br>
@@ -176,30 +179,7 @@
 	  
 
 	   <div class="">
-		<h5>결제정보</h5>		
-		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
-			<colgroup>
-				<col style="width:300px;">
-				<col style="width:auto;">
-
-			</colgroup>
-			<thead>
-			  <tr>
-				<td scope="col" style="font-weight:bold;">최종결제금액</td>
-				<td scope="col" style="text-align:left; "><span>32,800원</span></td>
-			  </tr>
-			</thead>
-			<tbody>
-			  <tr>
-				<td style="text-align:center; font-weight:bold;">결제수단</td>
-				<td style="text-align:left;"><div><span>무통장입금</span><br>입금자 : <span>ooo</span><br> 계좌번호: 하나은행 0000000 ((주)지니킴) <button type="button" style="background-color:white; color:black; font-size:10pt; border:solid 1px gray;">인터넷뱅킹 바로가기</button><br>현금영수증 발행 : <span style="font-size:bold">신청안함</span></div></td>
-		      </tr>
-			  <tr>
-			  </tr>
-		    </tbody>
-		  </table>
-		  
-		  
+	  
 	      
 		<br><br>
 		
@@ -261,7 +241,30 @@
 		    </tbody>
 		  </table>
 	   	<br><br><br>
-	   	
+
+		<h5>결제정보</h5>		
+		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
+			<colgroup>
+				<col style="width:300px;">
+				<col style="width:auto;">
+
+			</colgroup>
+			<thead>
+			  <tr>
+				<td scope="col" style="font-weight:bold;">최종결제금액</td>
+				<td scope="col" style="text-align:left; "><span>32,800원</span></td>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<td style="text-align:center; font-weight:bold;">결제수단</td>
+				<td style="text-align:left;"><div><span>무통장입금</span><br>입금자 : <span>ooo</span><br> 계좌번호: 하나은행 0000000 ((주)지니킴) <button type="button" style="background-color:white; color:black; font-size:10pt; border:solid 1px gray;">인터넷뱅킹 바로가기</button><br>현금영수증 발행 : <span style="font-size:bold">신청안함</span></div></td>
+		      </tr>
+			  <tr>
+			  </tr>
+		    </tbody>
+		  </table>
+		  	   	
 	   	<div id="total">
 	   	  <table class="table table" style=" width:100%">
 			<colgroup>

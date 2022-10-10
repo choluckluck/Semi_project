@@ -1,5 +1,6 @@
 package seongmin.order.model;
 
+import seongmin.login.model.MemberVO;
 import seongmin.product.model.ProductVO;
 import seongmin.product.model.ThumbVO;
 
@@ -14,7 +15,15 @@ public class OrderVO {
 	private int discount_amount;
 	private int real_amount;
 	private int row_count;
+	private MemberVO mvo;
 	
+	
+	public MemberVO getMvo() {
+		return mvo;
+	}
+	public void setMvo(MemberVO mvo) {
+		this.mvo = mvo;
+	}
 	public int getRow_count() {
 		return row_count;
 	}

@@ -15,6 +15,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import seongmin.login.model.MemberVO;
 import seongmin.product.model.ProductVO;
 import seongmin.product.model.ThumbVO;
 
@@ -396,6 +397,57 @@ public class OrderDAO implements InterOrderDAO {
 	public List<OrderVO> rowspan(Map<String, String> paraMap) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	
+	
+	// 주문상세에서 주문정보 조회해오는 메소드
+	@Override
+	public List<OrderVO> oderDetailList(String order_code) {
+		List<OrderVO> oList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "select order_code, to_char(orderdate, 'yyyy-mm-dd') as orderdate, fk_order_state_name, name \n"+
+					"from tbl_order\n"+
+					"join tbl_member\n"+
+					"on fk_userid = userid \n"+
+					"where order_code = ? ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, order_code);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				OrderVO ovo = new OrderVO();
+
+				ovo.setOrder_code(rs.getString(1));
+				ovo.setOrderdate(rs.getString(2));
+				ovo.setOrder_state(rs.getString(3));
+				
+				// very Important
+				MemberVO mvo = new MemberVO();
+				mvo.setName(rs.getString(4));
+
+				ovo.setMvo(mvo);
+
+				// very Important
+
+				oList.add(ovo);
+				
+			} // end of while
+			
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return oList;
+
 	}
 
 }

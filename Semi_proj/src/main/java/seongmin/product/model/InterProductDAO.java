@@ -6,6 +6,8 @@ import java.util.*;
 public interface InterProductDAO {
 	
 	List<ProductVO> interestList(Map<String, String> paraMap) throws SQLException;
+
+	List<ProductVO> orderDetailList(String order_code);
 	
 
 }
