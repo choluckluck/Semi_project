@@ -67,24 +67,13 @@
 		
 		$("a.orderview").click(function(e){
 			const orderCode = $(e.target).html();
-//			alert(orderCode);
-			$("input#ord_code").val(orderCode);
-			alert($("input#ord_code").val() );
-			submit();		
+			alert(orderCode);
+			$("#ord_code").val(orderCode);
+			alert($("#ord_code").val());
+			$("#orderViewFrm").submit();
 		});
-		
 
 	});
-
-	
-	function submit() {
-	    const frm = document.orderViewFrm; 
-	    frm.action = "<%= request.getContextPath()%>/seongmin/member/orderDetail.sue";
-	    frm.method = "get";
-	    frm.submit();
-
-		
-	};
 
 </script>
 
@@ -124,7 +113,7 @@
 		      <div style="display:inline; font-size:13pt; position:relative; left:71%;"><a class="prd" href="<%=request.getContextPath() %>/seongmin/member/orderView.sue">더보기 ▶</a></div>
 		  <br>
 		  <br>
-		  
+ 			  
 		  <table class="table table" style="text-align:center; width:90%">
 			<colgroup>
 				<col style="width:210px;">
@@ -145,12 +134,11 @@
 			</thead>
 			<tbody>	
  		 		<jsp:include page="./recentOrder.jsp"></jsp:include>
- 		 		<form method="GET" id="orderViewFrm" name="orderViewFrm">
- 		 			<input type="text" id="ord_code" name="ord_code" value="" />
- 		 		</form>
+
+ 		 		
+ 		 		
 		    </tbody>
-		  </table>
-	      
+		  </table>		  	    
 	      <br><br>
 		      <div style="display:inline; font-size:13pt;">관심 상품</div>
 		      <div style="display:inline; font-size:13pt; position:relative; left:75%;"><a class="prd" href="<%=request.getContextPath() %>/seongmin/member/interestPrd.sue">더보기 ▶</a></div>
@@ -171,8 +159,10 @@
 	   </div>
      </div>
    </div>
-	
-	
+	<form method="POST" id="orderViewFrm" name="orderViewFrm" action="<%= request.getContextPath()%>/seongmin/member/orderDetail.sue">
+	<input type="hidden" id="ord_code" name="ord_code" value=""/>	
+	<!-- <input type="submit" /> -->
+	</form>	
   </body>
   
   <jsp:include page="../hyerin/footer.jsp"></jsp:include>

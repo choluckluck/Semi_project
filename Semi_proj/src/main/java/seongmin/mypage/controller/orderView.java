@@ -85,7 +85,7 @@ public class orderView extends AbstractController {
 		   List<OrderVO> recentOrderList = odao.recentOrderList(paraMap);
 		   
 		   List<OrderVO> rowspan = odao.rowspan(paraMap);
-			
+		   System.out.println("하하");
 		
 		
 		
@@ -102,7 +102,7 @@ public class orderView extends AbstractController {
 
 		request.setAttribute("total_amount", total_amount);
 		request.setAttribute("total_count", total_count);
-
+		
 		
 		
 		// 페이지바 만들기
