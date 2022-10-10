@@ -16,8 +16,22 @@ public class OrderVO {
 	private int real_amount;
 	private int row_count;
 	private MemberVO mvo;
+	private String total;
+	private String shipfee;
 	
 	
+	public String getTotal() {
+		return total;
+	}
+	public void setTotal(String total) {
+		this.total = total;
+	}
+	public String getShipfee() {
+		return shipfee;
+	}
+	public void setShipfee(String shipfee) {
+		this.shipfee = shipfee;
+	}
 	public MemberVO getMvo() {
 		return mvo;
 	}

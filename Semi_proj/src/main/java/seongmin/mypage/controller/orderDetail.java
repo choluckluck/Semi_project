@@ -39,7 +39,14 @@ public class orderDetail extends AbstractController {
 		
 		List<ProductVO> detailList = new ArrayList<>();
 		detailList = pdao.orderDetailList(order_code);
-		System.out.println(detailList.get(0));
+//		System.out.println(detailList.get(0));		
+		request.setAttribute("detailList", detailList);
+		
+		List<OrderVO> totalList = new ArrayList<>();
+		totalList = odao.totalOrderList(order_code);
+		request.setAttribute("totalList", totalList);
+		
+		
 		
 /////////////////////////////////////////////
 		
