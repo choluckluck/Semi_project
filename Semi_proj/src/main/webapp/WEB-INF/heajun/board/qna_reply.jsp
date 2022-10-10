@@ -154,7 +154,7 @@ span.button {
   <hr>
 
  <span class="button">	
-		         <a href="<%=ctxPath%>/board/qnalist.go">목록</a> 
+		         <a href="<%=ctxPath%>heajun/board/qnaList.sue">목록</a> 
 </span>
    
 </div>

@@ -1,0 +1,181 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200&family=Noto+Serif+KR&display=swap');
+
+/*  font-family: 'Montserrat', sans-serif; */
+
+@font-face {
+    font-family: 'RIDIBatang';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUIT-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'InfinitySans-RegularA1';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+	font-family: 'SUIT-Medium';
+}
+
+
+/* header */
+.header {
+	width: 100%;
+	height: 40px;
+	background-color:rgb(4, 4, 58);
+	display: flex;
+	align-items: center;
+}
+
+.header span {
+	font-weight: bold;
+	color: white;
+	margin-left: 10px;
+}
+
+
+/* main */
+
+.container {
+    padding: 1%;
+}
+
+
+/* main-유의사항 */
+
+.tbl_use_coupon_notice {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+}
+
+.tbl_use_coupon_notice tr:first-child {
+   	height: 20px;
+   	background-color: #F4F2F2; 
+    padding: 2%; 
+}
+
+
+.tbl_use_coupon_notice p {
+	margin: 5px;
+}
+
+
+/* 상품별 쿠폰 적용 */
+.coupon_select {
+    margin: 3% auto;
+}
+
+.coupon_select_title {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.coupon_select_tab{
+    margin-top: 5px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
+}
+
+.coupon_select_tab thead {
+    border-top: solid 2px black;
+    border-bottom: solid 2px lightgray;
+    font-weight: bold;
+    color: grey;
+}
+
+.coupon_select_tab tbody {
+    font-size: 13px;
+}
+
+.coupon_select_tab tbody tr td {
+    border-bottom: solid 1px lightgray;
+}
+
+.coupon_select_tab tbody p {
+    margin: 5px;
+}
+
+
+/* 금액정보 */
+
+.tbl_coupon_amount_info {
+	width:100%;
+	border: solid 1px lightgray;
+	border-collapse: collapse;
+    text-align:center;
+    font-size: 13px;
+}
+
+.tbl_coupon_amount_info tr:first-child {
+   	height: 5px;
+    margin:5px;
+}
+
+.tbl_coupon_amount_info tr:first-child td {
+	border-bottom: solid 1px lightgray;
+	margin:5px;
+}
+
+.tbl_coupon_amount_info tr:nth-child(2) td {
+	padding: 20px;
+	font-size:20px;
+	font-weight: bold;
+}
+
+.select_tbl_coupon_amount_info {
+	flex-direction: column;
+	display: flex;
+	justify-content: center;
+	margin:5px;
+}
+
+.btn_select_box {
+	border-top: solid 1px lightgray;
+	background-color: #F4F2F2;
+	
+	
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	padding:5px;
+}
+
+.btn_select {
+	width:49.9%;
+	height:30px;
+	border: solid 1px lightgray;
+}
+
+#btn_select_ok {
+	background-color:rgb(4, 4, 58);
+	color:white;
+}
