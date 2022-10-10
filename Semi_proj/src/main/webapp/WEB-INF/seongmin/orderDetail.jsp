@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
 <%
     String ctxPath = request.getContextPath();
 %>
@@ -33,6 +34,9 @@
 
 
 <style type="text/css">
+
+
+
   div#container {
   	margin: 0 auto;
   	width : 95%;
@@ -124,50 +128,56 @@
 
  	<div class="row">
   	   <div class="col-2">
-  	   <br><br>
+  	    	<br><br>
+  	   
  		 <jsp:include page="sideMenu.jsp" />	   
 	   </div>	
 
 	   <div class="col-10">
 	   <br><br>
 	   
-	<h2> 주문 완료</h2>
-	        <!-- 혜택 정보 -->
-      <div class="pur_benefit_info">
-         <table class="tbl_pur_benefit_info">
-            <tr>
-                    <td rowspan='2'>혜택정보</td>
-                    <td rowspan='2' width:10px style="padding: 0 3px;"></td>
-                    <td>{userid} 님은 [WELCOME] 회원입니다. <br>
-                        1원 이상 구매시 0% 추가적립 받으실 수 있습니다. (최대 100,000원)
-                    </td>
-                </tr>
-                <tr> 
-                    <td><a href="#" style="color:black;">가용적립금: 100원</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="color:black;">쿠폰: 0개</a> </td>
-                </tr>
-         </table>
-      </div>
-      
+	<h2> 주문 상세정보</h2>
+	<br><br>
+	
+		<h5>주문정보</h5>
+		
+		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
+			<colgroup>
+				<col style="width:300px;">
+				<col style="width:auto;">
+
+			</colgroup>
+			<thead>
+			  <tr>
+				<td scope="col" style="font-weight:bold;">주문번호</td>
+				<td scope="col" style="text-align:left; "><span>??? </span></td>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<td style="text-align:center; font-weight:bold;">주문일자</td>
+				<td style="text-align:left;"><div>???</div></td>
+		      </tr>
+			  <tr>
+				<td style="text-align:center; font-weight:bold;">주문자 성명</td>
+				<td style="text-align:left;"><div>${sessionScope.loginuser.name}</div></td>
+			  </tr>
+			  <tr>
+				<td style="text-align:center; font-weight:bold;">주문처리상태</td>
+				<td style="text-align:left;"><div>???</div></td>
+			  </tr>
+		    </tbody>
+		  </table>
+
       
       
       <br>
-      <div>
-		주문내역 및 배송에 관한 안내는 <a href="#" style="color:black; text-decoration: underline; font-size:13pt; font-weight:bold;">주문조회</a> 를 통하여 확인 가능합니다. <br>
-		<br>
-		주문번호 : <span>20220923-0000264</span> 
-		<br>
-		주문일자 : <span>2022-09-23 15:52:30</span>
-	  </div>
-	  <br><br>
 	  
 	  
 
 	   <div class="">
-		<h5>결제정보</h5>
-
-		<br>
-		
-		  <table class="table table" style="text-align:center; width:100%">
+		<h5>결제정보</h5>		
+		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:300px;">
 				<col style="width:auto;">
@@ -188,19 +198,14 @@
 			  </tr>
 		    </tbody>
 		  </table>
-	      <hr style="width:100%;">
+		  
+		  
 	      
-		<div class="row" style="width:100%;">
-			<button type="button" style="border:solid 1px gray; font-size:12pt; color:gray; text-align:center; background-color:white; width:15%; height:50px; margin-left:20px;">현금영수증 신청</button>	
-			<button type="button" style="border:solid 1px gray; font-size:12pt; color:gray; text-align:center; background-color:white; width:15%; height:50px; margin-left:20px;">거래명세서 발행</button>
-			<button type="button" style="border:solid 1px gray; font-size:12pt; color:gray; text-align:center; background-color:white; width:15%; height:50px; margin-left:480px;">쇼핑 계속하기</button>
-			<button type="button" style="border:solid 1px gray; font-size:12pt; color:gray; text-align:center; background-color:white; width:15%; height:50px; margin-left:20px;">주문 확인하기기</button>
-		</div>
 		<br><br>
 		
 		<h5>주문상품 정보</h5>
 	   <div id="prd-info" >
-	   		  <table class="table table" style="text-align:center; width:100%">
+	   		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:100px;">
 				<col style="width:auto;">
@@ -217,14 +222,14 @@
 				<th scope="col">판매가</th>
 				<th scope="col">수량</th>
 				<th scope="col">적립금</th>
-				<th scope="col">배송구분</th>
+				<th scope="col">배송비</th>
 				<th scope="col">합계</th>
 			  </tr>
 			</thead>
 			<tbody>
 			  <tr style="">
 			  	<td>
-			  		<div style=" height:100px; width:75px;"><img src="./images/uh.jpg;" style="width:100%; height:100%; object-fit:cover;"/></div>
+			  		<div style=" height:100px; width:75px;"><img src="" style="width:100%; height:100%; object-fit:cover;"/></div>
 			  	</td>
 			  	<td style="text-align:left; vertical-align:middle;">
 					<div style="">
@@ -241,21 +246,20 @@
 			  		<span>300원</span>
 			  	</td>
 			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>기본배송</span>
+			  		<span>3000</span>
 			  	</td>
 			  	<td style="text-align:center; vertical-align:middle;">
 			  		<span>29,800원</span>
 			  	</td>			  	
 		      </tr>
 		      <tr>
-		      	<td style="text-align:left;"><span>[기본배송]</span></td>
+		      	<td style="text-align:left;"><span></span></td>
 		      	<td colspan="6" style="text-align:right;">
-		      		상품구매금액 <span>29,800</span> + 배송비 <span>3,000</span> + 지역별배송비 <span>0</span> = 합계 : <span>32,800원</span>
+		      		상품구매금액 <span>29,800</span> + 배송비 <span>2,500</span> = 합계 : <span>32,800원</span>
 		      	</td>
 		      </tr>		      
 		    </tbody>
 		  </table>
-	   	  <hr style="width:100%;">	   	
 	   	<br><br><br>
 	   	
 	   	<div id="total">
@@ -278,7 +282,6 @@
 		    </tbody>
 		  </table>
 		</div>
-		  <hr style="width:100%;">
 		  <br><br><br>
 		  
 	   	
@@ -287,7 +290,7 @@
 	   	<div id="addr_info"><h5>배송지 정보</h5></div>
 	   	
 	   	<br>	   	
-	   	<table class="table table" style=" width:100%">
+	   	<table class="table table" style=" width:100%; border-bottom:solid 1px gray; ">
 			<colgroup>
 				<col style="width:200px;">
 				<col style="width:auto;">
@@ -318,16 +321,9 @@
 			  </tr>
 		    </tbody>
 		  </table>
-		  <hr style="width:100%;">
 		  
 		  
-		<div class="row" style="width:100%;">
-			<button type="button" style="border:solid 1px gray; font-size:12pt; color:gray; text-align:center; background-color:white; width:15%; height:50px; margin-left:20px;">현금영수증 신청</button>	
-			<button type="button" style="border:solid 1px gray; font-size:12pt; color:gray; text-align:center; background-color:white; width:15%; height:50px; margin-left:20px;">거래명세서 발행</button>
-			<button type="button" style="border:solid 1px gray; font-size:12pt; color:gray; text-align:center; background-color:white; width:15%; height:50px; margin-left:480px;">쇼핑 계속하기</button>
-			<button type="button" style="border:solid 1px gray; font-size:12pt; color:gray; text-align:center; background-color:white; width:15%; height:50px; margin-left:20px;">주문 확인하기기</button>
-		</div>
-		  
+
 	   </div>
 
 

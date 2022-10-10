@@ -13,7 +13,14 @@ public class OrderVO {
 	private int point_use_amount;
 	private int discount_amount;
 	private int real_amount;
+	private int row_count;
 	
+	public int getRow_count() {
+		return row_count;
+	}
+	public void setRow_count(int row_count) {
+		this.row_count = row_count;
+	}
 	private ProductVO pvo;
 	private OrderVO ovo;
 	private OrderDetailVO odvo;

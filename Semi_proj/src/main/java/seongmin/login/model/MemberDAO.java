@@ -118,7 +118,7 @@ public class MemberDAO implements InterMemberDAO {
 				member.setPoint(rs.getInt(12));
 				member.setAccount_name(rs.getString(13));
 				member.setBank_name(rs.getString(14));
-				member.setAccount(rs.getInt(15));								
+				member.setAccount(rs.getDouble(15));								
 				member.setRegisterday(rs.getString(16));
 
 			
