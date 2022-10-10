@@ -63,7 +63,8 @@ public class interestPrd extends AbstractController {
 		   if( Integer.parseInt(currentShowPageNo) > totalPage ) {
 			   currentShowPageNo = "1";
 		   }
-
+		   
+		   
 		   
 		   List<ProductVO> likeList1 = new ArrayList<>();
 		   likeList1 = odao.likeList1(paraMap);		   

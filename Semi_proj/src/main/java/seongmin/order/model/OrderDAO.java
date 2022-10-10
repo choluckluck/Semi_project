@@ -460,10 +460,10 @@ public class OrderDAO implements InterOrderDAO {
 
 			String sql = "select case when sum(delivery_fee) >= 2500\n"+
 					"then 2500 else 0 end as totalprice\n"+
-					", sum(total)\n"+
+					", sum(total), sum(prod_point) \n"+
 					"from \n"+
 					"(\n"+
-					"select order_code, prod_saleprice, prod_saleprice*order_buy_count as total, delivery_fee\n"+
+					"select order_code, prod_saleprice, prod_saleprice*order_buy_count as total, delivery_fee, prod_point*order_buy_count as prod_point \n"+
 					"from tbl_order\n"+
 					"join\n"+
 					"tbl_order_detail\n"+
@@ -486,6 +486,7 @@ public class OrderDAO implements InterOrderDAO {
 				
 				ovo.setShipfee(rs.getString(1));
 				ovo.setTotal(rs.getString(2));
+				ovo.setTotalPoint(rs.getString(3));
 				
 				totalList.add(ovo);
 				

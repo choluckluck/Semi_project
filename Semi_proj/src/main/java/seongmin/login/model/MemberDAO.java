@@ -96,7 +96,7 @@ public class MemberDAO implements InterMemberDAO {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, paraMap.get("userid"));
-			pstmt.setString(2, paraMap.get("pwd") );
+			pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
 			pstmt.setString(3, paraMap.get("userid"));
 			
 			rs = pstmt.executeQuery();
@@ -106,8 +106,8 @@ public class MemberDAO implements InterMemberDAO {
 				
 				member.setUserid(rs.getString(1));
 				member.setName(rs.getString(2));
-				member.setEmail( rs.getString(3) );  // 복호화 
-				member.setMobile( rs.getString(4) ); // 복호화  
+				member.setEmail( aes.decrypt(rs.getString(3)) );  // 복호화 
+				member.setMobile( aes.decrypt(rs.getString(4)) ); // 복호화  
 				member.setPostcode(rs.getString(5));
 				member.setAddress(rs.getString(6));
 				member.setDetailaddress(rs.getString(7));
