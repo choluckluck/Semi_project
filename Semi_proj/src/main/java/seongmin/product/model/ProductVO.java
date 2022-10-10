@@ -1,5 +1,7 @@
 package seongmin.product.model;
 
+import seongmin.order.model.OrderDetailVO;
+
 public class ProductVO {
 
 	
@@ -17,12 +19,25 @@ public class ProductVO {
 	 private String prod_review_count; // 리뷰개수
 	 private String prod_description; //상품설명
 	 private String prod_point; // 상품포인트
+	 private String shipfee;
 	 
-	 private String md_pick_yn; //메인노출여부
+	 public String getShipfee() {
+		return shipfee;
+	}
+	public void setShipfee(String shipfee) {
+		this.shipfee = shipfee;
+	}
+	private String md_pick_yn; //메인노출여부
 	 
 	 private ProductDetailVO pdvo;
-	 
+	 private OrderDetailVO odvo;
 	
+	public OrderDetailVO getOdvo() {
+		return odvo;
+	}
+	public void setOdvo(OrderDetailVO odvo) {
+		this.odvo = odvo;
+	}
 	public String getProd_code() {
 		return prod_code;
 	}
