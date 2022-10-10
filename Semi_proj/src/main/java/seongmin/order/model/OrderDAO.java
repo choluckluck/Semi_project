@@ -311,4 +311,91 @@ public class OrderDAO implements InterOrderDAO {
 
 	}
 
+	@Override
+	public int getTotalPage1(Map<String, String> paraMap) throws SQLException {
+		int totalPage = 0;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "select ceil(count(*)/5) \n"+
+					"from tbl_like\n"+
+					"where fk_userid = ? \n"+
+					"";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+
+			rs = pstmt.executeQuery();
+
+			rs.next();
+
+			totalPage = rs.getInt(1);
+
+		} finally {
+			close();
+		}
+
+		return totalPage;
+	}
+
+	@Override
+	public List<ProductVO> likeList1(Map<String, String> paraMap) throws SQLException {
+
+		List<ProductVO> likeList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "select prod_image, prod_name, prod_price, prod_point, prod_saleprice\n"+
+					"from\n"+
+					"(\n"+
+					"select rownum as num, like_code, prod_image, prod_name, prod_price, prod_point, prod_saleprice\n"+
+					"from\n"+
+					"(\n"+
+					"select like_code, prod_image, prod_name, prod_price, prod_point, prod_saleprice\n"+
+					"from tbl_like\n"+
+					"join tbl_product\n"+
+					"on fk_prod_code = prod_code\n"+
+					"where fk_userid = ?  \n"+
+					"order by like_code desc\n"+
+					") V\n"+
+					") D\n"+
+					"where num between ? and ? ";
+						
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ProductVO pvo = new ProductVO();
+				pvo.setProd_image(rs.getString(1));
+				pvo.setProd_name(rs.getString(2));
+				pvo.setProd_price(rs.getString(3));
+				pvo.setProd_point(rs.getString(4));
+				pvo.setProd_saleprice(rs.getString(5));
+			
+				likeList.add(pvo);
+			} // end of while
+
+		} finally {
+			close();
+		}
+
+		return likeList;
+	} // end of public List<OrderVO> recentOrderList
+
+	@Override
+	public List<OrderVO> rowspan(Map<String, String> paraMap) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
