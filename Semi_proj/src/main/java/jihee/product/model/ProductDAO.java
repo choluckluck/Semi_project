@@ -14,6 +14,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 
+
+
 public class ProductDAO implements InterProductDAO {
 	private DataSource ds;	//DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool)
 	private Connection conn;
@@ -858,16 +860,16 @@ public class ProductDAO implements InterProductDAO {
 			
 			}
 			
-	//장바구니 목록 불러오		
+	//장바구니 목록 불러오기		
 	@Override
-	public List<ProductVO> selectCartList(Map<String, String> paraMap) throws SQLException    {
+	public List<cartVO> selectCartList(Map<String, String> paraMap) throws SQLException    {
 		
-		List<ProductVO> cartList = new ArrayList<>();
+		List<cartVO> cartList = new ArrayList<>();
 
 		try {
 			conn = ds.getConnection();
 
-			String sql = "select prod_image, prod_name, prod_price, prod_point, prod_saleprice, Qnty\n"+
+			String sql = "select prod_image, prod_name, prod_price, prod_point, prod_saleprice, Qnty, fk_userid, cart_code, fk_prod_code,  fk_prod_color, fk_prod_size \n"+
 					"from tbl_product\n"+
 					"join tbl_cart\n"+
 					"on prod_code = fk_prod_code\n"+
@@ -882,14 +884,42 @@ public class ProductDAO implements InterProductDAO {
 
 			while (rs.next()) {
 				ProductVO pvo = new ProductVO();
-				pvo.setProd_image(rs.getString(1));
-				pvo.setProd_name(rs.getString(2));
-				pvo.setProd_price(rs.getInt(3));
-				pvo.setProd_point(rs.getInt(4));
-				pvo.setProd_saleprice(rs.getInt(5));
-				pvo.setQnty(rs.getString(6));
 				
-				cartList.add(pvo);
+				String prod_image = rs.getString("prod_image");
+				String prod_name = rs.getString("prod_name");
+				int prod_price = rs.getInt("prod_price");
+				int prod_point = rs.getInt("prod_point");
+				int prod_saleprice = rs.getInt("prod_saleprice");
+				int qnty = rs.getInt("qnty");
+				String fk_userid = rs.getString("fk_userid");
+				String cart_code = rs.getString("cart_code");
+				String fk_prod_code = rs.getString("fk_prod_code");
+				String fk_prod_color = rs.getString("fk_prod_color");
+				String fk_prod_size = rs.getString("fk_prod_size");
+
+				
+				
+				pvo.setProd_image(prod_image);
+				pvo.setProd_name(prod_name);
+				pvo.setProd_price(prod_price);
+				pvo.setProd_point(prod_point);
+				pvo.setProd_saleprice(prod_saleprice);
+				
+				pvo.setTotalPriceTotalPoint(qnty); 
+				
+				cartVO cvo = new cartVO();
+				cvo.setCart_code(cart_code);
+				cvo.setFk_userid(fk_userid);
+				cvo.setFk_prod_code(fk_prod_code);
+				cvo.setQnty(qnty);
+				cvo.setFk_prod_color(fk_prod_color);
+				cvo.setFk_prod_size(fk_prod_size);
+				cvo.setProd(pvo);	
+				
+				cartList.add(cvo);
+				
+				
+				
 			} // end of while
 
 		} finally {
@@ -900,6 +930,82 @@ public class ProductDAO implements InterProductDAO {
 		
 	
 	
+	}
+
+	@Override
+	public int updateCart(String cartno, int qnty) throws SQLException {
+		int n = 0;
+	      
+	      try {
+	         
+	         conn = ds.getConnection();
+	         
+	         String sql = " update tbl_cart set qnty = ? "
+	                  + " where cart_code = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setInt(1, qnty);
+	         pstmt.setString(2, cartno);
+	         
+	         n = pstmt.executeUpdate();
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return n;
+	}
+
+	@Override
+	public int delCart(String cartno) throws SQLException {
+		
+		int n = 0;
+	      
+	      try {
+	         
+	         conn = ds.getConnection();
+	         
+	         String sql = " delete from tbl_cart "
+	                  + " where cart_code = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, cartno);
+	         
+	         n = pstmt.executeUpdate();
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return n;
+	}
+
+	@Override
+	public Map<String, String> selectCartSumPrice(String userid) throws SQLException {
+		
+		HashMap<String, String> sumMap = new HashMap<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select nvl( sum(B.prod_saleprice *  A.qnty), 0) AS SUMTOTALPRICE \n"+
+						"from tbl_cart A join tbl_product B \n"+
+						"on A.fk_prod_code = B.prod_code \n"+
+						"where A.fk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			sumMap.put("SUMTOTALPRICE", rs.getString("SUMTOTALPRICE") );
+			
+		} finally {
+			close();
+		}
+		
+		return sumMap;
 	}
 	
 	

@@ -18,6 +18,15 @@ public interface InterProductDAO {
 	List<ProductVO> selectBestProduct(Map<String, String> paraMap) throws SQLException;
 
 	// 장바구니 목록 가져오기
-	List<ProductVO> selectCartList(Map<String, String> paraMap) throws SQLException;
+	List<cartVO> selectCartList(Map<String, String> paraMap) throws SQLException;
+
+	//장바구니에서 수량변경 
+	int updateCart(String cartno, int qnty) throws SQLException;
+
+	//장바구니에서 삭제
+	int delCart(String cartno)throws SQLException;
+	
+	//총합계 알아오기
+	Map<String, String> selectCartSumPrice(String userid) throws SQLException;
 
 }
