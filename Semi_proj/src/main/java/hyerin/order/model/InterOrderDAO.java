@@ -31,6 +31,9 @@ public interface InterOrderDAO {
 	
 	//받아온 order_code로 주문을 삭제해준다
 	int deleteOneOrder(String order_code) throws SQLException;
+	
+	// 오더코드 생성
+	String getOrderCode() throws SQLException;
 
 	
 	
