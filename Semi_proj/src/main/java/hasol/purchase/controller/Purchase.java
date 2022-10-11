@@ -28,7 +28,7 @@ public class Purchase extends AbstractController {
 		String prod_codeJoin = request.getParameter("prodCodeJoin");
 		String colorJoin = request.getParameter("colorJoin");
 		String sizeJoin = request.getParameter("sizeJoin");
-		String countJoin = request.getParameter("countJoin");
+		String countJoin = request.getParameter("countjoin");
 		String priceJoin = request.getParameter("priceJoin");
 		String salepriceJoin = request.getParameter("salepriceJoin");
 		String totalOnePriceJoin = request.getParameter("totalOnePriceJoin");
