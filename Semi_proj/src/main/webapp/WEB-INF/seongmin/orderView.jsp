@@ -49,12 +49,12 @@
   	width:80%;
   }
   
-    a.orderview {
+    a.orderdetail {
     text-decoration-line: none;
   	color:black;
   }
   
-  a.orderview:hover {
+  a.orderdetail:hover {
   	color:gray;
   }
    
@@ -232,6 +232,14 @@
 	   };
 
 	   
+		$("a.orderdetail").click(function(e){
+			const orderCode = $(e.target).html();
+			alert(orderCode);
+			$("#ord_code1").val(orderCode);
+			alert($("#ord_code1").val());
+			$("#orderdetailFrm").submit();
+		});
+
 	   
 				 
 	});//end of docu~
@@ -386,10 +394,8 @@
 						<c:forEach var="rovo" items="${requestScope.recentOrderList}">
 							<tr>
 								<td rowspan="" class="recentordertd">${rovo.orderdate}<br>
-								  <a class="orderview" href="<%=request.getContextPath() %>/seongmin/member/orderDetail.sue">[${rovo.order_code}]</a>
+								  [<a class="orderdetail" href="#">${rovo.order_code}</a>]
 								</td>
-
-
 								<td class="recentordertd"><a href="#"><div><img id="recentorderimg" src="<%=request.getContextPath() %>/images/product/${rovo.pvo.prod_image}"></div></a></td>
 								<td class="recentordertd"style="text-align: left">
 								<a class="prd" href="#">${rovo.pvo.prod_name}</a></td>
@@ -422,6 +428,11 @@
      </div>
    </div>
   </div> 
+  	<form method="post" id="orderdetailFrm" name="orderdetailFrm" action="<%= request.getContextPath()%>/seongmin/member/orderDetail.sue">
+	  <input type="hidden" id="ord_code1" name="ord_code" value=""/>	
+	</form>	
+  
+  
    </div>
 <jsp:include page="../hyerin/footer.jsp"></jsp:include>	
 	

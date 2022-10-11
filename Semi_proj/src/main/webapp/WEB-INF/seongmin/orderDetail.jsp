@@ -233,15 +233,41 @@
 		      <tr>
 		     	<td style="text-align:left;"><span></span></td>
 		      	<td colspan="6" style="text-align:right;">
-		      		상품구매금액 : <span>${totalList.total}원 </span>   +   배송비 : <span>${totalList.shipfee }</span>   =   합계 : <span>${totalList.total+totalList.shipfee}원</span>
+		      		상품구매금액 : <span style= "margin-right:5px;"><fmt:formatNumber value="${totalList.total}" pattern="#,###"/>원 </span>
+		      		+   배송비 : <span style= "margin-right:5px;"><fmt:formatNumber value="${totalList.shipfee}" pattern="#,###"/></span>
+		      		=   합계 : <span><fmt:formatNumber value="${totalList.total+totalList.shipfee}" pattern="#,###"/>원</span>
 		      	</td>
 		      </tr>		 
+		      
 		      </c:forEach>		       
 		    </tbody>
 		  </table>
 	   	<br><br><br>
 
-		<h5>결제정보</h5>		
+	<c:forEach var="totalList" items="${requestScope.totalList}">			
+	   	<div id="total">
+	   	  <table class="table table" style=" width:90%">
+			<colgroup>
+				<col style="width:50%;">
+				<col style="width:50%;">
+			</colgroup>
+			<thead>
+				<tr>
+					<th scope="col" style=" text-align:center;">총 주문금액</th>
+					<th scope="col" style=" text-align:center;">총 적립금</th>	
+				</tr>
+			</thead>
+			<tbody>
+	      	  <tr>
+				<td style="font-weight:bold; text-align:center;"><span><fmt:formatNumber value="${totalList.total}" pattern="#,###"/>원</span></td>
+				<td style="font-weight:bold; text-align:center;"><span><fmt:formatNumber value="${totalList.totalPoint}" pattern="#,###"/>원</span></td>
+	      	  </tr>
+		    </tbody>
+		  </table>
+		</div>
+	</c:forEach>
+
+<%-- 		<h5>결제정보</h5>		
 		  <table class="table table" style="text-align:center; width:90%; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:300px;">
@@ -262,31 +288,11 @@
 			  <tr>
 			  </tr>
 		    </tbody>
-		  </table>
+		  </table> --%>
 		  	   	
-	   	<div id="total">
-	   	  <table class="table table" style=" width:90%">
-			<colgroup>
-				<col style="width:50%;">
-				<col style="width:50%;">
-			</colgroup>
-			<thead>
-				<tr>
-					<th scope="col" style=" text-align:center;">총 주문금액</th>
-					<th scope="col" style=" text-align:center;">총 적립금</th>	
-				</tr>
-			</thead>
-			<tbody>
-	      	  <tr>
-				<td style="font-weight:bold; text-align:center;"><span>149,600원</span></td>
-				<td style="font-weight:bold; text-align:center;"><span>2,900원</span></td>
-	      	  </tr>
-		    </tbody>
-		  </table>
-		</div>
+
 		  <br><br><br>
 		  
-	   	
 	   	
 	   	
 	   	<div id="addr_info"><h5>배송지 정보</h5></div>
@@ -300,15 +306,15 @@
 			<tbody>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">받으시는분</td>
-				<td scope="col"><span>하하</span></td>
+				<td scope="col"><span>${loginuser.name}</span></td>
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">우편번호</td>
-				<td scope="col"><span>06241</span></td>
+				<td scope="col"><span>${loginuser.postcode}</span></td>
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">주소</td>
-				<td scope="col"><span>서울특별시 ~~</span></td>
+				<td scope="col"><span>${loginuser.address}  ${loginuser.detailaddress} ${loginuser.extraaddress}</span></td>
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">일반전화</td>
@@ -316,7 +322,7 @@
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">휴대전화</td>
-				<td scope="col"><span>010 - </span></td>
+				<td scope="col"><span>${loginuser.mobile}</span></td>
 	      	  <tr >
 				<td scope="col" style="font-weight:bold; color:gray;">배송메시지</td>
 				<td scope="col" style="vertical-align:middle;"><span >경비실 앞에 놔주세요.</span></td>
@@ -324,8 +330,6 @@
 		    </tbody>
 		  </table>
 		  
-		  
-
 	   </div>
 
 

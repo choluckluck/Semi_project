@@ -18,10 +18,17 @@ public class OrderVO {
 	private MemberVO mvo;
 	private String total;
 	private String shipfee;
+	private String totalPoint;
 	
 	
 	public String getTotal() {
 		return total;
+	}
+	public String getTotalPoint() {
+		return totalPoint;
+	}
+	public void setTotalPoint(String totalPoint) {
+		this.totalPoint = totalPoint;
 	}
 	public void setTotal(String total) {
 		this.total = total;
