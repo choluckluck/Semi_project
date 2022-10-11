@@ -234,9 +234,9 @@
 	   
 		$("a.orderdetail").click(function(e){
 			const orderCode = $(e.target).html();
-			alert(orderCode);
+//			alert(orderCode);
 			$("#ord_code1").val(orderCode);
-			alert($("#ord_code1").val());
+//			alert($("#ord_code1").val());
 			$("#orderdetailFrm").submit();
 		});
 
@@ -327,7 +327,7 @@
   		  </fieldset>
 			<br>
 		  <ul class="guide">
-				<li> ※기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
+				<li> ※ 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
 				<li>※주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</li>
 		  </ul>
 		</form>
@@ -366,7 +366,7 @@
  	   	</table>
 	   </div> --%>
 
-	   <div class="col-10">	   
+	   <div class="col-12">	   
 		  <table class="table table" style="text-align:center; width:90%">
 			<colgroup>
 				<col style="width:75px;">
@@ -383,7 +383,7 @@
 				<th scope="col" colspan="2">주문내역</th>
 				<th scope="col">수량</th>
 				<th scope="col">상품금액<br>(1족 기준)</th>
-				<th scope="col">총 금액<br>(배송비 포함)</th>
+				<th scope="col">총 금액</th>
 				<th scope="col">주문상태</th>
 			  </tr>
 			</thead>
@@ -406,7 +406,7 @@
 								</td>
 								
 								
-								<td class="recentordertd">${rovo.order_state}</td>
+								<td class="recentordertd"><fmt:formatNumber value="${rovo.pvo.prod_saleprice*rovo.odvo.order_buy_count}" pattern="#,###"/>원</td>
 								<td class="recentordertd">${rovo.order_state}</td>
 							</tr>
 						</c:forEach>
