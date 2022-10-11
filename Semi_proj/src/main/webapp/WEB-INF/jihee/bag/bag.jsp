@@ -136,6 +136,7 @@
        alert("확인용");
        
     }
+
      
     function goOqtyEdit_plus (obj){
         
@@ -400,7 +401,7 @@
                  
                  
                  
-                 console.log("확인용 제품번호 : " + pnumjoin);
+                /*  console.log("확인용 제품번호 : " + pnumjoin);
                  console.log("확인용 주문량 : " + countjoin);
                  console.log("확인용 prodCodeJoin: " + prodCodeJoin);
                  console.log("확인용 cart_codeJoin : " + cart_codeJoin);
@@ -414,7 +415,7 @@
                  console.log("확인용 totalOnePriceJoin : " + totalOnePriceJoin);
                  console.log("확인용 deliveryfee : " + deliveryfee);
                  console.log("확인용 pointJoin : " + pointJoin);
-                 console.log("확인용 totalorderprice : " + totalorderprice);
+                 console.log("확인용 totalorderprice : " + totalorderprice); */
                  
                  const str_sumtotalPrice = totalPrice.toLocaleString("en"); // 자바스크립트에서 숫자 3자리마다 콤마를 찍어줌
                     
@@ -429,8 +430,7 @@
                              "deliveryfee":deliveryfee,
                              "cart_codeJoin":cart_codeJoin,
                              "prodCodeJoin":prodCodeJoin,
-                             "countjoin ":countjoin ,
-                             "cart_codeJoin":cart_codeJoin,
+                             "countjoin":countjoin ,
                              "colorJoin":colorJoin,
                              "sizeJoin":sizeJoin,
                              "priceJoin":priceJoin,
@@ -470,7 +470,49 @@
             }
             
         }
-
+      
+      
+      
+     /*  function goOrderPart() {
+    	  
+    	
+         
+          const oqtyArr = $("input.qnty").eq(i).val();
+          const cartnoArr = $("input.cartno").eq(i).val()
+          const totalPrice = $("input.totalPrice").val();
+          
+          
+          const prodCodeArr = new Array();
+          const pordSizeArr = new Array();  
+          const prodColorArr = new Array();
+          const prodPriceArr =new Array(); //정상가
+          const prodSalePriceArr = new Array(); //세일가
+          const deliveryfee = $("input.deliveryfee").val();
+          const prodPointArr = new Array();
+          const totalorderprice = $("input.totalorderprice").val();
+           const totalOnePriceJoinArr = new Array(); // 판매가X수량
+          
+          
+        
+                
+             
+                
+                
+                prodCodeArr.push( $("input.prodCode").eq(i).val() );
+                pordSizeArr.push( $("input.prodSize").eq(i).val() );
+                prodPriceArr.push( $("input.prodPrice").eq(i).val() );
+                prodSalePriceArr.push( $("input.prodSalePrice").eq(i).val() );
+             
+                prodPointArr.push( $("input.prodPoint").eq(i).val() );
+                
+                totalOnePriceJoinArr.push( $("input.totalOnePriceJoin").eq(i).val() );
+                prodColorArr.push( $("input.prodColor").eq(i).val() );
+                
+             }
+    	  
+    	  
+      }
+ */
     
   
       
@@ -632,7 +674,7 @@
                         
                         <td style="border:none;">
                         <div>
-                       <button type="button" id="doOrder" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">주문하기</button>
+                       <button type="button" id="doOrder" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goOrderPart();">주문하기</button>
                      </div>   
                      <div>
                         <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goHide()">관심상품</button>
