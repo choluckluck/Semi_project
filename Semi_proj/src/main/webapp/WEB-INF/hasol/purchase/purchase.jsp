@@ -114,24 +114,6 @@ $(document).ready(function(){
 	const sizeJoin = "${requestScope.viewMap.sizeJoin}";
 	const countJoin = "${requestScope.viewMap.countJoin}";
 	
-	/*
-     <form name="orderinsert">
-    	<input id="userid" type="text" name="userid" value="${requestScope.userid}"/>
-    	<input id="totalUserpoint" type="text" name="totalUserpoint" value=""/>
-    	<input id="totalRealamount" type="text" name="totalRealamount" value=""/>
-    	<input id="totalOrderamount" type="text" name="totalOrderamount" value=""/>
-    	<input id="pointUseamount" type="text" name="pointUseamount" value=""/>
-    	<input id="discountamount" type="text" name="discountamount" value=""/>
-    	<input id="deliveryfee" type="text" name="deliveryfee" value=""/>
-    	
-    	<input id="prod_code" type="text" name="prod_code" value=""/>
-    	<input id="order_buy_count" type="text" name="order_buy_count" value=""/>
-    	<input id="order_price" type="text" name="order_price" value=""/>
-    	<input id="prod_color" type="text" name="prod_color" value=""/>
-    	<input id="prod_size" type="text" name="prod_size" value=""/>
-    </form>
-	*/
-	
 	const frm = document.orderinsert;
 	frm.totalRealamount.value = real_amount;
 	frm.totalOrderamount.value = order_amount;
