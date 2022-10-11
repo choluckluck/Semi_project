@@ -226,52 +226,7 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 	
 	
 	
-	@Override
-	public ProductVO_HJ getImages(String prod_code) throws SQLException {
 
-	   ProductVO_HJ ivo = new ProductVO_HJ();
-		
-		try {
-			
-			 conn = ds.getConnection();
-			
-			  
-		     String sql = " select product_image_code, fk_prod_code, product_image_file "+
-						  " from tbl_product_image ";
-						 
-	
-		     System.out.println(prod_code);
-			 
-			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setString(1, prod_code);
-			 
-			 			 
-			 rs = pstmt.executeQuery();
-	
-			 if(rs.next()) {
-				 
-				 
-				 ivo.setProd_code(rs.getString(1));
-				 ivo.setProd_name(rs.getString(2));
-				 ivo.setProd_kind(rs.getString(3));
-				 ivo.setProd_image(rs.getString(4));
-				 ivo.setProd_high(rs.getString(5));
-				 ivo.setProd_price(rs.getInt(6));
-				 ivo.setProd_registerday(rs.getString(7));
-				 ivo.setMd_pick_yn(rs.getString(8));
-				 ivo.setProd_saleprice(rs.getInt(9));
-				 ivo.setProd_description(rs.getString(10));
-				 ivo.setProd_point(rs.getInt(11));
-				 
-			 }
-			 
-		} finally {
-			close();
-		}
-		
-		return ivo;		
-	}
-		
 	  
 	
 		
