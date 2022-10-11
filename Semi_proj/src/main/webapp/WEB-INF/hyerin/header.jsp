@@ -169,11 +169,11 @@
 					<span style="color:white;">|</span>
 				</li>
 				<li class="mr-4">
-					<a id="main_flat" href = "<%=ctxPath%>/jihee/product/sideFL.sue" class="main_bar" onclick="functi(flat)">플랫/로퍼</a>
+					<a id="main_flat" href = "<%=ctxPath%>/jihee/product/productFLB.sue" class="main_bar" >플랫/로퍼</a>
 				</li>
 				<li class="mr-4">
 				
-					<a id="main_hill" href = "<%=ctxPath%>/jihee/product/productHp.sue?productSelect=pumps&productSelect_2=나나" class="main_bar" onclick="goSearch()">힐/펌프스</a>
+					<a id="main_hill" href = "<%=ctxPath%>/jihee/product/productHp.sue" class="main_bar" >힐/펌프스</a>
 					                                                       
 				</li>
 				<li class="mr-4">

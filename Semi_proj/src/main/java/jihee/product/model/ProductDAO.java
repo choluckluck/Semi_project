@@ -415,7 +415,7 @@ public class ProductDAO implements InterProductDAO {
 		    String productHigh_2 = paraMap.get("productHigh_2");
 		    String productHigh_3 = paraMap.get("productHigh_3");
 		    
-		    System.out.println("productHigh_1 : " +productHigh_1);
+		    //System.out.println("productHigh_1 : " +productHigh_1);
 		   
 		   
 			// 위치홀더 넣어주기 

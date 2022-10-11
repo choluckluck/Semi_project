@@ -323,7 +323,7 @@
               const deliveryfee = $("input.deliveryfee").val();
               const prodPointArr = new Array();
               const totalorderprice = $("input.totalorderprice").val();
-               const totalOnePriceJoinArr = new Array(); // 판매가X수량
+              const totalOnePriceJoinArr = new Array(); // 판매가X수량
               
               
               for(var i=0; i<allCnt; i++){
@@ -389,7 +389,7 @@
                  
                  
                     
-                    const colorJoin = prodColorArr.join();
+                   const colorJoin = prodColorArr.join();
                    const sizeJoin = pordSizeArr.join();
                   
                    const priceJoin = prodPriceArr.join(); // 정상가
@@ -397,9 +397,7 @@
                    const totalOnePriceJoin = totalOnePriceJoinArr.join();  //판매가x수량
                    
                    const pointJoin = prodPointArr.join(); 
-                
-                 
-                 
+
                  
                 /*  console.log("확인용 제품번호 : " + pnumjoin);
                  console.log("확인용 주문량 : " + countjoin);
@@ -421,9 +419,11 @@
                     
               const bool = confirm("총주문액 : " + totalPrice + "원 \n결제하시겠습니까?");
                  
+              const frm = document.bag_form;
+              
                  if(bool){
 
-                    $.ajax({  
+                   <%--  $.ajax({  
                        url : "<%= request.getContextPath()%>/hasol/purchase/purchase.sue",
                        type : "post",
                        data : {"totalPrice":totalPrice,
@@ -455,7 +455,30 @@
                             alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
                          }
                        
-                    });
+                    }); --%>
+                  
+                   
+                    
+                    $('input[name=totalOnePriceJoin]').attr('value',totalOnePriceJoin);
+                    $('input[name="cart_codeJoin"]').attr('value',cart_codeJoin);
+                    $('input[name="countjoin"]').attr('value',countjoin);
+                    $('input[name="colorJoin"]').attr('value',colorJoin);
+                    $('input[name="sizeJoin"]').attr('value',sizeJoin);
+                    $('input[name="priceJoin"]').attr('value',priceJoin); 
+                    $('input[name="salepriceJoin"]').attr('value',salepriceJoin);
+                    $('input[name="pointJoin"]').attr('value',pointJoin);
+                    $('input[name="prodCodeJoin"]').attr('value',prodCodeJoin);
+                  
+                
+                   
+                    
+                    console.log("totalOnePriceJoin:"+totalOnePriceJoin);
+                    
+                    frm.action="<%= ctxPath%>/hasol/purchase/purchase.sue";
+                    frm.method = "POST";
+                    frm.submit();
+                    
+                   
                     
                  }
               
@@ -558,6 +581,15 @@
                      </tr>
                   </thead>
                   <tbody id="notice_tbody">
+                  <c:if test="${empty requestScope.cartList}">
+	               <tr>
+	                    <td colspan="8" align="center">
+	                      <span style="color: black; font-weight: bold;">
+	                         장바구니에 담긴 상품이 없습니다.
+	                      </span>
+	                    </td>   
+	               </tr>
+            		</c:if>   
                   
                   <!-- for each 시작 -->
                   <c:forEach var="cvo" items="${requestScope.cartList}" varStatus="status">
@@ -575,9 +607,9 @@
                                  <li name ="prod_name" id="prod_name"  style="cursor: pointer">${cvo.prod.prod_name}</li>
                                 <input type="hidden" class="pname" name="pname" value="${cvo.prod.prod_name}" /> 
                                  <li style="color:gray; margin-top: 2%;">[옵션: ${cvo.fk_prod_color}/${cvo.fk_prod_size}]</li>
-                                 <input type="hidden" class="prodCode" name="prodCode" value="${cvo.fk_prod_code}" /> 
-                                 <input type="hidden" class="prodColor" name="prodColor" value="${cvo.fk_prod_color}" /> 
-                                 <input type="hidden" class="prodSize" name="prodSize" value="${cvo.fk_prod_size}" /> 
+                                 <input type="hidden" class="prodCode" name="prodCodeJoin" value="${cvo.fk_prod_code}" /> 
+                                 <input type="hidden" class="prodColor" name="colorJoin" value="${cvo.fk_prod_color}" /> 
+                                 <input type="hidden" class="prodSize" name="sizeJoin" value="${cvo.fk_prod_size}" /> 
                                  
                                  <li>
                               
@@ -650,7 +682,7 @@
                               </button>
                               </span>
                               <span>
-                              <input class="qnty" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt; width: 30%;" name="qnty" id="qnty" value="${cvo.qnty}"/>
+                              <input class="qnty" name="countjoin" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt; width: 30%;" name="qnty" id="qnty" value="${cvo.qnty}"/>
                                
                            </span>
                            <span>
@@ -659,18 +691,19 @@
                               </button>
                               </span>
                               <%-- 장바구니 테이블에서 특정제품의 현재주문수량을 변경하여 적용하려면 먼저 장바구니번호(시퀀스)를 알아야 한다 --%>
-                             <input type="hidden" class="cartno" name="cart_code" value="${cvo.cart_code}" /> 
+                             <input type="hidden" class="cartno" name="cart_codeJoin" value="${cvo.cart_code}" /> 
                            
                         </td>
                         <td style="border:none;">
                         <img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">${cvo.prod.prod_point}
-                        <input type="hidden" class="prodPoint" name="prodPoint" value="${cvo.prod.prod_point}" /> 
+                        <input type="hidden" class="prodPoint" name="pointJoin" value="${cvo.prod.prod_point}" /> 
                         </td>
                         <td style="border:none;"><fmt:formatNumber value="${cvo.prod.prod_saleprice}" pattern="###,###"></fmt:formatNumber></td>
-                        <input type="hidden" class="prodSalePrice " name="prodSalePrice" value="${cvo.prod.prod_saleprice}" /> 
-                        <input type="hidden" class="prodPrice " name="prodPrice" value="${cvo.prod.prod_price}" /> 
+                        <input type="hidden" class="prodSalePrice " name="salepriceJoin" value="${cvo.prod.prod_saleprice}" /> 
+                        <input type="hidden" class="prodPrice " name="priceJoin" value="${cvo.prod.prod_price}" /> 
                         <td style="border:none;"><fmt:formatNumber value="${cvo.prod.totalPrice}" pattern="###,###"></fmt:formatNumber></td>
                         <input type="hidden" class="totalOnePriceJoin" name="totalOnePriceJoin" value="${cvo.prod.totalPrice}" /> 
+                       
                         
                         <td style="border:none;">
                         <div>
@@ -694,12 +727,18 @@
                          <td colspan="7" style="text-align: right;"> 상품 <span name="sumprice_span"><fmt:formatNumber value="${requestScope.sumMap.SUMTOTALPRICE}" pattern="###,###" /></span> + 
                          배송비 
                          <span>
+                          <c:if test="${empty requestScope.cartList}">
+	             			<fmt:formatNumber value="0" pattern="###,###" />
+            		 	  </c:if> 
+            		 	  
+            		 	  <c:if test="${not empty requestScope.cartList}">
                          <c:if test="${requestScope.sumMap.SUMTOTALPRICE <= 70000}">
                          <fmt:formatNumber value="2500" pattern="###,###" />
                          </c:if>
                          <c:if test="${requestScope.sumMap.SUMTOTALPRICE >= 70000}">
                          <fmt:formatNumber value="0" pattern="###,###" />(무료)
                          </c:if>
+                          </c:if>
                          </span> 
                          <input type="hidden" class="totalorderprice" name="totalorderprice" value="${requestScope.sumMap.SUMTOTALPRICE}" /> 
                          <input type="hidden" class="deliveryfee" name="deliveryfee" value="${requestScope.deliveryfee}" /> 
@@ -739,12 +778,21 @@
       <p class="col-3"></p>
        <p class="col-1 fw-bolder"><fmt:formatNumber value="${requestScope.sumMap.SUMTOTALPRICE}" pattern="###,###" /></p>
        <p class="col-1">+</p>
-       <p class="col-1 fw-bolder"><c:if test="${requestScope.sumMap.SUMTOTALPRICE <= 70000}">
+       <p class="col-1 fw-bolder">
+       
+       					<c:if test="${empty requestScope.cartList}">
+	             			<fmt:formatNumber value="0" pattern="###,###" />
+            		 	  </c:if> 
+            		 	  
+            		  <c:if test="${not empty requestScope.cartList}">
+       					<c:if test="${requestScope.sumMap.SUMTOTALPRICE <= 70000}">
                          <fmt:formatNumber value="2500" pattern="###,###" />
                          </c:if>
                          <c:if test="${requestScope.sumMap.SUMTOTALPRICE >= 70000}">
                          <fmt:formatNumber value="0" pattern="###,###" />(무료)
+                         </c:if>
                          </c:if></p>
+                         
        <p class="col-1">=</p> 
        <p class="col-2 fw-bolder"> <fmt:formatNumber value="${requestScope.totalSumPrice}" pattern="###,###" /></p>    
        <p class="col-3"></p> 

@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -7,8 +6,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
 <%
-    String ctxPath = request.getContextPath();
-    //     /MyMVC
+    String ctxPath= request.getContextPath();
+    
 %>       
 <!DOCTYPE html>
 <html>
@@ -17,14 +16,16 @@
 <title>Insert title here</title>
 
 <script type="text/javascript">
-function gocheck() {
+$(document).ready(function(){
 	
-	alert("체크박스 체크");
 	
-}
-function godelete() {
 	
-	alert("체크박스 해제");
+});
+function goSearche() {
+	
+	const frm_select  = document.selectItem
+	frm_select.action = "productHp.sue";
+	frm_select.submit();
 	
 }
 </script>
@@ -32,19 +33,22 @@ function godelete() {
 <body>
 <div class="container">
 
+
 	<div style="margin-top: 10%;">
-		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;">
-		  <option selected>인기상품순</option>
-		  <option value="1">신상품순</option>
-		  <option value="2">낮은가격순</option>
-		  <option value="3">높은가격순</option>
-		  <option value="4">할인율순</option>
+	
+		<select class="form-select-lg-3" aria-label="Default select example" style="float: right;" name="selectItem"  id="selectItem" onchange="goSearch()">
+		  <option value="popularityitem" selected >인기상품순</option>
+		  <option value="newItem">신상품순</option>
+		  <option value="lowPriceItem">낮은가격순</option>
+		  <option value="highPriceItehm">높은가격순</option>    
 		</select>
+		<!-- <p><button type="button" class="btn btn-dark" style="color: white ;" onclick="goSearch()">검색</button></p> -->
+		
 	</div>
 	
 	
 	<div>
-		<p class="fw-bolder" style="text-align: left; font-size: 25px; padding-bottom: 30px;">앵클/부츠</p>
+		<p class="fw-bolder" style="text-align: left; font-size: 25px; padding-bottom: 30px;">힐/펌프스</p>
 	</div>
 	
 
@@ -52,9 +56,10 @@ function godelete() {
 	<c:forEach var="pvo" items="${requestScope.productList}">
 	<div class="col-lg-3" id="sideinfo" style="margin-bottom: 5%;">
   		<div class="card" style="width: 16rem;">
-  			<img src="<%= ctxPath%>/images/product/${pvo.prod_kind}/${pvo.prod_image}" class="card-img-top" alt="...">
+  			<img src="<%= ctxPath%>/images/product/${pvo.prod_image}" class="card-img-top" alt="...">
   				<div class="card-body">
     				<div class="card-title" >
+    				
     				<c:forTokens var="color" items="${pvo.prod_color}" delims=",">
     				<span class="best_color" style="background-color: ${color};"> </span>      
     				</c:forTokens>
@@ -64,13 +69,15 @@ function godelete() {
     				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
     				<c:if test="${pvo.prod_saleprice ne pvo.prod_price}">
 	   				<span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
-    				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span></p>
+    				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span>
+    				<span style="color: red; "> ${pvo.discountPercent}% </span></p>
 					</c:if>	
 					<c:if test="${pvo.prod_saleprice eq pvo.prod_price}">
     				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
 					</c:if>	
+    				</p>
     				
-    				<a class="btn btn-dark" style="color:white;" onclick="check();">상세페이지</a>
+    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn" style="color:white; background-color: #003366;">상세페이지</a>
   				</div>
 		</div>
      </div>

@@ -5,7 +5,6 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
 
 import common.controller.AbstractController;
 import jihee.product.model.*;
@@ -53,6 +52,7 @@ public class ProductHp extends AbstractController {
 		//할인율
 		List<ProductVO> bestProductList = pdao.selectBestProduct(paraMap);
 		
+		
 		/*
 		 * for(ProductVO pvo : bestProductList) {
 		 * 
@@ -62,7 +62,7 @@ public class ProductHp extends AbstractController {
 		 * System.out.println(pvo.getDiscountPercent());
 		 * 
 		 * }// end of for----------------------------
-		 */
+		 */		 
 			
 		
 		request.setAttribute("bestProductList", bestProductList);
@@ -400,6 +400,8 @@ public class ProductHp extends AbstractController {
 				request.setAttribute("productList", productList);
 				
 				request.setAttribute("searchWord", searchWord);
+				
+				
 				
 				
 

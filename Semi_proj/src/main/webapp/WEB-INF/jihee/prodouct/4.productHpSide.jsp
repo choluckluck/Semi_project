@@ -71,7 +71,7 @@ a:active {text-decoration: none; color: gray;}
 				
 				<!-- 체크박스 색상 -->
 				<div class="color" style="padding: 0px;">
-				<p class="fw-bolder" >색상범주(코딩)</p>
+				<p class="fw-bolder" >색상범주</p>
 				
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
@@ -142,7 +142,7 @@ a:active {text-decoration: none; color: gray;}
 			<br><br>
 			
 			<div class="color" style="padding: 0px;">
-				<p class="fw-bolder" >사이즈(코딩)</p>
+				<p class="fw-bolder" >사이즈</p>
 		    </div>
 		    <div class="btn-group " role="group" aria-label="Basic checkbox toggle button group" >
 				<div>
@@ -185,7 +185,7 @@ a:active {text-decoration: none; color: gray;}
 			</div>
 				
 			<br><br>
-			<p><button type="button" class="btn btn-dark" style="color: white;" onclick="goSearch()">검색</button></p>	
+			<p><button type="button" class="btn " style="color: white; background-color: #00264d;" onclick="goSearch()">검색</button></p>	
 	
 			
 			
