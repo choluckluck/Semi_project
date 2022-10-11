@@ -24,7 +24,7 @@ $(document).ready(function(){
 <body>
 <div class="container">
 	<div >
-		<img src="<%= ctxPath%>/images/jihee/hpproduct.png" class="img-fluid col-lg-12" alt="..." style="padding-bottom: 30px;">
+		<img src="<%= ctxPath%>/images/jihee/ㅇ.png" class="img-fluid col-lg-12" alt="..." style="padding-bottom: 30px;">
 	</div>
 	
 	<div >

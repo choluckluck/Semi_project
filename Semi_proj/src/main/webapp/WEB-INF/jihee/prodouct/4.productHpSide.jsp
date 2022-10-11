@@ -185,7 +185,7 @@ a:active {text-decoration: none; color: gray;}
 			</div>
 				
 			<br><br>
-			<p><button type="button" class="btn " style="color: white; background-color: #00264d;" onclick="goSearch()">검색</button></p>	
+			<p><button type="button" class="btn " style="color: white; background-color: #001a33;" onclick="goSearch()">검색</button></p>	
 	
 			
 			

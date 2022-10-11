@@ -24,7 +24,7 @@ $(document).ready(function(){
 <body>
 <div class="container">
 	<div >
-		<img src="<%= ctxPath%>/images/jihee/hpproduct.png" class="img-fluid col-lg-12" alt="..." style="padding-bottom: 30px;">
+		<img src="<%= ctxPath%>/images/jihee/abproduct.png" class="img-fluid col-lg-12" alt="..." style="padding-bottom: 30px;">
 	</div>
 	
 	<div >
@@ -54,7 +54,7 @@ $(document).ready(function(){
 					<c:if test="${pvo.prod_saleprice eq pvo.prod_price}">
     				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
 					</c:if>	
-    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn " style="color:white; background-color: #003366;">상세페이지</a>
+    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn " style="color:white; background-color: #001a33 ;">상세페이지</a>
   				</div>
 		</div>
      </div>

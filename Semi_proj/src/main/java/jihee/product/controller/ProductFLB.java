@@ -26,25 +26,25 @@ public class ProductFLB extends AbstractController {
 		
 		//1-1 종류 넘겨주기
 		
-				String productType_1 = "pumps";
+				String productType_1 = "flat";
 				paraMap.put("productType_1", productType_1);
 				
-				String productType_2 = "slingback";
+				String productType_2 = "bloafer";
 				paraMap.put("productType_2", productType_2);
 				
-				String productType_3 = "나나";
+				String productType_3 = "loafer";
 				paraMap.put("productType_3", productType_3);
 				
 				
-				String productHigh_1 ="7";
+				String productHigh_1 ="2";
 				
 				paraMap.put("productHigh_1", productHigh_1);
 				
-				String productHigh_2 ="5";
+				String productHigh_2 ="1";
 				
 				paraMap.put("productHigh_2", productHigh_2);
 				
-				String productHigh_3 ="6.5";
+				String productHigh_3 ="3.5";
 				
 				paraMap.put("productHigh_3", productHigh_3);
 				
@@ -511,17 +511,12 @@ public class ProductFLB extends AbstractController {
 		
 		
 		
-		if(searchWord == null) {
-			searchWord = "";
-		}
-		
-		if(searchPrice1 ==null) {
-			searchPrice1= "0";
-		}
-		
-		if(searchPrice2 ==null) {
-			searchPrice2= "5000000";
-		}
+		 if(searchWord == null) { searchWord = ""; }
+		  
+		 if(searchPrice1 ==null) { searchPrice1= ""; }
+		 
+		 if(searchPrice2 ==null) { searchPrice2= ""; }
+		 
 		
 	
 		
@@ -545,7 +540,7 @@ public class ProductFLB extends AbstractController {
 				
 			}
 			else {
-				pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"&searchPrice1="+searchPrice1+"&searchPrice2="+searchPrice2+"&selectItem="+selectItem+"'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='productFLB.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"&searchPrice1="+searchPrice1+"&searchPrice2="+searchPrice2+"&selectItem="+selectItem+"'>" + pageNo + "</a></li>";
 			}
 			loop++; // 1 2 3 4 5 6 7 8 9 10
 			pageNo++; // 1   2  3  4  5  6  7  8  9 10
@@ -563,8 +558,8 @@ public class ProductFLB extends AbstractController {
 		// **** [다음][마지막] 만들기 **** //
 		
 		if( pageNo <= totalPage ) { //페이지가 totalPage보다 작거나 같을때만 (마지막 블럭 제외)  
-			pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"'>" + "[다음]</a></li>";
-			pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"&searchWord="+searchWord+"'>" + "[마지막]</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='productFLB.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"'>" + "[다음]</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='productFLB.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"&searchWord="+searchWord+"'>" + "[마지막]</a></li>";
 		}
 		// **** [다음][마지막] 만들기 끝**** //
 		
@@ -578,7 +573,7 @@ public class ProductFLB extends AbstractController {
 		// ******** === 페이지바 만들기 끝 === ******** //
 
 		//super.setRedirect(false);
-		super.setViewPage("/webapp/WEB-INF/jihee/prodouct/sideFL.jsp");
+		super.setViewPage("/WEB-INF/jihee/prodouct/sideFL.jsp");
 		
 
 	}

@@ -37,13 +37,13 @@ a:active {text-decoration: none; color: gray;}
 			<div id="sidecontent" style="text-align: left; padding: 20px;">
 						<div class="row">
 				<div class="col ">
-				<p class="fw-bolder" style="font-size: 30px">스니커즈</p>
+				<p class="fw-bolder" style="font-size: 30px">앵클/부츠</p>
 				</div>
 			</div>
 				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
-					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp4cm.sue" class="link" style="text-decoration: none; color: gray;">스니커즈</a><li>
+					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp4cm.sue" class="link" style="text-decoration: none; color: gray;">앵클 1~6cm</a><li>
 					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: gray;">앵클 7cm~</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productBoots.sue" class="link" style="text-decoration: none; color: gray;">롱부츠</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productBoots.sue" class="link" style="text-decoration: none; color: black;">롱부츠</a><li>
 				</ul>
 				<br>
 			<div class="row">
@@ -201,8 +201,8 @@ a:active {text-decoration: none; color: gray;}
 		 <div class="col-md-10" id="maininfo" align="center"> 
 		 
 			<div id="maincontent">
-		 <jsp:include page="6.productSnTop.jsp" /> 
-		 <jsp:include page="6.productSnBottom.jsp" /> 
+		 <jsp:include page="5.productAbTop.jsp" /> 
+		 <jsp:include page="5.productAbBottom.jsp" />
 		</div>
 	 </div>
 	 </div>
@@ -352,7 +352,7 @@ a:active {text-decoration: none; color: gray;}
 	function goSearch() {
 		
 		const frm = document.productHpFrm
-		frm.action = "productSn.sue";
+		frm.action = "productBoots.sue";
 		frm.submit();
 		
 

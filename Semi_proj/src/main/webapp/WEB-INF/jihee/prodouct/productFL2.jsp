@@ -48,7 +48,7 @@ function goSearche() {
 	
 	
 	<div>
-		<p class="fw-bolder" style="text-align: left; font-size: 25px; padding-bottom: 30px;">힐/펌프스</p>
+		<p class="fw-bolder" style="text-align: left; font-size: 25px; padding-bottom: 30px;">플랫/로퍼</p>
 	</div>
 	
 

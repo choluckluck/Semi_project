@@ -198,9 +198,9 @@
 				 --%>
 			</ul>
 			<div class="real_subbar real_subbar4 w-100">
-				<span><a href="#">플랫</a></span>
-				<span><a href="#">로퍼</a></span>
-				<span><a href="#">블로퍼</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productFlat.sue">플랫</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productLoafer.sue">로퍼</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productBloafer.sue">블로퍼</a></span>
 			</div>
 			<div class="real_subbar real_subbar5 w-100">
 				<span><a href="<%=ctxPath%>/jihee/product/productHp4cm.sue">4~6cm</a></span>
@@ -209,7 +209,7 @@
 			<div class="real_subbar real_subbar6 w-100">
 				<span><a href="#">앵클1~6cm</a></span>
 				<span><a href="#">앵클1~6cm</a></span>
-				<span><a href="#">롱부츠</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productBoots.sue">롱부츠</a></span>
 			</div>
 			<div class="real_subbar real_subbar7 w-100">
 				<span><a href="#">캔버스</a></span>

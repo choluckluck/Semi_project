@@ -388,6 +388,8 @@
                  const prodCodeJoin = prodCodeArr.join();
                  
                  
+                 
+                 
                     
                    const colorJoin = prodColorArr.join();
                    const sizeJoin = pordSizeArr.join();
@@ -397,8 +399,15 @@
                    const totalOnePriceJoin = totalOnePriceJoinArr.join();  //판매가x수량
                    
                    const pointJoin = prodPointArr.join(); 
-
-                 
+                   
+                   
+                   
+                   let sumtotalPrice = 0;
+                   for(var i=0; i<totalOnePriceJoinArr.length; i++){
+                      sumtotalPrice += Number(totalOnePriceJoinArr[i]);
+                   }
+                   
+                
                 /*  console.log("확인용 제품번호 : " + pnumjoin);
                  console.log("확인용 주문량 : " + countjoin);
                  console.log("확인용 prodCodeJoin: " + prodCodeJoin);
@@ -415,9 +424,9 @@
                  console.log("확인용 pointJoin : " + pointJoin);
                  console.log("확인용 totalorderprice : " + totalorderprice); */
                  
-                 const str_sumtotalPrice = totalPrice.toLocaleString("en"); // 자바스크립트에서 숫자 3자리마다 콤마를 찍어줌
+                 const str_sumtotalPrice = sumtotalPrice.toLocaleString("en"); // 자바스크립트에서 숫자 3자리마다 콤마를 찍어줌
                     
-              const bool = confirm("총주문액 : " + totalPrice + "원 \n결제하시겠습니까?");
+              const bool = confirm("총주문액 : " + sumtotalPrice + "원 \n결제하시겠습니까?");
                  
               const frm = document.bag_form;
               
@@ -468,6 +477,8 @@
                     $('input[name="salepriceJoin"]').attr('value',salepriceJoin);
                     $('input[name="pointJoin"]').attr('value',pointJoin);
                     $('input[name="prodCodeJoin"]').attr('value',prodCodeJoin);
+					 $('input[name="totalorderprice"]').attr('value',sumtotalPrice);
+                    
                   
                 
                    
@@ -746,6 +757,8 @@
                           = </td>
                          <td class="fw-bolder" style="font-size: 20px;"> <fmt:formatNumber value="${requestScope.totalSumPrice}" pattern="###,###" /></td>
                        <input type="hidden" class="totalPrice" name="totalPrice" value="${requestScope.totalSumPrice}" /> 
+                       <input type="hidden" class="sumtotalPrice" name="sumtotalPrice" value="" /> 
+                     
                      </tr> 
                   </tbody>
                </table>

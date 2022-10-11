@@ -5,13 +5,14 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import common.controller.AbstractController;
 import jihee.product.model.*;
 
 
 
 
-public class ProductFL extends AbstractController {
+public class ProductMule extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -25,21 +26,21 @@ public class ProductFL extends AbstractController {
 		
 		//1-1 종류 넘겨주기
 		
-				String productType_1 = "pumps";
+				String productType_1 = "mule";
 				paraMap.put("productType_1", productType_1);
 				
-				String productType_2 = "slingback";
+				String productType_2 = "나나";
 				paraMap.put("productType_2", productType_2);
 				
 				String productType_3 = "나나";
 				paraMap.put("productType_3", productType_3);
 				
 				
-				String productHigh_1 ="5";
+				String productHigh_1 ="3.5";
 				
 				paraMap.put("productHigh_1", productHigh_1);
 				
-				String productHigh_2 ="6.5";
+				String productHigh_2 ="나나";
 				
 				paraMap.put("productHigh_2", productHigh_2);
 				
@@ -48,8 +49,21 @@ public class ProductFL extends AbstractController {
 				paraMap.put("productHigh_3", productHigh_3);
 				
 				
-		
+		//할인율
 		List<ProductVO> bestProductList = pdao.selectBestProduct(paraMap);
+		
+		
+		/*
+		 * for(ProductVO pvo : bestProductList) {
+		 * 
+		 * 
+		 * pvo.getDiscountPercent();
+		 * 
+		 * System.out.println(pvo.getDiscountPercent());
+		 * 
+		 * }// end of for----------------------------
+		 */		 
+			
 		
 		request.setAttribute("bestProductList", bestProductList);
 		
@@ -388,6 +402,8 @@ public class ProductFL extends AbstractController {
 				request.setAttribute("searchWord", searchWord);
 				
 				
+				
+				
 
 				// 3-3페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
 				int totalPage = pdao.getTotalPage(paraMap);
@@ -529,7 +545,7 @@ public class ProductFL extends AbstractController {
 				
 			}
 			else {
-				pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"&searchPrice1="+searchPrice1+"&searchPrice2="+searchPrice2+"&selectItem="+selectItem+"'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='productMule.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"&searchPrice1="+searchPrice1+"&searchPrice2="+searchPrice2+"&selectItem="+selectItem+"'>" + pageNo + "</a></li>";
 			}
 			loop++; // 1 2 3 4 5 6 7 8 9 10
 			pageNo++; // 1   2  3  4  5  6  7  8  9 10
@@ -562,7 +578,7 @@ public class ProductFL extends AbstractController {
 		// ******** === 페이지바 만들기 끝 === ******** //
 
 		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/jihee/prodouct/4.productHp4cm.jsp");
+		super.setViewPage("/WEB-INF/jihee/prodouct/7.productMule.jsp");
 		
 
 	}

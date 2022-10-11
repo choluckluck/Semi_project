@@ -41,9 +41,9 @@ a:active {text-decoration: none; color: gray;}
 				</div>
 			</div>
 				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
-					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp4cm.sue" class="link" style="text-decoration: none; color: gray;">플랫</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: gray;">로퍼</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: gray;">블로퍼</a><li>
+					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productFlat.sue" class="link" style="text-decoration: none; color: gray;">플랫</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productLoafer.sue" class="link" style="text-decoration: none; color: gray;">로퍼</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productBloafer.sue" class="link" style="text-decoration: none; color: gray;">블로퍼</a><li>
 				</ul>
 				<br>
 			<div class="row">
@@ -201,8 +201,8 @@ a:active {text-decoration: none; color: gray;}
 		 <div class="col-md-10" id="maininfo" align="center"> 
 		 
 			<div id="maincontent">
-		 <jsp:include page="4.productHpTop.jsp" /> 
-		 <jsp:include page="4.productHpBottom.jsp" /> 
+		 <jsp:include page="productFL.jsp" /> 
+		 <jsp:include page="productFL2.jsp" /> 
 		</div>
 	 </div>
 	 </div>
@@ -352,7 +352,7 @@ a:active {text-decoration: none; color: gray;}
 	function goSearch() {
 		
 		const frm = document.productHpFrm
-		frm.action = "productHp.sue";
+		frm.action = "productFLB.sue";
 		frm.submit();
 		
 

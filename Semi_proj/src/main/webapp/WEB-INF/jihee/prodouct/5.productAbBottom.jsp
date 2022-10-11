@@ -24,7 +24,7 @@ $(document).ready(function(){
 function goSearche() {
 	
 	const frm_select  = document.selectItem
-	frm_select.action = "productHp.sue";
+	frm_select.action = "productAb.sue";
 	frm_select.submit();
 	
 }
@@ -48,7 +48,7 @@ function goSearche() {
 	
 	
 	<div>
-		<p class="fw-bolder" style="text-align: left; font-size: 25px; padding-bottom: 30px;">힐/펌프스</p>
+		<p class="fw-bolder" style="text-align: left; font-size: 25px; padding-bottom: 30px;">앵클/부츠</p>
 	</div>
 	
 
