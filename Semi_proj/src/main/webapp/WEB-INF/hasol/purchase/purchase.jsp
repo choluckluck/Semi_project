@@ -94,14 +94,14 @@ $(document).ready(function(){
  // 결제 정보를 업데이트 해주기
  function insertOrder(){
 	
-	//적립/차감해줄 회원의 포인트
-	const totalUserpoint = Number($("#totalProdpoint").val()) - Number($("#wishusepoint").val());
 	//실결제구매금액
 	const real_amount = $("#real_amount").val();
 	const order_amount = "${requestScope.viewMap.totalprice}";
 	
-	let point_use_amount = $("#wishusepoint").val();
-	if(point_use_amount == null ){point_use_amount == "0"};
+	var point_use_amount = $("#wishusepoint").val();
+	if(point_use_amount == null){
+		point_use_amount = "0";
+	}
 
 	const priceJoin = "${requestScope.viewMap.priceJoin}";
 	var priceArr = priceJoin.split(",");		
@@ -119,7 +119,6 @@ $(document).ready(function(){
 	const countJoin = "${requestScope.viewMap.countJoin}";
 	
 	/*
-	
      <form name="orderinsert">
     	<input id="userid" type="text" name="userid" value="${requestScope.userid}"/>
     	<input id="totalUserpoint" type="text" name="totalUserpoint" value=""/>
@@ -138,10 +137,10 @@ $(document).ready(function(){
 	*/
 	
 	const frm = document.orderinsert;
-	frm.totalUserpoint.value = totalUserpoint;
 	frm.totalRealamount.value = real_amount;
 	frm.totalOrderamount.value = order_amount;
-	frm.pointUseamount.value = point_use_amount;
+	frm.userusePoint.value = point_use_amount;
+	frm.prodPoint.value = $("#totalProdpoint").val();
 	frm.discountamount.value = discountamount;
 	frm.deliveryfee.value = deliveryfee;
 	frm.prod_code.value = prod_codeJoin;
@@ -215,7 +214,7 @@ $(document).ready(function(){
 								<p>옵션:[${pvo.pdvo.prod_color}/${pvo.pdvo.prod_size}]</p>
 								<p><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="#,###"/>원</p>
 							 </td>
-							 <td>${requestScope.viewMap.countArr[idx]}개</td>
+							 <td>${requestScope.viewMap.countArr[idx]}</td>
 							 <td>${requestScope.viewMap.pointArr[idx]}</td>
 							 <td >기본배송</td>
 							 <td>
@@ -356,10 +355,10 @@ $(document).ready(function(){
         <form name="orderinsert">
         	<input id="userid" type="text" name="userid" value="${requestScope.loginuser.userid}"/>
         	<input id="cart_code" type="text" name="cart_code" value="${requestScope.viewMap.cart_codeJoin}"/>
-        	<input id="totalUserpoint" type="text" name="totalUserpoint" value=""/>
+        	<input id="userusePoint" type="text" name="userusePoint" value="0"/>
+        	<input id="prodPoint" type="text" name="prodPoint" value=""/>
         	<input id="totalRealamount" type="text" name="totalRealamount" value=""/>
         	<input id="totalOrderamount" type="text" name="totalOrderamount" value=""/>
-        	<input id="pointUseamount" type="text" name="pointUseamount" value=""/>
         	<input id="discountamount" type="text" name="discountamount" value=""/>
         	<input id="deliveryfee" type="text" name="deliveryfee" value=""/>
         	<input id="prod_code" type="text" name="prod_code" value=""/>

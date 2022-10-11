@@ -1035,10 +1035,10 @@ public class ProductDAO implements InterProductDAO {
 			conn.setAutoCommit(false); //수동커밋
 			
 //			paraMap.put("userid", userid);
-//			paraMap.put("totalUserpoint", totalUserpoint);
 //			paraMap.put("totalRealamount", totalRealamount);
 //			paraMap.put("totalOrderamount", totalOrderamount);
-//			paraMap.put("pointUseamount", pointUseamount);
+//			paraMap.put("userusePoint", userusePoint);
+//			paraMap.put("prodPoint", prodPoint);
 //			paraMap.put("discountamount", discountamount);
 //			paraMap.put("deliveryfee", deliveryfee);
 //			paraMap.put("prod_codeArr", prod_codeArr);
@@ -1048,6 +1048,7 @@ public class ProductDAO implements InterProductDAO {
 //			paraMap.put("prod_sizeArr", prod_sizeArr);
 //			paraMap.put("cart_codeJoin", cart_codeJoin);
 //			paraMap.put("order_code", order_code);
+			
 			
 			// 주문테이블에 주문전표, 사용자, 현재시각 insert
 			String sql = " insert into tbl_order(order_code, fk_userid, total_order_amount, point_use_amount, discount_amount, real_amount, delivery_fee, fk_order_state_name, orderdate, expectdate "
@@ -1094,6 +1095,101 @@ public class ProductDAO implements InterProductDAO {
 				}
 				System.out.println("확인용 n2 : " + n2);
 			}//end of n1
+			
+			// tbl_product에서 해당 제품번호, 컬러, 사이즈에 해당하는 잔고량을 주문량만큼 감하기
+			if(n2==1) {
+				String[] prod_codeArr = (String[]) paraMap.get("prod_codeArr");
+				String[] prod_colorArr = (String[]) paraMap.get("prod_colorArr");
+				String[] prod_sizeArr = (String[]) paraMap.get("prod_sizeArr");
+				String[] order_buy_countArr = (String[]) paraMap.get("order_buy_countArr");
+				
+				int cnt=0;
+				for(int i=0; i<prod_codeArr.length; i++) {
+					sql = " update tbl_prod_detail set prod_stock = ? "
+						+ " where prod_code = ? and  prod_color = ? and prod_size = ? ";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, Integer.parseInt(order_buy_countArr[i]));
+					pstmt.setString(2, prod_codeArr[i]);
+					pstmt.setString(3, prod_colorArr[i]);
+					pstmt.setString(4, prod_sizeArr[i]);
+					
+					pstmt.executeUpdate();
+					cnt++;
+				}
+				if(cnt == prod_codeArr.length) {
+					n3 = 1;
+				}
+				System.out.println("확인용 n3 : " + n3);
+			}//end of n2
+			
+			//tbl_cart에서 cart_codeJoin에 해당하는 행들을 delete or update 해주기
+			if(paraMap.get("cart_codeJoin") != null && n3==1 ) {
+				
+				String cart_codeJoin = (String)paraMap.get("cart_codeJoin");
+				String[] cart_codeArr = cart_codeJoin.split("\\,");
+				cart_codeJoin = String.join("','", cart_codeArr);
+				cart_codeJoin = "'"+cart_codeJoin+"'";
+				
+				sql = " delete from tbl_cart "
+					+ " where cart_code in ( "+cart_codeJoin+" ) ";
+				pstmt = conn.prepareStatement(sql);
+				n4 = pstmt.executeUpdate();
+				
+				System.out.println("확인용 n4 : " + n4);
+			}//end of cart_codeJoin != null
+			
+			// 바로주문을 한 경우
+			if(paraMap.get("cart_codeJoin") == null && n3==1 ) { 
+				n4 = 1;
+				
+				System.out.println("확인용 바로주문하기 n4 : " + n4);
+			}//end of cart_codeJoin != null
+			
+			// 회원테이블에서 point를 업데이트 해주어야 한다
+			if(n4 > 0 ) {
+				int pointupdate = 0, pointupdateResult=0;
+				sql = " update tbl_member set point = point + ?  where userid = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt((String)paraMap.get("prodPoint")));
+				pstmt.setString(2, (String)paraMap.get("userid"));
+				pointupdate = pstmt.executeUpdate();
+				
+				if(pointupdate == 1) {
+					sql = " update tbl_member set point = point - ? where userid = ? ";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, Integer.parseInt((String)paraMap.get("userusePoint")));
+					pstmt.setString(2, (String)paraMap.get("userid"));
+					pointupdateResult = pstmt.executeUpdate();
+					n5 = 1;
+				}
+				System.out.println("확인용 pointupdateResult : " + pointupdateResult);
+				System.out.println("확인용 n5 : " + n5);
+			}//end of n4
+			
+			if(n5 > 0) {
+				// 회원테이블에서 최근 6개월간의 주문내역을 가져와서 등급을 변경해준다
+				// 회원의 등급 알아오기
+				sql = " select grade_code "
+					+ " from( select sum(real_amount) as total_real_amount from tbl_order where fk_userid = ? and (orderdate between sysdate-180 and sysdate) )T, tbl_grade G "
+					+ " where total_real_amount between G.min_price and G.max_price ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, (String)paraMap.get("userid"));
+				rs = pstmt.executeQuery();
+				rs.next();
+				String grade_name = rs.getString(1);
+				
+				int updateGrdaeResult = 0;
+				sql = " update tbl_member set fk_grade_code = ? "
+					+ " where userid = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, grade_name);
+				pstmt.setString(2, (String)paraMap.get("userid"));
+				updateGrdaeResult = pstmt.executeUpdate();
+				
+				System.out.println("확인용 updateGrdaeResult : " + updateGrdaeResult);
+			}
+			
 			
 			
 		} catch(SQLException e) {

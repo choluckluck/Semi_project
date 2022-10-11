@@ -26,7 +26,6 @@ public class Purchase extends AbstractController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		String userid = loginuser.getUserid();
-		//String userid = "hyerin25";
 		String cart_codeJoin = "cart-0900,cart-0901,cart-0902";
 		String prod_codeJoin = "prod-0022,prod-0057,prod-0088";
 		String colorJoin = "green,red,brown";

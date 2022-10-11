@@ -24,10 +24,10 @@ public class PurchaseEndAfterInsertOrder extends AbstractController {
 		if("post".equalsIgnoreCase(method)) {
 			
 			
-//			frm.totalUserpoint.value = totalUserpoint;
 //			frm.totalRealamount.value = real_amount;
 //			frm.totalOrderamount.value = order_amount;
-//			frm.pointUseamount.value = point_use_amount;
+//			frm.userusePoint.value = point_use_amount;
+//			frm.useroriginalPoint.value = "${requestScope.loginuser.point}";
 //			frm.discountamount.value = discountamount;
 //			frm.deliveryfee.value = deliveryfee;
 //			frm.prod_code.value = prod_codeJoin;
@@ -42,10 +42,11 @@ public class PurchaseEndAfterInsertOrder extends AbstractController {
 			String order_code = odao.getOrderCode();
 			String userid = request.getParameter("userid");
 			
-			String totalUserpoint = request.getParameter("totalUserpoint");
 			String totalRealamount = request.getParameter("totalRealamount");
 			String totalOrderamount = request.getParameter("totalOrderamount");
-			String pointUseamount = request.getParameter("pointUseamount");
+			String userusePoint = request.getParameter("userusePoint");
+			if(userusePoint == null) {userusePoint = "0";}
+			String prodPoint = request.getParameter("prodPoint");
 			String discountamount = request.getParameter("discountamount");
 			String deliveryfee = request.getParameter("deliveryfee");
 			
@@ -65,13 +66,12 @@ public class PurchaseEndAfterInsertOrder extends AbstractController {
 			//지워야 할 cart code
 			String cart_codeJoin = request.getParameter("cart_codeJoin");
 			
-			
 			Map<String, Object> paraMap = new HashMap<>();
 			paraMap.put("userid", userid);
-			paraMap.put("totalUserpoint", totalUserpoint);
 			paraMap.put("totalRealamount", totalRealamount);
 			paraMap.put("totalOrderamount", totalOrderamount);
-			paraMap.put("pointUseamount", pointUseamount);
+			paraMap.put("userusePoint", userusePoint);
+			paraMap.put("prodPoint", prodPoint);
 			paraMap.put("discountamount", discountamount);
 			paraMap.put("deliveryfee", deliveryfee);
 			paraMap.put("prod_codeArr", prod_codeArr);
