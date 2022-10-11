@@ -76,12 +76,12 @@ public class MemberDAO implements InterMemberDAO {
 			conn = ds.getConnection();
 			
 			String sql = " SELECT userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, \n" +
-					" birthday, grade_code, point, account_name, bank_name, account, registerday, pwdchangegap, \n" +
+					" birthday, fk_grade_code, point, account_name, bank_name, account, registerday, pwdchangegap, \n" +
 					" nvl(lastlogingap, trunc( months_between(sysdate, registerday) ) ) AS lastlogingap \n" +
 					" FROM \n" +
 					" (\n" +
 					" select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender \n" +
-					" , birthday, grade_code, point, account_name, bank_name, account, to_char(registerday, 'yyyy-mm-dd') AS registerday \n" +
+					" , birthday, fk_grade_code, point, account_name, bank_name, account, to_char(registerday, 'yyyy-mm-dd') AS registerday \n" +
 					" , trunc( months_between(sysdate, last_pwd_change_date) ) AS pwdchangegap\n" +
 					" from tbl_member\n" +
 					" where status = 1 and userid = ? and pwd = ? \n" +
@@ -96,7 +96,7 @@ public class MemberDAO implements InterMemberDAO {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, paraMap.get("userid"));
-			pstmt.setString(2, paraMap.get("pwd") );
+			pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
 			pstmt.setString(3, paraMap.get("userid"));
 			
 			rs = pstmt.executeQuery();
@@ -106,8 +106,8 @@ public class MemberDAO implements InterMemberDAO {
 				
 				member.setUserid(rs.getString(1));
 				member.setName(rs.getString(2));
-				member.setEmail( rs.getString(3) );  // 복호화 
-				member.setMobile( rs.getString(4) ); // 복호화  
+				member.setEmail( aes.decrypt(rs.getString(3)) );  // 복호화 
+				member.setMobile( aes.decrypt(rs.getString(4)) ); // 복호화  
 				member.setPostcode(rs.getString(5));
 				member.setAddress(rs.getString(6));
 				member.setDetailaddress(rs.getString(7));
@@ -165,6 +165,43 @@ public class MemberDAO implements InterMemberDAO {
 		}
 
 		return member;
+	}
+
+	@Override
+	public int registerMember(Map<String, String> paraMap) throws SQLException {
+
+		int result = 0;
+		   
+		   try {
+			   
+			   conn = ds.getConnection();
+			   
+		          String sql = " update tbl_member set name = ?, pwd = ?, email = ?, mobile = ?, postcode = ?, address = ?, detailaddress = ?, birthday = ?, last_pwd_change_date = sysdate "
+		                    + " where userid = ? ";
+			   
+			   pstmt = conn.prepareStatement(sql);
+
+		          pstmt.setString(1, paraMap.get("name"));
+		          pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
+		          pstmt.setString(3, aes.encrypt(paraMap.get("email")));
+		          pstmt.setString(4, aes.encrypt(paraMap.get("mobile")));
+		          pstmt.setString(5, paraMap.get("postcode"));
+		          pstmt.setString(6, paraMap.get("address"));
+		          pstmt.setString(7, paraMap.get("detailaddress"));
+		          pstmt.setString(8, paraMap.get("birthday"));
+		          pstmt.setString(9, paraMap.get("userid"));
+
+		          
+			   result = pstmt.executeUpdate();
+			   
+		   } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+		         e.printStackTrace();
+	       } finally {
+	          close();
+	       }
+	       
+	       return result;	
+	       
 	}
 
 }

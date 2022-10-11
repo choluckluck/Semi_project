@@ -144,7 +144,7 @@
 	
 		<h5>주문정보</h5>
 	<c:forEach var="rovo" items="${requestScope.oList}">
-		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
+		  <table class="table table" style="text-align:center; width:90%; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:300px;">
 				<col style="width:auto;">
@@ -185,12 +185,11 @@
 		
 		<h5>주문상품 정보</h5>
 	   <div id="prd-info" >
-	   		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
+	   		  <table class="table table" style="text-align:center; width:90%; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:100px;">
 				<col style="width:auto;">
-				<col style="width:100px;">
-				<col style="width:100px;">
+				<col style="width:200px;">
 				<col style="width:100px;">
 				<col style="width:100px;">
 				<col style="width:100px;">
@@ -202,48 +201,74 @@
 				<th scope="col">판매가</th>
 				<th scope="col">수량</th>
 				<th scope="col">적립금</th>
-				<th scope="col">배송비</th>
 				<th scope="col">합계</th>
 			  </tr>
 			</thead>
 			<tbody>
+			 <c:forEach var="detailList" items="${requestScope.detailList}">			
 			  <tr style="">
 			  	<td>
-			  		<div style=" height:100px; width:75px;"><img src="" style="width:100%; height:100%; object-fit:cover;"/></div>
+			  		<div style=" height:100px; width:75px;"><img src="<%=request.getContextPath() %>/images/product/${detailList.prod_image}" style="width:100%; height:100%; object-fit:cover;"/></div>
 			  	</td>
 			  	<td style="text-align:left; vertical-align:middle;">
 					<div style="">
-					<a href="#" style="color:black;"><span>(특가) 띠아모 플랫(1.5cm)</span></a><br><span>[옵션: blue / 240mm ]</span>
+					<a href="#" style="color:black;"><span>${detailList.prod_name }</span></a><br><span>[옵션: ${detailList.odvo.fk_prod_color} / ${detailList.odvo.fk_prod_size}mm ]</span>
 					</div> 			  	
 			  	</td>
 			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>29,800원</span>
+			  		<span>정가 : <fmt:formatNumber value="${detailList.prod_price}" pattern="#,###"/>원 <br> 할인가 : <fmt:formatNumber value="${detailList.prod_saleprice}" pattern="#,###"/>원 </span>
 			  	</td>
 			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>1</span>
+			  		<span>${detailList.odvo.order_buy_count}개</span>
 			  	</td>
 			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>300원</span>
+			  		<span><fmt:formatNumber value="${detailList.prod_point*detailList.odvo.order_buy_count}" pattern="#,###"/>원</span>
 			  	</td>
 			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>3000</span>
-			  	</td>
-			  	<td style="text-align:center; vertical-align:middle;">
-			  		<span>29,800원</span>
+			  		<span><fmt:formatNumber value="${detailList.prod_saleprice * detailList.odvo.order_buy_count}" pattern="#,###"/>원</span>
 			  	</td>			  	
 		      </tr>
+		     </c:forEach>   
+		      <c:forEach var="totalList" items="${requestScope.totalList}">			
 		      <tr>
-		      	<td style="text-align:left;"><span></span></td>
+		     	<td style="text-align:left;"><span></span></td>
 		      	<td colspan="6" style="text-align:right;">
-		      		상품구매금액 <span>29,800</span> + 배송비 <span>2,500</span> = 합계 : <span>32,800원</span>
+		      		상품구매금액 : <span style= "margin-right:5px;"><fmt:formatNumber value="${totalList.total}" pattern="#,###"/>원 </span>
+		      		+   배송비 : <span style= "margin-right:5px;"><fmt:formatNumber value="${totalList.shipfee}" pattern="#,###"/></span>
+		      		=   합계 : <span><fmt:formatNumber value="${totalList.total+totalList.shipfee}" pattern="#,###"/>원</span>
 		      	</td>
-		      </tr>		      
+		      </tr>		 
+		      
+		      </c:forEach>		       
 		    </tbody>
 		  </table>
 	   	<br><br><br>
 
-		<h5>결제정보</h5>		
-		  <table class="table table" style="text-align:center; width:100%; border-bottom:solid 1px gray;">
+	<c:forEach var="totalList" items="${requestScope.totalList}">			
+	   	<div id="total">
+	   	  <table class="table table" style=" width:90%">
+			<colgroup>
+				<col style="width:50%;">
+				<col style="width:50%;">
+			</colgroup>
+			<thead>
+				<tr>
+					<th scope="col" style=" text-align:center;">총 주문금액</th>
+					<th scope="col" style=" text-align:center;">총 적립금</th>	
+				</tr>
+			</thead>
+			<tbody>
+	      	  <tr>
+				<td style="font-weight:bold; text-align:center;"><span><fmt:formatNumber value="${totalList.total}" pattern="#,###"/>원</span></td>
+				<td style="font-weight:bold; text-align:center;"><span><fmt:formatNumber value="${totalList.totalPoint}" pattern="#,###"/>원</span></td>
+	      	  </tr>
+		    </tbody>
+		  </table>
+		</div>
+	</c:forEach>
+
+<%-- 		<h5>결제정보</h5>		
+		  <table class="table table" style="text-align:center; width:90%; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:300px;">
 				<col style="width:auto;">
@@ -263,31 +288,11 @@
 			  <tr>
 			  </tr>
 		    </tbody>
-		  </table>
+		  </table> --%>
 		  	   	
-	   	<div id="total">
-	   	  <table class="table table" style=" width:100%">
-			<colgroup>
-				<col style="width:50%;">
-				<col style="width:50%;">
-			</colgroup>
-			<thead>
-				<tr>
-					<th scope="col" style=" text-align:center;">총 주문금액</th>
-					<th scope="col" style=" text-align:center;">총 적립금</th>	
-				</tr>
-			</thead>
-			<tbody>
-	      	  <tr>
-				<td style="font-weight:bold; text-align:center;"><span>149,600원</span></td>
-				<td style="font-weight:bold; text-align:center;"><span>2,900원</span></td>
-	      	  </tr>
-		    </tbody>
-		  </table>
-		</div>
+
 		  <br><br><br>
 		  
-	   	
 	   	
 	   	
 	   	<div id="addr_info"><h5>배송지 정보</h5></div>
@@ -301,15 +306,15 @@
 			<tbody>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">받으시는분</td>
-				<td scope="col"><span>하하</span></td>
+				<td scope="col"><span>${loginuser.name}</span></td>
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">우편번호</td>
-				<td scope="col"><span>06241</span></td>
+				<td scope="col"><span>${loginuser.postcode}</span></td>
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">주소</td>
-				<td scope="col"><span>서울특별시 ~~</span></td>
+				<td scope="col"><span>${loginuser.address}  ${loginuser.detailaddress} ${loginuser.extraaddress}</span></td>
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">일반전화</td>
@@ -317,7 +322,7 @@
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">휴대전화</td>
-				<td scope="col"><span>010 - </span></td>
+				<td scope="col"><span>${loginuser.mobile}</span></td>
 	      	  <tr >
 				<td scope="col" style="font-weight:bold; color:gray;">배송메시지</td>
 				<td scope="col" style="vertical-align:middle;"><span >경비실 앞에 놔주세요.</span></td>
@@ -325,8 +330,6 @@
 		    </tbody>
 		  </table>
 		  
-		  
-
 	   </div>
 
 

@@ -11,4 +11,6 @@ public interface InterMemberDAO {
 
 	MemberVO selectOneMember(Map<String, String> paraMap) throws SQLException;
 
+	int registerMember(Map<String, String> paraMap) throws SQLException;
+
 }

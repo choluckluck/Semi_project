@@ -59,12 +59,60 @@
 	}  
 </style>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+	      $(".chkboxprod_code").click(function(){
+	          
+	          var bFlag = false;
+	          $(".chkboxprod_code").each(function(){
+	             var bChecked = $(this).prop("checked");
+	             if(!bChecked) {
+	                $("#allCheckOrNone").prop("checked",false);
+	                bFlag = true;
+	                return false;
+	             }
+	          });
+	          
+	          if(!bFlag) {
+	             $("#allCheckOrNone").prop("checked",true);
+	          }
+	          
+	       });
+	      
+	      
+	      $(".btn_order").click(function(){
+	    	  	alert($(this).val());
+			});
+	      
+	      
+	      
+	});
+
+	
+	   function allCheckBox() {
+		   
+		      var bool = $("#allCheckOrNone").is(":checked");
+		      /*
+		         $("#allCheckOrNone").is(":checked"); 은
+		           선택자 $("#allCheckOrNone") 이 체크되어지면 true를 나타내고,
+		           선택자 $("#allCheckOrNone") 이 체크가 해제되어지면 false를 나타내어주는 것이다.
+		      */
+		      
+		      $(".chkboxprod_code").prop("checked", bool);
+		   }// end of function allCheckBox()-------------------------
+		   
+		   
+		   
+</script>
+
+
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
     <link ghref="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 <body>
+
 
 
  <header></header>
@@ -95,7 +143,7 @@
 			</colgroup>
 			<thead>
 			  <tr>
-				<th scope="col"><input type="checkbox"/></th>
+				<th scope="col"><input type="checkbox" id="allCheckOrNone" onClick="allCheckBox();" /></th>
 				<th scope="col" colspan="2">상품 정보</th>
 				<th scope="col">정가</th>
 				<th scope="col">적립금</th>
@@ -106,19 +154,19 @@
 			<tbody>
 				<c:choose>
 					<c:when test="${not empty requestScope.likeList1}">					
-						<c:forEach var="pvo" items="${requestScope.likeList1}">
+						<c:forEach var="pvo" items="${requestScope.likeList1}" varStatus="status">
 						  <tr >
-						 	<td class="tbl_td"><input type="checkbox"/></td>
+						 	<td class="tbl_td"><input type="checkbox" class="chkboxprod_code"/></td>
 					 		<td class="tbl_td"><a href=# ><img id="likeimg" src="<%=request.getContextPath() %>/images/product/${pvo.prod_image}"></a></td>
 					 		<td class="tbl_td" style="text-align:left">
-					 			<a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >${pvo.prod_name}</a>
+					 			<a name="prd_name${status.index}" class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >${pvo.prod_name}</a>
 					 		</td>
-					 		<td class="tbl_td">${pvo.prod_price}</td>
+					 		<td name="prd_price${status.index}" class="tbl_td testzz">${pvo.prod_price}</td>
 					 		<td class="tbl_td"><img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">${pvo.prod_point}원</td>
 					 		<td class="tbl_td">${pvo.prod_saleprice}원</td>
 					 		<td class="tbl_td">
 					 		<div class="">
-					 		  <button type="button" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">주문하기</button>
+					 		  <button type="button" class="btn btn-gray btn_order" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" value="${status.index}">주문하기</button>
 					 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">장바구니<br>담기</button>
 					 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">삭제</button>
 							</div>				

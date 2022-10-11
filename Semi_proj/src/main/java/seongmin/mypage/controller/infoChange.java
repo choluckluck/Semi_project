@@ -44,7 +44,7 @@ public class infoChange extends AbstractController {
 			
 			
             //	super.setRedirect(false);
-				super.setViewPage("/WEB-INF/seongmin/infoChange.jsp");	
+				super.setViewPage("/WEB-INF/seongmin/registerWrite.jsp");	
 	
 		
 	}
