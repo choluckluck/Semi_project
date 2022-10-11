@@ -498,6 +498,33 @@ public class OrderDAO implements InterOrderDAO {
 	}//end of deleteOneOrder
 	
 	
+	// 오더코드 생성
+	@Override
+	public String getOrderCode() throws SQLException {
+		
+		String ordercode = "";
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select 'ord-'||lpad(SEQ_ORDERCODE.nextval,4,0) "
+					   + " from dual ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeQuery();
+			rs.next();
+			
+			ordercode = rs.getString(1);
+			
+		} finally {
+			close();
+		}
+		
+		
+		return ordercode;
+	}//end of getOrderCode
+	
+	
 	
 	
 }

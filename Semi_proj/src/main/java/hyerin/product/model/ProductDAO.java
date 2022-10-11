@@ -962,6 +962,152 @@ public class ProductDAO implements InterProductDAO {
 		
 		return n3;
 	}//end of deleteMultiProduct
+	
+	
+	
+	// 주문하려는 상품정보 불러오기
+	@Override
+	public List<ProductVO> getOrderProductsInfo(Map<String, Object> paraMap) throws SQLException {
+		List<ProductVO> pvoList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select prod_code, prod_name, prod_kind, prod_image, prod_saleprice, prod_high, prod_color, prod_size, prod_stock, prod_price "
+						+ " from tbl_product "
+						+ " join tbl_prod_detail "
+						+ " on prod_code = fk_prod_code "
+						+ " where prod_code = ? and prod_color = ? and prod_size = ? ";
+			
+			String[] prod_codeArr = (String[]) paraMap.get("prod_codeArr");
+			String[] colorArr = (String[]) paraMap.get("colorArr");
+			String[] sizeArr = (String[]) paraMap.get("sizeArr");
+			
+			for(int i=0; i<prod_codeArr.length; i++) {
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, prod_codeArr[i]);
+				pstmt.setString(2, colorArr[i]);
+				pstmt.setString(3, sizeArr[i]);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					ProductVO pvo = new ProductVO();
+					ProductDetailVO pdvo = new ProductDetailVO();
+					
+					pvo.setProd_code(rs.getString(1));
+					pvo.setProd_name(rs.getString(2));
+					pvo.setProd_kind(rs.getString(3));
+					pvo.setProd_image(rs.getString(4));
+					pvo.setProd_saleprice(rs.getString(5));
+					pvo.setProd_high(rs.getString(6));
+					pdvo.setProd_color(rs.getString(7));
+					pdvo.setProd_size(rs.getString(8));
+					pdvo.setProd_stock(rs.getString(9));
+					pvo.setProd_price(rs.getString(10));
+					pvo.setPdvo(pdvo);
+					
+					pvoList.add(pvo);
+				}
+				
+			}//end of for
+			
+		} finally {
+			close();
+		}
+		
+		return pvoList;
+	}//end of getOrderProductsInfo
+	
+	
+	
+	
+	
+	// transaction 메소드
+	@Override
+	public int orderAdd(Map<String, Object> paraMap) throws SQLException {
+		int success = 0;
+		int n1=0, n2=0, n3=0, n4=0, n5=0, n6=0, n7=0;
+		
+		try {
+			conn = ds.getConnection();
+			conn.setAutoCommit(false); //수동커밋
+			
+//			paraMap.put("userid", userid);
+//			paraMap.put("totalUserpoint", totalUserpoint);
+//			paraMap.put("totalRealamount", totalRealamount);
+//			paraMap.put("totalOrderamount", totalOrderamount);
+//			paraMap.put("pointUseamount", pointUseamount);
+//			paraMap.put("discountamount", discountamount);
+//			paraMap.put("deliveryfee", deliveryfee);
+//			paraMap.put("prod_codeArr", prod_codeArr);
+//			paraMap.put("order_buy_countArr", order_buy_countArr);
+//			paraMap.put("order_priceArr", order_priceArr);
+//			paraMap.put("prod_colorArr", prod_colorArr);
+//			paraMap.put("prod_sizeArr", prod_sizeArr);
+//			paraMap.put("cart_codeJoin", cart_codeJoin);
+//			paraMap.put("order_code", order_code);
+			
+			// 주문테이블에 주문전표, 사용자, 현재시각 insert
+			String sql = " insert into tbl_order(order_code, fk_userid, total_order_amount, point_use_amount, discount_amount, real_amount, delivery_fee, fk_order_state_name, orderdate, expectdate "
+					   + " values(?, ?, ?, ?, ?, ?, ?, '결제확인' ,sysdate, to_char(sysdate+5,'yy/mm/dd') ) ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, (String) paraMap.get("order_code"));
+			pstmt.setString(2, (String) paraMap.get("userid"));
+			pstmt.setInt(3, Integer.parseInt((String) paraMap.get("totalOrderamount")));
+			pstmt.setInt(4, Integer.parseInt((String) paraMap.get("pointUseamount")));
+			pstmt.setInt(5, Integer.parseInt((String) paraMap.get("discountamount")));
+			pstmt.setInt(6, Integer.parseInt((String) paraMap.get("totalRealamount")));
+			pstmt.setInt(7, Integer.parseInt((String) paraMap.get("deliveryfee")));
+			
+			n1 = pstmt.executeUpdate();
+			System.out.println("확인용 n1 :" + n1);
+			
+			// tbl_order_detail에 상품 상세 정보 insert
+			if(n1==1) {
+				
+				String[] prod_codeArr = (String[]) paraMap.get("prod_codeArr");
+				String[] order_buy_countArr = (String[]) paraMap.get("order_buy_countArr");
+				String[] order_priceArr = (String[]) paraMap.get("order_priceArr");
+				String[] prod_colorArr = (String[]) paraMap.get("prod_colorArr");
+				String[] prod_sizeArr = (String[]) paraMap.get("prod_sizeArr");
+				
+				int cnt = 0;
+				for(int i=0; i<prod_codeArr.length; i++) {
+					sql = " insert into tbl_order_detail(order_detail_code, fk_order_code, fk_prod_code, order_buy_count, order_price, fk_prod_color, fk_prod_size) "
+							+ " values( 'd-ord-'||lpad(SEQ_O_D_CODE.nextval,4,0), ?, ?, ?, ?, ?, ? ) ";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, (String) paraMap.get("order_code"));
+					pstmt.setString(2, prod_codeArr[i]);
+					pstmt.setString(3, order_buy_countArr[i]);
+					pstmt.setString(4, order_priceArr[i]);
+					pstmt.setString(5, prod_colorArr[i]);
+					pstmt.setString(6, prod_sizeArr[i]);
+					
+					pstmt.executeUpdate();
+					cnt++;
+				}
+				if(cnt == prod_codeArr.length) {
+					n2 = 1;
+				}
+				System.out.println("확인용 n2 : " + n2);
+			}//end of n1
+			
+			
+		} catch(SQLException e) {
+			// rollback
+			conn.rollback();
+			conn.setAutoCommit(true); //자동커밋으로 바꾸어준다
+			success = 0;
+		} finally {
+			close();
+		}
+		
+		
+		return success;
+	}//end of orderAdd
 
 	
 	

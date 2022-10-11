@@ -39,6 +39,14 @@ public interface InterMemberDAO {
 	
 	//체크된 회원들을 탈퇴처리하기(update)
 	int updateCheckedMember(String[] useridArr) throws SQLException;
+
+	
+	
+	// * 구매하기 * //
+	
+	
+	// 유저정보 불러오기
+	MemberVO getMemberDetail(String userid) throws SQLException;
 	
 	
 }
