@@ -218,10 +218,8 @@
 				<span><a href="#">스니커즈</a></span>
 			</div>
 			<div class="real_subbar real_subbar8 w-100">
-				<span><a href="#">슬링백 1cm~3cm</a></span>
-				<span><a href="#">슬링백 4cm~</a></span>
-				<span><a href="#">뮬 1cm~3cm</a></span>
-				<span><a href="#">뮬 4cm~</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productSlingback.sue">슬링백 1cm~4cm</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productMule.sue">뮬 4cm~</a></span>
 			</div>
 			<div class="real_subbar real_subbar9 w-100">
 				<span><a href="<%=ctxPath%>/hyerin/community/notice.sue">공지사항</a></span>
