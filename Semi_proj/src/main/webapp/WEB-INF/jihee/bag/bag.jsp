@@ -14,21 +14,6 @@
 <meta charset="UTF-8">
 <title>장바구니</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-<!-- Optional JavaScript -->
-<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
-
-<!-- jQueryUI CSS-->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
-<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-
-<!-- Font Awesome 5 Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
 
@@ -66,76 +51,9 @@
 </style>
 
 <script>
-   $(document).ready(function(){
-      <%-- //선택상품 주문 클릭시
-      $("button#orderSelect").click(function(){
-         const frm = document.bag_form;
-         frm.action="<%= ctxPath%>/product/productNew.up";
-         frm.method = "get";
-         frm.submit();
-      });
-      
-      
-    //전체상품 주문 클릭시
-      $("button#orderAll").click(function(){
-         const frm = document.bag_form;
-         frm.action="<%= ctxPath%>/product/productNew.up";
-         frm.method = "get";
-         frm.submit();
-      });
-    --%>
-      $("li[name='shname']").click(function(){
-    	  
-          const frm = document.bag_form;
-          frm.action="<%= ctxPath%>/product/productNew.up";
-          frm.method = "get";
-          frm.submit();
-       });
-      
-     
-      
-      $("a#detail").click(e => {
-    	alert("하하하");  
-      })
-    
-    // 주문하기 클릭시
-      $("button#doOrder").click(function(){
-         const frm = document.bag_form;
-         frm.action="<%= ctxPath%>/product/productNew.up";
-         frm.method = "get";
-         frm.submit();
-      });
-      
-
-      
-      //공지사항 클릭 이벤트
-      $("div#notice_text").click(function(){
-         location.href="<%= ctxPath%>/community/notice.up";
-      });
-      
-      
-      // 타이틀 => 게시글 클릭이벤트
-      $("tbody > tr > td:nth-child(2)").click(function(){
-         
-      });
-      
-   });//$(document).ready(function(){})-------
+  
    
-   //관심상품에 담고 장바구니에서는 없애주기 
-   function goHide() {
-	   alert("확인용");
-   	};
-   	
-  //관심상품에 담고 장바구니에서는 없애주기 
-    function goDelete() {
- 	   alert("선택하신상품을 삭제하시겠습니까?");
-    	};
-   	
-  	//상세페이지로 이동
-    function goDetail() {
-  	  alert("확인용");
-  	  
-    }
+   
   	
     function goOqtyEdit_plus (obj){
         
@@ -321,7 +239,7 @@
    			const prodSalePriceArr = new Array(); //세일가
    			const deliveryfee = $("input.deliveryfee").val();
    			const prodPointArr = new Array();
-   			const totalorderpriceArr = new Array(); // 배송비 제외
+   			const totalorderprice = $("input.totalorderprice").val();
    		    const totalOnePriceJoinArr = new Array(); // 판매가X수량
    			
    			
@@ -337,6 +255,8 @@
    					oqtyArr.push( $("input.qnty").eq(i).val() );
    					cartnoArr.push( $("input.cartno").eq(i).val() );
    					
+   				
+   					
    					
    					prodCodeArr.push( $("input.prodCode").eq(i).val() );
    					pordSizeArr.push( $("input.prodSize").eq(i).val() );
@@ -344,7 +264,7 @@
    					prodSalePriceArr.push( $("input.prodSalePrice").eq(i).val() );
    				
    					prodPointArr.push( $("input.prodPoint").eq(i).val() );
-   					totalorderpriceArr.push( $("input.totalorderprice").eq(i).val() );
+   					
    					totalOnePriceJoinArr.push( $("input.totalOnePriceJoin").eq(i).val() );
    					prodColorArr.push( $("input.prodColor").eq(i).val() );
    					
@@ -381,10 +301,11 @@
    				
    				const pnumjoin = pnumArr.join();
    				const countjoin = oqtyArr.join();
-   				const cartnojoin = cartnoArr.join();
+   				const cart_codeJoin = cartnoArr.join();
+   				const prodCodeJoin = prodCodeArr.join();
    				
    				
-   			   	const cart_codeJoin = prodCodeArr.join();
+   			   	
    		      	const colorJoin = prodColorArr.join();
    		        const sizeJoin = pordSizeArr.join();
    		       
@@ -393,17 +314,17 @@
    		        const totalOnePriceJoin = totalOnePriceJoinArr.join();  //판매가x수량
    		        
    		        const pointJoin = prodPointArr.join(); 
-   		        const totalorderprice = totalorderpriceArr.join();  //배송비 제외
    		     
    				
    				
    				
    				console.log("확인용 제품번호 : " + pnumjoin);
    				console.log("확인용 주문량 : " + countjoin);
-   				console.log("확인용 장바구니번호 : " + cartnojoin);
+   				console.log("확인용 prodCodeJoin: " + prodCodeJoin);
+   				console.log("확인용 cart_codeJoin : " + cart_codeJoin);
    				console.log("확인용 totalPrice : " + totalPrice);
    				
-   				console.log("확인용 cart_codeJoin : " + cart_codeJoin);
+   				
    				console.log("확인용 colorJoin : " + colorJoin);
    				console.log("확인용 sizeJoin : " + sizeJoin);
    				console.log("확인용 priceJoin : " + priceJoin);
@@ -424,7 +345,8 @@
 							type : "post",
 							data : {"totalPrice":totalPrice,
 									"deliveryfee":deliveryfee,
-									"cartnojoin":cartnojoin,
+									"cart_codeJoin":cart_codeJoin,
+									"prodCodeJoin":prodCodeJoin,
 									"countjoin ":countjoin ,
 									"cart_codeJoin":cart_codeJoin,
 									"colorJoin":colorJoin,
@@ -456,6 +378,12 @@
    			
    		 }
    		 
+      }
+      
+      function goDelectPart() {
+    	  
+    	  
+    	  
       }
     
     
@@ -659,7 +587,7 @@
             </form>
             
             <div class="col-2" style="border:solid 1px gray; font-size:15pt; display: flex; align-items: center; justify-content: center;">
-			<button class="btn btn-lg" style="font-size:10pt; color:gray; text-align:center;">선택상품 삭제</button>
+			<button class="btn btn-lg" style="font-size:10pt; color:gray; text-align:center;" onclikc ="goDelectPart();">선택상품 삭제</button>
 			</div>
 			
 			
@@ -712,203 +640,12 @@
 		   <div class="col-lg-1"></div> 
       </div>
       
-      <div>
+      
+      <!-- <div>
       <p class="fw-bolder" style="font-size: 20pt; padding-left: 5%; padding-top: 5%">For you</p>
       </div>
-      
-	<!-- 캐러셀 시작 -->
+       -->
 	
-	<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
-	 
-	  <div class="carousel-inner">
-	    <div class="carousel-item active" data-bs-interval="10000">
-	       
-	       <!-- 이미지부분 카드 시작 -->
-	        <div class="row">
-			<div class="col-lg-2"></div>
-		     <div class="col-lg-2" id="bottomSideinfo1">
-		  		<div class="card" >
-		  			<a href="#"><img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="..."></a>
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>	    				
-		  				</div>
-				</div>
-		     	</div>
-		    
-		
-		       <div class="col-lg-2" id="bottomSideinfo2">
-		  		<div class="card">
-		  			<a href="#"><img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="..."></a>
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    				
-		  				</div>
-				</div>
-		     	</div>
-		     	
-		     
-		      <div class="col-lg-2" id="bottomSideinfo3">
-		  		<div class="card" >
-		  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    				
-		  				</div>
-				</div>
-		     	</div>
-		          
-		      <div class="col-lg-2" id="bottomSideinfo4">
-		  		<div class="card">
-		  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    				
-		  				</div>
-				</div>
-		     </div>
-		     <div class="col-lg-2"></div>
-		  	</div>
-		  	<!-- 이미지부분 카드 끝-->
-	      <div class="carousel-caption d-none d-md-block">
-	      </div>
-	    </div>
-	    
-	    
-	    <div class="carousel-item" data-bs-interval="2000">
-	      	       <!-- 이미지부분 카드 시작 -->
-	        <div class="row">
-			<div class="col-lg-2"></div>
-		     <div class="col-lg-2" id="bottomSideinfo1">
-		  		<div class="card" >
-		  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="..."> 
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    				
-		    				
-		  				</div>
-				</div>
-		     </div>
-		  	
-		
-		      <div class="col-lg-2" id="bottomSideinfo2">
-		  		<div class="card">
-		  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    				
-		  				</div>
-				</div>
-		     	</div>
-		     
-		      <div class="col-lg-2" id="bottomSideinfo3">
-		  		<div class="card" >
-		  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    			
-		  				</div>
-				</div>
-		     	</div>
-		          
-		      <div class="col-lg-2" id="bottomSideinfo4">
-		  		<div class="card">
-		  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    			
-		  				</div>
-				</div>
-		     </div>
-		     <div class="col-lg-2"></div>
-		  	</div>
-		  	<!-- 이미지부분 카드 끝-->
-	      <div class="carousel-caption d-none d-md-block">     
-	      </div>
-	    </div>
-	    
-	    <!-- 다음캐러셀 -->
-	    <div class="carousel-item">
-	      	       <!-- 이미지부분 카드 시작 -->
-	        <div class="row">
-			<div class="col-lg-2"></div>
-		     <div class="col-lg-2" id="bottomSideinfo1">
-		  		<div class="card" >
-		  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    				
-		  				</div>
-				</div>
-		     </div>
-		  	
-		
-		      <div class="col-lg-2" id="bottomSideinfo2">
-		  		<div class="card">
-		  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    			
-		  				</div>
-				</div>
-		     	</div>
-		     
-		      <div class="col-lg-2" id="bottomSideinfo3">
-		  		<div class="card" >
-		  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    				
-		  				</div>
-				</div>
-		     	</div>
-		          
-		      <div class="col-lg-2" id="bottomSideinfo4">
-		  		<div class="card">
-		  			<img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-		  				<div class="card-body">
-		    				
-		    				<p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-		    			
-		  				</div>
-				</div>
-		     </div>
-		     <div class="col-lg-2"></div>
-		  	</div>
-		  	<!-- 이미지부분 카드 끝-->
-	      <div class="carousel-caption d-none d-md-block">
-
-	      </div>
-	    </div>
-	  </div>
-	  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	    <span class="visually-hidden">Previous</span>
-	  </button>
-	  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	    <span class="visually-hidden">Next</span>
-	  </button>
-	  
-	  <!--  아래 버튼 
-	   <div class="carousel-indicators">
-	    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-	    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-	    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-	  </div>
-	  -->
-	  
-	</div>
 	
 	
 	
@@ -929,7 +666,6 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 </body>
 </html>
