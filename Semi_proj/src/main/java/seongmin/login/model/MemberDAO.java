@@ -167,4 +167,41 @@ public class MemberDAO implements InterMemberDAO {
 		return member;
 	}
 
+	@Override
+	public int registerMember(Map<String, String> paraMap) throws SQLException {
+
+		int result = 0;
+		   
+		   try {
+			   
+			   conn = ds.getConnection();
+			   
+		          String sql = " update tbl_member set name = ?, pwd = ?, email = ?, mobile = ?, postcode = ?, address = ?, detailaddress = ?, birthday = ?, last_pwd_change_date = sysdate "
+		                    + " where userid = ? ";
+			   
+			   pstmt = conn.prepareStatement(sql);
+
+		          pstmt.setString(1, paraMap.get("name"));
+		          pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
+		          pstmt.setString(3, aes.encrypt(paraMap.get("email")));
+		          pstmt.setString(4, aes.encrypt(paraMap.get("mobile")));
+		          pstmt.setString(5, paraMap.get("postcode"));
+		          pstmt.setString(6, paraMap.get("address"));
+		          pstmt.setString(7, paraMap.get("detailaddress"));
+		          pstmt.setString(8, paraMap.get("birthday"));
+		          pstmt.setString(9, paraMap.get("userid"));
+
+		          
+			   result = pstmt.executeUpdate();
+			   
+		   } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+		         e.printStackTrace();
+	       } finally {
+	          close();
+	       }
+	       
+	       return result;	
+	       
+	}
+
 }

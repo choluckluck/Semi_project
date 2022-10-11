@@ -21,6 +21,16 @@ public class MemberVO {
 	private double account;
 
 	
+	/*
+	 * public MemberVO(String userid, String pwd, String name, String postcode,
+	 * String address, String detailaddress, String mobile, String email, String
+	 * birthday) {
+	 * 
+	 * this.userid = userid; this.pwd = pwd; this.name = name; this.postcode =
+	 * postcode; this.address = address; this.detailaddress = detailaddress;
+	 * this.mobile = mobile; this.email = email; this.birthday = birthday; }
+	 */
+	
 	public double getAccount() {
 		return account;
 	}
