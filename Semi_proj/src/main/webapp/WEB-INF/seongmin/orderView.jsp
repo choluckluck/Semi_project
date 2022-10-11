@@ -1,9 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+    
+    
+<%
+	String ctxPath = request.getContextPath();
+    //     
+%>
 <!DOCTYPE html>
 <html>
 <head>
-
 
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -41,12 +49,12 @@
   	width:80%;
   }
   
-    a.orderview {
+    a.orderdetail {
     text-decoration-line: none;
   	color:black;
   }
   
-  a.orderview:hover {
+  a.orderdetail:hover {
   	color:gray;
   }
    
@@ -63,6 +71,16 @@
   	color:white;
   }
 
+	img#recentorderimg {
+	  width: 100px;
+	  height: 120px;
+	  object-fit: cover;
+	}
+	
+	td.recentordertd {
+		vertical-align: middle;
+	}
+	
 </style>
 
 
@@ -72,7 +90,7 @@
 		
 		// === jQuery UI 의 datepicker === //
 		$("input.datepicker").datepicker({
-                 dateFormat: 'yy-mm-dd'  //Input Display Format 변경
+                 dateFormat: 'yy/mm/dd'  //Input Display Format 변경
                 ,showOtherMonths: true   //빈 공간에 현재월의 앞뒤월의 날짜를 표시
                 ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
                 ,changeYear: true        //콤보박스에서 년 선택 가능
@@ -91,7 +109,7 @@
          });                    
             
          //초기값을 오늘 날짜로 설정
-         $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
+//         $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
 		 /////////////////////////////////////////////////////
 		
 		 
@@ -100,7 +118,7 @@
          $(function() {
              //모든 datepicker에 대한 공통 옵션 설정
              $.datepicker.setDefaults({
-                  dateFormat: 'yy-mm-dd' //Input Display Format 변경
+                  dateFormat: 'yy/mm/dd' //Input Display Format 변경
                  ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
                  ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
                  ,changeYear: true //콤보박스에서 년 선택 가능
@@ -119,17 +137,120 @@
              });
   
              //input을 datepicker로 선언
-             $("input#fromDate").datepicker();                    
-             $("input#toDate").datepicker();
+             $("input#startDate").datepicker();                    
+             $("input#endDate").datepicker();
              
-             //From의 초기값을 오늘 날짜로 설정
-             $('input#fromDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+             //From의 초기값을 오늘 30일 전으로 설정
+//          $('input#startDate').datepicker('setDate', '-30D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
              
              //To의 초기값을 3일후로 설정
-             $('input#toDate').datepicker('setDate', '+3D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+//           $('input#endDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)     
+         
          });
-	});
+         
+
+         
+/*          $("select#order_state").bind("change", function (){
+        	 goSearch();     	 
+         })//end of  $("select#order_state").bind("change"
+ */
+ 
+/*     	   if("${requestScope.startDate}" != ""){ //검색어가 비어있지 않을때만 값을 넣어줌
+    		   $("input#startDate").val("${requestScope.startDate}");
+    	   };
+    	   
+    	   if("${requestScope.endDate}" != ""){ //검색어가 비어있지 않을때만 값을 넣어줌
+    		   $("input#endDate").val("${requestScope.endDate}");
+    	   }; */
+    	   
+    	   var today = new Date();
+    	   var year = today.getFullYear();
+    	   var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    	   var day = ('0' + today.getDate()).slice(-2);
+    	   today.setDate(today.getDate() - 7);
+    	   
+    	   var dateString = year + '/' + month  + '/' + day;
+
+    	   $("a#today00").click( function(){
+	             $('input#startDate').val(dateString); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+			})
+ 
+			$("a#today07").click( function(){
+	             $('input#startDate').val( ); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+			})
+			
+			$("a#today30").click( function(){
+	             $('input#startDate').val(dateString); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+			})
+			
+			$("a#today90").click( function(){
+	             $('input#startDate').datepicker('setDate', '-90D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+			})
+			
+			$("a#today180").click( function(){
+	             $('input#startDate').datepicker('setDate', '-180D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+			})
+			
+			
+ 
+	 
+          		
+         $("input#endDate").bind("keyup", (e)=>{
+  		   if(e.keyCode == 13) { // 검색어에서 엔터를 치면 검색하러 가도록 한다.
+  			   goSearch();	   
+  		   }
+  	     });		 
+         
+         $('input[name=startDate]').attr("readonly",true);
+         $('input[name=endDate]').attr("readonly",true);
+     
+  
+			
+    	   if("${requestScope.order_state}" != ""){ //검색어가 비어있지 않을때만 값을 넣어줌
+    		   $("select#order_state").val("${requestScope.order_state}");
+    	   };
+    	   
+      	   if("${requestScope.startDate}" != ""){ //검색어가 비어있지 않을때만 값을 넣어줌
+    		   $("input#startDate").val("${requestScope.startDate}");
+    	   };
+    	   
+      	   if("${requestScope.endDate}" != ""){ //검색어가 비어있지 않을때만 값을 넣어줌
+    		   $("input#endDate").val("${requestScope.endDate}");
+    	   };
+    	   
+/* 	   $("input#startDate").bind("change", function (){
+		   $("input#startDate").val("${requestScope.startDate}");
+	   });
+	   
+	   $("input#endDate").bind("change", function (){
+		   $("input#endDate").val("${requestScope.endDate}");
+	   }); */
+	   
+	   
+	   if(${requestScope.sizePerPage} != null) { // 또는 "${requestScope.sizePerPage}" != ""
+		   $("select#sizePerPage").val("${requestScope.sizePerPage}");
+	   };
+
+	   
+		$("a.orderdetail").click(function(e){
+			const orderCode = $(e.target).html();
+			alert(orderCode);
+			$("#ord_code1").val(orderCode);
+			alert($("#ord_code1").val());
+			$("#orderdetailFrm").submit();
+		});
+
+	   
+				 
+	});//end of docu~
 	
+	   function goSearch() {
+//		   alert($("input#startDate").val());
+			const frm = document.OrderHistoryForm;
+		   frm.action = "<%=ctxPath %>/seongmin/member/orderView.sue";
+		   frm.method = "GET";
+		   frm.submit(); 
+	   }
 
 
 	</script>
@@ -174,33 +295,34 @@
 		  <fieldset>
 			<legend>검색기간설정</legend>
 			  <div class="stateSelect" style="display:inline;">
-				<select id="order_status" name="order_status" class="fSelect">
+				<select id="order_state" name="order_state" class="fSelect">
 					<option value="all">전체 주문처리상태</option>
-					<option value="shipped_before">입금전</option>
-					<option value="shipped_standby">배송준비중</option>
-					<option value="shipped_begin">배송중</option>
-					<option value="shipped_complate">배송완료</option>
-					<option value="order_cancel">취소</option>
-					<option value="order_exchange">교환</option>
-					<option value="order_return">반품</option>
+					<option value="1">입금전</option>
+					<option value="2">결제확인</option>
+					<option value="3">상품준비중</option>
+					<option value="4">배송중</option>
+					<option value="5">배송완료</option>
+					<option value="6">취소</option>
+					<option value="7">교환</option>
+					<option value="8">반품</option>
 				</select>
    			  </div>
-			<span class="period">
-				<a class="prd" href="#none" days="00"><span>오늘</span></a>
-				<a class="prd" href="#none" days="07"><span>1주일</span></a>
-				<a class="prd" href="#none" days="30"><span>1개월</span></a>
-				<a class="prd" href="#none" days="90"><span>3개월</span></a>
-				<a class="prd" href="#none" days="180"><span>6개월</span></a>
-			</span>
+		<!-- 	<span class="period">
+				<a class="prd" id="today00" href="#" days="00"><span>오늘</span></a>
+				<a class="prd" id="today07"  href="#" days="07"><span>1주일</span></a>
+				<a class="prd" id="today30"  href="#" days="30"><span>1개월</span></a>
+				<a class="prd" id="today90"  href="#" days="90"><span>3개월</span></a>
+				<a class="prd" id="today180"  href="#" days="180"><span>6개월</span></a>
+			</span> -->
 			
-			<div class="daterange" style="display:inline">
-			   <input type="text" class="datepicker">
+			<div class="daterange" style="display:inline; margin-left:50px;">
+			   <input type="text" class="datepicker" id="startDate" name="startDate">
 				~
-			   <input type="text" class="datepicker">
+			   <input type="text" class="datepicker" id="endDate" name="endDate">
 			</div>
 			
 			<span class="submit-bt" style="width:50px; position:relative; left:10px;">
-				<input alt="" id="order_search_btn" type="image" src="//img.echosting.cafe24.com/skin/admin_ko_KR/myshop/btn_search.gif">					
+				<input alt="" id="order_search_btn" type="image" src="//img.echosting.cafe24.com/skin/admin_ko_KR/myshop/btn_search.gif" onclick="goSearch();">					
 			</span>
   		  </fieldset>
 			<br>
@@ -213,89 +335,104 @@
 		<br><br>
 
 		<h5>주문 상품 정보</h5>
+
+ 	<div class="row">
+<%--  	   <div class="col-2">
+ 	   	 <table class="table table" style="text-align:center; width:100%">
+ 			<thead>
+			  <tr>
+				<th scope="col">주문일 <br> 주문번호</th>
+ 			  </tr>
+ 			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${not empty requestScope.recentOrderList}">
+					
+						<c:forEach var="rspan" items="${requestScope.rowspan}">
+							<tr style="height:137px;" >
+								<td rowspan="${rspan.row_count}" class="recentordertd">${rspan.orderdate}<br>
+								  <a class="orderview" href="<%=request.getContextPath() %>/seongmin/member/orderDetail.sue">[${rspan.order_code}]</a>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:when>				
+					<c:otherwise>
+						<tr style="vertical-align: middle">
+							<td>-</td>
+						</tr>
+					</c:otherwise>
+				</c:choose>				
+ 			</tbody>				   	
+ 	   	</table>
+	   </div> --%>
+
+	   <div class="col-10">	   
 		  <table class="table table" style="text-align:center; width:90%">
 			<colgroup>
-				<col style="width:210px;">
 				<col style="width:75px;">
-				<col style="width:250px;">
+				<col style="width:75px;">
+				<col style="width:100px;">
 				<col style="width:80px;">
-				<col style="width:120px;">
-				<col style="width:120px;">
-				<col style="width:160px;">
+				<col style="width:80px;">
+				<col style="width:80px;">
+				<col style="width:80px;">
 			</colgroup>
 			<thead>
 			  <tr>
-				<th scope="col">주문일 / 주문번호</th>
+				<th scope="col">주문일 <br> 주문번호</th>
 				<th scope="col" colspan="2">주문내역</th>
 				<th scope="col">수량</th>
-				<th scope="col">금액</th>
+				<th scope="col">상품금액<br>(1족 기준)</th>
+				<th scope="col">총 금액<br>(배송비 포함)</th>
 				<th scope="col">주문상태</th>
-				<th scope="col">취소/교환/반품</th>
 			  </tr>
 			</thead>
 			<tbody>
-			  <tr style="vertical-align:middle; height : 150px;">
-			 	<td>2022-09-15<br><a class="orderview" href=#>[20220915-0000403]</a></td>
-		 		<td><a href=# ><img src="./images/shoes1.jpg"></a></td>
-		 		<td style="text-align:left"><a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >띠아모 플랫 (1.5cm)</a><br>[옵션: LEOPARD/235]</td>
-		 		<td>1</td>
-		 		<td>49,800원</td>
-		 		<td>입금 전</td>	
-		 		<td> - </td>
-		      </tr>
-			  <tr style="vertical-align:middle; height : 150px;">
-			 	<td>2022-09-15<br><a class="orderview" href=#>[20220915-0000403]</a></td>
-		 		<td><a href=# ><img src="./images/shoes1.jpg"></a></td>
-		 		<td style="text-align:left"><a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >띠아모 플랫 (1.5cm)</a><br>[옵션: LEOPARD/235]</td>
-		 		<td>1</td>
-		 		<td>49,800원</td>
-		 		<td>입금 전</td>	
-		 		<td> - </td>
-		      </tr>
-			  <tr style="vertical-align:middle; height : 150px;">
-			 	<td>2022-09-15<br><a class="orderview" href=#>[20220915-0000403]</a></td>
-		 		<td><a href=# ><img src="./images/shoes1.jpg"></a></td>
-		 		<td style="text-align:left"><a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >띠아모 플랫 (1.5cm)</a><br>[옵션: LEOPARD/235]</td>
-		 		<td>1</td>
-		 		<td>49,800원</td>
-		 		<td>입금 전</td>	
-		 		<td> - </td>
-		      </tr>
-			  <tr style="vertical-align:middle; height : 150px;">
-			 	<td>2022-09-15<br><a class="orderview" href=#>[20220915-0000403]</a></td>
-		 		<td><a class = "prd" href=#><img src="./images/shoes1.jpg"></a></td>
-		 		<td style="text-align:left"><a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >띠아모 플랫 (1.5cm)</a><br>[옵션: LEOPARD/235]</td>
-		 		<td>1</td>
-		 		<td>49,800원</td>
-		 		<td>입금 전</td>	
-		 		<td> - </td>
-		 		
-		      </tr>
-		   	 </tbody>
-		  </table>
-	      
-	      <br>
-
-  <div style=" display: grid; place-items: center;">
-    <div style="inline">
-    
-	    <button type="button" class="btn btn-white"> << </button>
-	    <button type="button" class="btn btn-white"><</button>
-	    <button type="button" class="btn btn-outline-secondary">1</button>
-	    <button type="button" class="btn btn-outline-secondary">2</button>
-	    <button type="button" class="btn btn-outline-secondary">3</button>
-	    <button type="button" class="btn btn-white">></button>
-	    <button type="button" class="btn btn-white">>></button>
-	</div>
-  </div>
-	   <br><br>
-	   
-
-
-
-	   
+				<c:choose>
+					<c:when test="${not empty requestScope.recentOrderList}">
+					
+						<c:forEach var="rovo" items="${requestScope.recentOrderList}">
+							<tr>
+								<td rowspan="" class="recentordertd">${rovo.orderdate}<br>
+								  [<a class="orderdetail" href="#">${rovo.order_code}</a>]
+								</td>
+								<td class="recentordertd"><a href="#"><div><img id="recentorderimg" src="<%=request.getContextPath() %>/images/product/${rovo.pvo.prod_image}"></div></a></td>
+								<td class="recentordertd"style="text-align: left">
+								<a class="prd" href="#">${rovo.pvo.prod_name}</a></td>
+								<td class="recentordertd">${rovo.odvo.order_buy_count}</td>
+								<td class="recentordertd">
+								정가 : <fmt:formatNumber value="${rovo.odvo.order_price}" pattern="#,###"/>원<br>
+								할인가 : <fmt:formatNumber value="${rovo.pvo.prod_saleprice}" pattern="#,###"/>원<br>
+								</td>
+								
+								
+								<td class="recentordertd">${rovo.order_state}</td>
+								<td class="recentordertd">${rovo.order_state}</td>
+							</tr>
+						</c:forEach>
+					</c:when>				
+					<c:otherwise>
+						<tr style="vertical-align: middle">
+							<td colspan="5">최근 주문내역이 없습니다.</td>
+						</tr>
+					</c:otherwise>
+				</c:choose>				
+		   	 </tbody>		   	 
+		  </table>   
 	   </div>
+	   		  <nav class="my-5">
+			<div style="display: flex; width: 80%">
+				<ul class="pagination" style="margin: auto">${requestScope.pageBar}</ul>
+			</div>
+		  </nav>
      </div>
+   </div>
+  </div> 
+  	<form method="post" id="orderdetailFrm" name="orderdetailFrm" action="<%= request.getContextPath()%>/seongmin/member/orderDetail.sue">
+	  <input type="hidden" id="ord_code1" name="ord_code" value=""/>	
+	</form>	
+  
+  
    </div>
 <jsp:include page="../hyerin/footer.jsp"></jsp:include>	
 	

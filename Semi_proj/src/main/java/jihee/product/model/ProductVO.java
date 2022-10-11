@@ -16,6 +16,11 @@ public class ProductVO {
 	 private int prod_review_count; //제품 리뷰 개수
 	 private int prod_order_count; // 상품 주문수
 	 private int prod_saleprice; // 상품 할인가격
+	 private int prod_point; // 상품 포인트
+	 
+	 private int totalPrice;         // 판매당시의 제품판매가 * 주문량
+	 private int totalPoint;         // 판매당시의 포인트점수 * 주문량 
+
 
 	 //////////////////////////
 	 
@@ -126,7 +131,19 @@ public class ProductVO {
 	public void setProd_saleprice(int prod_saleprice) {
 		this.prod_saleprice = prod_saleprice;
 	}
+	
 	 
+	public int getProd_point() {
+		return prod_point;
+	}
+	public void setProd_point(int prod_point) {
+		this.prod_point = prod_point;
+	}
+	
+
+	
+	
+
 	public int getDiscountPercent() {
 		// 정가   :  판매가 = 100 : x
 		
@@ -151,6 +168,25 @@ public class ProductVO {
 		return -(100 - (prod_saleprice * 100)/prod_price);
 	}
 	
+	
+	/////////////////////////////////////////////////
+	// *** 제품의 총판매가(실제판매가 * 주문량) 구해오기 ***
+	public void setTotalPriceTotalPoint(int Qnty) {   
+	// int oqty 이 주문량이다.
+	
+	totalPrice = prod_saleprice * Qnty; // 판매당시의 제품판매가 * 주문량
+	totalPoint = prod_point * Qnty;     // 판매당시의 포인트점수 * 주문량 
+	}
+	
+	public int getTotalPrice() {
+	return totalPrice;
+	}
+	
+	public int getTotalPoint() {
+	return totalPoint;
+	
+	
+}
 
 	 
 	   

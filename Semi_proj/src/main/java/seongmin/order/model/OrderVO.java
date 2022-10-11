@@ -1,5 +1,6 @@
 package seongmin.order.model;
 
+import seongmin.login.model.MemberVO;
 import seongmin.product.model.ProductVO;
 import seongmin.product.model.ThumbVO;
 
@@ -13,7 +14,43 @@ public class OrderVO {
 	private int point_use_amount;
 	private int discount_amount;
 	private int real_amount;
+	private int row_count;
+	private MemberVO mvo;
+	private String total;
+	private String shipfee;
+	private String totalPoint;
 	
+	
+	public String getTotal() {
+		return total;
+	}
+	public String getTotalPoint() {
+		return totalPoint;
+	}
+	public void setTotalPoint(String totalPoint) {
+		this.totalPoint = totalPoint;
+	}
+	public void setTotal(String total) {
+		this.total = total;
+	}
+	public String getShipfee() {
+		return shipfee;
+	}
+	public void setShipfee(String shipfee) {
+		this.shipfee = shipfee;
+	}
+	public MemberVO getMvo() {
+		return mvo;
+	}
+	public void setMvo(MemberVO mvo) {
+		this.mvo = mvo;
+	}
+	public int getRow_count() {
+		return row_count;
+	}
+	public void setRow_count(int row_count) {
+		this.row_count = row_count;
+	}
 	private ProductVO pvo;
 	private OrderVO ovo;
 	private OrderDetailVO odvo;

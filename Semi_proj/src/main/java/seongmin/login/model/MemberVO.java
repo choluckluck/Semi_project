@@ -18,13 +18,23 @@ public class MemberVO {
 	private int point; 
 	private String account_name; 
 	private String bank_name;
-	private int account;
+	private double account;
 
 	
-	public int getAccount() {
+	/*
+	 * public MemberVO(String userid, String pwd, String name, String postcode,
+	 * String address, String detailaddress, String mobile, String email, String
+	 * birthday) {
+	 * 
+	 * this.userid = userid; this.pwd = pwd; this.name = name; this.postcode =
+	 * postcode; this.address = address; this.detailaddress = detailaddress;
+	 * this.mobile = mobile; this.email = email; this.birthday = birthday; }
+	 */
+	
+	public double getAccount() {
 		return account;
 	}
-	public void setAccount(int account) {
+	public void setAccount(double account) {
 		this.account = account;
 	}
 

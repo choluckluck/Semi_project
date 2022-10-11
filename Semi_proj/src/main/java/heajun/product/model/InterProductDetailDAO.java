@@ -19,5 +19,6 @@ public interface InterProductDetailDAO {
 	//카트리스트에 값 보내기
 	int addCart(String userid, String prod_code , String prod_color, String prod_size, String qnty)throws SQLException;
 
+	
 
 }

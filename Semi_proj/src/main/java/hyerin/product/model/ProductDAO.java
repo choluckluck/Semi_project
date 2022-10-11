@@ -350,7 +350,7 @@ public class ProductDAO implements InterProductDAO {
 					"from \n"+
 					"(\n"+
 					"    select rownum as rno, prod_code, prod_name, prod_kind, prod_image, prod_high, prod_price, prod_saleprice, prod_color, prod_registerday, md_pick_yn "+
-					"    from (select * from v_tbl_product order by prod_registerday desc) ";
+					"    from (select * from v_tbl_allproduct order by prod_registerday desc) ";
 			
 			// 상품종류로 정렬했을 경우
 			if(prodSortbyKind != null && !"product_kind".equals(prodSortbyKind) ) {  
@@ -374,7 +374,7 @@ public class ProductDAO implements InterProductDAO {
 			sql += ")\n"+
 					" left join ( select * from v_tbl_prod_detail_stock )VPD on VPD.fk_prod_code = prod_code "+
 					" where rno between ? and ? ";
-			
+
 			pstmt = conn.prepareStatement(sql);
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
@@ -667,14 +667,545 @@ public class ProductDAO implements InterProductDAO {
 		
 		return n;
 	}//end of insertProductDetail
+	
+	
+	//해당 prod_code의 상품정보를 보여주기(select) 
+	@Override
+	public ProductVO getOneEditProduct(String prod_code) throws SQLException {
+		ProductVO pvo = new ProductVO();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select prod_code, prod_name, prod_description, prod_kind, prod_image, prod_high, prod_saleprice, prod_price, prod_registerday, md_pick_yn,  prod_point "
+						+ " from tbl_product "
+						+  " where prod_code = ? "; 
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, prod_code);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				
+				pvo.setProd_code(rs.getString(1));
+				pvo.setProd_name(rs.getString(2));
+				pvo.setProd_description(rs.getString(3));
+				pvo.setProd_kind(rs.getString(4));
+				pvo.setProd_image(rs.getString(5));
+				pvo.setProd_high(rs.getString(6));
+				pvo.setProd_price(rs.getString(7));
+				pvo.setProd_saleprice(rs.getString(8));
+				pvo.setProd_registerday(rs.getString(9));
+				pvo.setMd_pick_yn(rs.getString(10));
+				pvo.setProd_point(rs.getString(11));
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return pvo;
+	}
+	
+	
+	//해당 prod_code의 상품상세정보를 보여주기 (select)
+	@Override
+	public List<ProductDetailVO> getOneProductDetail(String prod_code) throws SQLException {
+		List<ProductDetailVO> pdvoList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select prod_detail_code, fk_prod_code, prod_color, prod_size, prod_stock "
+						+ " from tbl_prod_detail "
+						+ " where fk_prod_code = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, prod_code);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ProductDetailVO pdvo = new ProductDetailVO();
+				
+				pdvo.setProd_detail_code(rs.getString(1));
+				pdvo.setFk_prod_code(rs.getString(2));
+				pdvo.setProd_color(rs.getString(3));
+				pdvo.setProd_size(rs.getString(4));
+				pdvo.setProd_stock(rs.getString(5));
+				
+				pdvoList.add(pdvo);
+			}
+			
+			
+		} finally {
+			close();
+		}
+		
+		return pdvoList;
+	}
+	
+	
+	// tbl_product에 받아온 상품 정보를 update해주기
+	@Override
+	public int updateProduct(ProductVO pvo) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			//prod_image가 null일 때는 prod_image를 제외하고 업데이트 해준다
+			
+			String sql = " update tbl_product set prod_name = ?, prod_kind = ?, "
+					   + " prod_high = ?, prod_price = ?, prod_saleprice = ?, prod_description = ?, prod_point = ?, md_pick_yn = ? ";
+			
+			String prod_image = pvo.getProd_image();
+			if(prod_image != null) {
+				sql += ", prod_image = ? ";
+			}
+			
+			sql += " where prod_code = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pvo.getProd_name());
+			pstmt.setString(2, pvo.getProd_kind());
+			pstmt.setString(3, pvo.getProd_high());
+			pstmt.setInt(4, Integer.parseInt(pvo.getProd_price()));
+			pstmt.setInt(5, Integer.parseInt(pvo.getProd_saleprice()));
+			pstmt.setString(6, pvo.getProd_description());
+			pstmt.setInt(7, Integer.parseInt(pvo.getProd_point()));
+			pstmt.setString(8, pvo.getMd_pick_yn());
+			
+			if(prod_image != null) {
+				pstmt.setString(9, pvo.getProd_image());
+				pstmt.setString(10, pvo.getProd_code());
+			}
+			else {
+				pstmt.setString(9, pvo.getProd_code());
+			}
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+		
+	}//end of updateProduct
 
 	
-	
-	
-	
-	
-	
+	// tbl_product_image에 상품상세 이미지를 update 해주기
+	@Override
+	public int updateProductImage(String prod_code, String product_image_file) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_product_image set product_image_file = ? "
+					   + " where fk_prod_code = ? ";
+					
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, product_image_file);
+			pstmt.setString(2, prod_code);
+			
+			n = pstmt.executeUpdate();
+		} finally {
+			close();
+		}
+		
+		
+		return n;
+	}//end of updateProductImage
 
+	
+	// 기존에 있던 옵션 모두 지워주기
+	@Override
+	public int deleteProductDetailAll(String prod_code) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete tbl_prod_detail "
+					   + " where fk_prod_code = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, prod_code);
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}//end of deleteProductDetailAll
+	
+	
+	//한 상품을 삭제하기
+	@Override
+	public int deleteOneProduct(String prod_code) throws SQLException {
+		int n3 = 0;
+		try {
+			int n = 0;
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_prod_detail "
+						+ " where fk_prod_code = ? ";
+		
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, prod_code);
+			
+			n = pstmt.executeUpdate();
+			
+			//성공 시 tbl_product_image에 있는 정보도 지워준다
+			if (n == 1 || n==0) {
+				int n2 = 0;
+				
+				String sql2 = " delete tbl_product_image "
+							+ " where fk_prod_code = ? ";
+			
+				pstmt = conn.prepareStatement(sql2);
+				
+				pstmt.setString(1, prod_code);
+				
+				n2 = pstmt.executeUpdate();
+			
+				//성공시 tbl_product에 있는 상품을 지워준다
+				if(n2 == 1 ) {
+					
+					String sql3 = " delete tbl_product "
+							   + " where prod_code = ? ";
+					
+					pstmt = conn.prepareStatement(sql3);
+					
+					pstmt.setString(1, prod_code);
+					
+					n3 = pstmt.executeUpdate();
+					
+				}
+			}
+	
+			
+		} finally {
+			close();
+		}
+		
+		return n3;
+	}//end of deleteOneProduct
+	
+	
+	//해당하는 상품들을 삭제해준다
+	@Override
+	public int deleteMultiProduct(Map<String, String[]> paraMap) throws SQLException {
+		int n3 = 0;
+		
+		try {
+			String[] prod_codeArr = paraMap.get("prod_codeArr");
+			
+			int n = 0;
+			conn = ds.getConnection();
+			
+			for(String prod_code : prod_codeArr) {
+			
+				String sql = " delete from tbl_prod_detail "
+							+ " where fk_prod_code = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, prod_code);
+				n = pstmt.executeUpdate();
+				
+				
+				//성공 시 tbl_product_image에 있는 정보도 지워준다
+				int n2 = 0;
+				
+				String sql2 = " delete tbl_product_image "
+							+ " where fk_prod_code = ? ";
+			
+				pstmt = conn.prepareStatement(sql2);
+				pstmt.setString(1, prod_code);
+				n2 = pstmt.executeUpdate();
+			
+				//성공시 tbl_product에 있는 상품을 지워준다
+				if(n2 == 1 ) {
+					
+					String sql3 = " delete tbl_product "
+							   + " where prod_code = ? ";
+					
+					pstmt = conn.prepareStatement(sql3);
+					
+					pstmt.setString(1, prod_code);
+					
+					n3 = pstmt.executeUpdate();
+					
+				}
+			
+			}//end of for
+			
+		} finally {
+			close();
+		}
+		
+		return n3;
+	}//end of deleteMultiProduct
+	
+	
+	
+	// 주문하려는 상품정보 불러오기
+	@Override
+	public List<ProductVO> getOrderProductsInfo(Map<String, Object> paraMap) throws SQLException {
+		List<ProductVO> pvoList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select prod_code, prod_name, prod_kind, prod_image, prod_saleprice, prod_high, prod_color, prod_size, prod_stock, prod_price "
+						+ " from tbl_product "
+						+ " join tbl_prod_detail "
+						+ " on prod_code = fk_prod_code "
+						+ " where prod_code = ? and prod_color = ? and prod_size = ? ";
+			
+			String[] prod_codeArr = (String[]) paraMap.get("prod_codeArr");
+			String[] colorArr = (String[]) paraMap.get("colorArr");
+			String[] sizeArr = (String[]) paraMap.get("sizeArr");
+			
+			for(int i=0; i<prod_codeArr.length; i++) {
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, prod_codeArr[i]);
+				pstmt.setString(2, colorArr[i]);
+				pstmt.setString(3, sizeArr[i]);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					ProductVO pvo = new ProductVO();
+					ProductDetailVO pdvo = new ProductDetailVO();
+					
+					pvo.setProd_code(rs.getString(1));
+					pvo.setProd_name(rs.getString(2));
+					pvo.setProd_kind(rs.getString(3));
+					pvo.setProd_image(rs.getString(4));
+					pvo.setProd_saleprice(rs.getString(5));
+					pvo.setProd_high(rs.getString(6));
+					pdvo.setProd_color(rs.getString(7));
+					pdvo.setProd_size(rs.getString(8));
+					pdvo.setProd_stock(rs.getString(9));
+					pvo.setProd_price(rs.getString(10));
+					pvo.setPdvo(pdvo);
+					
+					pvoList.add(pvo);
+				}
+				
+			}//end of for
+			
+		} finally {
+			close();
+		}
+		
+		return pvoList;
+	}//end of getOrderProductsInfo
+	
+	
+	
+	
+	
+	// transaction 메소드
+	@Override
+	public int orderAdd(Map<String, Object> paraMap) throws SQLException {
+		int success = 0;
+		int n1=0, n2=0, n3=0, n4=0, n5=0, n6=0, n7=0;
+		
+		try {
+			conn = ds.getConnection();
+			conn.setAutoCommit(false); //수동커밋
+			
+//			paraMap.put("userid", userid);
+//			paraMap.put("totalRealamount", totalRealamount);
+//			paraMap.put("totalOrderamount", totalOrderamount);
+//			paraMap.put("userusePoint", userusePoint);
+//			paraMap.put("prodPoint", prodPoint);
+//			paraMap.put("discountamount", discountamount);
+//			paraMap.put("deliveryfee", deliveryfee);
+//			paraMap.put("prod_codeArr", prod_codeArr);
+//			paraMap.put("order_buy_countArr", order_buy_countArr);
+//			paraMap.put("order_priceArr", order_priceArr);
+//			paraMap.put("prod_colorArr", prod_colorArr);
+//			paraMap.put("prod_sizeArr", prod_sizeArr);
+//			paraMap.put("cart_codeJoin", cart_codeJoin);
+//			paraMap.put("order_code", order_code);
+			
+			
+			// 주문테이블에 주문전표, 사용자, 현재시각 insert
+			String sql = " insert into tbl_order(order_code, fk_userid, total_order_amount, point_use_amount, discount_amount, real_amount, delivery_fee, fk_order_state_name, orderdate, expectdate "
+					   + " values(?, ?, ?, ?, ?, ?, ?, '결제확인' ,sysdate, to_char(sysdate+5,'yy/mm/dd') ) ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, (String) paraMap.get("order_code"));
+			pstmt.setString(2, (String) paraMap.get("userid"));
+			pstmt.setInt(3, Integer.parseInt((String) paraMap.get("totalOrderamount")));
+			pstmt.setInt(4, Integer.parseInt((String) paraMap.get("pointUseamount")));
+			pstmt.setInt(5, Integer.parseInt((String) paraMap.get("discountamount")));
+			pstmt.setInt(6, Integer.parseInt((String) paraMap.get("totalRealamount")));
+			pstmt.setInt(7, Integer.parseInt((String) paraMap.get("deliveryfee")));
+			
+			n1 = pstmt.executeUpdate();
+			System.out.println("확인용 n1 :" + n1);
+			
+			// tbl_order_detail에 상품 상세 정보 insert
+			if(n1==1) {
+				
+				String[] prod_codeArr = (String[]) paraMap.get("prod_codeArr");
+				String[] order_buy_countArr = (String[]) paraMap.get("order_buy_countArr");
+				String[] order_priceArr = (String[]) paraMap.get("order_priceArr");
+				String[] prod_colorArr = (String[]) paraMap.get("prod_colorArr");
+				String[] prod_sizeArr = (String[]) paraMap.get("prod_sizeArr");
+				
+				int cnt = 0;
+				for(int i=0; i<prod_codeArr.length; i++) {
+					sql = " insert into tbl_order_detail(order_detail_code, fk_order_code, fk_prod_code, order_buy_count, order_price, fk_prod_color, fk_prod_size) "
+							+ " values( 'd-ord-'||lpad(SEQ_O_D_CODE.nextval,4,0), ?, ?, ?, ?, ?, ? ) ";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, (String) paraMap.get("order_code"));
+					pstmt.setString(2, prod_codeArr[i]);
+					pstmt.setString(3, order_buy_countArr[i]);
+					pstmt.setString(4, order_priceArr[i]);
+					pstmt.setString(5, prod_colorArr[i]);
+					pstmt.setString(6, prod_sizeArr[i]);
+					
+					pstmt.executeUpdate();
+					cnt++;
+				}
+				if(cnt == prod_codeArr.length) {
+					n2 = 1;
+				}
+				System.out.println("확인용 n2 : " + n2);
+			}//end of n1
+			
+			// tbl_product에서 해당 제품번호, 컬러, 사이즈에 해당하는 잔고량을 주문량만큼 감하기
+			if(n2==1) {
+				String[] prod_codeArr = (String[]) paraMap.get("prod_codeArr");
+				String[] prod_colorArr = (String[]) paraMap.get("prod_colorArr");
+				String[] prod_sizeArr = (String[]) paraMap.get("prod_sizeArr");
+				String[] order_buy_countArr = (String[]) paraMap.get("order_buy_countArr");
+				
+				int cnt=0;
+				for(int i=0; i<prod_codeArr.length; i++) {
+					sql = " update tbl_prod_detail set prod_stock = ? "
+						+ " where prod_code = ? and  prod_color = ? and prod_size = ? ";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, Integer.parseInt(order_buy_countArr[i]));
+					pstmt.setString(2, prod_codeArr[i]);
+					pstmt.setString(3, prod_colorArr[i]);
+					pstmt.setString(4, prod_sizeArr[i]);
+					
+					pstmt.executeUpdate();
+					cnt++;
+				}
+				if(cnt == prod_codeArr.length) {
+					n3 = 1;
+				}
+				System.out.println("확인용 n3 : " + n3);
+			}//end of n2
+			
+			//tbl_cart에서 cart_codeJoin에 해당하는 행들을 delete or update 해주기
+			if(paraMap.get("cart_codeJoin") != null && n3==1 ) {
+				
+				String cart_codeJoin = (String)paraMap.get("cart_codeJoin");
+				String[] cart_codeArr = cart_codeJoin.split("\\,");
+				cart_codeJoin = String.join("','", cart_codeArr);
+				cart_codeJoin = "'"+cart_codeJoin+"'";
+				
+				sql = " delete from tbl_cart "
+					+ " where cart_code in ( "+cart_codeJoin+" ) ";
+				pstmt = conn.prepareStatement(sql);
+				n4 = pstmt.executeUpdate();
+				
+				System.out.println("확인용 n4 : " + n4);
+			}//end of cart_codeJoin != null
+			
+			// 바로주문을 한 경우
+			if(paraMap.get("cart_codeJoin") == null && n3==1 ) { 
+				n4 = 1;
+				
+				System.out.println("확인용 바로주문하기 n4 : " + n4);
+			}//end of cart_codeJoin != null
+			
+			// 회원테이블에서 point를 업데이트 해주어야 한다
+			if(n4 > 0 ) {
+				int pointupdate = 0, pointupdateResult=0;
+				sql = " update tbl_member set point = point + ?  where userid = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt((String)paraMap.get("prodPoint")));
+				pstmt.setString(2, (String)paraMap.get("userid"));
+				pointupdate = pstmt.executeUpdate();
+				
+				if(pointupdate == 1) {
+					sql = " update tbl_member set point = point - ? where userid = ? ";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, Integer.parseInt((String)paraMap.get("userusePoint")));
+					pstmt.setString(2, (String)paraMap.get("userid"));
+					pointupdateResult = pstmt.executeUpdate();
+					n5 = 1;
+				}
+				System.out.println("확인용 pointupdateResult : " + pointupdateResult);
+				System.out.println("확인용 n5 : " + n5);
+			}//end of n4
+			
+			if(n5 > 0) {
+				// 회원테이블에서 최근 6개월간의 주문내역을 가져와서 등급을 변경해준다
+				// 회원의 등급 알아오기
+				sql = " select grade_code "
+					+ " from( select sum(real_amount) as total_real_amount from tbl_order where fk_userid = ? and (orderdate between sysdate-180 and sysdate) )T, tbl_grade G "
+					+ " where total_real_amount between G.min_price and G.max_price ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, (String)paraMap.get("userid"));
+				rs = pstmt.executeQuery();
+				rs.next();
+				String grade_name = rs.getString(1);
+				
+				int updateGrdaeResult = 0;
+				sql = " update tbl_member set fk_grade_code = ? "
+					+ " where userid = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, grade_name);
+				pstmt.setString(2, (String)paraMap.get("userid"));
+				updateGrdaeResult = pstmt.executeUpdate();
+				
+				System.out.println("확인용 updateGrdaeResult : " + updateGrdaeResult);
+			}
+			
+			
+			
+		} catch(SQLException e) {
+			// rollback
+			conn.rollback();
+			conn.setAutoCommit(true); //자동커밋으로 바꾸어준다
+			success = 0;
+		} finally {
+			close();
+		}
+		
+		
+		return success;
+	}//end of orderAdd
+
+	
 	
 	
 	

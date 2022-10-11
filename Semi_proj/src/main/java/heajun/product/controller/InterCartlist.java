@@ -7,11 +7,11 @@ import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import heajun.member.model.MemberVO;
+import heajun.product.model.CartVO_HJ;
 import heajun.product.model.InterProductDetailDAO;
 import heajun.product.model.ProductDetailDAO;
 
 public class InterCartlist extends AbstractController {
-
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -43,6 +43,7 @@ public class InterCartlist extends AbstractController {
 			    
 			   if("POST".equals(method)) {
 				   // POST 방식이라면 
+				   String prod_code = request.getParameter("prod_code");
 				   String prod_color = request.getParameter("prod_color");
 					String prod_size = request.getParameter("prod_size");
 					String qnty= request.getParameter("qnty");

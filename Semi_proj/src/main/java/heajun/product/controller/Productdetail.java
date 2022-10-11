@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import common.controller.AbstractController;
 import heajun.product.model.InterProductDetailDAO;
 import heajun.product.model.ProductDetailDAO;
-import heajun.product.model.ProductDetailVO;
 import heajun.product.model.ProductVO_HJ;
 
 public class Productdetail extends AbstractController {
@@ -22,17 +21,22 @@ public class Productdetail extends AbstractController {
 		
 			
 			String prod_code = request.getParameter("prod_code"); // 상품번호
-			//String prod_detail_code = request.getParameter("prod_detail_code"); // 상품번호
 			
-			System.out.println(prod_code);
+			
+			
+			
 			InterProductDetailDAO pdao = new ProductDetailDAO();
+			
 			
 						
 						try {
 							// 제품번호를 가지고서 해당 제품의 정보를 조회해오기
 							ProductVO_HJ pvo = pdao.selectProduct(prod_code);// 상품정보 가져오기
 						
-							List<ProductVO_HJ> option = pdao.selectProductOption(prod_code); // 옵션 선택을 위한 해당 상품의 옵션 정보가져오기 
+							
+							List<ProductVO_HJ> option = pdao.selectProductOption(prod_code);   
+							
+							
 							
 							
 							if(pvo == null) {

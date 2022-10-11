@@ -75,7 +75,6 @@
 		})
 		
 		
-		
 	});//end of ready
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,6 +83,7 @@
 	function selectProduct(num){
 		
 		window.scrollTo(0,0);
+		$("#chxAll").prop("checked",false);
 		
 		$("#productList_content").empty();
 		$("#pageBar").empty();
@@ -113,27 +113,14 @@
 						}
 						else{
 							
-							//prod_price와 prod_saleprice에 세자리수마다 , 찍기
-							var price = item.prod_price;
-							var saleprice = item.prod_saleprice;
-							
-							var regexp = /\B(?=(\d{3})+(?!\d))/g;
-							if(price != 0){
-								var price = price.toString().replace(regexp, ',');
-							}
-							if(saleprice != 0){
-								var saleprice = saleprice.toString().replace(regexp, ',');
-							}
-							
-							
 							html += '<tr>'+
-										'<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="'+item.prod_code+'_chx" name="productList_chx"/></td>'+
+										'<td height="160px" class="admin_productList_tbody text-center"><input type="checkbox" id="'+item.prod_code+'_chx" class="check" name="productList_chx" value="'+item.prod_code+'"/></td>'+
 										'<td height="160px" class="admin_productList_tbody text-center">'+item.prod_code+'</td>'+
 										'<td class="text-center admin_productList_tbody">'+item.prod_kind+'</td>'+
 										'<td class="text-center admin_productList_tbody"><img id="admin_product_img_1" height="150px" src="/Semi_proj/images/product/'+item.prod_image+'"/></td>'+
 										'<td class="text-center admin_productList_tbody">'+item.prod_name+'</td>'+
-										'<td class="text-center admin_productList_tbody">'+price+'</td>'+
-										'<td class="text-center admin_productList_tbody">'+saleprice+'</td>';
+										'<td class="text-center admin_productList_tbody">'+Number(item.prod_price).toLocaleString('en')+'원</td>'+
+										'<td class="text-center admin_productList_tbody">'+Number(item.prod_saleprice).toLocaleString('en')+'원</td>';
 							
 							//색상 디테일이 있는 경우
 							if(item.prod_color != null){
@@ -160,9 +147,21 @@
 								html += '<td class="text-center admin_productList_tbody">정보없음</td>';
 							}
 							
-							html += '<td class="text-center admin_productList_tbody"><input type="checkbox" id="'+item.prod_code+'" name="'+item.prod_code+'"/></td>'+
+							
+							var chxhtml = '';
+							//md_pick 보여주기
+							
+							if(item.md_pick_yn == "Y"){
+								chxhtml = '<td class="text-center admin_productList_tbody"><input type="checkbox" id="'+item.prod_code+'" name="'+item.prod_code+'" checked disabled/></td>';
+							}
+							else{
+								chxhtml = '<td class="text-center admin_productList_tbody"><input type="checkbox" id="'+item.prod_code+'" name="'+item.prod_code+'" disabled/></td>';
+							}
+							
+							
+							html += chxhtml +
 									'<td class="text-center admin_productList_tbody"><button id="admin_productedit_btn" type="button" class="white" style="height:30px; width:80%;" onclick="product_edit(\''+item.prod_code+'\');">수정</button></td>'+
-									'<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;">삭제</button></td>'+
+									'<td class="text-center admin_productList_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="height:30px; width:80%;" onclick="product_delete(\''+item.prod_code+'\')">삭제</button></td>'+
 								'</tr>';
 									
 						}
@@ -172,6 +171,32 @@
 					
 					//조회해온 상품정보를 테이블에 추가해주기
 					$("#productList_content").append(html);
+					
+					
+					//체크박스 하나라도 해제되면 전체 해제되게 만들기
+					$(".check").click(function(){
+					   var bFlag = false;
+					   $(".check").each(function(){
+					      var bChecked = $(this).prop("checked");
+					      if(!bChecked) {
+					         $("#chxAll").prop("checked",false);
+					         bFlag = true;
+					         return false;
+					      }
+					   });
+					   
+					   if(!bFlag) {
+					      $("#chxAll").prop("checked",true);
+					   }
+					   
+					});//end of $(".check").click
+					
+					
+					//체크박스 체크 이벤트
+					$("#chxAll").click(function(){
+						var bool = $(this).is(":checked");
+						$(".check").prop("checked", bool);
+					});
 					
 					
 					//컬러셀렉트 체인지이벤트
@@ -190,10 +215,6 @@
 							sizeselecthtml.empty();
 							sizeselecthtml.append('<option value="prod_size" selected>사이즈</option>');
 						}
-						
-						
-						
-						
 					});
 					
 					//사이즈셀렉트 체인지이벤트
@@ -201,8 +222,6 @@
 						var selectedProdcode = $(this).attr('id').substr(5);
 						var selectedColor = $("#color_"+selectedProdcode).val();
 						var selectedSize = $(this).val();
-						
-						console.log(selectedColor + " " + selectedSize);
 						
 						if(selectedSize == "prod_size"){
 							$("#stock_"+selectedProdcode).empty();
@@ -234,6 +253,9 @@
 	
 	////////////////////////////////////////////////////////////////////////
 	
+	
+	
+	//사이즈를 알아오는 에이젝스
 	function goSelectSize(pcode, pcolor){
 		
 		$.ajax({
@@ -265,6 +287,7 @@
 	}//end of goSelectSize;
 	
 	
+	//재고를 알아오는 ajax
 	function goSelectStock(p_code, p_color, p_size){
 		
 		$.ajax({
@@ -290,9 +313,12 @@
 	
 	
 	
+	var popup;	
+	//상품정보를 수정하는 팝업창 띄우는 함수
 	function product_edit(prod_code){
-		// 회원 정보 수정하기 팝업창 띄우기
-		const url = "<%= ctxPath%>/hyerin/admin/adminProductEdit.sue";
+		// 상품정보 수정하기 팝업창 띄우기
+		const currPageNo = $("#currentPage").val();
+		const url = "<%= ctxPath%>/hyerin/admin/adminProductEdit.sue?prod_code="+prod_code+"&currPageNo="+currPageNo;
 		
 		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
 		
@@ -302,10 +328,91 @@
 		const pop_top = Math.ceil( (window.screen.height - pop_height)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
 		
 		
-		window.open(url, "productEdit",
+		popup = window.open(url, "productEdit",
 				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
 		
-	};
+		//팝업창이 닫히면 부모창을 새로고침해준다
+		popup.addEventListener('beforeunload', function() {
+			alert(currPageNo);
+			selectProduct(currPageNo);
+		});
+		
+		
+	};//end of product_edit
+	
+	
+	// 상품을 삭제하는 함수
+	function product_delete(prod_code){
+		if(confirm("상품번호 " + prod_code + "를 삭제하시겠습니까?") == true){
+			//비동기방식으로 prod_code에 해당하는 상품을 삭제하기
+			$.ajax({
+				url : "<%= ctxPath%>/hyerin/admin/adminProductDelete.sue",
+				type: "get",
+				data:{"prod_code":prod_code},
+				dataType:"JSON",
+				success:function(json){
+					
+					alert(json.message);
+					selectProduct($("#currentPage").val());
+					
+				},
+				
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});// end of ajax
+			
+		} else{
+			return false;
+		}
+	}
+	
+	//선택된 상품들을 모두 삭제하는 함수
+	function product_deleteMulti(){
+		const checkCnt = $("input:checkbox[name='productList_chx']:checked").length;
+		 if(checkCnt < 1){
+			 alert("삭제할 상품을 선택해주세요.");
+			 return;
+		 }
+		 else{
+			
+			const allCnt = $("input:checkbox[name='productList_chx']").length;
+			const prod_codeArr = new Array();
+			
+			for(var i=0; i<allCnt; i++){
+			 
+				if($("input:checkbox[name='productList_chx']").eq(i).is(":checked")){
+					prod_codeArr.push( $("input:checkbox[name='productList_chx']").eq(i).val() );
+				}
+			}//end of for
+			
+			const prod_codeJoin = prod_codeArr.join();
+			//console.log(prod_codeJoin);
+			
+			const bool = confirm("상품코드 " + prod_codeJoin + "을 모두 삭제하시겠습니까?");
+			if(bool){
+				
+				$.ajax({
+					url : "<%= ctxPath%>/hyerin/admin/adminProductDelete.sue",
+					type : "post",
+					data : {"prod_codeJoin" : prod_codeJoin},
+					dataType : "json",
+					success : function(json){
+						alert(json.message);
+						selectProduct($("#currentPage").val());
+					},
+					error : function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+					
+					
+				});//end of ajax
+				
+			}
+			
+			 
+		 }
+	}//end of product_deleteMulti
 	
 	
 </script>
@@ -351,7 +458,7 @@
 				<table id="admin_productList" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
 					<thead>
 						<tr>
-							<th width="5%" height="50px" class="admin_productList_th text-center"><input type="checkbox" id="productAll" name="productList_chx"/></th>
+							<th width="5%" height="50px" class="admin_productList_th text-center"><input type="checkbox" id="chxAll" name=""/></th>
 							<th width="10%" height="50px" class="admin_productList_th text-center">No</th>
 							<th width="5%" class="admin_productList_th text-center">상품 종류</th>
 							<th width="15%" class="admin_productList_th text-center">상품 이미지</th>
@@ -368,8 +475,7 @@
 					</tbody>
 				</table>
 				<div class="mt-3">
-					<span><button type="button" id="" class="white" style="height:30px;">선택노출/숨김</button></span>
-					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
+					<span><button type="button" id="" class="black" style="height:30px;" onclick="product_deleteMulti();">선택삭제</button></span>
 				</div>
 			</form>
 			<nav aria-label="Page navigation">

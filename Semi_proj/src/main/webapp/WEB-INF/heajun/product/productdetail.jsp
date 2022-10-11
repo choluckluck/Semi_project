@@ -200,7 +200,7 @@ function goInterest() {
 	<div class="row">	
 		<div class="col-4" style="width:450px; height:550px; border:solid 1px gray;" z-index: 3;>
 		<li class="img"><img src="<%= ctxPath%>/images/product/${requestScope.pvo.prod_image}" style="width:90%;" alt="..." ></li>
-		<%-- <c:forEach var="ivo" items="${requestScope.pvo.prod_image}" begin="0" end="3" step="1">
+		<%-- <c:forEach var="pvo" items="${requestScope.pvo.prod_image}" begin="0" end="3" step="1">
 		 <img src="<%= ctxPath%>/images/product/${ivo.prod_image}" style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">
         </c:forEach> --%>
    </div>
@@ -338,8 +338,13 @@ function goInterest() {
 		</div> --%>
 	
 		  
-		  
-		  
+	<%--   <div class="row">	
+		<div class="col-4" style="width:450px; height:550px; border:solid 1px gray;" z-index: 3;>
+	   <c:forEach var="pvo" items="${requestScope.pvo}" begin="0" end="3" step="1">
+		 <img src="<%= ctxPath%>/images/product/${pvo.prod_image}" style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">
+        </c:forEach> 
+   </div>  --%>
+		   
 		  
 		  
 		  

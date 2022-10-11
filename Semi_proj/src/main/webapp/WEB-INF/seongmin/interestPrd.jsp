@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,61 +19,181 @@
 <style type="text/css">
 
   div#container {
-  	margin: 0 auto;
-  	width : 95%;
+     margin: 0 auto;
+     width : 95%;
   }
      
   div.col-10 {
-  	/* border:solid 1px gray;  */
-  	margin : 0 auto;
+     /* border:solid 1px gray;  */
+     margin : 0 auto;
   }
 
   button.btn-gray {
-  	text-align:left;
+     text-align:left;
   }
   
   a.prd {
-  	text-decoration-line: none;
-  	color:black;
+     text-decoration-line: none;
+     color:black;
   }
   
   a.prd:hover {
-  	color:gray;
+     color:gray;
   }
   
   table {
-  	border-top : solid 1px gray;
-  	width:80%;
+     border-top : solid 1px gray;
+     border-bottom : solid 1px gray;
+     width:80%;
   }
   
-  
+   img#likeimg {
+     width: 100px;
+     height: 120px;
+     object-fit: cover;
+   }
+     
+     
+   td.tbl_td {
+      vertical-align:middle;
+   }  
 </style>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	      $(".chkboxprod_code").click(function(){
+	          
+	          var bFlag = false;
+	          $(".chkboxprod_code").each(function(){
+	             var bChecked = $(this).prop("checked");
+	             if(!bChecked) {
+	                $("#allCheckOrNone").prop("checked",false);
+	                bFlag = true;
+	                return false;
+	             }
+	          });
+	          
+	          if(!bFlag) {
+	             $("#allCheckOrNone").prop("checked",true);
+	          }
+	          
+	       });
+	      
+	      
+	      $(".btn_order").click(function(){
+	    	  	alert($(this).val());
+			});
+	      
+	      
+	      
+	});
+
+	
+	   function allCheckBox() {
+		   
+		      var bool = $("#allCheckOrNone").is(":checked");
+		      /*
+		         $("#allCheckOrNone").is(":checked"); 은
+		           선택자 $("#allCheckOrNone") 이 체크되어지면 true를 나타내고,
+		           선택자 $("#allCheckOrNone") 이 체크가 해제되어지면 false를 나타내어주는 것이다.
+		      */
+		      
+		      $(".chkboxprod_code").prop("checked", bool);
+		   }// end of function allCheckBox()-------------------------
+		   
+		   
+		   
+</script>
+
 
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link ghref="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 <body>
 
 
+
  <header></header>
   
- 	   <br><br>
- 	   
+       <br><br>
+       
   <div id="container">
- 	<div class="row">
- 	   <div class="col-2">
- 		 <jsp:include page="sideMenu.jsp" />	   
-	   </div>
+    <div class="row">
+       <div class="col-2">
+        <jsp:include page="sideMenu.jsp" />      
+      </div>
 
 
-	   <div class="col-10">
+      <div class="col-10">
 
+<<<<<<< HEAD
+      <h3 style="margin-top:1px;">관심 상품</h3>
+      <br><br>
+      
+        <table class="table table" style="text-align:center; vertical-align:middle; width:90%">
+         <colgroup>
+            <col style="width:70px;">
+            <col style="width:100px;">
+            <col style="width:230px;">
+            <col style="width:90px;">
+            <col style="width:100px;">
+            <col style="width:100px;">
+            <col style="width:100px;">
+         </colgroup>
+         <thead>
+           <tr>
+            <th scope="col"><input type="checkbox"/></th>
+            <th scope="col" colspan="2">상품 정보</th>
+            <th scope="col">정가</th>
+            <th scope="col">적립금</th>
+            <th scope="col">구매가</th>
+            <th scope="col">선택</th>
+           </tr>
+         </thead>
+         <tbody>
+            <c:choose>
+               <c:when test="${not empty requestScope.likeList1}">               
+                  <c:forEach var="pvo" items="${requestScope.likeList1}">
+                    <tr >
+                      <td class="tbl_td"><input type="checkbox"/></td>
+                      <td class="tbl_td"><a href=# ><img id="likeimg" src="<%=request.getContextPath() %>/images/product/${pvo.prod_image}"></a></td>
+                      <td class="tbl_td" style="text-align:left">
+                         <a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >${pvo.prod_name}</a>
+                      </td>
+                      <td class="tbl_td">${pvo.prod_price}</td>
+                      <td class="tbl_td"><img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">${pvo.prod_point}원</td>
+                      <td class="tbl_td">${pvo.prod_saleprice}원</td>
+                      <td class="tbl_td">
+                      <div class="">
+                        <button type="button" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">주문하기</button>
+                        <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">장바구니<br>담기</button>
+                        <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">삭제</button>
+                     </div>            
+                      </td>
+                     </tr>
+                  </c:forEach>
+               </c:when>            
+               <c:otherwise>
+                  <tr style="vertical-align: middle">
+                     <td colspan="5">최근 주문내역이 없습니다.</td>
+                  </tr>
+               </c:otherwise>
+            </c:choose>            
+             </tbody>             
+        </table>   
+            
+              <nav class="my-5">
+         <div style="display: flex; width: 80%">
+            <ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>
+         </div>
+        </nav>
+=======
 		<h3 style="margin-top:1px;">관심 상품</h3>
 		<br><br>
 		
-		  <table class="table table" style="text-align:center; width:90%">
+		  <table class="table table" style="text-align:center; vertical-align:middle; width:90%">
 			<colgroup>
 				<col style="width:70px;">
 				<col style="width:100px;">
@@ -77,158 +202,91 @@
 				<col style="width:100px;">
 				<col style="width:100px;">
 				<col style="width:100px;">
-				<col style="width:100px;">
 			</colgroup>
 			<thead>
 			  <tr>
-				<th scope="col"><input type="checkbox"/></th>
+				<th scope="col"><input type="checkbox" id="allCheckOrNone" onClick="allCheckBox();" /></th>
 				<th scope="col" colspan="2">상품 정보</th>
-				<th scope="col">판매가</th>
+				<th scope="col">정가</th>
 				<th scope="col">적립금</th>
-				<th scope="col">배송구분</th>
-				<th scope="col">배송비</th>
-				<th scope="col">합계</th>
+				<th scope="col">구매가</th>
 				<th scope="col">선택</th>
 			  </tr>
 			</thead>
 			<tbody>
-			  <tr style="vertical-align:middle; height : 150px;">
-			 	<td><input type="checkbox"/></td>
-		 		<td><a href=# ><img src="../images/shoes1.jpg"></a></td>
-		 		<td style="text-align:left">
-		 			<a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >띠아모 플랫 (1.5cm)</a>
-		 			<br>[옵션: LEOPARD/235]<br>
-		 		    <button type="button" class="" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">옵션 변경</button>
-		 		</td>
-		 		<td>29,800원</td>
-		 		<td><img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">600원</td>
-		 		<td>기본배송</td>	
-		 		<td>무료</td>
-		 		<td>29,800원</td>
-		 		<td>
-		 		<div class="">
-		 		  <button type="button" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">주문하기</button>
-		 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">장바구니<br>담기</button>
-		 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">삭제</button>
-				</div>
-				
-		 		</td>
-		      </tr>
-			  <tr style="vertical-align:middle; height : 150px;">
-			 	<td><input type="checkbox"/></td>
-		 		<td><a href=# ><img src="./shoes1.jpg"></a></td>
-		 		<td style="text-align:left">
-		 			<a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >띠아모 플랫 (1.5cm)</a>
-		 			<br>[옵션: LEOPARD/235]<br>
-		 		    <button type="button" class="" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">옵션 변경</button>
-		 		</td>
-		 		<td>29,800원</td>
-		 		<td><img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">600원</td>
-		 		<td>기본배송</td>	
-		 		<td>무료</td>
-		 		<td>29,800원</td>
-		 		<td>
-		 		<div class="">
-		 		  <button type="button" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">주문하기</button>
-		 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">장바구니<br>담기</button>
-		 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">삭제</button>
-				</div>
-				
-		 		</td>
-		      </tr>
-			  <tr style="vertical-align:middle; height : 150px;">
-			 	<td><input type="checkbox"/></td>
-		 		<td><a href=# ><img src="./shoes1.jpg"></a></td>
-		 		<td style="text-align:left">
-		 			<a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >띠아모 플랫 (1.5cm)</a>
-		 			<br>[옵션: LEOPARD/235]<br>
-		 		    <button type="button" class="" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">옵션 변경</button>
-		 		</td>
-		 		<td>29,800원</td>
-		 		<td><img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">600원</td>
-		 		<td>기본배송</td>	
-		 		<td>무료</td>
-		 		<td>29,800원</td>
-		 		<td>
-		 		<div class="">
-		 		  <button type="button" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">주문하기</button>
-		 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">장바구니<br>담기</button>
-		 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">삭제</button>
-				</div>
-				
-		 		</td>
-		      </tr>
-			  <tr style="vertical-align:middle; height : 150px;">
-			 	<td><input type="checkbox"/></td>
-		 		<td><a href=# ><img src="./shoes1.jpg"></a></td>
-		 		<td style="text-align:left">
-		 			<a class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >띠아모 플랫 (1.5cm)</a>
-		 			<br>[옵션: LEOPARD/235]<br>
-		 		    <button type="button" class="" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">옵션 변경</button>
-		 		</td>
-		 		<td>29,800원</td>
-		 		<td><img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">600원</td>
-		 		<td>기본배송</td>	
-		 		<td>무료</td>
-		 		<td>29,800원</td>
-		 		<td>
-		 		<div class="">
-		 		  <button type="button" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">주문하기</button>
-		 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">장바구니<br>담기</button>
-		 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">삭제</button>
-				</div>
-				
-		 		</td>
-		      </tr>
-		    </tbody>
-		  </table>
-	      
-	      
-		<div class="row" style="width:90%;">
-			<div class="col-2" style="border:solid 1px gray; font-size:15pt; display: flex; align-items: center; justify-content: center;">
-			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;">삭제하기</button>
-		</div>
-	
-			<div class="col-2" style="border:solid 1px gray; margin-left:20px; display: flex; align-items: center; justify-content: center;">
-			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;">장바구니 담기</button>
+				<c:choose>
+					<c:when test="${not empty requestScope.likeList1}">					
+						<c:forEach var="pvo" items="${requestScope.likeList1}" varStatus="status">
+						  <tr >
+						 	<td class="tbl_td"><input type="checkbox" class="chkboxprod_code"/></td>
+					 		<td class="tbl_td"><a href=# ><img id="likeimg" src="<%=request.getContextPath() %>/images/product/${pvo.prod_image}"></a></td>
+					 		<td class="tbl_td" style="text-align:left">
+					 			<a name="prd_name${status.index}" class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >${pvo.prod_name}</a>
+					 		</td>
+					 		<td name="prd_price${status.index}" class="tbl_td testzz">${pvo.prod_price}</td>
+					 		<td class="tbl_td"><img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">${pvo.prod_point}원</td>
+					 		<td class="tbl_td">${pvo.prod_saleprice}원</td>
+					 		<td class="tbl_td">
+					 		<div class="">
+					 		  <button type="button" class="btn btn-gray btn_order" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" value="${status.index}">주문하기</button>
+					 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">장바구니<br>담기</button>
+					 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">삭제</button>
+							</div>				
+					 		</td>
+					      </tr>
+						</c:forEach>
+					</c:when>				
+					<c:otherwise>
+						<tr style="vertical-align: middle">
+							<td colspan="5">최근 주문내역이 없습니다.</td>
+						</tr>
+					</c:otherwise>
+				</c:choose>				
+		   	 </tbody>		   	 
+		  </table>   
+		      
+	   		  <nav class="my-5">
+			<div style="display: flex; width: 80%">
+				<ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>
 			</div>
-	
-			<div class="col-2" style="border:solid 1px gray; margin-left:280px; display: flex; align-items: center; justify-content: center;">
-			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;">전체상품주문</button>
-			</div>
-	
-			<div class="col-2" style="border:solid 1px gray; margin-left:20px; display: flex; align-items: center; justify-content: center;">
-			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center; ">관심상품 비우기</button>
-			</div>
-	
-		</div>
-		
-		<br><br>
+		  </nav>
+>>>>>>> refs/heads/main
 
-
-		  <div style="width:85%; display: grid; place-items: center;">
-		    <div style="inline">    
-			    <button type="button" class="btn btn-white"> << </button>
-			    <button type="button" class="btn btn-white"><</button>
-			    <button type="button" class="btn btn-outline-secondary">1</button>
-			    <button type="button" class="btn btn-outline-secondary">2</button>
-			    <button type="button" class="btn btn-outline-secondary">3</button>
-			    <button type="button" class="btn btn-white">></button>
-			    <button type="button" class="btn btn-white">>></button>
-			</div>
-		  </div>
-		  <br><br>
-	   
-
-
-
-	   
-	   </div>
-     </div>
-     <jsp:include page="../hyerin/footer.jsp"></jsp:include>	
-     
-   </div>
+         
+         
+      <div class="row" style="width:90%;">
+         <div class="col-2" style="border:solid 1px gray; font-size:15pt; display: flex; align-items: center; justify-content: center;">
+         <button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;">삭제하기</button>
+      </div>
    
-	
+         <div class="col-2" style="border:solid 1px gray; margin-left:20px; display: flex; align-items: center; justify-content: center;">
+         <button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;">장바구니 담기</button>
+         </div>
+   
+         <div class="col-2" style="border:solid 1px gray; margin-left:280px; display: flex; align-items: center; justify-content: center;">
+         <button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;">전체상품주문</button>
+         </div>
+   
+         <div class="col-2" style="border:solid 1px gray; margin-left:20px; display: flex; align-items: center; justify-content: center;">
+         <button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center; ">관심상품 비우기</button>
+         </div>
+   
+      </div>
+      
+      <br><br>
+
+
+    </div>
+      
+
+
+
+      
+      </div>
+     </div>
+     <jsp:include page="../hyerin/footer.jsp"></jsp:include>   
+     
+
+   
   </body>
 </html>

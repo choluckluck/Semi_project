@@ -22,15 +22,16 @@ public class mypage_Main extends AbstractController {
 		  
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		session.setAttribute("loginuser", loginuser);
-		
+
 		String userid = loginuser.getUserid();
 
 		Map<String, String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		
 		InterOrderDAO odao = new OrderDAO();
-		List<OrderVO> recentOrderList = odao.recentOrderList(paraMap);
+		List<OrderVO> recentOrderList = odao.recentOrderList1(paraMap);
 		request.setAttribute("recentOrderList", recentOrderList);
+		session.setAttribute("recentOrderList", recentOrderList);
 		////////////////////////////////////////////////////////
 		
 		List<Integer> totalOrderList = new ArrayList<>();
@@ -45,12 +46,8 @@ public class mypage_Main extends AbstractController {
 		List<ProductVO> likeList = new ArrayList<>();
 		likeList = odao.likeList(paraMap);
 		
-		request.setAttribute("likeList", likeList);
+		session.setAttribute("likeList", likeList);
 		
-		
-		
-		
-
 		
 		super.setViewPage("/WEB-INF/seongmin/mypage_Main.jsp");
 		

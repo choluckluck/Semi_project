@@ -33,10 +33,46 @@
 
 
 <style type="text/css">
-	div#container{
-		width:90%;
-		margin: 0 auto;
-	}
+  div#container {
+  	margin: 0 auto;
+  	width : 95%;
+  }
+     
+  div.col-10 {
+  	/* border:solid 1px gray;  */
+  	margin : 0 auto;
+  }
+
+  button.btn-gray {
+  	text-align:left;
+  }
+  
+  a.prd {
+  	text-decoration-line: none;
+  	color:black;
+  }
+  
+  a.prd:hover {
+  	color:gray;
+  }
+  
+  table {
+  	border-top : solid 1px gray;
+  	width:80%;
+  }
+  
+    a.orderview {
+    text-decoration-line: none;
+  	color:black;
+  }
+  
+  a.orderview:hover {
+  	color:gray;
+  }
+   
+  div#buttons {
+  	font-size: 14px;
+  }
 	
 		/* 혜택정보 */
 	.pur_benefit_info {
@@ -81,7 +117,20 @@
 <body>
 <jsp:include page="../hyerin/header.jsp"></jsp:include>
 
+
+
+
 <div id="container" style="position:relative;">
+
+ 	<div class="row">
+  	   <div class="col-2">
+  	   <br><br>
+ 		 <jsp:include page="sideMenu.jsp" />	   
+	   </div>	
+
+	   <div class="col-10">
+	   <br><br>
+	   
 	<h2> 주문 완료</h2>
 	        <!-- 혜택 정보 -->
       <div class="pur_benefit_info">
@@ -286,7 +335,9 @@
 	   
 	   </div>
 	  </div>
-	  
+	  </div>
+	  </div>
+	 
 	  
 	  	
 

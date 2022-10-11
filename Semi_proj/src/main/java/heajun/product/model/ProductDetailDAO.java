@@ -177,7 +177,7 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 	     
 		            
 	         String sql = " insert into tbl_like(like_code, fk_userid, fk_prode_code,  fk_prode_color ,fk_prod_size) "
-		               + " values(seq_like_code.nextval, ?, ?, ?, ? , ?) ";
+		               + " values(seq_like_code.nextval, ?, ?, ?, ? ) ";
 		            
 	            pstmt.setString(1, userid );
 	            pstmt.setString(2, prod_code);
@@ -202,8 +202,39 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		
 	      try {
 	         conn = ds.getConnection();
-	            
-	           String sql = " insert into tbl_cart(cart_code, fk_userid , fk_prod_code, qnty, fk_prod_color , fk_prod_size) "
+	          
+	         String sql = " select cart_code "
+	                  + " from tbl_cart "
+	                  + " where fk_userid = ? and fk_prode_code = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, userid);
+	         pstmt.setString(2, prod_code);
+	         pstmt.setString(3, prod_color);
+	         pstmt.setString(4, prod_size);
+	         pstmt.setString(5, qnty);
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         
+	         if(rs.next()) {
+		            // 어떤 제품을 추가로 장바구니에 넣고자 하는 경우 
+		            
+		            int cart_code = rs.getInt("cart_code");
+		            
+		            sql = " update tbl_cart set qnty = qnty + ? "
+		               + " where cart_code = ? ";
+		            
+		            pstmt = conn.prepareStatement(sql);
+		            pstmt.setInt(1, Integer.parseInt(qnty));
+		            pstmt.setInt(2, cart_code);
+		            
+		            result = pstmt.executeUpdate();
+		         }
+	         
+	         else {
+	         
+	            sql = " insert into tbl_cart(cart_code, fk_userid , fk_prod_code, qnty, fk_prod_color , fk_prod_size) "
 	               + " values(seq_cart_code.nextval,  ?, ?, ?, ? ) ";
 	            
 	            pstmt = conn.prepareStatement(sql);
@@ -213,21 +244,18 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 	            pstmt.setString(4, prod_color);
 	            pstmt.setString(5, prod_size);
 	            
-	            pstmt.executeUpdate();
+	            result =  pstmt.executeUpdate();
+	          }
 	         
-	         
-	      } finally {
-	         close();
-	      }
-	      
-	      return result;		
-	}
-
-	
+	         } finally {
+		         close();
+		      }
+		      
+		      return result;      
+		}
 	
 	
 
-	  
 	
 		
 }

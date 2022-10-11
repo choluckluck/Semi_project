@@ -6,12 +6,12 @@
 
 
 <c:choose>
-	<c:when test="${not empty requestScope.likeList}">
-		<c:forEach var="lpvo" items="${requestScope.likeList}">
-		  <div class="col" style="border:none">		  
+	<c:when test="${not empty sessionScope.likeList}">
+		<c:forEach var="lpvo" begin="0" end="2" items="${sessionScope.likeList}">
+		  <div class="col-4" style="border:none">		  
 			<div class="card" style="width: 250px; height:400px;">
 			 <a href="#" class="btn btn-white">
-			  <img src="<%=request.getContextPath() %>/images/product/${lpvo.prod_kind}/${lpvo.prod_image}" class="card-img-top" alt="...">
+			  <img src="<%=request.getContextPath() %>/images/product/${lpvo.prod_image}" class="card-img-top" alt="...">
 			  <br><br>
 			    <div style="text-align:left">${lpvo.prod_name} <br>    <fmt:formatNumber value="${lpvo.prod_price}" pattern="#,###"/>원 </div>
 			  </a>

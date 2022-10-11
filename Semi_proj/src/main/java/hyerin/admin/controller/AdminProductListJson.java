@@ -151,7 +151,7 @@ public class AdminProductListJson extends AbstractController {
 		}//end of else
 		
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/hyerin/admin/adminJson.jsp");
+		super.setViewPage("/WEB-INF/hyerin/jsonView.jsp");
 		
 		
 		

@@ -61,6 +61,24 @@
   
 </style>
 
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		$("a.orderview").click(function(e){
+			const orderCode = $(e.target).html();
+			alert(orderCode);
+			$("#ord_code").val(orderCode);
+			alert($("#ord_code").val());
+			$("#orderViewFrm").submit();
+		});
+
+	});
+
+</script>
+
+
+
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
@@ -95,7 +113,7 @@
 		      <div style="display:inline; font-size:13pt; position:relative; left:71%;"><a class="prd" href="<%=request.getContextPath() %>/seongmin/member/orderView.sue">더보기 ▶</a></div>
 		  <br>
 		  <br>
-		  
+ 			  
 		  <table class="table table" style="text-align:center; width:90%">
 			<colgroup>
 				<col style="width:210px;">
@@ -110,15 +128,17 @@
 				<th scope="col">주문일 / 주문번호</th>
 				<th scope="col" colspan="2">주문내역</th>
 				<th scope="col">수량</th>
-				<th scope="col">상품구매금액</th>
+				<th scope="col">상품구매금액 <br>(1족 기준)</th>
 				<th scope="col">주문상태</th>
 			  </tr>
 			</thead>
 			<tbody>	
  		 		<jsp:include page="./recentOrder.jsp"></jsp:include>
+
+ 		 		
+ 		 		
 		    </tbody>
-		  </table>
-	      
+		  </table>		  	    
 	      <br><br>
 		      <div style="display:inline; font-size:13pt;">관심 상품</div>
 		      <div style="display:inline; font-size:13pt; position:relative; left:75%;"><a class="prd" href="<%=request.getContextPath() %>/seongmin/member/interestPrd.sue">더보기 ▶</a></div>
@@ -139,8 +159,10 @@
 	   </div>
      </div>
    </div>
-	
-	
+	<form method="POST" id="orderViewFrm" name="orderViewFrm" action="<%= request.getContextPath()%>/seongmin/member/orderDetail.sue">
+	<input type="hidden" id="ord_code" name="ord_code" value=""/>	
+	<!-- <input type="submit" /> -->
+	</form>	
   </body>
   
   <jsp:include page="../hyerin/footer.jsp"></jsp:include>
