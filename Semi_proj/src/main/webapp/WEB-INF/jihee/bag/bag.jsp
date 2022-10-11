@@ -440,6 +440,15 @@
                              "totalorderprice":totalorderprice},
                        dataType : "json",
                        success : function(json){
+                    	   
+                    	   console.log(json.nSuccess);
+                           // json은 {"nSuccess", 1} 또는 {"nSuccess", 0}
+                           if(json.nSuccess == 1 ){
+                              location.href= "<%= request.getContextPath()%>/shop/orderList.up";
+                           }
+                           else{
+                              location.href= "<%= request.getContextPath()%>/shop/orderError.up";
+                           }
                           
                        },
                         error: function(request, status, error){
