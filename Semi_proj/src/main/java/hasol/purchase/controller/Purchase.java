@@ -24,18 +24,35 @@ public class Purchase extends AbstractController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		String userid = loginuser.getUserid();
-		String cart_codeJoin = "cart-0900,cart-0901,cart-0902";
-		String prod_codeJoin = "prod-0022,prod-0057,prod-0088";
-		String colorJoin = "green,red,brown";
-		String sizeJoin = "240,240,240";
-		String countJoin = "1,2,2";
-		String priceJoin = "59800,99800,59800"; //정상가
-		String salepriceJoin = "50000,79800,59800"; //판매가
-		String totalOnePriceJoin = "50000,159600,119600"; //판매가x수량
-		String deliveryfee = "0";
-		String pointJoin = "590,990,590";
-		String totalorderprice = "329200"; //배송비 제외
-		String totalprice = "329200"; //배송비 합쳐서
+		String cart_codeJoin = request.getParameter("cart_codeJoin");
+		String prod_codeJoin = request.getParameter("prodCodeJoin");
+		String colorJoin = request.getParameter("colorJoin");
+		String sizeJoin = request.getParameter("sizeJoin");
+		String countJoin = request.getParameter("countJoin");
+		String priceJoin = request.getParameter("priceJoin");
+		String salepriceJoin = request.getParameter("salepriceJoin");
+		String totalOnePriceJoin = request.getParameter("totalOnePriceJoin");
+		String deliveryfee = request.getParameter("deliveryfee");
+		String pointJoin = request.getParameter("pointJoin");
+		String totalorderprice = request.getParameter("totalorderprice");
+		String totalprice = request.getParameter("totalPrice");
+//		String cart_codeJoin = "cart-0900,cart-0901,cart-0902";
+//		String prod_codeJoin = "prod-0022,prod-0057,prod-0088";
+//		String colorJoin = "green,red,brown";
+//		String sizeJoin = "240,240,240";
+//		String countJoin = "1,2,2";
+//		String priceJoin = "59800,99800,59800"; //정상가
+//		String salepriceJoin = "50000,79800,59800"; //판매가
+//		String totalOnePriceJoin = "50000,159600,119600"; //판매가x수량
+//		String deliveryfee = "0";
+//		String pointJoin = "590,990,590";
+//		String totalorderprice = "329200"; //배송비 제외
+//		String totalprice = "329200"; //배송비 합쳐서
+//		
+		
+		
+		System.out.println(cart_codeJoin + prod_codeJoin);
+		
 		
 		String[] prod_codeArr = prod_codeJoin.split("\\,");
 		String[] colorArr = colorJoin.split("\\,");
