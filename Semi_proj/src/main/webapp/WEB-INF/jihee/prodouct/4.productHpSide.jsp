@@ -351,7 +351,7 @@ a:active {text-decoration: none; color: gray;}
 	function goSearch() {
 		
 		const frm = document.productHpFrm
-		frm.action = "productHp4cm.sue";
+		frm.action = "productHp.sue";
 		frm.submit();
 		
 

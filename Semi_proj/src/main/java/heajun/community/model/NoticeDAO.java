@@ -85,32 +85,7 @@ public class NoticeDAO  implements InterNoticeDAO{
     } // end getSeq
     
     
-    // 공지사항 글 작성시키는 메소드
-	@Override
-	public void register(String fk_userid, String notice_subject, String notice_contents) throws Exception {
-		try {
-  			conn = ds.getConnection();
-  			
-  			String sql = " insert into tbl_notice(notice_code, fk_userid, notice_subject, notice_contents )"
-  					   + " values(notice_code.nextval, ?, ?, ? ) ";
-  			
-  			pstmt = conn.prepareStatement(sql);
-  			
-  			pstmt.setString(1, fk_userid);
-  			pstmt.setString(2, notice_subject);
-  			pstmt.setString(3, notice_contents);
-  			
-  			
-  	        pstmt.executeUpdate();
-  	        
-  		} catch (SQLException e) {
-  			e.printStackTrace();
-  		} finally {
-  			close();
-  		}
-		
-	}
-	
+   
 	// notice_code 값을 입력받아서 하나의 게시글에 대한 상세정보를 알아오기(select) 
 	@Override
 	public NoticeVO noticeOneDetail(String notice_code) throws Exception {
@@ -153,6 +128,8 @@ public class NoticeDAO  implements InterNoticeDAO{
 		
 		return nvo;
 	}
+	
+	
 
 	// 글 클릭했을때 조회수 받아오는 메소드
 	@Override
@@ -275,11 +252,46 @@ public class NoticeDAO  implements InterNoticeDAO{
 		
 		return noticeList;
 	}
-
+	
+	// 공지사항 글 작성시키는 메소드
+	@Override
+	public void  noticeWrite(NoticeVO nvo) throws Exception {
+		
+		  
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = "    insert into tbl_notice(notice_code, fk_userid, notice_subject, notice_contents , notice_count , notice_registerday , notice_file_1 ,notice_file_2,notice_file_3 )  "+
+	 				      "    values(seq_notice_code.nextval,  ? ,  ? ,  ? , default , default ,  ?  ,  ?  ,  ?  ) " ;
+			 
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setInt(1, nvo.getNotice_code());
+	         pstmt.setString(2, nvo.getFk_userid());
+	         pstmt.setString(3, nvo.getNotice_subject());    
+	         pstmt.setString(4, nvo.getNotice_contents()); 
+	         pstmt.setInt(5, nvo.getNotice_count());    
+	         pstmt.setString(6, nvo.getNotice_registerday());    
+	         pstmt.setString(7, nvo.getNotice_file_1()); 
+	         pstmt.setString(8, nvo.getNotice_file_2()); 
+	         pstmt.setString(9, nvo.getNotice_file_3()); 
+	         
+	         pstmt.executeUpdate();
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      
+	}//end of public void  noticeWrite(NoticeVO nvo) throws Exception
 	
 
+
 	
 	
+
 	
 
 }

@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import heajun.community.model.InterNoticeDAO;
+import heajun.community.model.*;
 import heajun.community.model.NoticeDAO;
 import heajun.community.model.NoticeVO;
 import heajun.member.model.MemberVO;
@@ -21,6 +21,7 @@ public class NoticeView extends AbstractController {
 			   HttpSession session = request.getSession();
 			   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 			   fk_userid = loginuser.getUserid();
+			   
 		   }catch(NullPointerException e) {
 			   fk_userid = "no";
 		   }
@@ -30,18 +31,18 @@ public class NoticeView extends AbstractController {
 			if("GET".equalsIgnoreCase(method)) {
 				
 				String notice_code = request.getParameter("notice_code");
-				request.setAttribute("notice_code", notice_code);
+				//request.setAttribute("notice_code", notice_code);
 
 				
-				 InterNoticeDAO ndao = new NoticeDAO();
+				 InterNoticeDAO_JIHEE ndao_J = new NoticeDAO_JIHEE();
 				 
-				 NoticeVO nvo = ndao.noticeOneDetail(notice_code);
+				 NoticeVO nvo_J = ndao_J.noticeOneDetail(notice_code);
 				 
-				 ndao.noticeCnt(notice_code);
+				 ndao_J.noticeCnt(notice_code);
 				 
  
-			        request.setAttribute("nvo", nvo);
-					request.setAttribute("fk_userid", fk_userid);
+		        request.setAttribute("nvo_J", nvo_J);
+				//request.setAttribute("fk_userid", fk_userid);
 					
 				
 				

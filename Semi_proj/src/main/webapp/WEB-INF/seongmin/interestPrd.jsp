@@ -32,12 +32,12 @@
   	text-align:left;
   }
   
-  a.prd {
+  a.prod_name {
   	text-decoration-line: none;
   	color:black;
   }
   
-  a.prd:hover {
+  a.prod_name:hover {
   	color:gray;
   }
   
@@ -85,7 +85,7 @@
 			});
 	      
 	      
-	      
+
 	});
 
 	
@@ -101,6 +101,212 @@
 		      $(".chkboxprod_code").prop("checked", bool);
 		   }// end of function allCheckBox()-------------------------
 		   
+		
+		   // === 관심상품에서 선택한 상품 지우기 === //  
+		   function goDel() {
+		      
+		      var $target = $(event.target);
+		      var lname = $target.parent().parent().find("input.like_code").val();
+		      alert(lname);
+		      var prod_name = $target.parent().parent().find("input.prod_name").val();
+ 		      var bool = confirm("[" + prod_name + "] 상품을  관심상품에서 제거하시겠습니까?");
+		   		
+		      if(bool) {
+		         
+		         $.ajax({
+		            url:"<%= request.getContextPath()%>/seongmin/member/likeListDel.sue",
+		            type:"POST",
+		            data:{"like_code":lname},
+		            dataType:"JSON",
+		            success:function(json){
+		               if(json.n == 1) {
+		            	  alert(prod_name + " 상품을 삭제했습니다.")
+		                  location.href = "interestPrd.sue"; // 관심상품 보기는 페이징처리를 안함.
+		               }
+		            },
+		            error: function(request, status, error){
+		               alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		            }
+		         });
+		         
+		      }//end of if
+		      else {
+		         alert("관심상품에서 " +prod_name+ " 상품 삭제를 취소하셨습니다.");
+		      }
+		      
+		   }// end of function goDel(cartno)---------------------------
+		   
+		   //버튼 클릭시 선택한 상품 장바구니로 이동
+		   function goCart() {
+				var $target = $(event.target);
+			    var fk_prod_code = $target.parent().parent().find("input.fk_prod_code").val();
+			    var prod_name = $target.parent().parent().find("input.prod_name").val();
+			    var fk_prod_color = $target.parent().parent().find("input.fk_prod_color").val();
+			    var fk_prod_size = $target.parent().parent().find("input.fk_prod_size").val();
+	 		    
+			    var bool = confirm("[" + prod_name + "] 상품을  장바구니에 추가하시겠습니까?");
+			   	
+			      if(bool) {
+				         
+				         $.ajax({
+				            url:"<%= request.getContextPath()%>/seongmin/member/goCart.sue",
+				            type:"POST",
+				            data:{"fk_prod_code":fk_prod_code,
+				            	  "prod_name":prod_name,
+				            	  "fk_prod_color":fk_prod_color,
+				            	  "fk_prod_size":fk_prod_size},
+				            	  
+				            dataType:"JSON",
+				            success:function(json){
+				               if(json.n == 1) {
+				            	  alert(prod_name + " 상품을 장바구니에 추가했습니다.")
+				                  location.href = "interestPrd.sue"; // 관심상품 보기는 페이징처리를 안함.
+				               }
+				            },
+				            error: function(request, status, error){
+				               alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				            }
+				         });
+				         
+				      }//end of if
+				      else {
+				         alert("취소하셨습니다.");
+				      }				      
+		   }
+		   
+		   // 선택 상품 한 번에 삭제시
+		   function goDelete() {
+		       var checkCnt = $("input:checkbox[name=like_code]:checked").length;
+
+		       if(checkCnt < 1) {
+		           alert("삭제하실 제품을 선택하세요.");
+		           return; // 종료 
+		        }	
+		       
+		       else {
+		            //// == 체크박스에서 체크된 value값(checked 속성이용) == ////
+		            ///  == 체크가 된 것만 값을 읽어와서 배열에 넣어준다. /// 
+		            var allCnt = $("input:checkbox[name=like_code]").length;
+		            
+		            var like_code_Arr = new Array();
+		             
+		             for(var i=0; i<allCnt; i++) {
+		            	 /* $("input:checkbox[name=pnum]").eq(i).prop("checked") */
+		                if( $("input:checkbox[name='like_code']").eq(i).is(":checked") ) {
+		                	like_code_Arr.push( $("input:checkbox[name=like_code]").eq(i).val() ); 	
+		               	}//end of if
+		            }// end of for---------------------------
+		               
+		            for(var i=0; i<checkCnt; i++) {
+		               console.log("확인용 관심상품코드 : " + like_code_Arr[i] );
+		            /*
+		                    확인용 제품번호: 3, 주문량: 3, 장바구니번호 : 14, 주문금액: 30000, 포인트: 15
+		                    확인용 제품번호: 56, 주문량: 2, 장바구니번호: 13, 주문금액: 2000000, 포인트 : 120 
+		                    확인용 제품번호: 59, 주문량: 3, 장바구니번호: 11, 주문금액: 30000, 포인트 : 300    
+		            */
+		            }// end of for---------------------------
+		            
+		            var like_codejoin = like_code_Arr.join();
+	               
+		               var bool = confirm("선택한 상품들을 관심상품 목록에서 삭제하시겠습니까?");
+		               
+		               if(bool) {
+		               
+		                  $.ajax({
+		  		            url:"<%= request.getContextPath()%>/seongmin/member/likeListDel2.sue",
+		                     type:"POST",
+		                     data:{"like_codejoin":like_codejoin},
+		                     dataType:"JSON",     
+		                     success:function(json){
+		                    	 alert(json.n);
+		                        if(json.n == 1) {
+		                        	alert("하하");
+		                           location.href="interestPrd.sue";                     
+		                        }
+		                        <%-- else {
+		                           location.href="<%= request.getContextPath()%>/shop/orderError.up";
+		                        } --%>
+		                     },
+		                     error: function(request, status, error){
+		                        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		                     }
+		                  });
+		                  
+		               }
+		            }   
+		       
+		       
+		      
+		   }// end of function goDelete()----------------------
+		   
+		   //선택상품 장바구니에 푸시
+<%-- 		   function selectCartList() {
+
+			   var checkCnt = $("input:checkbox[name=like_code]:checked").length;
+				
+		       if(checkCnt < 1) {
+		           alert("삭제하실 제품을 선택하세요.");
+		           return; // 종료 
+		        }	
+		       
+		       else {
+								   
+			   var allCnt = $("input:checkbox[name=like_code]").length;
+	            
+	            var fk_prod_code_Arr = new Array();
+	            var prod_name_Arr = new Array();
+	            var fk_prod_color_Arr = new Array();
+	            var fk_prod_size_Arr = new Array();          
+	            
+	             for(var i=0; i<allCnt; i++) {
+	            	 /* $("input:checkbox[name=pnum]").eq(i).prop("checked") */
+	                if( $("input:checkbox[name='like_code']").eq(i).is(":checked") ) {
+	                	like_code_Arr.push( $("input.fk_prod_code").eq(i).val() ); 	
+	                	fk_prod_code_Arr.push( $ ()  )
+	                }//end of if
+	            }// end of for---------------------------
+	               
+	            for(var i=0; i<checkCnt; i++) {
+	               console.log("확인용 관심상품코드 : " + like_code_Arr[i] );
+	            /*
+	                    확인용 제품번호: 3, 주문량: 3, 장바구니번호 : 14, 주문금액: 30000, 포인트: 15
+	                    확인용 제품번호: 56, 주문량: 2, 장바구니번호: 13, 주문금액: 2000000, 포인트 : 120 
+	                    확인용 제품번호: 59, 주문량: 3, 장바구니번호: 11, 주문금액: 30000, 포인트 : 300    
+	            */
+	            }// end of for---------------------------
+	            
+	            var like_codejoin = like_code_Arr.join();
+               
+	               var bool = confirm("선택한 상품들을 관심상품 목록에서 삭제하시겠습니까?");
+	               
+	               if(bool) {
+	               
+	                  $.ajax({
+	  		            url:"<%= request.getContextPath()%>/seongmin/member/likeListDel2.sue",
+	                     type:"POST",
+	                     data:{"like_codejoin":like_codejoin},
+	                     dataType:"JSON",     
+	                     success:function(json){
+	                    	 alert(json.n);
+	                        if(json.n == 1) {
+	                        	alert("하하");
+	                           location.href="interestPrd.sue";                     
+	                        }
+	                        else {
+	                           location.href="<%= request.getContextPath()%>/shop/orderError.up";
+	                        }
+	                     },
+	                     error: function(request, status, error){
+	                        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	                     }
+	                  });
+	                  
+	               }
+	            }   
+			   
+			   
+		   }// end of function selectCartList()----------------------
+ --%>		   
 		   
 		   
 </script>
@@ -130,7 +336,24 @@
 
 		<h3 style="margin-top:1px;">관심 상품</h3>
 		<br><br>
-		
+		<div class="row" style="width:90%;">
+			<div class="col-2" style="border:solid 1px gray; font-size:15pt; display: flex; align-items: center; justify-content: center;">
+			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;" onclick="goDelete()">선택 삭제</button>
+		</div>
+	
+			<div class="col-2" style="border:none; margin-left:20px; display: flex; align-items: center; justify-content: center;">
+			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;"></button>
+			</div>
+	
+			<div class="col-2" style="border:none; margin-left:280px; display: flex; align-items: center; justify-content: center;">
+			</div>
+	
+			<div class="col-2" style="border:solid 1px gray; margin-left:20px; display: flex; align-items: center; justify-content: center;">
+			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;" onclick="selectCartList()">장바구니 담기</button>
+			</div>
+	
+		</div>
+		<br>		
 		  <table class="table table" style="text-align:center; vertical-align:middle; width:90%">
 			<colgroup>
 				<col style="width:70px;">
@@ -155,21 +378,28 @@
 				<c:choose>
 					<c:when test="${not empty requestScope.likeList1}">					
 						<c:forEach var="pvo" items="${requestScope.likeList1}" varStatus="status">
-						  <tr >
-						 	<td class="tbl_td"><input type="checkbox" class="chkboxprod_code"/></td>
+						  <tr>
+						 	<td class="tbl_td"><input type="checkbox" name = "like_code" class="chkboxprod_code" id="" value="${pvo.lvo.like_code}"/></td>
 					 		<td class="tbl_td"><a href=# ><img id="likeimg" src="<%=request.getContextPath() %>/images/product/${pvo.prod_image}"></a></td>
 					 		<td class="tbl_td" style="text-align:left">
-					 			<a name="prd_name${status.index}" class = "prd" href="/product/detail.html?product_no=3833&amp;cate_no=28" >${pvo.prod_name}</a>
+					 			<a name="prd_name${status.index}" class = "prod_name" href="/product/detail.html?product_no=3833&amp;cate_no=28" value="${pvo.prod_name}">${pvo.prod_name}</a><br><br>
+					 			색상 : <span>${pvo.pdvo.prod_color}</span>&nbsp;&nbsp; 사이즈 : [<span>${pvo.pdvo.prod_size}</span>mm]
 					 		</td>
-					 		<td name="prd_price${status.index}" class="tbl_td testzz">${pvo.prod_price}</td>
-					 		<td class="tbl_td"><img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">${pvo.prod_point}원</td>
-					 		<td class="tbl_td">${pvo.prod_saleprice}원</td>
+					 		<td name="prd_price${status.index}" class="tbl_td testzz" value="${pvo.prod_price}"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/>원</td>
+					 		<td class="tbl_td"><img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;"><fmt:formatNumber value="${pvo.prod_point}" pattern="#,###"/>원</td>
+					 		<td class="tbl_td" name="prd_saleprice${status.index}" value="${pvo.prod_price}"><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="#,###"/>원</td>
 					 		<td class="tbl_td">
-					 		<div class="">
-					 		  <button type="button" class="btn btn-gray btn_order" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" value="${status.index}">주문하기</button>
-					 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">장바구니<br>담기</button>
-					 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;">삭제</button>
-							</div>				
+						 		<div class="">
+						 		  <%-- <button type="button" class="btn btn-gray btn_order" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" value="${status.index}">주문하기</button> --%>
+						 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;"  onclick="goCart()">장바구니<br>담기</button>
+						 		  <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goDel()">삭제</button>
+								</div>				
+                              	<input type="hidden" class="like_code" value="${pvo.lvo.like_code}" /> 
+                              	<input type="hidden" class="prod_name" value="${pvo.prod_name}" /> 
+                              	<input type="hidden" class="fk_prod_code" value="${pvo.prod_code}" /> 
+                              	<input type="hidden" class="fk_prod_size" value="${pvo.pdvo.prod_size}" /> 
+                              	<input type="hidden" class="fk_prod_color" value="${pvo.pdvo.prod_color}" /> 
+                              	
 					 		</td>
 					      </tr>
 						</c:forEach>
@@ -191,24 +421,7 @@
 
 	      
 	      
-		<div class="row" style="width:90%;">
-			<div class="col-2" style="border:solid 1px gray; font-size:15pt; display: flex; align-items: center; justify-content: center;">
-			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;">삭제하기</button>
-		</div>
-	
-			<div class="col-2" style="border:solid 1px gray; margin-left:20px; display: flex; align-items: center; justify-content: center;">
-			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;">장바구니 담기</button>
-			</div>
-	
-			<div class="col-2" style="border:solid 1px gray; margin-left:280px; display: flex; align-items: center; justify-content: center;">
-			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;">전체상품주문</button>
-			</div>
-	
-			<div class="col-2" style="border:solid 1px gray; margin-left:20px; display: flex; align-items: center; justify-content: center;">
-			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center; ">관심상품 비우기</button>
-			</div>
-	
-		</div>
+
 		
 		<br><br>
 

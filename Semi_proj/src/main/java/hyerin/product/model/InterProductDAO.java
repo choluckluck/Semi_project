@@ -86,6 +86,12 @@ public interface InterProductDAO {
 	
 	//해당하는 상품들을 삭제해준다
 	int deleteMultiProduct(Map<String, String[]> paraMap) throws SQLException;
+	
+	// 주문하려는 상품정보 불러오기
+	List<ProductVO> getOrderProductsInfo(Map<String, Object> paraMap) throws SQLException;
+	
+	// transaction 메소드
+	int orderAdd(Map<String, Object> paraMap) throws SQLException;
 
 	
 	

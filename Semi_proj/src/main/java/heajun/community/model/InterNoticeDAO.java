@@ -6,8 +6,7 @@ import java.util.Map;
 
 public interface InterNoticeDAO {
 
-	// 공지사항 글 작성시키는 메소드
-	void register(String fk_userid, String notice_subject, String notice_contents)throws Exception;
+	
 
 	// notice_code 값을 입력받아서 하나의 게시글에 대한 상세정보를 알아오기(select) 
 	NoticeVO noticeOneDetail(String notice_code)throws Exception;
@@ -20,6 +19,14 @@ public interface InterNoticeDAO {
 
 	//공지사항에 속하는 글들을 페이지바를 사용해 페이징 처리하여 조회(select)해오기
 	List<NoticeVO> selectPagingNoticeList(Map<String, String> paraMap)throws Exception;
+
+	// 공지사항 글 작성시키는 메소드
+	void  noticeWrite(NoticeVO nvo)throws Exception;
+
+	
+
+	
+	
 
 	
 	

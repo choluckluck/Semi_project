@@ -5,6 +5,7 @@
 <%
     String ctxPath = request.getContextPath();
 %>
+<title>공지사항</title>
 
  <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include> 
 
@@ -12,21 +13,14 @@
 	$(document).ready(function(){
 	
 		//글쓰기 글씨 클릭 이벤트
-		$("button#noticeWrite").click(function(){
+		$("button#notice_write").click(function(){
 			const frm = document.noticeFrm;
 			frm.action="noticeWrite.sue";
 			frm.method = "get";
 			frm.submit();
 		});
 		
-		// 공지사항 글 보기 클릭 이벤트
-		$("th#notice_subject").click(function(){
-			const frm = document.noticeFrm;
-			frm.action="noticeView.sue";
-			frm.method = "get";
-			frm.submit();
-		});
-		
+		 
 		//커뮤니티사이드바_공지사항 클릭 이벤트
 		$("div#sidebar_notice").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
@@ -37,14 +31,19 @@
 			location.href="<%= ctxPath%>/heajun/board/qnaList.sue";
 		});
 		
-		//공지사항_문의하기 클릭 이벤트
-		$("th#notice_subject").click(function(){
-			location.href="<%= ctxPath%>/heajun/community/noticeView.sue";
-		});
 		
-		
+		 // 특정 글을 클릭하면 그 글의 상세정보를 보여주도록 한다.
+		   $("tr.noticeList").click( (e)=>{
+			   const $target = $(e.target);
+			   const notice_code = $target.parent().children(".notice_code").text();
+			
+			   location.href="<%= ctxPath%>/heajun/community/noticeView.sue?notice_code="+notice_code+"&goBackURL=${requestScope.goBackURL}";
+			 		   
+		   });
+				   
 		
 	});
+	
 </script>
 
 <div class="row container-fluid mt-5">
@@ -52,7 +51,7 @@
 
 	<div id="contents" class="col-9 ml-5">
 		
-		<form name="noticeFrm">
+	   <form name="noticeFrm">
 		
 			<div style="font-weight:bold;">NOTICE</div>	
 			<table id="notice_list" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
@@ -69,31 +68,37 @@
 				
 				
 				
-				<thead>
-				 <c:forEach var="nvo" items="${requestScope.noticeList}">
-					<tr>
-						<th width="15%" height="50px" class="notice_code text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_code}</th>
-						<th width="45%" id="notice_subject" class="notice_subject" style="text-align:center; font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.notice_subject}</th>
-						<th width="15%" class="fk_userid text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.fk_userid}</th>
-						<th width="15%" class="notice_count text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.notice_registerday}</th>
-						<th width="10%" class="notice_registerday text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black">${nvo.notice_count}</th>
-					</tr>
-					</c:forEach>
-				</thead>
+			
+				
+			   <tbody>
+		             <c:forEach var="nvo" items="${requestScope.noticeList}">
+		             	<tr class="noticeList">
+		             	    <td width="15%" height="50px" class="notice_code text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_code}</td>
+		             	    <td width="15%" height="50px" class=" text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_subject}</td>
+		             	    <td width="15%" height="50px" class=" text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.fk_userid}</td>
+		             	    <td width="15%" height="50px" class=" text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_registerday}</td>
+		             	    <td width="15%" height="50px" class=" text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_count}</td>
+		             	</tr>
+		             </c:forEach>
+		        </tbody>
+		        
+		        
 				
 				
 				   
 			</table>
 		
-		
+		<div style="text-align:right;" class="my-5"><button type="button" id="notice_write" class="black" style="width:150px; height:40px; href="<%=ctxPath%>/heajun/community/noticeWrite.sue">글쓰기</button></div>
 			<nav class="my-5">
 		    	<div style="display: flex; width: 80%">
 		    		<ul class="pagination" style="margin: auto">${requestScope.pageBar}</ul>
 		    	</div>
             </nav>
-		 
+            
+            
 		</form>
 		
 	</div>
 </div>
  <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include> 
+
