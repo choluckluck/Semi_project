@@ -12,15 +12,16 @@ public interface InterProductDetailDAO {
 
 	// 옵션 선택을 위한 해당 상품의 옵션 정보가져오기 
 	List<ProductVO_HJ> selectProductOption(String prod_detail_code)throws SQLException;
-
-	//이미지 파일 가져오기
-	List<String> getImages(String prod_code)throws SQLException;
+	
 
 	//위시리스트에 값 보내기
-	int addWish(String prod_color, String prod_size, String qnty)throws SQLException;
+	int addWish(String userid ,String prod_code ,String prod_color, String prod_size)throws SQLException;
 
 	//카트리스트에 값 보내기
-	int addCart(String prod_color, String prod_size, String qnty)throws SQLException;
+	int addCart(String userid, String prod_code , String prod_color, String prod_size, String qnty)throws SQLException;
+
+	//이미지 파일 가져오기
+	ProductVO_HJ getImages(String prod_code)throws SQLException;
 
 	
 

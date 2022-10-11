@@ -34,29 +34,35 @@
 		 
 			<div style="font-weight:bold;">NOTICE</div>	
 			<table class="table table-condensed mt-4" style="font-size:10pt;">
-			<br>
+			
 			<thead>
-                <div id="notice_code"> ${requestScope.nvo.notice_code}번 게시글 &nbsp; </div>
+                <div id="notice_code"> &nbsp; ${requestScope.nvo_J.notice_code}번 게시글 &nbsp; </div>
 				<tr>
 					<td class="col-1 align-middle">제목</td>
-					<td class="col-11">${requestScope.nvo.notice_subject}</td>
+					<td class="col-11">${requestScope.nvo_J.notice_subject}</td>
 				</tr>
 				<tr>
 					<td>작성자</td>
-					<td>${requestScope.nvo.fk_userid}</td>
+					<td>${requestScope.nvo_J.fk_userid}</td>
 				</tr>
 				<tr>
 					<td>작성일</td>
-					<td>${requestScope.nvo.notice_registerday}</td>
+					<td>${requestScope.nvo_J.notice_registerday}</td>
 				</tr>
 				<tr>
-					<td colspan="2" class="pt-5 pb-5" style="border-bottom:solid 1px #d9d9d9;">${requestScope.nvo.notice_contents}</td>
+					<td colspan="2" class="pt-5 pb-5" style="border-bottom:solid 1px #d9d9d9;">${requestScope.nvo_J.notice_contents}</td>
 				</tr>
 				
 		</thead>
 				
 					
-		
+				<%--  <c:if test="${requestScope.pvo.prdmanual_orginFileName ne '없음'}">
+                 <a href="<%= ctxPath%>/shop/fileDownload.up?pnum=${requestScope.pvo.pnum}">${requestScope.pvo.prdmanual_orginFileName}</a>
+	              </c:if>
+	              <c:if test="${requestScope.pvo.prdmanual_orginFileName eq '없음'}">
+	                 첨부파일없음
+                  </c:if> --%>
+				
 				
               
 			</table>

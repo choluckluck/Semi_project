@@ -35,8 +35,7 @@ public class Productdetail extends AbstractController {
 							List<ProductVO_HJ> option = pdao.selectProductOption(prod_code); // 옵션 선택을 위한 해당 상품의 옵션 정보가져오기 
 							
 							// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기
-							List<String> imgFile = pdao.getImages(prod_code);
-							
+							ProductVO_HJ ivo = pdao.getImages(prod_code);// 상품이미지 가져오기
 							
 							if(pvo == null) {
 								// GET 방식이므로 사용자가 웹브라우저 주소창에서 장난쳐서 존재하지 않는 제품번호를 입력한 경우
@@ -56,8 +55,8 @@ public class Productdetail extends AbstractController {
 								// 제품이 있는 경우 
 								//request.setAttribute("prod_code", prod_code);
 								request.setAttribute("pvo", pvo);  // 제품의 정보
+								request.setAttribute("ivo", ivo);  // 이미지 정보
 								request.setAttribute("option",option); // 옵션가져오기
-								request.setAttribute("imgFile", imgFile);//이미지 파일 가져오기
 								//super.setRedirect(false);
 								super.setViewPage("/WEB-INF/heajun/product/productdetail.jsp");
 							

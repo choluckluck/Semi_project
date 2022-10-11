@@ -5,7 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import heajun.community.model.NoticeVO;
 import heajun.member.model.MemberVO;
+import heajun.product.model.CartVO_HJ;
 import heajun.product.model.InterProductDetailDAO;
 import heajun.product.model.ProductDetailDAO;
 
@@ -19,11 +21,6 @@ public class Bag extends AbstractController {
 			
 			if(!isLogin) { // 로그인을 하지 않은 상태이라면 
 				
-				/*
-				   사용자가 로그인을 하지 않은 상태에서 특정제품을 장바구니에 담고자 하는 경우 
-				   사용자가 로그인을 하면 장바구니에 담고자 했던 그 특정제품 페이지로 이동하도록 해야 한다.
-				   이와 같이 하려고 ProdView 클래스에서 super.goBackURL(request); 을 해두었음.   
-				*/
 				
 				request.setAttribute("message", "주문하려면 먼저 로그인 부터 하세요!!"); 
 				request.setAttribute("loc", "javascript:history.back()");
@@ -43,6 +40,7 @@ public class Bag extends AbstractController {
 				    
 				   if("POST".equals(method)) {
 					   // POST 방식이라면 
+					   String prod_code = request.getParameter("prod_code");
 					   String prod_color = request.getParameter("prod_color");
 						String prod_size = request.getParameter("prod_size");
 						String qnty= request.getParameter("qnty");
@@ -52,19 +50,16 @@ public class Bag extends AbstractController {
 						   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
 						   
 					   
-					   InterProductDetailDAO pdao = new ProductDetailDAO();
+					   InterProductDetailDAO cdao = new ProductDetailDAO();
 					   
-					   int n = pdao.addCart(prod_color, prod_size,qnty); 
-					   
-					   if(n==1) {
-						   request.setAttribute("message", "주문하러 가기 성공!!");
-						   request.setAttribute("loc", "bag.sue");
-						   // 장바구니 목록보여주기 페이지 이동 
-					   }
-					   else {
-						   request.setAttribute("message", "주문하러 가기 실패!!");
-						   request.setAttribute("loc", "javascript:history.back()");
-					   }
+					  
+					   int n =  cdao.addCart(loginuser.getUserid(), prod_code , prod_color,  prod_size,  qnty); 
+						
+						  if(n==1) { request.setAttribute("message", "주문하러 가기 성공!!");
+						  request.setAttribute("loc", "bag.sue"); // 장바구니 목록보여주기 페이지 이동 } else {
+						  request.setAttribute("message", "주문하러 가기 실패!!"); request.setAttribute("loc",
+						  "javascript:history.back()"); }
+						 
 					   
 					// super.setRedirect(false);
 					   super.setViewPage("/WEB-INF/msg.jsp");
@@ -82,7 +77,9 @@ public class Bag extends AbstractController {
 					   super.setViewPage("/WEB-INF/msg.jsp");
 				   }
 				
-			}
-	}
+			
+	 }
+
+  }
 
 }

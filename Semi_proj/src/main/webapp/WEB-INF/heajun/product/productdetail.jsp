@@ -199,9 +199,8 @@ function goInterest() {
 	<br><br>
 	<div class="row">	
 		<div class="col-4" style="width:450px; height:550px; border:solid 1px gray;" z-index: 3;>
-		<c:forEach var="product_image_file" items="${requestScope.imageFile}" begin="0" end="3" step="1">
-		   <%--   <img src="https://www.jinnykimcollection.co.kr/web/product/extra/small/202208/a71ea7169a3030bfdf98fce73d65ee6f.jpg"  style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">--%>
-		 <img src="<%= ctxPath%>/images/product/${imageFile.product_image_file}" style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">
+		<c:forEach var="ivo" items="${requestScope.ivo}" begin="0" end="3" step="1">
+		 <img src="<%= ctxPath%>/images/product/${ivo.prod_image}" style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">
   </c:forEach>
    </div>
  <br><br>
@@ -228,7 +227,7 @@ function goInterest() {
 					</tr>
 					<tr>
 						<th style="width: 115px; text-align: center;">배송비</th>
-						<td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3,000원</strong> (70,000원 이상 구매 시 무료)</td>
+						<td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2,500원</strong> (70,000원 이상 구매 시 무료)</td>
 					</tr>
 				</table >
 				

@@ -163,151 +163,116 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		return option;
 	}
 
-	//이미지 파일 가져오기
-	@Override
-	public List<String> getImages(String prod_code) throws SQLException {
 
-		 List<String> imgFile = new ArrayList<>();
-	      
-	      try {
-	         conn = ds.getConnection();
-	         
-	         String sql = " select product_image_file "
-	                  + " from tbl_product_image "
-	                  + " where fk_prod_code =  ?  " ;
-	         
-	         pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, prod_code);
-	         
-	         rs = pstmt.executeQuery();
-	         
-	         while(rs.next()) {
-	            
-	            String product_image_file = rs.getString(1); // 이미지파일명 
-	            imgFile.add(product_image_file);
-	         }// end of while-------------------
-	         
-	      } finally {
-	         close();
-	      }
-	      
-	      return imgFile;
-	}
+	
 
 	//위시리스트에 값보내기
 	@Override
-	public int addWish(String prod_color, String prod_size, String qnty) throws SQLException {
-		 int result = 0;
+	public int addWish(String userid , String prod_code , String prod_color, String prod_size) throws SQLException {
+		
+		int result = 0;
 	      
 	      try {
 	         conn = ds.getConnection();
 	     
-	         String sql = " select like_code "
-	                  + " from tbl_like "
-	                  + " where fk_userid = ? and fk_prod_code = ? ";
-	         
-	         pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, prod_color);
-	         pstmt.setString(2, prod_size);
-	         pstmt.setString(3, qnty);
-	         
-	         rs = pstmt.executeQuery();
-	         
-	            
-	          result = pstmt.executeUpdate();
-	        
-	      
-	          if(rs.next()) {
-		            // 어떤 제품을 추가로 위시리스트에 넣고자 하는 경우 
 		            
-		            int like_code = rs.getInt("like_code");
-		            
-		            sql = " update tbl_like set qnty = qnty + ? "
-		               + " where like_code = ? ";
-		            
-		            pstmt = conn.prepareStatement(sql);
-		            pstmt.setInt(1, Integer.parseInt(qnty));
-		            pstmt.setInt(2, like_code);
-		            
-		            result = pstmt.executeUpdate();
-		         }
-		         
-		         else {
-		            // 위시리스트에 존재하지 않는 새로운 제품을 넣고자 하는 경우
-		            
-		            sql = " insert into tbl_like(like_code, fk_userid, fk_prode_code, qnty, fk_prode_color ,fk_prod_size) "
+	         String sql = " insert into tbl_like(like_code, fk_userid, fk_prode_code,  fk_prode_color ,fk_prod_size) "
 		               + " values(seq_like_code.nextval, ?, ?, ?, ? , ?) ";
 		            
-		            pstmt = conn.prepareStatement(sql);
-		            pstmt.setString(1, prod_color);
-		            pstmt.setInt(2, Integer.parseInt(prod_size));
-		            pstmt.setInt(3, Integer.parseInt(qnty));
-		            
+	            pstmt.setString(1, userid );
+	            pstmt.setString(2, prod_code);
+	            pstmt.setString(3, prod_color);
+	            pstmt.setString(4, prod_size);
+	            
 		            result = pstmt.executeUpdate();
-		         }
-		         
-		      } finally {
+	      } finally {
 		         close();
 		      }
 		      
-		      return result;        
-	}
+		      return result;		
+		}  
+		      
+	
 
 	//장바구니에 값 보내기
 	@Override
-	public int addCart(String prod_color, String prod_size, String qnty) throws SQLException {
-		 int result = 0;
-	      
+	public int addCart(String userid , String prod_code, String prod_color, String prod_size, String qnty) throws SQLException {
+		
+		int result = 0;
+		
 	      try {
 	         conn = ds.getConnection();
-	         
-	      
-	         
-	         String sql = " select cart_code "
-	                  + " from tbl_cart "
-	                  + " where fk_userid = ? and fk_prode_code = ? ";
-	         
-	         pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, prod_color);
-	         pstmt.setString(2, prod_size);
-	         pstmt.setString(3, qnty);
-	         
-	         rs = pstmt.executeQuery();
-	         
-	         if(rs.next()) {
-	            // 어떤 제품을 추가로 장바구니에 넣고자 하는 경우 
 	            
-	            int cart_code = rs.getInt("cart_code");
-	            
-	            sql = " update tbl_cart set qnty = qnty + ? "
-	               + " where cart_code = ? ";
+	           String sql = " insert into tbl_cart(cart_code, fk_userid , fk_prod_code, qnty, fk_prod_color , fk_prod_size) "
+	               + " values(seq_cart_code.nextval,  ?, ?, ?, ? ) ";
 	            
 	            pstmt = conn.prepareStatement(sql);
-	            pstmt.setInt(1, Integer.parseInt(qnty));
-	            pstmt.setInt(2, cart_code);
-	            
-	            result = pstmt.executeUpdate();
-	         }
-	         
-	         else {
-	            // 장바구니에 존재하지 않는 새로운 제품을 넣고자 하는 경우
-	            
-	            sql = " insert into tbl_cart(cart_code, fk_userid, fk_prode_code, qnty, fk_prode_color ,fk_prod_size) "
-	               + " values(seq_cart_code.nextval, ?, ?, ?, ? , ?) ";
-	            
-	            pstmt = conn.prepareStatement(sql);
-	            pstmt.setString(1, prod_color);
-	            pstmt.setInt(2, Integer.parseInt(prod_size));
+	            pstmt.setString(1, userid );
+	            pstmt.setString(2, prod_code);
 	            pstmt.setInt(3, Integer.parseInt(qnty));
+	            pstmt.setString(4, prod_color);
+	            pstmt.setString(5, prod_size);
 	            
-	            result = pstmt.executeUpdate();
-	         }
+	            pstmt.executeUpdate();
+	         
 	         
 	      } finally {
 	         close();
 	      }
 	      
-	      return result;      
+	      return result;		
 	}
+
 	
+	
+	
+	@Override
+	public ProductVO_HJ getImages(String prod_code) throws SQLException {
+
+	   ProductVO_HJ ivo = new ProductVO_HJ();
+		
+		try {
+			
+			 conn = ds.getConnection();
+			
+			  
+		     String sql = " select product_image_code, fk_prod_code, product_image_file "+
+						  " from tbl_product_image ";
+						 
+	
+		     System.out.println(prod_code);
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, prod_code);
+			 
+			 			 
+			 rs = pstmt.executeQuery();
+	
+			 if(rs.next()) {
+				 
+				 
+				 ivo.setProd_code(rs.getString(1));
+				 ivo.setProd_name(rs.getString(2));
+				 ivo.setProd_kind(rs.getString(3));
+				 ivo.setProd_image(rs.getString(4));
+				 ivo.setProd_high(rs.getString(5));
+				 ivo.setProd_price(rs.getInt(6));
+				 ivo.setProd_registerday(rs.getString(7));
+				 ivo.setMd_pick_yn(rs.getString(8));
+				 ivo.setProd_saleprice(rs.getInt(9));
+				 ivo.setProd_description(rs.getString(10));
+				 ivo.setProd_point(rs.getInt(11));
+				 
+			 }
+			 
+		} finally {
+			close();
+		}
+		
+		return ivo;		
+	}
+		
+	  
+	
+		
 }

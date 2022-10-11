@@ -43,17 +43,17 @@ public class InterWishlist extends AbstractController {
 			    
 			   if("POST".equals(method)) {
 				   // POST 방식이라면 
-				   String prod_color = request.getParameter("prod_color");
+				   
+				    String prod_code = request.getParameter("prod_code");
+				    String prod_color = request.getParameter("prod_color");
 					String prod_size = request.getParameter("prod_size");
-					String qnty= request.getParameter("qnty");
-					
 				   
 				   HttpSession session = request.getSession();
 				   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
 				   
-				   InterProductDetailDAO pdao = new ProductDetailDAO();
+				   InterProductDetailDAO wdao = new ProductDetailDAO();
 				   
-				   int n = pdao.addWish(prod_color,  prod_size,  qnty); 
+				   int n = wdao.addWish(loginuser.getUserid(), prod_code , prod_color,  prod_size); 
 				   
 				   if(n==1) {
 					   request.setAttribute("message", "위시리스트 담기 성공!!");
