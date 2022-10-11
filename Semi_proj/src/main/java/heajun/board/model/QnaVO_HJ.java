@@ -2,7 +2,7 @@ package heajun.board.model;
 
 import java.sql.Date;
 
-public class QnaVO {
+public class QnaVO_HJ {
 
 	private int qna_code;			// qna 글 번호
 	private String fk_userid;	// qna 글 작성자
@@ -14,21 +14,35 @@ public class QnaVO {
 	private String file_2;	    	// file_2
 	private String file_3;	        // file_3
 	private String answer_yn;	    // 답변여부
-	
+	private String prod_code;	    // 상품코드
 	
 	////////////////////////////////////////////////////////////////////////////////////////
+	
+	public QnaVO_HJ(){}	
+	
 	public int getQna_code() {
 		return qna_code;
 	}
+	public QnaVO_HJ(int qna_code, String fk_userid, String category, String subject, String contents, Date registerday,
+			String file_1, String file_2, String file_3, String answer_yn, String prod_code) {
+		
+		this.qna_code = qna_code;
+		this.fk_userid = fk_userid;
+		this.category = category;
+		this.subject = subject;
+		this.contents = contents;
+		this.registerday = registerday;
+		this.file_1 = file_1;
+		this.file_2 = file_2;
+		this.file_3 = file_3;
+		this.answer_yn = answer_yn;
+		this.prod_code = prod_code;
+	}
+	
 	public void setQna_code(int qna_code) {
 		this.qna_code = qna_code;
 	}
-	public String getFk_member_code() {
-		return fk_userid;
-	}
-	public void setFk_member_code(String fk_member_code) {
-		this.fk_userid = fk_userid;
-	}
+	
 	public String getCategory() {
 		return category;
 	}
@@ -76,6 +90,18 @@ public class QnaVO {
 	}
 	public void setAnswer_yn(String answer_yn) {
 		this.answer_yn = answer_yn;
+	}
+	public String getFk_userid() {
+		return fk_userid;
+	}
+	public void setFk_userid(String fk_userid) {
+		this.fk_userid = fk_userid;
+	}
+	public String getProd_code() {
+		return prod_code;
+	}
+	public void setProd_code(String prod_code) {
+		this.prod_code = prod_code;
 	}
 	
 	

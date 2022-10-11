@@ -6,8 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import heajun.board.model.InterQnaDAO;
-import heajun.board.model.QnaDAO;
-import heajun.board.model.QnaVO;
+import heajun.board.model.QnaDAO_HJ;
+import heajun.board.model.QnaVO_HJ;
 import heajun.member.model.MemberVO;
 
 public class QnaShow extends AbstractController {
@@ -36,8 +36,8 @@ public class QnaShow extends AbstractController {
 				// 해당글의 내용을 select 해와야 하는데 조건절은 where = ?
 				// 위치홀더에 qna_code 넣기
 				
-				InterQnaDAO qdao = new QnaDAO();
-				QnaVO qvo = qdao.qnaOneDetail(qna_code);
+				InterQnaDAO qdao = new QnaDAO_HJ();
+				QnaVO_HJ qvo = qdao.qnaOneDetail(qna_code);
 				
 				request.setAttribute("qvo", qvo);
 				request.setAttribute("qna_code", qna_code);

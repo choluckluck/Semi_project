@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%
     String ctxPath = request.getContextPath();
 %>
@@ -70,7 +73,7 @@ right:35px;
 	
 $(document).ready(function() {
 	
-	   /* // === 주문개수 스피터 달기 === //
+	  // === 주문개수 스피터 달기 === //
 	   $("input#spinner").spinner( {
 		   spin: function(event, ui) {
 			   if(ui.value > 100) {
@@ -82,7 +85,10 @@ $(document).ready(function() {
 				   return false;
 			   }
 		   }
-	   } );// end of $("input#spinner").spinner({});------------- */
+	   } );// end of $("input#spinner").spinner({});------------- 
+	   
+	   
+	 
 	   
 });//end of $(document).ready(function() {--------------------
 
@@ -93,22 +99,22 @@ function goCart() {
 	   const frm = document.cartFrm;
 	   
 	   const regExp = /^[0-9]+$/; // 숫자만 체크하는 정규표현식
-	   const count = frm.count.value; 
-	   const bool = regExp.test(count);
+	   const qnty = frm.qnty.value; 
+	   const bool = regExp.test(qnty);
 	   
 	   if(!bool) {
 		   // 숫자 이외의 값이 들어온 경우 
-		   alert("주문개수는 1개 이상이어야 합니다.");
-		   frm.count.value = "1";
-		   frm.count.focus();
+		   alert("장바구니 수량은 1개 이상이어야 합니다.");
+		   frm.qnty.value = "1";
+		   frm.qnty.focus();
 		   return; // 종료
 	   }
 	   
 	   // 문자형태로 숫자로만 들어온 경우
-	   if( Number(count) < 1 ) {
-		   alert("주문개수는 1개 이상이어야 합니다.");
-		   frm.count.value = "1";
-		   frm.count.focus();
+	   if( Number(qnty) < 1 ) {
+		   alert("장바구니 수량은 1개 이상이어야 합니다.");
+		   frm.qnty.value = "1";
+		   frm.qnty.focus();
 		   return; // 종료
 	   }
 	   // 주문개수가 1개 이상인 경우
@@ -120,6 +126,69 @@ function goCart() {
 }// end of function goCart()------------------------------ 
 
 
+function goOrder() {
+	   
+	   // === 주문량에 대한 유효성 검사하기 === //
+	   const frm = document.cartFrm;
+	   
+	   const regExp = /^[0-9]+$/; // 숫자만 체크하는 정규표현식
+	   const qnty = frm.qnty.value; 
+	   const bool = regExp.test(qnty);
+	   
+	   if(!bool) {
+		   // 숫자 이외의 값이 들어온 경우 
+		   alert("주문개수는 1개 이상이어야 합니다.");
+		   frm.qnty.value = "1";
+		   frm.qnty.focus();
+		   return; // 종료
+	   }
+	   
+	   // 문자형태로 숫자로만 들어온 경우
+	   if( Number(qnty) < 1 ) {
+		   alert("주문개수는 1개 이상이어야 합니다.");
+		   frm.qnty.value = "1";
+		   frm.qnty.focus();
+		   return; // 종료
+	   }
+	   // 주문개수가 1개 이상인 경우
+	   frm.method = "POST";
+	   frm.action = "<%= request.getContextPath()%>/hasol/purchase/purchase.sue";
+	   
+	   frm.submit();
+	   
+}// end of function goOrder()------------------------------ 
+
+function goInterest() {
+	   
+	   // === 주문량에 대한 유효성 검사하기 === //
+	   const frm = document.cartFrm;
+	   
+	   const regExp = /^[0-9]+$/; // 숫자만 체크하는 정규표현식
+	   const qnty = frm.qnty.value; 
+	   const bool = regExp.test(qnty);
+	   
+	   if(!bool) {
+		   // 숫자 이외의 값이 들어온 경우 
+		   alert("관심상품에 담을 수 있는 수량은 1개 이상이어야 합니다.");
+		   frm.qnty.value = "1";
+		   frm.qnty.focus();
+		   return; // 종료
+	   }
+	   
+	   // 문자형태로 숫자로만 들어온 경우
+	   if( Number(qnty) < 1 ) {
+		   alert("관심상품에 담을 수 있는 수량은 이상이어야 합니다.");
+		   frm.qnty.value = "1";
+		   frm.qnty.focus();
+		   return; // 종료
+	   }
+	   // 주문개수가 1개 이상인 경우
+	   frm.method = "POST";
+	   frm.action = "<%= request.getContextPath()%>/seongmin/member/interestPrd.sue";
+	   
+	   frm.submit();
+	   
+}// end of function goInterest()------------------------------ 
 
 </script>
 
@@ -130,161 +199,154 @@ function goCart() {
 	<br><br>
 	<div class="row">	
 		<div class="col-4" style="width:450px; height:550px; border:solid 1px gray;" z-index: 3;>
-		   <img src="https://www.jinnykimcollection.co.kr/web/product/extra/small/202208/a71ea7169a3030bfdf98fce73d65ee6f.jpg"  style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">
-		   <br><br>
+		<c:forEach var="product_image_file" items="${requestScope.imageFile}" begin="0" end="3" step="1">
+		   <%--   <img src="https://www.jinnykimcollection.co.kr/web/product/extra/small/202208/a71ea7169a3030bfdf98fce73d65ee6f.jpg"  style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">--%>
+		 <img src="<%= ctxPath%>/images/product/${imageFile.product_image_file}" style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">
+  </c:forEach>
+   </div>
+ <br><br>
 		   
-		</div>
-		  
-		 
-
+		
+		
 	
-		<div class="col-6" style="margin-left:50px;">
-			<div style="font-size: 20px; margin-left:50px;">(특가)<strong style="font-size: 20px;">드레이 로퍼{requestScope.pvo.prod_name}</strong >(1cm)</div>
-			<div style="font-size: 20px; margin-left:50px;"><strong style="color:red;">63% </strong><strong>29,800원{requestScope.pvo.prod_saleprice}</strong><strike>&nbsp;79,900원{requestScope.pvo.prod_price}</strike></div>
+
+
+		<div class="  col-6" style="margin-left:50px;">
+			<div style="font-size: 20px; margin-left:50px;"><strong style="font-size: 20px;">${requestScope.pvo.prod_name}</strong ><a href="#" style=" color:gray;">(<span>${requestScope.pvo.prod_high}cm</span>)</a></div>
+			<div style="font-size: 20px; margin-left:10px;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.pvo.prod_saleprice}원&nbsp;&nbsp;</strong><strike>&nbsp;${requestScope.pvo.prod_price}원</strike></div>
 			<br>
 			<div style="width: 100%;">
-				<table id="code" style="margin-left:50px;">
+			
+				<table  id="code" style="margin-left:50px;">
 					<tr>
 						<th style="width: 115px; text-align: center;">Code</th>
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P0000FXM{requestScope.pvo.prod_code}</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.pvo.prod_code}</td>
 					</tr>
 					<tr>
 						<th style="width: 115px; text-align: center;">적립금</th>
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;300${requestScope.pvo.prod_point}원</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.pvo.prod_point}원</td>
 					</tr>
 					<tr>
 						<th style="width: 115px; text-align: center;">배송비</th>
-						<td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3,000${requestScope.pvo.prod_price}원</strong> (70,000원 이상 구매 시 무료)</td>
+						<td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3,000원</strong> (70,000원 이상 구매 시 무료)</td>
 					</tr>
 				</table >
 				
-			   
-			<%-- ==== 장바구니담기 또는 바로주문하기 폼 ==== --%>
+				
+
+   
+			<%-- ==== 장바구니담기 또는 바로주문하기 폼 value="${pvo.prod_code}"==== --%>
 		    <form name="cartFrm">
+		    
 				<table style="margin-left:50px; margin-bottom:10px;">   
-					<tr>
+					<tr class="option">
 						<th style="width: 115px; text-align:left;">COLOR</th>
+							
 							<td>
-								<select id="optionselect" name="prod_color" style="width: auto; font-size:15px;">
-									<option selected value="0" style="width: 350px;">-[필수] 옵션을 선택해 주세요-</option>
-									<option>CREAM COLOR</option>
-									<option>LIGHT GREEN SUEDE</option>
-									<option>PEACOCK SUEDE</option>
-								</select>
-						
+							
+								<select  class="option" name="prod_color"id="option"  style="width: 250px; font-size:15px; margin-left:1px; height:30px; ">      
+										<c:forEach var="pvo" items="${requestScope.option}" varStatus="i">   
+										<option value="${pvo.prod_code}" value2="${pvo.fk_prod_code.prod_color}">${pvo.fk_prod_code.prod_color}</option>     
+										</c:forEach>
+								 </select>
+
 							</td>
-						</tr>
-					
-					<tr>
-						<th style="width: 115px; text-align:left;">SIZE</th>
+					 </tr>
+						
+				<tr class="option">	
+				 <th style="width: 115px; text-align:left;">SIZE</th>
 						<td>
-							<select id="optionselect" name="prod_size" style="width: auto; font-size:15px;">
-								<option selected value="0" style="width: 350px;">-[필수] 옵션을 선택해 주세요-</option>
-								<option>235</option>
-								<option>240</option>
-							</select>
+								
+							<select  class="option" name="prod_color"id="option"  style="width: 250px; font-size:15px; margin-left:1px; height:30px; ">      
+								<c:forEach var="pvo" items="${requestScope.option}" varStatus="i">   
+								<option value="${pvo.prod_code}" value2="${pvo.fk_prod_code.prod_size}">${pvo.fk_prod_code.prod_size}</option>     
+								</c:forEach>
+							 </select>
+									
 						</td>
+						
 					</tr>
-					
-					
-					
-				</table>
-				    
-				    
+			</table>    
+				 
+
+
+
+ 
 				     	    
-			    <ul class="list-unstyled mt-6">
+			    <ul class="Productdetail list-unstyled mt-6">
 			    	<li >
-			        	<label style="margin-left:80px ; for="spinner">주문수량&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-	  					<input id="spinner" name="count" value="1" style="width: 210px;">
+			        	<label style="margin-left:80px ; for="spinner"><strong>주문수량&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
+	  					<input id="spinner" name="qnty" value="1" style="width: 20px; ">
 					</li>
-					<li class="my-5 mx-6" >
-						<button type ="button" id="button2"  class="buttons border btn btn-outline-secondary" onclick="goWish();  ">♡</button>
+					<li class="my-5 mx-5" >
+						<button type ="button" id="button2"  class="buttons border btn btn-outline-secondary  " onclick="goInterest();  ">♡</button>
 						<button type ="button" id="button"   class="buttons border btn btn-outline-secondary  col-4"  onclick="goCart();">장바구니</button>
 						<button type ="button" id="button3"  class="buttons border btn btn-outline-secondary  col-4" onclick="goOrder();">바로구매</button>
 					</li>
 					
 				</ul>
-				<%-- 
-				<input type="hidden" name="prod_code" value="${requestScope.pvo.prod_code}" />
+				<input type="hidden" id="prod_code" value="${requestScope.prod_code}"/>
 				
-				<input type="text" id="prod_code" name="prod_code" value="prod-0001"/>
-								
-				<input type ="hidden" name="opseq" value="0">
-				<input type ="hidden" name="oqty"  value="0">
-				 --%>
+				
+				
 			</form>	
-				
 				
 		
 			
 			</div>
 			
-			
-			
-			
 		</div>
+		
 	</div> 
+	
+	
 	<br><br>
 	<br><br><br><br>
+	
 	<div class="row" style="text-align:center; vertical-align:middle; font-size:17pt; height:60px; border:solid 1px gray; background-color:white; position:sticky; top:0; z-index: 2;">
 		<div class="col-4" style="padding:10px;  color:gray; ">
-			<a href="#prdDetail" style=" color:gray;">상품정보</a>
+			<a href="#" style=" color:gray;">상품정보</a>
 		</div>
 		<div class="col-4" style="padding:10px; ">
-			<a href="#prdReview" style=" color:gray;">리뷰(<span id=""></span>)</a>
+			<a href="#" style=" color:gray;">리뷰(<span id=""></span>)</a>
 		</div>
 		<div class="col-4" style="padding:10px; ">
-			<a href="#prdQuestion" style=" color:gray;">상품문의</a>
+			<a href="#" style=" color:gray;">상품문의</a>
 		</div>	
 	</div>
 	
-	<br><br>	
 	
+		
+ <%--  <div class="imgFile"  id="imgFile" style="position:relative; top:150px;>
+            
+            <ul>
+               <li class="imgFile"><img src="<%= ctxPath%>/images/product/${imgFile.product_image_file}" style="width:90%;" ></li>
+	              <c:forEach var="product_image_file" items="${requestScope.imageFile}" >
+					<div class="col-md-6 my-3">
+						<img src="<%= ctxPath%>/images/product/${imgFile.product_image_file}" class="img-fluid" style="width: 100%;" />
+					</div>
+				</c:forEach>
+            </ul>
+         </div> --%>
+         
+		<%-- <div class="imgFile" id="imgFile" style="position:relative; top:150px;>
+			<c:forEach var="product_image_file" items="${requestScope.imgFile}">
+				<div class="imgFile">
+					<img src="<%= ctxPath%>/images/product/${imgFile.product_image_file}" class="img-fluid" style="width: 100%;" />
+				</div>
+			</c:forEach>
+		</div> --%>
 	
-	<h2>FOR YOU</h2>
-	
-		 <div class="row" style="text-align:center; position:relative; z-index: 1;">
-	  
-		  <div class="col" style="border:none">		  
-			<div class="card" style="width: 250px; height:400px;">
-			 <a href="#" class="btn btn-white">
-			  <br><br>
-			    <div style="text-align:left;">드레이 로퍼(1cm) <br> 29,800원 </div>
-			  </a>
-			</div>			 
-		  </div>
-
-   		  <div class="col">
-			<div class="card" style="width: 250px; height:400px;">
-			 <a href="#" class="btn btn-white">
-			  <br><br>
-			    <div style="text-align:left">드레이 로퍼(1cm) <br> 29,800원 </div>
-			  </a>
-			</div>
-		  </div>
-
-		  <div class="col">			
-			<div class="card" style="width: 250px; height:400px;">
-			 <a href="#" class="btn btn-white">
-			  <br><br>
-			    <div style="text-align:left">드레이 로퍼(1cm) <br> 29,800원 </div>
-			  </a>
-			</div>
-		  </div>
-
-		  <div class="col">			
-			<div class="card" style="width: 250px; height:400px;">
-			 <a href="#" class="btn btn-white">
-			  <br><br>
-			    <div style="text-align:left">드레이 로퍼(1cm) <br> 29,800원 </div>
-			  </a>
-			</div>
-		  </div>
-			<br><br>
-			<br><br>
-			<br><br>
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+			
 		  	<div class="" id="prdDetail" style="position:relative; top:150px;">
-				<img src="https://www.jinnykimcollection.co.kr/jkimg/COMMON/JK_NOTICE_TOP.jpg">
 				<img src="https://www.jinnykimcollection.co.kr/jkimg/COMMON/2022/JK_22SPRING_TOP.jpg">
 				<img src="https://www.jinnykimcollection.co.kr/jkimg/JINNYKIM/22SS/JK_PU/JKPU_RachelBloafer_22SS_TOP.jpg">
 				<img src="https://www.jinnykimcollection.co.kr/jkimg/JINNYKIM/22SS/JK_PU/JKPU_RachelBloafer_22SS_DESIGNTIP.jpg">
@@ -300,7 +362,18 @@ function goCart() {
 				<img src="https://www.jinnykimcollection.co.kr/jkimg/COMMON/2022/JK_22SPRING_BRAND.jpg">
 			</div>
 	  		
-	  		
+	<%-- === 추가이미지 보여주기 시작 === --%>
+	<%-- <c:if test="${not empty requestScope.imgFile}">
+		<div class="" id="prdDetail" style="position:relative; top:150px;>
+			<c:forEach var="product_image_file" items="${requestScope.imgFile}">
+				<div class="col-md-6 my-3">
+					<img src="/Semi_proj/images/${product_image_file}" class="img-fluid" style="width: 100%;" />
+				</div>
+			</c:forEach>
+		</div>
+	</c:if> --%>
+	<%-- === 추가이미지 보여주기 끝 === --%>
+	
 	  		
 	  		
 	  		<div id="tabs" class="tabs" style="margin:0 auto; border:solid 1px gray; position:relative; top:150px; width:90%;">
@@ -352,7 +425,6 @@ function goCart() {
                       <p>패턴이 있는 상품은 원단의 특성 상 재단,재봉 시 패턴의 위치 및 이미지가 달라질 수 있어 이로 인한 무상교환/반품 불가</p>
                     </li>
                     <li>
-                    <h5><a href="https://www.jinnykimcollection.co.kr/board/faq/list.html?board_no=3">자주묻는 질문 확인하기 ▶</a></h5>
                     </li>
                   </ul>
                 </section>   
@@ -383,7 +455,6 @@ function goCart() {
                         <p>구입 후 3개월 이상 경과 된 상품</p>
                     </li>
                     <li>
-                        <h5><a href="https://www.jinnykimcollection.co.kr/board/faq/list.html?board_no=3">자주묻는 질문 확인하기 ▶</a></h5>
                     </li>
                    </ul>
                  </section>
@@ -513,135 +584,11 @@ function goCart() {
 		  </div>
        </div> <!-- end of tabs -->
        
-       
-       <div id="prdReview" style="width:90%; margin: 0 auto; position:relative; top:300px;">
-			<h5 style="text-align:left;">REVIEW</h5>
-			  <table class="table table" style="text-align:center; width:100%">
-			<colgroup>
-				<col style="width:120px;">
-				<col style="width:auto;">
-				<col style="width:100px;">
-				<col style="width:200px;">
-				<col style="width:80px;">
-				<col style="width:80px;" class="">
-			</colgroup>
-			<thead>
-  			  <tr>
-				<th scope="col">번호</th>
-				<th scope="col">제목</th>
-				<th scope="col">작성자</th>
-				<th scope="col">작성일</th>
-				<th scope="col">조회</th>
-				<th scope="col" class="">평점</th>
-			  </tr>
-			</thead>
-			
-			
-			<tbody style="font-size:12pt; height:40px;">
-				<tr class="xans-record-">
-					<td>309</td>
-					<td class="subject left txtBreak" style="text-align:left;">
-						<a href="/article/review/4/198686/?no=198686&amp;board_no=4&amp;spread_flag=T">만족</a>
-						<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_hit.gif" alt="HIT" class="ec-common-rwd-image">
-						<span class="txtWarn"></span>
-					</td>
-					<td> 네****</td>
-					<td class="txtInfo txt11">2022-09-13 03:39:02</td>
-					<td class="txtInfo txt11">413</td>
-					<td class=""><img src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif" alt="5점"></td>
-				</tr>
-
-				<tr class="xans-record-">
-					<td>309</td>
-					<td class="subject left txtBreak" style="text-align:left;">
-						<a href="/article/review/4/198686/?no=198686&amp;board_no=4&amp;spread_flag=T">만족</a>
-						<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_hit.gif" alt="HIT" class="ec-common-rwd-image">
-						<span class="txtWarn"></span>
-					</td>
-					<td> 네****</td>
-					<td class="txtInfo txt11">2022-09-13 03:39:02</td>
-					<td class="txtInfo txt11">413</td>
-					<td class=""><img src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif" alt="5점"></td>
-				</tr>
-
-				<tr class="xans-record-">
-					<td>309</td>
-					<td class="subject left txtBreak" style="text-align:left;">
-						<a href="/article/review/4/198686/?no=198686&amp;board_no=4&amp;spread_flag=T">만족</a>
-						<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_hit.gif" alt="HIT" class="ec-common-rwd-image">
-						<span class="txtWarn"></span>
-					</td>
-					<td> 네****</td>
-					<td class="txtInfo txt11">2022-09-13 03:39:02</td>
-					<td class="txtInfo txt11">413</td>
-					<td class=""><img src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif" alt="5점"></td>
-				</tr>
-
-				<tr class="xans-record-">
-					<td>309</td>
-					<td class="subject left txtBreak" style="text-align:left;">
-						<a href="/article/review/4/198686/?no=198686&amp;board_no=4&amp;spread_flag=T">만족</a>
-						<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_hit.gif" alt="HIT" class="ec-common-rwd-image">
-						<span class="txtWarn"></span>
-					</td>
-					<td> 네****</td>
-					<td class="txtInfo txt11">2022-09-13 03:39:02</td>
-					<td class="txtInfo txt11">413</td>
-					<td class=""><img src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif" alt="5점"></td>
-				</tr>
-
-				<tr class="xans-record-">
-					<td>309</td>
-					<td class="subject left txtBreak" style="text-align:left;">
-						<a href="/article/review/4/198686/?no=198686&amp;board_no=4&amp;spread_flag=T">만족</a>
-						<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_hit.gif" alt="HIT" class="ec-common-rwd-image">
-						<span class="txtWarn"></span>
-					</td>
-					<td> 네****</td>
-					<td class="txtInfo txt11">2022-09-13 03:39:02</td>
-					<td class="txtInfo txt11">413</td>
-					<td class=""><img src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif" alt="5점"></td>
-				</tr>
-
-				<tr class="xans-record-">
-					<td>309</td>
-					<td class="subject left txtBreak" style="text-align:left;">
-						<a href="/article/review/4/198686/?no=198686&amp;board_no=4&amp;spread_flag=T">만족</a>
-						<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_hit.gif" alt="HIT" class="ec-common-rwd-image">
-						<span class="txtWarn"></span>
-					</td>
-					<td> 네****</td>
-					<td class="txtInfo txt11">2022-09-13 03:39:02</td>
-					<td class="txtInfo txt11">413</td>
-					<td class=""><img src="//img.echosting.cafe24.com/skin/base/board/ico_point5.gif" alt="5점"></td>
-				</tr>
-
-		
-		    </tbody>
-		  </table>
-		  
-		  <div style="float:right">
-	    	  <button type="button" style="background-color: #172A41; color:white; border:solid 1px gray;">상품후기쓰기</button>
-	      </div>
-	      <br>
-		
-		  <div style=" display: grid; place-items: center;">
-		    <div style="inline">
-		    
-			    <button type="button" class="btn btn-white"></button>
-			    <button type="button" class="btn btn-white"></button>
-			    <button type="button" class="btn btn-outline-secondary">1</button>
-			    <button type="button" class="btn btn-outline-secondary">2</button>
-			    <button type="button" class="btn btn-outline-secondary">3</button>
-			    <button type="button" class="btn btn-white">></button>
-			    <button type="button" class="btn btn-white">>></button>
-			</div>
-		  </div>		
-		</div>
-			
-			
-			
-			
+     <div id="prdreview" style="width:125%; margin: 0 auto; position:relative; top:300px;">	
+			 <jsp:include page="/WEB-INF/heajun/board/review.jsp"></jsp:include> 
+      </div>
+      
+      
        <div id="prdQuestion" style="width:90%; margin: 0 auto; position:relative; top:500px;">			
 		  <h5 style="text-align:left;">상품 문의</h5>
 		  <table class="table table" style="text-align:center; width:100%">
@@ -820,8 +767,6 @@ function goCart() {
 	<br>
 	
 	
-</div>
-
 
 
  

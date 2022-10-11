@@ -34,9 +34,9 @@
 		 
 			<div style="font-weight:bold;">NOTICE</div>	
 			<table class="table table-condensed mt-4" style="font-size:10pt;">
-			
+			<br>
 			<thead>
-                <div id="notice_code"> &nbsp; ${requestScope.nvo}번 게시글 &nbsp; </div>
+                <div id="notice_code"> ${requestScope.nvo.notice_code}번 게시글 &nbsp; </div>
 				<tr>
 					<td class="col-1 align-middle">제목</td>
 					<td class="col-11">${requestScope.nvo.notice_subject}</td>
@@ -56,13 +56,7 @@
 		</thead>
 				
 					
-				 <c:if test="${requestScope.pvo.prdmanual_orginFileName ne '없음'}">
-                 <a href="<%= ctxPath%>/shop/fileDownload.up?pnum=${requestScope.pvo.pnum}">${requestScope.pvo.prdmanual_orginFileName}</a>
-	              </c:if>
-	              <c:if test="${requestScope.pvo.prdmanual_orginFileName eq '없음'}">
-	                 첨부파일없음
-                  </c:if>
-				
+		
 				
               
 			</table>

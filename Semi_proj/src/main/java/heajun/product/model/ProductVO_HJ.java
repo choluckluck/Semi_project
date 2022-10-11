@@ -16,15 +16,17 @@ public class ProductVO_HJ {
 	 private int prod_saleprice; // 상품 할인가격
 	 private String prod_description; // 상품 설명
 	 private int prod_point; // 상품 포인트
-	 private ProductDetailVO pvo;        // 상품VO 
 	 
+	private ProductDetailVO fk_prod_code;
+	
+	
 	 public ProductVO_HJ() {}
 	 
-	 
+	
+	
 	public ProductVO_HJ(String prod_code, String prod_name, String prod_kind, String prod_image, String prod_high,
 			int prod_price, String prod_registerday, String md_pick_yn, int prod_saleprice, String prod_description,
-			int prod_point) {
-		
+			int prod_point, ProductDetailVO fk_prod_code) {
 		this.prod_code = prod_code;
 		this.prod_name = prod_name;
 		this.prod_kind = prod_kind;
@@ -36,9 +38,12 @@ public class ProductVO_HJ {
 		this.prod_saleprice = prod_saleprice;
 		this.prod_description = prod_description;
 		this.prod_point = prod_point;
+		
+		this.fk_prod_code = fk_prod_code;
 	}
-	
-	
+
+
+
 	public String getProd_code() {
 		return prod_code;
 	}
@@ -107,14 +112,21 @@ public class ProductVO_HJ {
 	}
 
 
-	public ProductDetailVO getPvo() {
-		return pvo;
+
+
+
+	public ProductDetailVO getFk_prod_code() {
+		return fk_prod_code;
 	}
 
 
-	public void setPvo(ProductDetailVO pvo) {
-		this.pvo = pvo;
+
+	public void setFk_prod_code(ProductDetailVO fk_prod_code) {
+		this.fk_prod_code = fk_prod_code;
 	}
+
+
+
 	
 	 
 

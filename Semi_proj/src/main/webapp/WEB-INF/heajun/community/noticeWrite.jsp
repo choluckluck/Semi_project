@@ -19,7 +19,7 @@ button#notice {
     font-size: 9pt;
 }
 
-button#reset {
+button#cancel {
 	width: 90px;
 	height: 31px;
 	border: 1px solid #8c8c8c;
@@ -31,7 +31,7 @@ button#reset {
     margin-right: 10px;
     color: #ffffff;
 }
-button#submit {
+button#write {
 	width: 90px;
 	height: 31px;
 	border: 1px solid #8c8c8c;
@@ -50,6 +50,7 @@ button#submit {
 <script>
 	$(document).ready(function(){
 		
+		$("input#fk_userid").val("${requestScope.userid}");
 	
 		//에디터1은 중복이므로 숨긴다 (삭제하면 기능을 못함)
 		$("div#editor1").hide(); 
@@ -60,10 +61,7 @@ button#submit {
 		$("div#sidebar_notice").click(function(){
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
-		//커뮤니티사이드바_커뮤니티 클릭 이벤트
-		$("div#sidebar_qna").click(function(){
-			location.href="<%= ctxPath%>/heajun/board/qnalist.sue";
-		});
+		
 		
 		
 		//목록버튼 클릭이벤트
@@ -72,38 +70,43 @@ button#submit {
 		});
 		
 		
-		
+
 		  //등록버튼 클릭이벤트 
-		  $("button#submit").click(function(){
-			  
-			  let flag = false;
-			  
-			  $(".infoData").each(function(){
-				  const val = $(this).val().trim();
-				  if(val == "") {
-					  $(this).next().show();
-					  flag = true;
-					  return false;
-				  }
-			  });
-			  
-			  if(!flag) {
-				  const frm = document.notice_contents_form;
-				  frm.submit();
-			  }
-			  
-		  });
-		  
+			
+			
+			$("button#write").click(function(){
+				
+				
+				var boolFlag = false;
+				
+				$("input.error").each(function(){
+					var data = $(this).val().trim();
+					if(data == "") {
+						alert("필수입력사항은 모두 입력하셔야 합니다.");
+						boolFlag = true;
+						return false; // break; 라는 뜻이다.
+					}
+				});
+				
+				if(boolFlag) {
+					return; // 종료
+				}
+					var frm = document.registerFrm;
+					frm.action = "notice.sue";
+					frm.method = "post";
+					frm.submit();  
+				});
+
+			
+			
 
 		
 		//취소버튼 클릭이벤트
-		$("button#reset").click(function(){
+		$("button#cancel").click(function(){
 			$("span.error").hide();
 			frm.reset();
 			location.href="<%= ctxPath%>/heajun/community/notice.sue";
 		});
-		
-		
 		
 		 
 		  
@@ -118,10 +121,7 @@ button#submit {
 	
 		
 			
-	<form id="notice_contents_form" name="notice_contents_form"
-      action="<%= request.getContextPath()%>/heajun/community/noticeWrite.sue"
-      method="post"
-      enctype="multipart/form-data">
+	<form id="notice_contents_form">
       
       
       <div style="font-weight:bold;">NOTICE</div>	
@@ -135,7 +135,8 @@ button#submit {
 					
 				</tr>
 				
-				<tr>
+				<%-- 
+					<tr>
 				
 					<td colspan="2" class="contents infoData">
 		            <!-- CSS -->
@@ -569,34 +570,39 @@ button#submit {
 		              </td>
 		            
               		</tr>
+              		--%>
+              		<%-- 
+				<tr>
+					<td class="notice_contents"></td>
+					<td class="notice_contents" width="100%" align="left" style="border-top: hidden; border-bottom: hidden;">
+						<textarea name="notice_contents" rows="5" cols="125"></textarea>
+					</td>
+				  </tr>
+              	--%>
+              	
+              	 <tr>
+			      <td >내용&nbsp;</td>
+			      <td style="text-align: left;">
+			         <input type="text" name="board_content" id="board_content" class="requiredInfo" style="width:1000px; height:250px;"/>
+			         <span class="error">내용은 필수입력 사항입니다.</span>
+			      </td>
+			   </tr>	
               		
-              		
-				<tr>
-					<td>첨부파일1</td>
-					<td><input name="file1" type="file"/></td>
-				</tr>
-				
-				<tr>
-					<td>첨부파일2</td>
-					<td><input name="file2" type="file"/></td>
-				</tr>
-				
-				<tr>
-					<td>첨부파일3</td>
-					<td><input name="file3" type="file"/></td>
-				</tr>
-				
+			
 			  
 						
 			    </table>
-			</form>
+			
 			 <div class="mt-3 mb-5 ">
 			     
 			  <span><button id="notice" type="button" onclick="javascript:history.back();">목록</button></span>
-			  <span><button id="reset" type="button" onclick="javascript:history.back();">취소</button></span>
-			  <span><button id="submit" type="button" onclick="javascript:history.back();">등록</button></span>
+			  <span><button id="cancel" type="button" onclick="javascript:history.back();">취소</button></span>
+			  <span><button id="write" type="button" onclick="javascript:history.back();">등록</button></span>
    
-			   </div>
-	</div>
+		    </div>
+		 </form>
+	 </div>
 </div>
+
+	
  <jsp:include page="/WEB-INF/hyerin/footer.jsp"/>
