@@ -15,16 +15,8 @@ public class Notice extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 				
-			InterNoticeDAO ndao = new NoticeDAO();
-					
-					String fk_userid = request.getParameter("fk_userid");
-					String notice_subject = request.getParameter("notice_subject");
-					String notice_contents = request.getParameter("notice_contents");
-					if(fk_userid != null && notice_subject != null && notice_contents != null) {
-						ndao.register(fk_userid,notice_subject,notice_contents);
-					
-					}
-				
+		InterNoticeDAO ndao = new NoticeDAO();
+		
 			    Map<String, String> paraMap = new HashMap<>();
 			    
 			 // ** 페이징 처리를 한 모든 글 또는 페이지 목록 보여주기 ** //
