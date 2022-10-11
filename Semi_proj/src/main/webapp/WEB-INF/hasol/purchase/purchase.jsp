@@ -77,14 +77,10 @@ $(document).ready(function(){
 		prod_name = prod_name.substr(0,5) + "..외";
 		const userid = "hyerin25";
 		
-		insertOrder();
-		<%-- 
 	    const url = "<%= request.getContextPath()%>/hasol/purchase/purchaseEnd.sue?userid="+userid+"&prod_name="+prod_name+"&real_amount="+totalPurchasePrice;
-		
 	    
 		window.open(url, "coinPurchaseEnd",
 				    "left=350px, top=100px, width=1000px, height=600px");
-		 --%>
 	 }
  }//end of goPurchase
 

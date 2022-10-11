@@ -1027,8 +1027,8 @@ public class ProductDAO implements InterProductDAO {
 	// transaction 메소드
 	@Override
 	public int orderAdd(Map<String, Object> paraMap) throws SQLException {
-		int success = 0;
-		int n1=0, n2=0, n3=0, n4=0, n5=0, n6=0, n7=0;
+		int nSuccess = 0;
+		int n1=0, n2=0, n3=0, n4=0, n5=0;
 		
 		try {
 			conn = ds.getConnection();
@@ -1115,7 +1115,7 @@ public class ProductDAO implements InterProductDAO {
 					
 					pstmt.executeUpdate();
 					cnt++;
-				}
+				}//end of for
 				if(cnt == prod_codeArr.length) {
 					n3 = 1;
 				}
@@ -1166,6 +1166,7 @@ public class ProductDAO implements InterProductDAO {
 				System.out.println("확인용 n5 : " + n5);
 			}//end of n4
 			
+			int updateGrdaeResult = 0;
 			if(n5 > 0) {
 				// 회원테이블에서 최근 6개월간의 주문내역을 가져와서 등급을 변경해준다
 				// 회원의 등급 알아오기
@@ -1179,7 +1180,7 @@ public class ProductDAO implements InterProductDAO {
 				rs.next();
 				String grade_name = rs.getString(1);
 				
-				int updateGrdaeResult = 0;
+				
 				sql = " update tbl_member set fk_grade_code = ? "
 					+ " where userid = ? ";
 				pstmt = conn.prepareStatement(sql);
@@ -1190,19 +1191,23 @@ public class ProductDAO implements InterProductDAO {
 				System.out.println("확인용 updateGrdaeResult : " + updateGrdaeResult);
 			}
 			
+			if(n1*n2*n3*n4*n5*updateGrdaeResult > 0) {
+				conn.commit();
+				conn.setAutoCommit(true); //자동커밋
+				System.out.println(" n1*n2*n3*n4*n5*updateGrdaeResult : " + n1*n2*n3*n4*n5*updateGrdaeResult);
+			}
 			
 			
 		} catch(SQLException e) {
 			// rollback
 			conn.rollback();
 			conn.setAutoCommit(true); //자동커밋으로 바꾸어준다
-			success = 0;
+			nSuccess = 1;
 		} finally {
 			close();
 		}
 		
-		
-		return success;
+		return nSuccess;
 	}//end of orderAdd
 
 	

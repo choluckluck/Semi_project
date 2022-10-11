@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import hyerin.member.model.InterMemberDAO;
-import hyerin.member.model.MemberDAO;
 import seongmin.login.model.MemberVO;
 import hyerin.product.model.InterProductDAO;
 import hyerin.product.model.ProductDAO;
