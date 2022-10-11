@@ -31,9 +31,11 @@ public class AdminQnaListJSON extends AbstractController {
 		String currentPageNo = request.getParameter("currentPageNo");	// 현재 사용자가 보고있는 페이지
 		String sizePerPage = "10";		// 페이지 당 표시될 글 목록 수
 		String searchWord = request.getParameter("searchWord");
+		String answer_yn = request.getParameter("answer_yn");
 		
 		System.out.println("searchType:" + searchType);
 		System.out.println("searchWord:" + searchWord);
+		System.out.println("answer:" + answer_yn);
 		
 		// currentPage 예외 처리
 		if(currentPageNo == null) {
@@ -56,6 +58,8 @@ public class AdminQnaListJSON extends AbstractController {
 		if (qna_search_min == "" ) qna_search_min = today;
 		if (qna_search_max == "" ) qna_search_max = today;
 		
+		// 답변 여부 값 예외 처리
+		if(answer_yn == null) answer_yn = "All";
 		
 		/////////// 각 값들 Map ///////////
 		Map<String, String> paraMap = new HashMap<>();
@@ -65,6 +69,9 @@ public class AdminQnaListJSON extends AbstractController {
 		paraMap.put("sizePerPage", sizePerPage);
 		paraMap.put("currentPageNo", currentPageNo);
 		paraMap.put("searchWord", searchWord);
+		paraMap.put("answer_yn", answer_yn);
+		
+
 		
 		// 조회해올 상품의 총 페이지 수 구하기
 		int totalPage = qdao.getTotalPage(paraMap);
