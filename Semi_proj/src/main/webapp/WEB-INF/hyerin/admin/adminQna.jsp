@@ -188,7 +188,6 @@
 					
 					//체크박스 하나라도 해제되면 전체 해제되게 만들기
 					$("#checkQna").click(function() {
-						console.log("여기 안오는겨?");
 						const total = $("input#checkQna").length;
 						console.log("total:"+total);
 						const checked = $("input#checkQna:checked").length;
@@ -231,6 +230,8 @@
 	// 상품을 삭제하는 함수
 	function qna_delete(qna_code){
 		if(confirm("문의번호 " + qna_code + "를 삭제하시겠습니까?") == true){
+			console.log("값 찍혀 안찍혀?");
+			
 			//비동기방식으로 qna_delete에 해당하는 상품을 삭제하기
 			$.ajax({
 				url : "<%= ctxPath%>/hasol/admin/adminQnaDelete.sue",
@@ -256,6 +257,7 @@
 	
 	//선택된 상품들을 모두 삭제하는 함수
 	function qna_deleteMulti(){
+		console.log("너한테 찍히는거야? >뒤짐");
 		const checkCnt = $("input:checkbox[name='checkQna']:checked").length;
 		 if(checkCnt < 1){
 			 alert("삭제할 상품을 선택해주세요.");
