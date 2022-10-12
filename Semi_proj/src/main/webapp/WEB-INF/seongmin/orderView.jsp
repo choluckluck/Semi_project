@@ -281,19 +281,13 @@
 	      <h3 style="margin-top:1px;">주문조회</h3>
 	      <br>
 
-	      <div id=buttons>
-	      	<div class="row" style="height:40px;">	      
-		      <button type="button" class="cabtn btn-lg col-3" style = "background-color:#172a41; color:white; font-size: 15px; border:solid 1px gray"><div style="text-align:center; font-weight:bold">주문내역 조회 (00)</div></button>
-		      <button type="button" class="cabtn btn-lg col-3" style = "color:gray; font-size: 15px; border:solid 1px gray"><div style="text-align:center; font-weight:bold">취소/반품/교환 내역 (00)</div></button>
-		      <button type="button" class="cabtn btn-lg col-3" style = "color:gray; font-size: 15px; border:solid 1px gray"><div style="text-align:center; font-weight:bold">이전 주문내역 (00)</div></button>
-			</div>
-	      </div>
+
 	      
 		  <br><br>
 		  
 		 <form method="GET" id="OrderHistoryForm" name="OrderHistoryForm" style="width:90%">
 		  <fieldset>
-			<legend>검색기간설정</legend>
+			<legend style="font-size:20px;">검색기간설정</legend>
 			  <div class="stateSelect" style="display:inline;">
 				<select id="order_state" name="order_state" class="fSelect">
 					<option value="all">전체 주문처리상태</option>

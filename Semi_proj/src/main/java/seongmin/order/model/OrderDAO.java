@@ -103,7 +103,7 @@ public class OrderDAO implements InterOrderDAO {
 			System.out.println(startDate);
 			System.out.println(endDate);
 
-			sql += "  order by orderdate ) V " + " ) D " + " where num between ? and ? ";
+			sql += "  order by orderdate desc ) V " + " ) D " + " where num between ? and ? ";
 
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
@@ -265,17 +265,27 @@ public class OrderDAO implements InterOrderDAO {
 		try {
 			conn = ds.getConnection();
 
-			String sql = "select userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice \n"
-					+ "from\n" + "(\n"
-					+ "select rownum, userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice \n"
-					+ "from\n"
-					+ "(select userid, to_char(orderdate,'yyyy-mm-dd') as orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice \n"
-					+ "from tbl_order\n" + "left join\n" + "tbl_member m\n" + "on fk_userid = userid\n"
-					+ "left join tbl_order_detail d\n" + "on order_code = fk_order_code\n" + "left join tbl_product p\n"
-					+ "on fk_prod_code = p.prod_code\n" + "left join tbl_order_state s\n"
-					+ "on order_state_name = fk_order_state_name \n" + "where userid = ? \n" + "order by orderdate\n"
-					+ ") V\n" + ") D";
-
+			String sql = "select userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice \n"+
+					"					from\n"+
+					"                    (\n"+
+					"					select rownum, userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice\n"+
+					"					from\n"+
+					"					(select userid, to_char(orderdate,'yyyy-mm-dd') as orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice \n"+
+					"					from tbl_order\n"+
+					"                    left join\n"+
+					"                    tbl_member m\n"+
+					"                    on fk_userid = userid\n"+
+					"					left join tbl_order_detail d \n"+
+					"                    on order_code = fk_order_code\n"+
+					"                    left join tbl_product p\n"+
+					"					on fk_prod_code = p.prod_code\n"+
+					"                    left join tbl_order_state s\n"+
+					"					on order_state_name = fk_order_state_name \n"+
+					"                    where userid = ? \n"+
+					"                    order by orderdate desc\n"+
+					"					) V \n"+
+					"                   ) D";
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("userid"));
 
@@ -287,6 +297,7 @@ public class OrderDAO implements InterOrderDAO {
 				ovo.setFk_userid(rs.getString(1));
 				ovo.setOrderdate(rs.getString(2));
 				ovo.setOrder_code(rs.getString(3));
+				ovo.setOrder_state(rs.getString(6));
 
 				// very Important
 				ProductVO pvo = new ProductVO();
@@ -301,7 +312,6 @@ public class OrderDAO implements InterOrderDAO {
 				odvo.setOrder_price(rs.getInt(8));
 				ovo.setOdvo(odvo);
 
-				ovo.setOrder_state(rs.getString(6));
 
 				// very Important
 

@@ -1,6 +1,5 @@
 package heajun.product.model;
 
-import java.util.Map;
 
 public interface InterProductDAO {
 

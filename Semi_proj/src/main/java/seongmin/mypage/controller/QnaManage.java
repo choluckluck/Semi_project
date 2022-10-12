@@ -11,12 +11,11 @@ import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import seongmin.login.model.MemberVO;
-import seongmin.review.model.InterReviewDAO;
-import seongmin.review.model.ReviewDAO;
-import seongmin.review.model.ReviewVO;
+import seongmin.qna.model.InterQnaDAO;
+import seongmin.qna.model.QnaDAO;
+import seongmin.qna.model.QnaVO;
 
-
-public class reviewManage extends AbstractController {
+public class QnaManage extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -31,7 +30,7 @@ public class reviewManage extends AbstractController {
 		
 		Map<String, String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
-		InterReviewDAO rdao = new ReviewDAO();
+		InterQnaDAO qdao = new QnaDAO();
 
 		if(currentShowPageNo == null ) {
 			   currentShowPageNo = "1";
@@ -51,16 +50,16 @@ public class reviewManage extends AbstractController {
 		   paraMap.put("sizePerPage", sizePerPage);
 		   paraMap.put("currentShowPageNo", currentShowPageNo);
 		
-		   int totalPage = rdao.getTotalPage(paraMap);
+		   int totalPage = qdao.getTotalPage(paraMap);
 		
 		   if( Integer.parseInt(currentShowPageNo) > totalPage ) {
 			   currentShowPageNo = "1";
 		   }
 		   
-					
-			List<ReviewVO> reviewList = new ArrayList();		
-			reviewList = rdao.geReviewList(paraMap);
-			request.setAttribute("reviewList", reviewList);		   
+				
+		List<QnaVO> qnaList = new ArrayList();		
+		qnaList = qdao.getQnaList(paraMap);
+		   request.setAttribute("qnaList", qnaList);		   
 		
 		
 		   String pageBar = "";
@@ -97,7 +96,7 @@ public class reviewManage extends AbstractController {
 			   			   
 			   
 			   
-		super.setViewPage("/WEB-INF/seongmin/reviewManage.jsp");
+		super.setViewPage("/WEB-INF/seongmin/qnaManage.jsp");
 	}
 
 }
