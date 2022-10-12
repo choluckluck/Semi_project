@@ -15,6 +15,7 @@ public class OrderVO {
 	private int real_amount;
 	private String fk_order_state_name;
 	private int delivery_fee;
+	private int total_price; //총 정상가주문
 	
 	private ProductVO pvo;
 	private OrderDetailVO odvo;
@@ -23,7 +24,12 @@ public class OrderVO {
 	
 	
 	
-	
+	public int getTotal_price() {
+		return total_price;
+	}
+	public void setTotal_price(int total_price) {
+		this.total_price = total_price;
+	}
 	public int getDelivery_fee() {
 		return delivery_fee;
 	}

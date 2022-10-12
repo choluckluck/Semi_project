@@ -1051,9 +1051,10 @@ public class ProductDAO implements InterProductDAO {
 //			paraMap.put("order_code", order_code);
 			
 			
-			// 주문테이블에 주문전표, 사용자, 현재시각 insert
-			String sql = " insert into tbl_order(order_code, fk_userid, total_order_amount, point_use_amount, discount_amount, real_amount, delivery_fee, fk_order_state_name, orderdate, expectdate) "
-					   + " values(?, ?, ?, ?, ?, ?, ?, '결제확인', sysdate, to_char(sysdate+5,'yy/mm/dd') ) ";
+			
+			// 주문테이블에 insert
+			String sql = " insert into tbl_order(order_code, fk_userid, total_order_amount, point_use_amount, discount_amount, real_amount, delivery_fee, total_price, fk_order_state_name, orderdate, expectdate) "
+					   + " values(?, ?, ?, ?, ?, ?, ?, ?, '결제확인', sysdate, to_char(sysdate+5,'yy/mm/dd') ) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, (String) paraMap.get("order_code"));
 			pstmt.setString(2, (String) paraMap.get("userid"));
@@ -1062,6 +1063,7 @@ public class ProductDAO implements InterProductDAO {
 			pstmt.setInt(5, Integer.parseInt((String) paraMap.get("discountamount")));
 			pstmt.setInt(6, Integer.parseInt((String) paraMap.get("totalRealamount")));
 			pstmt.setInt(7, Integer.parseInt((String) paraMap.get("deliveryfee")));
+			pstmt.setInt(8, (int) paraMap.get("total_price"));
 			
 			n1 = pstmt.executeUpdate();
 			System.out.println("확인용 n1 :" + n1);

@@ -16,8 +16,8 @@
 	  border: 16px solid #f3f3f3;
 	  border-radius: 50%;
 	  border-top: 16px solid gray;
-	  width: 80px;
-	  height: 80px;
+	  width: 50px;
+	  height: 50px;
 	  -webkit-animation: spin 2s linear infinite; /* Safari */
 	  animation: spin 2s linear infinite;
 	  
@@ -378,6 +378,7 @@ $(document).ready(function(){
         	<input id="deliveryfee" type="hidden" name="deliveryfee" value=""/>
         	<input id="prod_code" type="hidden" name="prod_code" value=""/>
         	<input id="order_buy_count" type="hidden" name="order_buy_count" value=""/>
+        	<input id="priceJoin" type="hidden" name="priceJoin" value="${requestScope.viewMap.priceJoin}"/>
         	<input id="order_price" type="hidden" name="order_price" value=""/>
         	<input id="prod_color" type="hidden" name="prod_color" value=""/>
         	<input id="prod_size" type="hidden" name="prod_size" value=""/>

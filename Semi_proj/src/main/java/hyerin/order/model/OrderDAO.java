@@ -305,7 +305,7 @@ public class OrderDAO implements InterOrderDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " select order_code, fk_userid, name, mobile, to_char(orderdate,'yyyy-mm-dd') as orderdate, fk_order_state_name, total_order_amount, real_amount, delivery_fee,  discount_amount, point_use_amount "
+			String sql = " select order_code, fk_userid, name, mobile, to_char(orderdate,'yyyy-mm-dd') as orderdate, fk_order_state_name, total_order_amount, real_amount, delivery_fee,  discount_amount, point_use_amount, nvl(total_price,0) "
 						+ " from tbl_order "
 						+ " join tbl_member "
 						+ " on fk_userid = userid "
@@ -338,6 +338,7 @@ public class OrderDAO implements InterOrderDAO {
 				ovo.setDelivery_fee(rs.getInt(9));
 				ovo.setDiscount_amount(rs.getInt(10));
 				ovo.setPoint_use_amount(rs.getInt(11));
+				ovo.setTotal_price(rs.getInt(12));
 				
 			}
 			
@@ -360,7 +361,7 @@ public class OrderDAO implements InterOrderDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql =  " select fk_prod_code, prod_name, prod_image, fk_prod_color, fk_prod_size , order_buy_count, order_price, order_detail_code "
+			String sql =  " select fk_prod_code, prod_name, prod_image, prod_price, prod_saleprice, fk_prod_color, fk_prod_size , order_buy_count, order_price, order_detail_code "
 						+ " from tbl_order_detail "
 						+ " join tbl_product "
 						+ " on fk_prod_code = prod_code "
@@ -379,12 +380,14 @@ public class OrderDAO implements InterOrderDAO {
 				odvo.setFk_prod_code(rs.getString(1));
 				pvo.setProd_name(rs.getString(2));
 				pvo.setProd_image(rs.getString(3));
+				pvo.setProd_price(rs.getString(4));
+				pvo.setProd_saleprice(rs.getString(5));
 				odvo.setPvo(pvo);
-				odvo.setFk_prod_color(rs.getString(4));
-				odvo.setFk_prod_size(rs.getString(5));
-				odvo.setOrder_buy_count(rs.getInt(6));
-				odvo.setOrder_price(rs.getInt(7));
-				odvo.setOrder_detail_code(rs.getString(8));
+				odvo.setFk_prod_color(rs.getString(6));
+				odvo.setFk_prod_size(rs.getString(7));
+				odvo.setOrder_buy_count(rs.getInt(8));
+				odvo.setOrder_price(rs.getInt(9));
+				odvo.setOrder_detail_code(rs.getString(10));
 				
 				odvoList.add(odvo);
 			}

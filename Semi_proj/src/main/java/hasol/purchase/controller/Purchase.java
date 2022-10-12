@@ -80,7 +80,6 @@ public class Purchase extends AbstractController {
 		viewMap.put("countJoin", countJoin);
 		viewMap.put("totalOnePriceJoin", totalOnePriceJoin);
 		
-		
 		viewMap.put("countArr", countArr);
 		viewMap.put("salepriceArr", salepriceArr);
 		viewMap.put("totalOnePriceArr", totalOnePriceArr);
