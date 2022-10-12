@@ -3,18 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
     
-    
-<!DOCTYPE html>
-<html>
-<head>
-
-
-
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<jsp:include page="../hyerin/header.jsp"></jsp:include>
 <style type="text/css">
 
   div#container {
@@ -42,7 +30,7 @@
   
   table {
   	border-top : solid 1px gray;
-  	width:80%;
+  	width:90%;
   }
   
     a.orderview {
@@ -78,46 +66,22 @@
 	});
 	
 	function reviewshow() {
-		alert("sdfsd");
-		$(this).parent().find(".collapse").hide();
+		
+//		alert("sdfsd");
+		$(this).parent().find(".collapse").hide();		
 		$(this).next().show();
+
 	}
 
+	function goreviewwrite() {
+		
+		location.href:"<%= request.getContextPath()%>/heajun/board/review_write.sue"
+	}
 
 	</script>
 
-
-
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-</head>
-<body>
-
-
- <header></header>
-  
- 	   <br><br>
- 	   
-  <div id="container">
- 	<div class="row">
- 	   <div class="col-2">
- 		 <jsp:include page="sideMenu.jsp" />	   
-	   </div>
-	   <div class="col-10">
-
-		<h3 style="margin-top:1px;">리뷰 관리</h3>
-		<br><br>
 		
-		
-
-		
-			
-		
-		
-	
-		<br><br>		
+		<h3 style="margin-top:1px;">상품 리뷰</h3>
 		
 		  <table class="table table" style="text-align:left; width:90%">
 			<colgroup>
@@ -147,8 +111,8 @@
 							<td>${rvo.rnum}</td>
 							<td>${rvo.fk_prod_code}</td>
 							<td style="text-align:center;">
-								<div class="btn" data-toggle="collapse" data-target="#demo" onclick="reviewshow()">${rvo.review_subject}</div>
-								<div id="demo" class="collapse" style="text-align:left">${rvo.review_contents}</div>
+								<div class="btn" data-toggle="collapse" data-target="#demo${status.index}" onclick="reviewshow()">${rvo.review_subject}</div>
+								<div id="demo${status.index}" class="collapse" style="text-align:left">${rvo.review_contents}</div>
 							</td>
 							<td>
 								<c:if test="${rvo.review_grade == '1'}">★☆☆☆☆</c:if>
@@ -174,18 +138,11 @@
 				<ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>
 			</div>
 		  </nav>
+			 <div style="text-align:right;  width:90%;" class="">
+	    	            <button type="button" id="reivewWrite" style="background-color: black; color:white; border:solid 1px gray;" onclick=" goreviewwrite()">상품후기쓰기</button>
+	          </div>
 
 	
 
 
 
-
-	   
-	   </div>
-     </div>
-   </div>
-	
-<jsp:include page="../hyerin/footer.jsp"></jsp:include>
-	
-  </body>
-</html>

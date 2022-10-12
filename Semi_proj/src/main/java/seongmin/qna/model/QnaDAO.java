@@ -66,15 +66,19 @@ public class QnaDAO implements InterQnaDAO {
 			conn = ds.getConnection();
 
 
-			String sql = " select rnum, category, subject, contents, registerday\n" + " from \n" + "(\n"
-					+ "select  rownum as rnum, category, subject, contents, registerday\n" + "			from\n"
-					+ "			(\n"
-					+ "			select category, subject, contents, to_char(Q.registerday, 'yyyy-mm-dd') as registerday\n"
-					+ "			from tbl_qna Q\n" + "			join tbl_member M\n"
-					+ "			on userid = ? \n" + "			 where fk_userid= 'jinhr1' \n"
-					+ "            order by registerday desc			\n" + "            ) V\n" + "            ) D\n"
-					+ "where rnum between ? and ? ";
-
+			String sql = "select rnum, category, subject, contents, registerday\n"+
+					"from (\n"+
+					"select  rownum as rnum, category, subject, contents, registerday\n"+
+					"from\n"+
+					"(\n"+
+					"select category, subject, contents, to_char(Q.registerday, 'yyyy-mm-dd') as registerday\n"+
+					"from tbl_qna Q		join tbl_member M\n"+
+					"on userid = fk_userid\n"+
+					"where fk_userid = ? \n"+
+					" order by registerday desc\n"+
+					" ) V            \n"+
+					" ) D\n"+
+					"where rnum between ? and ?";
 			
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
@@ -139,6 +143,93 @@ public class QnaDAO implements InterQnaDAO {
 
 		return totalPage;	
 		
+	}
+
+	@Override
+	public List<QnaVO> getqnaList_proddetail(Map<String, String> paraMap) throws SQLException {
+		List<QnaVO> qnaList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+
+			String sql = "select rnum, category, subject, contents, registerday, fk_userid \n"+
+					"from (\n"+
+					"select  rownum as rnum, category, subject, contents, registerday, fk_userid \n"+
+					"from\n"+
+					"(\n"+
+					"select category, subject, contents, to_char(Q.registerday, 'yyyy-mm-dd') as registerday, fk_userid \n"+
+					"from tbl_qna Q		join tbl_member M\n"+
+					"on userid = fk_userid\n"+
+					"where fk_prod_code = ? \n"+
+					" order by registerday desc\n"+
+					" ) V            \n"+
+					" ) D\n"+
+					"where rnum between ? and ?";			
+			
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo2"));
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage2"));
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("prod_code"));
+
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(3, (currentShowPageNo * sizePerPage));			
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				QnaVO qvo = new QnaVO();
+				qvo.setRnum(rs.getString(1));
+				qvo.setCategory(rs.getString(2));
+				qvo.setSubject(rs.getString(3));
+				qvo.setContents(rs.getString(4));
+				qvo.setRegisterday(rs.getString(5));
+				qvo.setFk_userid(rs.getString(6));
+				
+				// very Important
+
+				qnaList.add(qvo);
+				
+			} // end of while
+			
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return qnaList;		
+	}
+
+	@Override
+	public int getTotalPage_qna(Map<String, String> paraMap) throws SQLException {
+
+		int totalPage = 0;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "select ceil(count(*)/10) \n"+
+					"from tbl_qna\n"+
+					"where fk_prod_code = ? \n"+
+					"";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("prod_code"));
+
+			rs = pstmt.executeQuery();
+
+			rs.next();
+
+			totalPage = rs.getInt(1);
+
+		} finally {
+			close();
+		}
+
+		return totalPage;	
+			
 	}
 
 	

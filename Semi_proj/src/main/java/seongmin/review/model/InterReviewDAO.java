@@ -10,4 +10,9 @@ public interface InterReviewDAO {
 
 	List<ReviewVO> geReviewList(Map<String, String> paraMap) throws SQLException;
 
+	int getTotalPage_review(Map<String, String> paraMap) throws SQLException;
+
+	List<ReviewVO> geReviewList_proddetail(Map<String, String> paraMap) throws SQLException;
+
+
 }
