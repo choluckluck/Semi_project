@@ -16,8 +16,8 @@
 	  border: 16px solid #f3f3f3;
 	  border-radius: 50%;
 	  border-top: 16px solid gray;
-	  width: 80px;
-	  height: 80px;
+	  width: 50px;
+	  height: 50px;
 	  -webkit-animation: spin 2s linear infinite; /* Safari */
 	  animation: spin 2s linear infinite;
 	  
@@ -67,7 +67,7 @@ $(document).ready(function(){
 				$("#point_use_amount").text(Number(wishpoint).toLocaleString('en'));
 				
 				const totalPrice = OldtotalPrice - wishpoint;
-				$(".real_amount").text(totalPrice.toLocaleString('en'));
+				$(".real_amount").text(totalPrice.toLocaleString('en')+"원");
 				$("#real_amount").val(totalPrice);
 			}
 		}
@@ -102,9 +102,8 @@ $(document).ready(function(){
 		//const userid = "${sessionScope.loginuser.userid}";
 		let prod_name = $("#prod_name").text();
 		prod_name = prod_name.substr(0,5) + "..외";
-		const userid = "hyerin25";
 		
-	    const url = "<%= request.getContextPath()%>/hasol/purchase/purchaseEnd.sue?userid="+userid+"&prod_name="+prod_name+"&real_amount="+totalPurchasePrice;
+	    const url = "<%= request.getContextPath()%>/hasol/purchase/purchaseEnd.sue?prod_name="+prod_name+"&real_amount="+totalPurchasePrice;
 	    
 		window.open(url, "coinPurchaseEnd",
 				    "left=350px, top=100px, width=1000px, height=600px");
@@ -375,10 +374,11 @@ $(document).ready(function(){
         	<input id=totalOnePriceJoin type="hidden" name="totalOnePriceJoin" value=""/>
         	<input id="totalRealamount" type="hidden" name="totalRealamount" value=""/>
         	<input id="totalOrderamount" type="hidden" name="totalOrderamount" value=""/>
-        	<input id="discountamount" type="text" name="discountamount" value=""/>
+        	<input id="discountamount" type="hidden" name="discountamount" value=""/>
         	<input id="deliveryfee" type="hidden" name="deliveryfee" value=""/>
         	<input id="prod_code" type="hidden" name="prod_code" value=""/>
         	<input id="order_buy_count" type="hidden" name="order_buy_count" value=""/>
+        	<input id="priceJoin" type="hidden" name="priceJoin" value="${requestScope.viewMap.priceJoin}"/>
         	<input id="order_price" type="hidden" name="order_price" value=""/>
         	<input id="prod_color" type="hidden" name="prod_color" value=""/>
         	<input id="prod_size" type="hidden" name="prod_size" value=""/>

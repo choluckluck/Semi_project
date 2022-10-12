@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import hyerin.member.model.InterMemberDAO;
 import hyerin.member.model.MemberDAO;
-import hyerin.member.model.MemberVO;
+import hyerin.member.model.MemberVOhr;
 import hyerin.product.model.InterProductDAO;
 import hyerin.product.model.ProductDAO;
 import hyerin.product.model.ProductVO;

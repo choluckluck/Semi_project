@@ -23,9 +23,9 @@ $(document).ready(function() {
        merchant_uid : 'merchant_hyerinjin' + new Date().getTime(), // 가맹점에서 생성/관리하는 고유 주문번호
        name : '${requestScope.prod_name}'+" 결제",  // 또는 order 테이블에 들어갈 주문명 혹은 주문 번호. (선택항목)원활한 결제정보 확인을 위해 입력 권장(PG사 마다 차이가 있지만) 16자 이내로 작성하기를 권장
        amount : 100,	                      // ${requestScope.coinmoney}  결제 금액 number 타입. 필수항목. 
-       buyer_email : '${requestScope.email}', // 구매자 email
-       buyer_name : '${requestScope.name}',	  // 구매자 이름 
-       buyer_tel : '${requestScope.mobile}',  // 구매자 전화번호 (필수항목)
+       buyer_email : '${sessionScope.loginuser.email}', // 구매자 email
+       buyer_name : '${sessionScope.loginuser.name}',	  // 구매자 이름 
+       buyer_tel : '${sessionScope.loginuser.mobile}',  // 구매자 전화번호 (필수항목)
        buyer_addr : '',  
        buyer_postcode : '',
        m_redirect_url : ''  // 휴대폰 사용시 결제 완료 후 action : 컨트롤러로 보내서 자체 db에 입력시킬것!

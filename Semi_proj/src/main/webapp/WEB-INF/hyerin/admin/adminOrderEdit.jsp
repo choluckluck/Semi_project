@@ -148,23 +148,28 @@
 							<option value="반품">반품</option>
 						</select>
 					</td>
+					<td class="pt-1"><button type="button" class="black" style="width:60px; height: 30px;" onclick="updateOrderState();">적용</button></td>
 				</tr>
 				<tr>
-					<td colspan="4"><button type="button" class="black" style="width:100px; height: 30px;" onclick="updateOrderState();">주문상태적용</button></td>
+					<td colspan="4"></td>
 				</tr>
 			</table>
 			<table id="register_table" class="col-5 register_table" style="height:20px;">
+				<tr>
+					<td width="10%" class="font-weight-bold align-baseline">총상품금액</td>
+					<td width="20%"><fmt:formatNumber value="${requestScope.ovo.total_price}" pattern="#,###"/>원</td>
+				</tr>
 				<tr>
 					<td width="10%" class="font-weight-bold align-baseline">총주문금액</td>
 					<td width="20%"><fmt:formatNumber value="${requestScope.ovo.total_order_amount}" pattern="#,###"/>원</td>
 				</tr>
 				<tr>
-					<td width="10%" class="font-weight-bold align-baseline">포인트사용액</td>
-					<td width="20%"><fmt:formatNumber value="${requestScope.ovo.point_use_amount}" pattern="#,###"/>원</td>
-				</tr>
-				<tr>
 					<td width="10%" class="font-weight-bold align-baseline">상품할인금액</td>
 					<td width="20%"><fmt:formatNumber value="${requestScope.ovo.discount_amount}" pattern="#,###"/>원</td>
+				</tr>
+				<tr>
+					<td width="10%" class="font-weight-bold align-baseline">포인트사용액</td>
+					<td width="20%"><fmt:formatNumber value="${requestScope.ovo.point_use_amount}" pattern="#,###"/>원</td>
 				</tr>
 				<tr>
 					<td width="10%" class="font-weight-bold align-baseline">배송비</td>
@@ -201,7 +206,7 @@
 					</tr>
 					<tr style="height:30px">
 						<td class="font-weight-bold align-baseline">구매옵션</td>
-						<td class="align-baseline">${odvo.fk_prod_color} / ${odvo.fk_prod_size} / 정가 <fmt:formatNumber value="${odvo.order_price}" pattern="#,###"/>원 / ${odvo.order_buy_count}개</td>
+						<td class="align-baseline">${odvo.fk_prod_color} / ${odvo.fk_prod_size} / 정가 <fmt:formatNumber value="${odvo.pvo.prod_price}" pattern="#,###"/>원 / 판매가 <fmt:formatNumber value="${odvo.pvo.prod_saleprice}" pattern="#,###"/>원 / ${odvo.order_buy_count}개</td>
 					</tr>
 					<tr class="mb-2" style="height:30px">
 						<td class="font-weight-bold align-baseline">총구매가격</td>

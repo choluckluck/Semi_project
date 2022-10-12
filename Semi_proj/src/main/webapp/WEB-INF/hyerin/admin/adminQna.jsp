@@ -86,35 +86,17 @@
 		
 		goSearch();
 		
-		
-		//체크박스 하나라도 해제되면 전체 해제되게 만들기
-		$("input[name='checkQna']").click(function() {
-			const total = $("input[name='checkQna']").length;
-			console.loge("tota;l:"+total);
-			const checked = $("input[name='checkQna']:checked").length;
-			console.loge("checkd:"+checked);
 
-			if(total != checked) { $("#chxAll").prop("checked", false); }
-			else { $("#chxAll").prop("checked", true); }
-		});
-		   
-
-		
-		//체크박스 체크 이벤트
-		$("#chxAll").click(function(){
-			var bool = $(this).is(":checked");
-			$("input[name='checkQna']").prop("checked", bool);
-		});
 		
 	});
 	
 	
 	
-	// 답변하기 팝업
-	<%-- function qna_answer(){
+	<%-- // 답변하기 팝업
+	function qna_answer(){
 		
 		const qcode = $("button#QnaAnswer").val();
-		const url = "<%= ctxPath%>/hasol/admin/adminQnaAnswer.sue?qcode="'+prod_code+'";
+		const url = "<%= ctxPath%>/hasol/admin/adminQnaAnswer.sue?qna_code="+qcode;
 		
 		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
 		
@@ -122,6 +104,7 @@
 		const pop_height = 600;
 		const pop_left = Math.ceil( (window.screen.width - pop_width)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
 		const pop_top = Math.ceil( (window.screen.height - pop_height)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
+		
 		
 		
 		window.open(url, "qnaAnswer",
@@ -175,31 +158,56 @@
 						else{
 							html += '<tr>'+
 							   		'<td class="admin_qna_tbody text-center" style="border-top:none;"> '+
-							   		'<input type="checkbox" name="checkQna" id="checkQna"/>' +
+							   		'<input type="checkbox" name="checkQna" id="checkQna" value="'+item.qna_code+'"/>' +
 							   		'</td>'+
-								    '<td height="160px" class="admin_qna_tbody text-center">'+item.prod_code+'</td>'+
+								    '<td height="160px" class="admin_qna_tbody text-center">'+item.qna_code+'</td>'+
 								    '<td class="admin_qna_tbody" >'+
 									   '<img id="'+item.prod_image+'" class="ml-4" height="100px" src="<%= ctxPath%>/images/product/'+item.prod_image+'">'+
-									   '<span class="ml-2">'+item.prod_name+'</span>'+
+									   '<span class="ml-3">'+item.prod_name+'</span>'+
 							   	    '</td>' +
 								    '<td class="text-center admin_qna_tbody">'+item.category+'</td>'+
 								    '<td class="text-center admin_qna_tbody">'+item.fk_userid+'</td>'+
 								    '<td class="text-center admin_qna_tbody">'+
 									   '<a href="#">'+item.subject+'</a>'+
-								    '</td>'+
+//////////////////////////////// >> 링크 넣어줘야함. qna 링크!								   
+									   
+									   
+									   '</td>'+
 								    '<td class="text-center admin_qna_tbody">'+item.registerday+'</td>'+
 								    '<td class="text-center admin_qna_tbody">'+item.answer_yn+'</td>'+
-								    '<td class="text-center admin_qna_tbody">'+
-									   '<button type="button" class="white admin_answer_btn" id="QnaAnswer" name="QnaAnswer" value="'+item.qna_code+'" onclick="qna_answer();">답변</button>'+
-									   '<button type="button" class="white admin_answer_btn" id="QnaAnswer_edit" name="QnaAnswer_edit" value="'+item.qna_code+'" onclick="qna_answerEdit();">답변수정</button>'+
-								    '</td>'+
-								    '<td class="text-center admin_qna_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;" onclick="qna_delete(\''+item.prod_code+'\')">삭제</button></td>'+
+								    '<td class="text-center admin_qna_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;" onclick="qna_delete('+item.qna_code+')">삭제</button></td>'+
 							    '</tr>';
 						}
 						
 					});
 					
 					$("#qnaList").append(html);
+					
+
+					
+					
+					//체크박스 하나라도 해제되면 전체 해제되게 만들기
+					$("#checkQna").click(function() {
+						console.log("여기 안오는겨?");
+						const total = $("input#checkQna").length;
+						console.log("total:"+total);
+						const checked = $("input#checkQna:checked").length;
+						console.log("checkd:"+checked);
+						
+						if(total != checked) { $("#chxAll").prop("checked", false); }
+						else { $("#chxAll").prop("checked", true); }
+					});
+					   
+
+					
+					//체크박스 체크 이벤트
+					$("#chxAll").click(function(){
+						console.log("여기와??");
+						var bool = $(this).is(":checked");
+						$("input#checkQna").prop("checked", bool);
+					});
+					
+					
 				}
 				else {
 					html += '<td colspan ="10" class="w-100" style="text-align:center;"> 조회된 문의 글이 없습니다. </td>';
@@ -222,7 +230,7 @@
 	
 	// 상품을 삭제하는 함수
 	function qna_delete(qna_code){
-		if(confirm("상품번호 " + qna_code + "를 삭제하시겠습니까?") == true){
+		if(confirm("문의번호 " + qna_code + "를 삭제하시겠습니까?") == true){
 			//비동기방식으로 qna_delete에 해당하는 상품을 삭제하기
 			$.ajax({
 				url : "<%= ctxPath%>/hasol/admin/adminQnaDelete.sue",
@@ -266,7 +274,7 @@
 			}//end of for
 			
 			const qna_codeJoin = qna_codeArr.join();
-			//console.log(qna_codeJoin);
+			console.log(qna_codeJoin);
 			
 			const bool = confirm("QnA코드 " + qna_codeJoin + "을 모두 삭제하시겠습니까?");
 			if(bool){
@@ -335,13 +343,12 @@
 							<tr>
 								<th width="5%" class="admin_qna_th text-center" ><input type="checkbox" id="chxAll"/></th>
 								<th width="5%" height="50px" class="admin_qna_th text-center">No</th>
-								<th width="15%" class="admin_qna_th text-center">상품정보</th>
+								<th width="18%" class="admin_qna_th text-center">상품정보</th>
 								<th width="10%" class="admin_qna_th text-center">카테고리</th>
 								<th width="5%" class="admin_qna_th text-center">회원명</th>
 								<th width="25%" class="admin_qna_th text-center">제목</th>
-								<th width="10%" class="admin_qna_th text-center">작성일자</th>
-								<th width="5%" class="admin_qna_th text-center">답변상태</th>
-								<th width="10%" class="admin_qna_th text-center">답변</th>
+								<th width="12%" class="admin_qna_th text-center">작성일자</th>
+								<th width="10%" class="admin_qna_th text-center">답변상태</th>
 								<th width="10%" class="admin_qna_th text-center">삭제</th>
 							</tr>
 						</thead>
@@ -353,7 +360,13 @@
 					<span><button type="button" id="" class="black" style="height:30px;" onClick="qna_deleteMulti()" >선택삭제</button></span>
 				</div>
 				<!-- 페이지 바 -->
-				<nav id ="pageBar"> </nav>
+				<nav aria-label="Page navigation">
+					<ul id="pageBar"
+						class="pagination justify-content-center pagination-sm my-5">
+
+					</ul>
+					<input type="hidden" name="currentPage" value="" />
+				</nav>
 			</form>
 		</div>
 	</div>

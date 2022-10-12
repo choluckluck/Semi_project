@@ -126,6 +126,22 @@ function checkCart() {
        return; // 종료
     }
 }
+     // === 주문개수 스피터 달기 === //
+      $("input#spinner").spinner( {
+         spin: function(event, ui) {
+            if(ui.value > 100) {
+               $(this).spinner("value", 100);
+               return false;
+            }
+            else if(ui.value < 1) {
+               $(this).spinner("value", 1);
+               return false;
+            }
+         }
+      } );// end of $("input#spinner").spinner({});------------- 
+      
+
+});//end of $(document).ready(function() {--------------------
 
 
 // 관심상품 바로가기

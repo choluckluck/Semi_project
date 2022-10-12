@@ -112,16 +112,18 @@ public class AdminQnaListJSON extends AbstractController {
 		/////////////////////////////////////////////////////////////////////
 		
 		if(pageNo != 1) {
+			System.out.println("페이지넘버 1 공간");
 			pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch(1)'><i class='fas fa-angle-double-left'></i></a></li>";
 			pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch("+(pageNo-1)+")'><i class='fas fa-angle-left'></i></a></li>";
-			System.out.println("페이지넘버가 1이 아닐 때!");
 		}
 		
 		while( !(loop > blockSize || pageNo > totalPage) ) { //loop가 blocksize보다 커지면 탈출
 			if(pageNo == Integer.parseInt(currentPageNo)) {
+				System.out.println("페이지넘버 2 공간");
 				pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
 			}
 			else {
+				System.out.println("페이지넘버 2-1 공간");
 				pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch("+pageNo+")'>" + pageNo + "</a></li>";
 			}
 			loop++; // 1 2 3 4 5 6 7 8 9 10
@@ -130,6 +132,7 @@ public class AdminQnaListJSON extends AbstractController {
 		}//end of while
 		
 		if( pageNo <= totalPage ) { //페이지가 totalPage보다 작거나 같을때만 (마지막 블럭 제외)  
+			System.out.println("페이지넘버 3 공간");
 			pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch("+pageNo+")'><i class='fas fa-angle-right'></i></a></li>";
 			pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch("+totalPage+")'><i class='fas fa-angle-double-right'></i></a></li>";
 
@@ -163,7 +166,13 @@ public class AdminQnaListJSON extends AbstractController {
 				jsonObj_qnaList.put("fk_userid", qvo.getFk_userid());
 				jsonObj_qnaList.put("subject", qvo.getSubject());
 				jsonObj_qnaList.put("registerday", qvo.getRegisterday());
-				jsonObj_qnaList.put("answer_yn", qvo.getAnswer_yn());
+				// jsonObj_qnaList.put("answer_yn", qvo.getAnswer_yn());
+				
+				if("Y".equals(qvo.getAnswer_yn())) {
+					jsonObj_qnaList.put("answer_yn","답변완료"); }
+				else {
+					jsonObj_qnaList.put("answer_yn", "답변대기"); }
+				
 				jsonObj_qnaList.put("prod_code", qvo.getPvo().getProd_code());
 				jsonObj_qnaList.put("prod_kind", qvo.getPvo().getProd_kind());
 				jsonObj_qnaList.put("prod_name", qvo.getPvo().getProd_name());

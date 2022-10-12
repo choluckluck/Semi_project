@@ -44,6 +44,7 @@ public class PurchaseEndAfterInsertOrder extends AbstractController {
 			String prodPoint = request.getParameter("prodPoint");
 			String discountamount = request.getParameter("discountamount");
 			String deliveryfee = request.getParameter("deliveryfee");
+			String priceJoin = request.getParameter("priceJoin");
 			
 			//tbl_order_detail에 insert 해야할 정보
 			String prod_codeJoin = request.getParameter("prod_code");
@@ -58,6 +59,12 @@ public class PurchaseEndAfterInsertOrder extends AbstractController {
 			String[] order_priceArr = order_priceJoin.split("\\,");
 			String[] prod_colorArr = prod_colorJoin.split("\\,");
 			String[] prod_sizeArr = prod_sizeJoin.split("\\,");
+			String[] priceArr = priceJoin.split("\\,");
+			
+			int total_price = 0;
+			for(int i=0; i<priceArr.length; i++) {
+				total_price += Integer.parseInt(priceArr[i]) * Integer.parseInt(order_buy_countArr[i]); 
+			}
 			
 			//지워야 할 cart code
 			String cart_codeJoin = request.getParameter("cart_codeJoin");
@@ -74,6 +81,7 @@ public class PurchaseEndAfterInsertOrder extends AbstractController {
 			paraMap.put("prod_codeArr", prod_codeArr);
 			paraMap.put("order_buy_countArr", order_buy_countArr);
 			paraMap.put("order_priceArr", order_priceArr);
+			paraMap.put("total_price", total_price);
 			paraMap.put("prod_colorArr", prod_colorArr);
 			paraMap.put("prod_sizeArr", prod_sizeArr);
 			paraMap.put("cart_codeJoin", cart_codeJoin);
