@@ -44,6 +44,7 @@ public class AddCart extends AbstractController {
 			if("POST".equalsIgnoreCase(method)) {
 				
 				String prod_code = request.getParameter("prod_code");
+				System.out.println("prodcode:" +prod_code);
 				String qnty = request.getParameter("qnty");
 				String prod_color = request.getParameter("prod_color");
 				String prod_size = request.getParameter("prod_size");
@@ -57,7 +58,7 @@ public class AddCart extends AbstractController {
 				
 				
 				if(n==1) {
-					String loc = request.getContextPath()+"/seongmin/member/goCart.sue";
+					String loc = request.getContextPath()+"/jihee/bag/bag.sue";
 					request.setAttribute("message", "장바구니 담기 성공!");
 					request.setAttribute("loc", loc); //상대경로 (마지막만 바뀜) => 장바구니 보여주기 페이지로 이동
 				}

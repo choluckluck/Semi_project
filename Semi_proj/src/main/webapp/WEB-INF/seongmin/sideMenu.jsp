@@ -14,15 +14,7 @@
 		$("button#interestPrd").click(function(){
 			location.href="<%=request.getContextPath() %>/seongmin/member/interestPrd.sue"
 		});
-		
-		$("button#point").click(function(){
-			location.href="<%=request.getContextPath() %>/seongmin/member/point.sue"
-		});
-		
-		$("button#coupon").click(function(){
-			location.href="<%=request.getContextPath() %>/seongmin/member/coupon.sue"
-		});
-		
+				
 		$("button#infoChange").click(function(){
 			location.href="<%=request.getContextPath() %>/seongmin/member/infoChange.sue"
 		});
@@ -33,6 +25,9 @@
 		
 		$("button#mypagemain").click(function(){
 			location.href="<%=request.getContextPath() %>/seongmin/member/mypage_Main.sue"			
+		})
+		$("button#qnaManage").click(function(){
+			location.href="<%=request.getContextPath() %>/seongmin/member/qnaManage.sue"			
 		})
 
 	});
@@ -46,10 +41,10 @@
 		    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
 			  <button id="orderView" type="button" class="btn btn-gray">주문조회</button>
 			  <button id="interestPrd" type="button" class="btn btn-gray">관심 상품</button>
-			  <button id="point" type="button" class="btn btn-gray">적립금</button>
-			  <button id="coupon" type="button" class="btn btn-gray">쿠폰</button>
 			  <button id="infoChange" type="button" class="btn btn-gray">회원정보 수정</button>
-			  <button id="reviewManage" type="button" class="btn btn-gray">리뷰 & 문의내역 관리</button>
+			  <button id="reviewManage" type="button" class="btn btn-gray">리뷰 관리</button>
+			  <button id="qnaManage" type="button" class="btn btn-gray">문의내역 관리</button>
+
 			</div>
 	   
 	   

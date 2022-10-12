@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-    
+
     
 <!DOCTYPE html>
 <html>
@@ -40,10 +40,7 @@
   	color:gray;
   }
   
-  table {
-  	border-top : solid 1px gray;
-  	width:80%;
-  }
+
   
     a.orderview {
     text-decoration-line: none;
@@ -77,11 +74,6 @@
 
 	});
 	
-	function reviewshow() {
-		alert("sdfsd");
-		$(this).parent().find(".collapse").hide();
-		$(this).next().show();
-	}
 
 
 	</script>
@@ -107,63 +99,49 @@
 	   </div>
 	   <div class="col-10">
 
-		<h3 style="margin-top:1px;">리뷰 관리</h3>
+
+		<h3 style="margin-top:1px;">문의내역 관리</h3>
 		<br><br>
 		
 		
-
-		
-			
-		
-		
-	
-		<br><br>		
 		
 		  <table class="table table" style="text-align:left; width:90%">
 			<colgroup>
 				<col style="width:70px;">
 				<col style="width:70px;">
-				<col style="width:200px;">
+				<col style="width:250px;">
+				<col style="width:84px;">
 				<col style="width:80px;">
-				<col style="width:55px;">
 			</colgroup>
 			<thead>
   			  <tr>
 				<th scope="col">번호</th>
-				<th scope="col">제품 번호</th>
-				<th scope="col" style="text-align:center">제목</th>
-				<th scope="col">별점</th>
+				<th scope="col">분류</th>
+				<th scope="col">제목</th>
+				<th scope="col">작성자</th>
 				<th scope="col">작성일</th>
 			  </tr>
 			</thead>
 			
 			
 			<tbody style="font-size:12pt; height:40px;">
+
 			<c:choose>
-				<c:when test="${not empty requestScope.reviewList}">					
-					<c:forEach var="rvo" items="${requestScope.reviewList}" varStatus="status">
+				<c:when test="${not empty requestScope.qnaList}">					
+					<c:forEach var="qvo" items="${requestScope.qnaList}" varStatus="status">
 						
 						<tr>
-							<td>${rvo.rnum}</td>
-							<td>${rvo.fk_prod_code}</td>
-							<td style="text-align:center;">
-								<div class="btn" data-toggle="collapse" data-target="#demo" onclick="reviewshow()">${rvo.review_subject}</div>
-								<div id="demo" class="collapse" style="text-align:left">${rvo.review_contents}</div>
-							</td>
-							<td>
-								<c:if test="${rvo.review_grade == '1'}">★☆☆☆☆</c:if>
-								<c:if test="${rvo.review_grade == '2'}">★★☆☆☆</c:if>
-								<c:if test="${rvo.review_grade == '3'}">★★★☆☆</c:if>
-								<c:if test="${rvo.review_grade == '4'}">★★★★☆</c:if>
-								<c:if test="${rvo.review_grade == '5'}">★★★★★</c:if>							
-							</td>
-							<td>${rvo.review_registerday}</td>
+							<td>${qvo.rnum}</td>
+							<td>${qvo.category}</td>
+							<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_re.gif" alt="답변" class="">&nbsp;&nbsp;<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">${qvo.subject}</button></td>
+							<td>${sessionScope.loginuser.name }</td>
+							<td>${qvo.registerday}</td>
 						</tr>
 					</c:forEach>
 				</c:when>				
 				<c:otherwise>
 							<tr>
-								<td colspan="6">리뷰 내역이 없습니다.</td>
+								<td colspan="6">문의 내역이 없습니다.</td>
 							</tr>
 				</c:otherwise>
 			</c:choose>				
@@ -171,9 +149,13 @@
 		  </table>
 	   		  <nav class="my-5">
 			<div style="display: flex; width: 80%">
-				<ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>
+				<ul class="pagination" style="margin: auto">${requestScope.pageBar}</ul>
 			</div>
 		  </nav>
+	      
+	      <br>
+
+	   <br><br>
 
 	
 

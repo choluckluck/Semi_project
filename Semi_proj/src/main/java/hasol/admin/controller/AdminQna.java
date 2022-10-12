@@ -56,11 +56,12 @@ public class AdminQna extends AbstractController {
 			}
 			else { // 관리자로 로그인한 경우
 				
-			super.setViewPage("/WEB-INF/hyerin/admin/adminQna.jsp");	
+				super.setViewPage("/WEB-INF/hyerin/admin/adminQna.jsp");
 		
 			}
-		
+			
 		}
 
 	}
 }
+

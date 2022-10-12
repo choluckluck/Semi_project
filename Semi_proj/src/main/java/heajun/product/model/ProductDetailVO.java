@@ -10,9 +10,7 @@ public class ProductDetailVO {
 	 
 
 
-
-	 
-	 ////////////////////////////////////////////////
+	////////////////////////////////////////////////
 	 public ProductDetailVO() {}
 	 
 	
@@ -25,6 +23,7 @@ public class ProductDetailVO {
 //		this.prod_stock = prod_stock;
 //	}
 
+	
 
 	public String getProd_detail_code() {
 		return prod_detail_code;
