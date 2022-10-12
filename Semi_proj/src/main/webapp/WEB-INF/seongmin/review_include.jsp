@@ -28,10 +28,6 @@
   	color:gray;
   }
   
-  table {
-  	border-top : solid 1px gray;
-  	width:90%;
-  }
   
     a.orderview {
     text-decoration-line: none;
@@ -80,23 +76,23 @@
 
 	</script>
 
-		
+	<div style="width : 70%; margin-left : 80px;">		
 		<h3 style="margin-top:1px;">상품 리뷰</h3>
 		
-		  <table class="table table" style="text-align:left; width:90%">
+		  <table class="table table" style="text-align:left; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:70px;">
-				<col style="width:70px;">
 				<col style="width:200px;">
+				<col style="width:70px;">
 				<col style="width:80px;">
 				<col style="width:55px;">
 			</colgroup>
 			<thead>
   			  <tr>
 				<th scope="col">번호</th>
-				<th scope="col">제품 번호</th>
 				<th scope="col" style="text-align:center">제목</th>
 				<th scope="col">별점</th>
+				<th scope="col">아이디</th>
 				<th scope="col">작성일</th>
 			  </tr>
 			</thead>
@@ -109,7 +105,6 @@
 						
 						<tr>
 							<td>${rvo.rnum}</td>
-							<td>${rvo.fk_prod_code}</td>
 							<td style="text-align:center;">
 								<div class="btn" data-toggle="collapse" data-target="#demo${status.index}" onclick="reviewshow()">${rvo.review_subject}</div>
 								<div id="demo${status.index}" class="collapse" style="text-align:left">${rvo.review_contents}</div>
@@ -121,6 +116,7 @@
 								<c:if test="${rvo.review_grade == '4'}">★★★★☆</c:if>
 								<c:if test="${rvo.review_grade == '5'}">★★★★★</c:if>							
 							</td>
+							<td>${rvo.fk_userid}</td>							
 							<td>${rvo.review_registerday}</td>
 						</tr>
 					</c:forEach>
@@ -133,14 +129,20 @@
 			</c:choose>				
 		    </tbody>
 		  </table>
+		  
+		  			 <div style="text-align:right;  width:100%;" class="">
+	    	            <button type="button" id="reivewWrite" style="background-color: black; color:white; border:solid 1px gray;" onclick=" goreviewwrite()">상품후기쓰기</button>
+	          </div>
+	</div>
+	
+	
+	
+	
 	   		  <nav class="my-5">
 			<div style="display: flex; width: 80%">
 				<ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>
 			</div>
 		  </nav>
-			 <div style="text-align:right;  width:90%;" class="">
-	    	            <button type="button" id="reivewWrite" style="background-color: black; color:white; border:solid 1px gray;" onclick=" goreviewwrite()">상품후기쓰기</button>
-	          </div>
 
 	
 
