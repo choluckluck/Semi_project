@@ -2,10 +2,10 @@
     pageEncoding="UTF-8"%>
 	<!-- footer -->
 	<hr style="border-top: solid 1px gray;">
-	<div class="row mt-5 pt-3 mb-5 w-100" style="margin:0px; padding-right:0px;">
+	<div class="row mt-5 pt-3 mb-5 w-100" style="margin:0px; padding-right:0px; ">
 		<div class="col-2"></div>
 		<div class="col-8 mb-2" style="font-size:9pt;" align="center">
-			<table style="margin:0;">
+			<table style="margin:0; border:none;">
 				<tr>
 					<td width="70%" class="" >
 						<div style="vertical-align:top;"><span class="bold">평일</span> 10:00-17:00 / <span class="bold">점심시간</span> 12:00 - 13:00</div>
