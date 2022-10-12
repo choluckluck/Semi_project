@@ -1,49 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%
     String ctxPath = request.getContextPath();
 %>
 
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 <style>
-	
-	#member_searchInfo_container{
-		float:right;
-	}
-	
-	#searchword{
-		border: none;
-		border-bottom: solid 1px black;
-		font-size: 10pt;
-	}
-	
-	#memberSort{
-		border: solid 1px #d9d9d9;
-		height: 30px;
-		font-size: 10pt;
-	}
-	
-	.admin_member_th{
-		font-weight:normal;
-		border-top:solid 1px black;
-		border-bottom: solid 1px black;
-	}
-	
-	.admin_member_tbody{
-		border-bottom: solid 1px #d9d9d9;
-	}
-	
-	#admin_member_btn{
-		float:right;
-		width:150px;
-		height:40px;
-	}
-	
-	#member_contents tr:hover {
-		cursor : pointer;
-	}
-	
-	
+#member_searchInfo_container {
+	float: right;
+}
+
+#searchword {
+	border: none;
+	border-bottom: solid 1px black;
+	font-size: 10pt;
+}
+
+#memberSort {
+	border: solid 1px #d9d9d9;
+	height: 30px;
+	font-size: 10pt;
+}
+
+.admin_member_th {
+	font-weight: normal;
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+}
+
+.admin_member_tbody {
+	border-bottom: solid 1px #d9d9d9;
+}
+
+#admin_member_btn {
+	float: right;
+	width: 150px;
+	height: 40px;
+}
+
+#member_contents tr:hover {
+	cursor: pointer;
+}
 </style>
 
 <script>
@@ -303,27 +300,30 @@
 	<div id="contents" class="col-9 ml-5 mt-3 mb-5">
 		<div id="member">
 			<form name="admin_member_frm" onsubmit="return false">
-				<span class="mr-3 mt-1" style="font-size:20pt; font-weight:bold;">회원관리</span>
-				<span id="member_searchInfo_container">
-					<span class="pt-2 mr-2">
-						<select id="memberSort" class="mt-1">
+				<span class="mr-3 mt-1" style="font-size: 20pt; font-weight: bold;">회원관리</span>
+				<span id="member_searchInfo_container"> <span
+					class="pt-2 mr-2"> <select id="memberSort" class="mt-1">
 							<option value="all" selected>전체선택</option>
 							<option value="userid">아이디</option>
 							<option value="name">회원명</option>
 							<option value="email">이메일</option>
-						</select>
-					</span>
-					<span class="mt-2">
-						<input type="text" id="searchword" name="searchword" placeholder="검색"/>
-						<button type="button" id="member_search_btn" style="border:none; background-color: transparent;">
-							<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
+					</select>
+				</span> <span class="mt-2"> <input type="text" id="searchword"
+						name="searchword" placeholder="검색" />
+						<button type="button" id="member_search_btn"
+							style="border: none; background-color: transparent;">
+							<img src="<%=ctxPath%>/images/hyerin/search_icon.png"
+								width="25px" />
 						</button>
-					</span>
 				</span>
-				<table id="admin_member" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
+				</span>
+				<table id="admin_member" class="mt-4 w-100"
+					style="font-size: 10pt; border-right: none; border-left: none;">
+					<%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
 					<thead>
 						<tr>
-							<th width="5%" height="50px" class="admin_member_th text-center"><input type="checkbox" id="chxAll"/></th>
+							<th width="5%" height="50px" class="admin_member_th text-center"><input
+								type="checkbox" id="chxAll" /></th>
 							<th width="5%" class="admin_member_th text-center">아이디</th>
 							<th width="15%" class="admin_member_th text-center">이름</th>
 							<th width="15%" class="admin_member_th text-center">이메일</th>
@@ -337,15 +337,17 @@
 					</tbody>
 				</table>
 				<div class="mt-3">
-					<span><button type="button" id="" class="black" style="height:30px;" onclick="memberChecked_resign();">선택탈퇴처리</button></span>
+					<span><button type="button" id="" class="black"
+							style="height: 30px;" onclick="memberChecked_resign();">선택탈퇴처리</button></span>
 				</div>
 				<nav aria-label="Page navigation">
-				  <ul id="pageBar" class="pagination justify-content-center pagination-sm my-5">
-				  	
-				  </ul>
-				  <input type="hidden" name='curPage' value="1"/>
+					<ul id="pageBar"
+						class="pagination justify-content-center pagination-sm my-5">
+
+					</ul>
+					<input type="hidden" name='curPage' value="1" />
 				</nav>
-				<input type="hidden" id="currentPage" value=""/>
+				<input type="hidden" id="currentPage" value="" />
 			</form>
 		</div>
 	</div>

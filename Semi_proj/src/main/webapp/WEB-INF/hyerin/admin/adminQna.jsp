@@ -88,23 +88,17 @@
 		
 		
 		//체크박스 하나라도 해제되면 전체 해제되게 만들기
-		$("input[name='checkQna']").click(function(){
-		   var bFlag = false;
-		   $("input[name='checkQna']").each(function(){
-		      var bChecked = $(this).prop("checked");
-		      if(!bChecked) {
-		         $("#chxAll").prop("checked",false);
-		         bFlag = true;
-		         return false;
-		      }
-		   });
+		$("input[name=checkQna]").click(function() {
+			const total = $("input[name=checkQna]").length;
+			console.loge("tota;l:"+total);
+			const checked = $("input[name=checkQna]:checked").length;
+			console.loge("checkd:"+checked);
+
+			if(total != checked) { $("#chxAll").prop("checked", false); }
+			else { $("#chxAll").prop("checked", true); }
+		});
 		   
-		   if(!bFlag) {
-		      $("#chxAll").prop("checked",true);
-		   }
-		   
-		});//end of $(".check").click
-		
+
 		
 		//체크박스 체크 이벤트
 		$("#chxAll").click(function(){
@@ -185,7 +179,7 @@
 							   		'</td>'+
 								    '<td height="160px" class="admin_qna_tbody text-center">'+item.prod_code+'</td>'+
 								    '<td class="admin_qna_tbody" >'+
-									   '<img id="'+item.prod_image+'" class="ml-4" height="100px" src="<%= ctxPath%>/images/product/'+item.prod_kind+'/'+item.prod_image+'">'+
+									   '<img id="'+item.prod_image+'" class="ml-4" height="100px" src="<%= ctxPath%>/images/product/'+item.prod_image+'">'+
 									   '<span class="ml-2">'+item.prod_name+'</span>'+
 							   	    '</td>' +
 								    '<td class="text-center admin_qna_tbody">'+item.category+'</td>'+
