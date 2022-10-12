@@ -26,8 +26,6 @@ public class MemberVO {
 	private String like_prod_code; //관심 상품코드
 	private String cart_prod_code; //장바구니 상품코드
 	
-	
-	
 	public int getMarketing_yn() {
 		return marketing_yn;
 	}

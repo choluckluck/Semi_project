@@ -220,8 +220,8 @@
 		if(confirm(userid + "님을 탈퇴처리 하시겠습니까?") == true){
 			//비동기방식으로 userid에 해당하는 멤버의 status를 0으로 바꿔주기
 			$.ajax({
-				url : "<%= ctxPath%>/hyerin/admin/adminMemberResignJson.sue?userid="+userid,
-				type: "get",
+				url : "<%= ctxPath%>/hyerin/admin/adminMemberResignJson.sue",
+				type: "post",
 				data:{"userid":userid},
 				dataType:"JSON",
 				success:function(json){
@@ -270,7 +270,7 @@
 				//비동기방식으로 userid에 해당하는 멤버의 status를 0으로 바꿔주기
 				$.ajax({
 					url : "<%= ctxPath%>/hyerin/admin/adminMemberCheckedResign.sue",
-					type: "get",
+					type: "post",
 					data:{"useridJoin":useridJoin},
 					dataType:"JSON",
 					success:function(json){

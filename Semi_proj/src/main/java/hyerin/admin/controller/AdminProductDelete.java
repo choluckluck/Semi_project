@@ -46,7 +46,6 @@ public class AdminProductDelete extends AbstractController {
 		}
 		//post방식이라면 => 체크된 여러 상품을 삭제해준다
 		else {
-			
 			String prod_codeJoin = request.getParameter("prod_codeJoin");
 			String[] prod_codeArr = prod_codeJoin.split("\\,");
 			
