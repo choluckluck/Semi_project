@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
     String ctxPath = request.getContextPath();
@@ -12,7 +13,7 @@
 
 
 <style type="text/css">
-div{
+div/* {
 		margin: 10px, 0px;
 	}
 	
@@ -51,7 +52,7 @@ td{padding: 10px;}
    background-color: black;
    color: white;
   }
-  
+   */
   .carousel-inner > .item > img {
       top: 0;
       left: 0;
@@ -59,17 +60,18 @@ td{padding: 10px;}
       min-height: 400px;
     } 
   
-  
+  /* 
 table#code{
 position:relative;
 right:35px;
 }
-
+ */
 .form-select{
  border-color: #e6e6e6;
  border-radius:5px;
  width:12px;
 }
+
 </style>
 
 
@@ -126,22 +128,6 @@ function checkCart() {
        return; // 종료
     }
 }
-     // === 주문개수 스피터 달기 === //
-      $("input#spinner").spinner( {
-         spin: function(event, ui) {
-            if(ui.value > 100) {
-               $(this).spinner("value", 100);
-               return false;
-            }
-            else if(ui.value < 1) {
-               $(this).spinner("value", 1);
-               return false;
-            }
-         }
-      } );// end of $("input#spinner").spinner({});------------- 
-      
-
-});//end of $(document).ready(function() {--------------------
 
 
 // 관심상품 바로가기
@@ -195,153 +181,106 @@ function goOrder() {
 
 </script>
 
-</head>
-<body>
-<div id="container" style=" margin:0 auto; width:90%; position:relative;">
+<div id="container" class="row container-fluid">
+<form name="cartFrm">
+	<input type="hidden" id="prod_code" name="prod_code" value="${requestScope.pvo2.prod_code}" />				
+	<input type="hidden" name="totalPrice" value=""/>
+	<input type="hidden" name="sumtotalPrice" value=""/>
+	<input type="hidden" name="sumtotalpoint" value=""/>
+	<input type="hidden" name="price" value="${requestScope.pvo2.prod_price}"/>
+	<input type="hidden" name="saleprice" value="${requestScope.pvo2.prod_saleprice}"/>
 
-	<br><br>
-	<div class="row" style="margin-top:80px;">	
-		<div class="col-4" style="width:450px; border:solid 0px gray;" z-index: 3;>
-		<ul>
-		<li class="pvo"><img src="<%= ctxPath%>/images/product/${requestScope.pvo2.prod_image}" style="width:100%; margin-left:3px; margin-right:3px;"alt="..." ></li>
-		<%-- <c:forEach var="pvo" items="${requestScope.pvo.prod_image}" begin="0" end="3" step="1">
-		 <img src="<%= ctxPath%>/images/product/${ivo.prod_image}" style="margin: 0 auto; width:100%; height:100%; object-fit:cover; position:relative;" alt="...">
-        </c:forEach> --%>
-        </ul>
-   </div>
- <br><br>
-		   
-		
-		
-	
-
-
-		<div class="  col-6" style="margin-left:50px;">
-			<div style="font-size: 20px; margin-left:50px;"><strong style="font-size: 25px;">${requestScope.pvo2.prod_name}</strong ><a href="#" style=" color:gray;">(<span>${requestScope.pvo.prod_high}cm</span>)</a></div>
-			<div style="font-size: 25px; margin-left:10px;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.pvo2.prod_saleprice}원&nbsp;&nbsp;</strong><strike>&nbsp;${requestScope.pvo.prod_price}원</strike></div>
-			<br>
-			<div style="width: 100%;">
-			
-				<table  id="code" style="margin-left:50px;">
-					<tr>
-						<th style="width: 115px; text-align: center;">Code</th>
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.pvo2.prod_code}</td>
-					</tr>
-					<tr>
-						<th style="width: 115px; text-align: center;">적립금</th>
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.pvo2.prod_point}원</td>
-					</tr>
-					<tr>
-						<th style="width: 115px; text-align: center;">배송비</th>
-						<td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2,500원</strong> (70,000원 이상 구매 시 무료)</td>
-					</tr>
-				</table >
-				
-				
-
-			<%-- ==== 장바구니담기 또는 바로주문하기 폼 value="${pvo.prod_code}"==== --%>
-		    <form name="cartFrm">
-		    
-				<table style="margin-left:50px; margin-bottom:10px;">   
-					<tr class="option">
-						<th style="width: 115px; text-align:left;">COLOR</th>
-							
-							<td>
-							
-								<select  class="pvoList form-select" name="prod_color"id="pvoList"  style="width: 250px; font-size:15px; margin-left:1px; height:30px; ">    
-								
-								  <c:forTokens var="prod_color" items="${requestScope.pvo2.pdvo.prod_color}" delims=",">
-								     <option value="${prod_color}">${prod_color}</option>   
-						           </c:forTokens>  
-						           
-								 </select>
-								
-								
-
-							</td>
-					 </tr>
-						
-				 <tr class="option">	
-				 <th style="width: 115px; text-align:left;">SIZE</th>
-						<td>
-								
-							<select  class="pvoList form-select" name="prod_size"id="pvoList"  style="width: 250px; font-size:15px; margin-left:1px; height:30px; ">      
-								
-								<c:forTokens var="prod_size" items="${requestScope.pvo2.pdvo.prod_size}" delims=",">
-								     <option value="${prod_size}">${prod_size}</option>   
-						           </c:forTokens>  
-							 </select>
-									
-						</td>
-						
-					</tr> 
-					
-					
-			</table>    
-				 
-
-				     	    
-			    <ul class="Productdetail list-unstyled mt-6" style="margin-left:80px; >
-			    	<li >
-			        	<label style="margin-left:80px; for="spinner" ><strong>주문수량&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
-	  					<input id="spinner" name="qnty" value="1" style="width: 25px; ">
-					</li>
-					<li class="my-5 mx5" >
-						<button type ="button" id="button2"  class="buttons border btn btn-outline-secondary  " onclick="goWish();  ">♡</button>
-						<button type ="button" id="button"   class="buttons border btn btn-outline-secondary  col-4"  onclick="goCart();">장바구니</button>
-						<button type ="button" id="button3"  class="buttons border btn btn-outline-secondary  col-4" onclick="goOrder();">바로구매</button>
-					</li>
-					
-				</ul>
-				  <input type="hidden" id="prod_code" name="prod_code" value="${requestScope.pvo2.prod_code}" />				
-				  <input type="hidden" name="totalPrice" value=""/>
-                  <input type="hidden" name="sumtotalPrice" value=""/>
-                  <input type="hidden" name="sumtotalpoint" value=""/>
-                  <input type="hidden" name="price" value="${requestScope.pvo2.prod_price}"/>
-                  <input type="hidden" name="saleprice" value="${requestScope.pvo2.prod_saleprice}"/>
-				
-				
-			</form>	
-				
-		
-			
-			</div>
-			
+	<div class="col-11 mt-5 mb-5" style="padding:0;" align="center">	
+		<div>
+			<img src="<%= ctxPath%>/images/product/${requestScope.pvo2.prod_image}" width="450px" alt="..." >
 		</div>
-		
-	</div> 
-	
-	
-	<br><br>
-	<br><br><br><br>
-	
-	<div class="row" style="text-align:center; vertical-align:middle; font-size:17pt; height:60px; border:solid 1px gray; background-color:white; position:sticky; top:0; z-index: 2;">
-		<div class="col-4" style="padding:10px;  color:gray; ">
-			<a href="#" style=" color:gray;">상품정보</a>
+		<div>
+			<table style="margin:0; border-top:none;">
+				<tr>
+					<td style="float:left;">
+						${requestScope.pvo2.prod_name}<span class="ml-2">(${requestScope.pvo.prod_high}cm)</span>
+					</td>
+					<td>
+				</tr>
+				<tr>
+					<td>
+						<span style="font-weight:bold;"><fmt:formatNumber value="${requestScope.pvo2.prod_saleprice}" pattern="#,###"/>원</span>
+						<span style="color:#d9d9d9;"><fmt:formatNumber value="${requestScope.pvo2.prod_price}" pattern="#,###"/>원</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Prod-Code</td>
+					<td>${requestScope.pvo2.prod_code}</td>
+				</tr>
+				<tr>
+					<td>적립금</td>
+					<td><fmt:formatNumber value="${requestScope.pvo2.prod_point}" pattern="#,###"/>원</td>
+				</tr>
+				<tr>
+					<td>배송비</td>
+					<td>2,500원<span>(70,000원 이상 구매 시 무료)</span></td>
+				</tr>
+				<tr>
+					<td>COLOR</td>
+					<td>
+						<select class="pvoList form-select" name="prod_color" style="width: 250px; font-size:15px; margin-left:1px; height:30px;">    
+							<c:forTokens var="prod_color" items="${requestScope.pvo2.pdvo.prod_color}" delims=",">
+								<option value="${prod_color}">${prod_color}</option>   
+							</c:forTokens>  
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>SIZE</td>
+					<td>
+						<select  class="pvoList form-select" name="prod_size" style="width: 250px; font-size:15px; margin-left:1px; height:30px; ">      
+							<c:forTokens var="prod_size" items="${requestScope.pvo2.pdvo.prod_size}" delims=",">
+								<option value="${prod_size}">${prod_size}</option>   
+							</c:forTokens>  
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><label style="margin-left:80px;" for="spinner">주문수량</label></td>
+					<td>
+	  					<input id="spinner" name="qnty" value="1" style="width: 25px;">
+					</td>
+				</tr>
+				<tr>
+					<td><button type ="button" id="button2"  class="buttons border btn btn-outline-secondary  " onclick="goWish();  ">♡</button></td>
+					<td><button type ="button" id="button"   class="buttons border btn btn-outline-secondary  col-4"  onclick="goCart();">장바구니</button></td>
+					<td><button type ="button" id="button3"  class="buttons border btn btn-outline-secondary  col-4" onclick="goOrder();">바로구매</button></td>
+				</tr>
+			</table>
 		</div>
-		<div class="col-4" style="padding:10px; ">
-			<a href="#" style=" color:gray;">리뷰(<span id=""></span>)</a>
-		</div>
-		<div class="col-4" style="padding:10px; ">
-			<a href="#" style=" color:gray;">상품문의</a>
-		</div>	
+	</div> <!-- div-col10 -->
+
+
+<!-- 네브바2 -->
+<div class="row container-fluid mt-5" style="text-align:center; font-size:12pt; height:60px; border-bottom:solid 1px #d9d9d9;">
+	<div class="col-4" style="padding:10px;  color:gray; ">
+		<a href="#" style="color:gray; text-decoration:none;">상품정보</a>
 	</div>
-	
+	<div class="col-4" style="padding:10px; ">
+		<a href="#" style="color:gray; text-decoration:none;">리뷰(<span id=""></span>)</a>
+	</div>
+	<div class="col-4" style="padding:10px; ">
+		<a href="#" style="color:gray; text-decoration:none;">상품문의</a>
+	</div>	
+</div>
 
-						           
-		  
-		<%-- 상품 상세 이미지 보여주기 시작 --%>
-	    <div class="row" style="margin-top:120px; " >
-			 <c:forTokens var="product_image_file" items="${requestScope.ivo.product_image_file}" delims=",">
-			    <img src="<%= ctxPath%>/images/product/${product_image_file}" style="margin: 0 auto; width:90%; height:90%; object-fit:cover; position:relative;" alt="...">
-		     </c:forTokens>  
-	    </div>  
- 		<%-- 고정적 이미지 --%>
-        <div class="row" style="margin-top:120px; " >
- 			 <img src="<%= ctxPath%>/images/heajun/Pdetailimage1.jpg"style="margin: 0 auto; width:90%; height:90%; object-fit:cover; position:relative;" alt="..."> 
-	     
-	           <img src="<%= ctxPath%>/images/heajun/Pdetailimage2.jpg" style="margin: 0 auto; width:90%; height:90%; object-fit:cover; position:relative;" alt="..."> 
-	     </div>  
+<%-- 상품 상세 이미지 보여주기 시작 --%>
+<div class="row" style="margin-top:120px; " >
+<c:forTokens var="product_image_file" items="${requestScope.ivo.product_image_file}" delims=",">
+<img src="<%= ctxPath%>/images/product/${product_image_file}" style="margin: 0 auto; width:90%; height:90%; object-fit:cover; position:relative;" alt="...">
+</c:forTokens>  
+</div>  
+<%-- 고정적 이미지 --%>
+<div class="row" style="margin-top:120px; " >
+<img src="<%= ctxPath%>/images/heajun/Pdetailimage1.jpg"style="margin: 0 auto; width:90%; height:90%; object-fit:cover; position:relative;" alt="..."> 
+
+<img src="<%= ctxPath%>/images/heajun/Pdetailimage2.jpg" style="margin: 0 auto; width:90%; height:90%; object-fit:cover; position:relative;" alt="..."> 
+</div>  
   
 		  
 		  
@@ -574,39 +513,6 @@ function goOrder() {
  		<jsp:include page="/WEB-INF/seongmin/review_include.jsp"></jsp:include> 
 
       </div> 
-      
-      
-     <div id="prdQuestion" style="width:90%; margin: 0 auto; position:relative; top:500px;">					
- 		<jsp:include page="/WEB-INF/seongmin/qnaList_include.jsp"></jsp:include> 					  			  
-	 </div>
-
-	
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	
-	
-
-
- 
-</body>
-</html>
- <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include> 
+</form>	
+<jsp:include page="/WEB-INF/seongmin/qnaList_include.jsp"></jsp:include> 					  			  
+<jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include> 
