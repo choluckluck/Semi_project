@@ -75,14 +75,7 @@
          frm.submit();
       });
       
-      
-    //전체상품 주문 클릭시
-      $("button#orderAll").click(function(){
-         const frm = document.bag_form;
-         frm.action="<%= ctxPath%>/product/productNew.up";
-         frm.method = "get";
-         frm.submit();
-      });
+
     --%>
       $("li[name='shname']").click(function(){
          
@@ -98,13 +91,7 @@
        alert("하하하");  
       })
     
-    // 주문하기 클릭시
-      $("button#doOrder").click(function(){
-         const frm = document.bag_form;
-         frm.action="<%= ctxPath%>/product/productNew.up";
-         frm.method = "get";
-         frm.submit();
-      });
+   
       
 
       
@@ -292,6 +279,8 @@
      
 
       }//end fo goDel
+      
+      // == 선택상품 주문 데이터보내기 == //
 
       function goOrder(){
           
@@ -494,7 +483,13 @@
                  }
               
                  
-                 
+                 else {
+                	 
+                	 alert("주문하기를 취소하셨습니다");
+                	 
+                	 
+                	 $(".chkboxpnum").prop("checked", false);
+                 }
                  
                     
                     
@@ -505,49 +500,54 @@
             
         }
       
-      
-      
-     /*  function goOrderPart() {
+      // == 전체상품 주문 데이터 == //
+      function allOrder() {
     	  
-    	
-         
-          const oqtyArr = $("input.qnty").eq(i).val();
-          const cartnoArr = $("input.cartno").eq(i).val()
-          const totalPrice = $("input.totalPrice").val();
+
+          $(".chkboxpnum").prop("checked", true);
           
-          
-          const prodCodeArr = new Array();
-          const pordSizeArr = new Array();  
-          const prodColorArr = new Array();
-          const prodPriceArr =new Array(); //정상가
-          const prodSalePriceArr = new Array(); //세일가
-          const deliveryfee = $("input.deliveryfee").val();
-          const prodPointArr = new Array();
-          const totalorderprice = $("input.totalorderprice").val();
-           const totalOnePriceJoinArr = new Array(); // 판매가X수량
-          
-          
-        
-                
-             
-                
-                
-                prodCodeArr.push( $("input.prodCode").eq(i).val() );
-                pordSizeArr.push( $("input.prodSize").eq(i).val() );
-                prodPriceArr.push( $("input.prodPrice").eq(i).val() );
-                prodSalePriceArr.push( $("input.prodSalePrice").eq(i).val() );
-             
-                prodPointArr.push( $("input.prodPoint").eq(i).val() );
-                
-                totalOnePriceJoinArr.push( $("input.totalOnePriceJoin").eq(i).val() );
-                prodColorArr.push( $("input.prodColor").eq(i).val() );
-                
-             }
-    	  
+          goOrder()
     	  
       }
- */
-    
+      
+      
+      //==전체선택== //
+      
+      function allSelect() {
+    	  
+
+          $(".chkboxpnum").prop("checked", true);
+      }
+      
+      
+      
+      
+      //==하나만 주문하기 ==// 
+      
+	 function goOrderPart(obj) {
+	    	  
+		   
+	     const index = $("button.oneOrder").index(obj);
+	    // alert(index);
+	     
+	     const checkt = $(".chkboxpnum").eq(index).prop("checked", true);  
+	    // alert(checkt)
+	     goOrder()
+	     
+	    
+	    }
+
+      
+ 	function goDelPart(obj){
+ 		
+ 		const checkCnt = $("input:checkbox[name='pnum']:checked").length;
+        
+        if(checkCnt < 1){
+           alert("삭제하실 제품을 선택하세요");
+           return;
+        }
+         
+ 	}
   
       
 </script>
@@ -580,7 +580,7 @@
             </colgroup>
                   <thead id="notice_thead">
                      <tr>
-                        <th name="bag_th" class="w-10" style="border-top:solid 1px black; border-bottom:solid 1px black;">전체선택</th>
+                        <th name="bag_th" class="w-10" style="border-top:solid 1px black; border-bottom:solid 1px black;" onclick="allSelect();">전체선택</th>
                         
                         <th colspan="2" name="bag_th" class="w-30" style="text-align:center; border-top:solid 1px black; border-bottom:solid 1px black;" >상품정보</th>
                         <th name="bag_th" class="w-20" style="border-top:solid 1px black; border-bottom:solid 1px black;">수량</th>
@@ -605,7 +605,7 @@
                   <!-- for each 시작 -->
                   <c:forEach var="cvo" items="${requestScope.cartList}" varStatus="status">
                      <tr style="vertical-align:middle; height : 150px; margin-top: 5%;">
-                        <td style="border:none;"> <input class="form-check-input" type="checkbox" value="" id="pnum" name="pnum" style="margin-left: 1%"></td>
+                        <td style="border:none;"> <input class="form-check-input chkboxpnum" type="checkbox" value="" id="pnum" name="pnum" style="margin-left: 1%"></td>
                         <td style="border:none;">
                        
                             
@@ -718,7 +718,7 @@
                         
                         <td style="border:none;">
                         <div>
-                       <button type="button" id="doOrder" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goOrderPart();">주문하기</button>
+                       <button type="button" id="doOrder" class="btn btn-gray oneOrder" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goOrderPart(this);">주문하기</button>
                      </div>   
                      <div>
                         <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goHide()">관심상품</button>
@@ -822,7 +822,7 @@
         </div>
             
           <div class="col-lg-3" style="border:solid 1px #000033; display: flex; align-items: center; justify-content: center; background-color: #000033;">
-        <button class="btn btn-lg" id="orderAll" style="font-size:15pt; color:white; text-align:center;">전체상품 주문</button>
+        <button class="btn btn-lg" id="orderAll" style="font-size:15pt; color:white; text-align:center;" onclick="allOrder();">전체상품 주문</button>
         </div>
         <div class="col-lg-2"></div>
          <div class="col-lg-1"></div> 

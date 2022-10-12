@@ -212,10 +212,6 @@
 				<span><a href="<%=ctxPath%>/jihee/product/productBoots.sue">롱부츠</a></span>
 			</div>
 			<div class="real_subbar real_subbar7 w-100">
-				<span><a href="#">캔버스</a></span>
-				<span><a href="#">골프화</a></span>
-				<span><a href="#">어글리 스니커즈</a></span>
-				<span><a href="#">스니커즈</a></span>
 			</div>
 			<div class="real_subbar real_subbar8 w-100">
 				<span><a href="<%=ctxPath%>/jihee/product/productSlingback.sue">슬링백 1cm~4cm</a></span>

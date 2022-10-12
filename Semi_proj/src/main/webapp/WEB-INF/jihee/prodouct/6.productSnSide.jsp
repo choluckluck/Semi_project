@@ -40,11 +40,6 @@ a:active {text-decoration: none; color: gray;}
 				<p class="fw-bolder" style="font-size: 30px">스니커즈</p>
 				</div>
 			</div>
-				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
-					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp4cm.sue" class="link" style="text-decoration: none; color: gray;">스니커즈</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: gray;">앵클 7cm~</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productBoots.sue" class="link" style="text-decoration: none; color: gray;">롱부츠</a><li>
-				</ul>
 				<br>
 			<div class="row">
 				<div>

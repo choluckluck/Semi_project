@@ -48,6 +48,9 @@ public class ProductFLB extends AbstractController {
 				
 				paraMap.put("productHigh_3", productHigh_3);
 				
+				String productBest = "Best";
+				paraMap.put("Best", productBest);
+				
 				
 		//할인율
 		List<ProductVO> bestProductList = pdao.selectBestProduct(paraMap);

@@ -48,6 +48,9 @@ public class ProductMule extends AbstractController {
 				
 				paraMap.put("productHigh_3", productHigh_3);
 				
+				String productBest = "Best";
+				paraMap.put("Best", productBest);
+				
 				
 		//할인율
 		List<ProductVO> bestProductList = pdao.selectBestProduct(paraMap);
@@ -516,11 +519,11 @@ public class ProductMule extends AbstractController {
 		}
 		
 		if(searchPrice1 ==null) {
-			searchPrice1= "0";
+			searchPrice1= "";
 		}
 		
 		if(searchPrice2 ==null) {
-			searchPrice2= "5000000";
+			searchPrice2= "";
 		}
 		
 	

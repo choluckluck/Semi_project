@@ -26,7 +26,7 @@ public class ProductAb extends AbstractController {
 		
 		//1-1 종류 넘겨주기
 		
-				String productType_1 = "add";
+				String productType_1 = "ankle";
 				paraMap.put("productType_1", productType_1);
 				
 				String productType_2 = "boots";
@@ -36,7 +36,7 @@ public class ProductAb extends AbstractController {
 				paraMap.put("productType_3", productType_3);
 				
 				
-				String productHigh_1 ="11";
+				String productHigh_1 ="10";
 				
 				paraMap.put("productHigh_1", productHigh_1);
 				
@@ -47,6 +47,10 @@ public class ProductAb extends AbstractController {
 				String productHigh_3 ="5.5";
 				
 				paraMap.put("productHigh_3", productHigh_3);
+				
+				
+				String productBest = "Best";
+				paraMap.put("Best", productBest);
 				
 				
 		//할인율
@@ -516,11 +520,11 @@ public class ProductAb extends AbstractController {
 		}
 		
 		if(searchPrice1 ==null) {
-			searchPrice1= "0";
+			searchPrice1= "";
 		}
 		
 		if(searchPrice2 ==null) {
-			searchPrice2= "5000000";
+			searchPrice2= "";
 		}
 		
 	
