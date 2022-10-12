@@ -212,8 +212,8 @@
 				<span><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue">7cm</a></span>
 			</div>
 			<div class="real_subbar real_subbar6 w-100">
-				<span><a href="#">앵클1~6cm</a></span>
-				<span><a href="#">앵클1~6cm</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productAnkle4cm.sue">앵클1~6cm</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productAnkle7cm.sue">앵클1~6cm</a></span>
 				<span><a href="<%=ctxPath%>/jihee/product/productBoots.sue">롱부츠</a></span>
 			</div>
 			<div class="real_subbar real_subbar7 w-100">

@@ -593,8 +593,9 @@
  
    <div id="container2" style="margin-left: 5%;">
       <p style="font-size: 30px; margin-top: 5%;" >장바구니</p>
-      <div >      
-         <div id="contents" class="col-lg-11">
+      <div class="row container-fluid" >    
+      <div class=""></div>  
+         <div id="contents" class="col-lg-11" >
             <form name="bag_form">
                <div class="fst-normal" style="text-align: left; font-size: 20px;">JINNY KIM</div>   
                <table id="notice_list" class="table table-condensed mt-4" style="font-size:15px; border-collapse: collapse; vertical-align: middle;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
@@ -795,16 +796,16 @@
                
             </form>
             
-            <div class="col-2" style="border:solid 1px gray; font-size:15pt; display: flex; align-items: center; justify-content: center;">
+           <!--  <div class="col-2" style="border:solid 1px gray; font-size:15pt; display: flex; align-items: center; justify-content: center;">
          <button class="btn btn-lg" style="font-size:10pt; color:gray; text-align:center;" onclick=" goDelPart();">선택상품 삭제</button>
-         </div>
+         </div> -->
          
          
          
             
          </div>
       </div>
-      
+      <div class="row container-fluid" > 
       <hr class="col-lg-11" style="margin-top: 5%; margin-bottom: 3%">
       
       <div class="row" style="text-align: center; font-size: 10pt">
@@ -862,209 +863,51 @@
       <p class="fw-bolder" style="font-size: 20pt; padding-left: 5%; padding-top: 5%">For you</p>
       </div>
       
-   <!-- 캐러셀 시작 -->
    
-   <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
-    
-     <div class="carousel-inner">
-       <div class="carousel-item active" data-bs-interval="10000">
           
           <!-- 이미지부분 카드 시작 -->
-           <div class="row">
-         <div class="col-lg-2"></div>
-           <div class="col-lg-2" id="bottomSideinfo1">
-              <div class="card" >
-                 <a href="#"><img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="..."></a>
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>                   
-                    </div>
-            </div>
-              </div>
-          
-      
-             <div class="col-lg-2" id="bottomSideinfo2">
-              <div class="card">
-                 <a href="#"><img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="..."></a>
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                      
-                    </div>
-            </div>
-              </div>
-              
-           
-            <div class="col-lg-2" id="bottomSideinfo3">
-              <div class="card" >
-                 <img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                      
-                    </div>
-            </div>
-              </div>
-                
-            <div class="col-lg-2" id="bottomSideinfo4">
-              <div class="card">
-                 <img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                      
-                    </div>
-            </div>
-           </div>
-           <div class="col-lg-2"></div>
-           </div>
-           <!-- 이미지부분 카드 끝-->
-         <div class="carousel-caption d-none d-md-block">
-         </div>
-       </div>
-       
-       
-       <div class="carousel-item" data-bs-interval="2000">
-                   <!-- 이미지부분 카드 시작 -->
-           <div class="row">
-         <div class="col-lg-2"></div>
-           <div class="col-lg-2" id="bottomSideinfo1">
-              <div class="card" >
-                 <img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="..."> 
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                      
-                      
-                    </div>
-            </div>
-           </div>
-           
-      
-            <div class="col-lg-2" id="bottomSideinfo2">
-              <div class="card">
-                 <img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                      
-                    </div>
-            </div>
-              </div>
-           
-            <div class="col-lg-2" id="bottomSideinfo3">
-              <div class="card" >
-                 <img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                   
-                    </div>
-            </div>
-              </div>
-                
-            <div class="col-lg-2" id="bottomSideinfo4">
-              <div class="card">
-                 <img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                   
-                    </div>
-            </div>
-           </div>
-           <div class="col-lg-2"></div>
-           </div>
-           <!-- 이미지부분 카드 끝-->
-         <div class="carousel-caption d-none d-md-block">     
-         </div>
-       </div>
-       
-       <!-- 다음캐러셀 -->
-       <div class="carousel-item">
-                   <!-- 이미지부분 카드 시작 -->
-           <div class="row">
-         <div class="col-lg-2"></div>
-           <div class="col-lg-2" id="bottomSideinfo1">
-              <div class="card" >
-                 <img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                      
-                    </div>
-            </div>
-           </div>
-           
-      
-            <div class="col-lg-2" id="bottomSideinfo2">
-              <div class="card">
-                 <img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                   
-                    </div>
-            </div>
-              </div>
-           
-            <div class="col-lg-2" id="bottomSideinfo3">
-              <div class="card" >
-                 <img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                      
-                    </div>
-            </div>
-              </div>
-                
-            <div class="col-lg-2" id="bottomSideinfo4">
-              <div class="card">
-                 <img src="<%= ctxPath%>/images/jihee/card.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      
-                      <p class="card-text">체니로퍼(3cm) <br> 62,800</p>
-                   
-                    </div>
-            </div>
-           </div>
-           <div class="col-lg-2"></div>
-           </div>
-           <!-- 이미지부분 카드 끝-->
-         <div class="carousel-caption d-none d-md-block">
+    <div class="row">
+    	<div class="col-lg-2"></div>
+			<c:forEach var="pvo" items="${requestScope.bestProductList}" begin="0" end="2" step="1">
+			<div class="col-lg-3" id="sideinfo" style="margin-bottom: 5% 10%; ">
+		  		<div class="card" style="width: 16rem;">
+		  			<img src="<%= ctxPath%>/images/product/${pvo.prod_image}" class="card-img-top" alt="...">
+		  				<div class="card-body">
+		    				<div class="card-title" >
+		    				<c:forTokens var="color" items="${pvo.prod_color}" delims=",">
+		    				<span class="best_color" style="background-color: ${color};"> </span>      
+		    				</c:forTokens>
+		    				<span> &nbsp;&nbsp;&nbsp;&nbsp; 리뷰 ${pvo.prod_review_count} </span>
+		    				</div>
+		    				
+		    				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
+		    				<%-- <c:if test="${pvo.prod_price} == ${pvo.prod_saleprice}">
+		    					</c:if> --%>
+		    				<c:if test="${pvo.prod_saleprice ne pvo.prod_price}">
+			   				<span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
+		    				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span>
+							<span style="color: red; "> ${pvo.discountPercentBest}% </span>	</p>
+							</c:if>	
+							<c:if test="${pvo.prod_saleprice eq pvo.prod_price}">
+		    				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
+							</c:if>	
+		    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn " style="color:white; background-color: #172A41;">상세페이지</a>
+		  				</div>
+				</div>
+		     </div>
+		     </c:forEach>
+		   <div class="col-lg-1"></div>
+		</div>	
+		
+      </div>
+  
 
-         </div>
-       </div>
-     </div>
-     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-       <span class="visually-hidden">Previous</span>
-     </button>
-     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-       <span class="carousel-control-next-icon" aria-hidden="true"></span>
-       <span class="visually-hidden">Next</span>
-     </button>
+ 
      
-     <!--  아래 버튼 
-      <div class="carousel-indicators">
-       <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-       <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-       <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-     </div>
-     -->
-     
-   </div>
+  
    
    
-   
-   
-   
-   
-   
-   
-         
-   </div>
+
    
    
 
