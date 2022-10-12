@@ -19,8 +19,9 @@ public class AdminQnaDelete extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String method = request.getContextPath();
-
+		String method = request.getMethod();
+		System.out.println("method:" +method);
+		
 		// get방식이라면 => 상품 1개만 삭제해준다
 		if ("get".equalsIgnoreCase(method)) {
 			String qna_code = request.getParameter("qna_code");
