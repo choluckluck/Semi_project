@@ -973,15 +973,15 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select prod_code, prod_name, prod_kind, prod_image, prod_saleprice, prod_high, prod_color, prod_size, prod_stock, prod_price "
+			String sql = " select prod_code, prod_name, prod_kind, prod_image, prod_saleprice, prod_high, prod_color, prod_size, prod_stock, prod_price, prod_point "
 						+ " from tbl_product "
 						+ " join tbl_prod_detail "
 						+ " on prod_code = fk_prod_code "
 						+ " where prod_code = ? and prod_color = ? and prod_size = ? ";
 			
 			String[] prod_codeArr = (String[]) paraMap.get("prod_codeArr");
-			String[] colorArr = (String[]) paraMap.get("colorArr");
-			String[] sizeArr = (String[]) paraMap.get("sizeArr");
+			String[] colorArr = (String[]) paraMap.get("prod_colorArr");
+			String[] sizeArr = (String[]) paraMap.get("prod_sizeArr");
 			
 			for(int i=0; i<prod_codeArr.length; i++) {
 				
@@ -1006,6 +1006,7 @@ public class ProductDAO implements InterProductDAO {
 					pdvo.setProd_size(rs.getString(8));
 					pdvo.setProd_stock(rs.getString(9));
 					pvo.setProd_price(rs.getString(10));
+					pvo.setProd_point(rs.getString(11));
 					pvo.setPdvo(pdvo);
 					
 					pvoList.add(pvo);
@@ -1051,13 +1052,13 @@ public class ProductDAO implements InterProductDAO {
 			
 			
 			// 주문테이블에 주문전표, 사용자, 현재시각 insert
-			String sql = " insert into tbl_order(order_code, fk_userid, total_order_amount, point_use_amount, discount_amount, real_amount, delivery_fee, fk_order_state_name, orderdate, expectdate "
-					   + " values(?, ?, ?, ?, ?, ?, ?, '결제확인' ,sysdate, to_char(sysdate+5,'yy/mm/dd') ) ";
+			String sql = " insert into tbl_order(order_code, fk_userid, total_order_amount, point_use_amount, discount_amount, real_amount, delivery_fee, fk_order_state_name, orderdate, expectdate) "
+					   + " values(?, ?, ?, ?, ?, ?, ?, '결제확인', sysdate, to_char(sysdate+5,'yy/mm/dd') ) ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, (String) paraMap.get("order_code"));
 			pstmt.setString(2, (String) paraMap.get("userid"));
 			pstmt.setInt(3, Integer.parseInt((String) paraMap.get("totalOrderamount")));
-			pstmt.setInt(4, Integer.parseInt((String) paraMap.get("pointUseamount")));
+			pstmt.setInt(4, Integer.parseInt((String) paraMap.get("userusePoint")));
 			pstmt.setInt(5, Integer.parseInt((String) paraMap.get("discountamount")));
 			pstmt.setInt(6, Integer.parseInt((String) paraMap.get("totalRealamount")));
 			pstmt.setInt(7, Integer.parseInt((String) paraMap.get("deliveryfee")));
@@ -1105,8 +1106,8 @@ public class ProductDAO implements InterProductDAO {
 				
 				int cnt=0;
 				for(int i=0; i<prod_codeArr.length; i++) {
-					sql = " update tbl_prod_detail set prod_stock = ? "
-						+ " where prod_code = ? and  prod_color = ? and prod_size = ? ";
+					sql = " update tbl_prod_detail set prod_stock = prod_stock - ? "
+						+ " where fk_prod_code = ? and  prod_color = ? and prod_size = ? ";
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setInt(1, Integer.parseInt(order_buy_countArr[i]));
 					pstmt.setString(2, prod_codeArr[i]);
@@ -1122,6 +1123,7 @@ public class ProductDAO implements InterProductDAO {
 				System.out.println("확인용 n3 : " + n3);
 			}//end of n2
 			
+			System.out.println("확인용 cart_codeJoin" + paraMap.get("cart_codeJoin"));
 			//tbl_cart에서 cart_codeJoin에 해당하는 행들을 delete or update 해주기
 			if(paraMap.get("cart_codeJoin") != null && n3==1 ) {
 				
@@ -1132,6 +1134,11 @@ public class ProductDAO implements InterProductDAO {
 				
 				sql = " delete from tbl_cart "
 					+ " where cart_code in ( "+cart_codeJoin+" ) ";
+				
+				System.out.println(cart_codeJoin);
+				System.out.println("확인용 카트삭제 sql" + sql);
+				
+				
 				pstmt = conn.prepareStatement(sql);
 				n4 = pstmt.executeUpdate();
 				
@@ -1141,9 +1148,8 @@ public class ProductDAO implements InterProductDAO {
 			// 바로주문을 한 경우
 			if(paraMap.get("cart_codeJoin") == null && n3==1 ) { 
 				n4 = 1;
-				
 				System.out.println("확인용 바로주문하기 n4 : " + n4);
-			}//end of cart_codeJoin != null
+			}//end of cart_codeJoin == null
 			
 			// 회원테이블에서 point를 업데이트 해주어야 한다
 			if(n4 > 0 ) {
@@ -1177,38 +1183,78 @@ public class ProductDAO implements InterProductDAO {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, (String)paraMap.get("userid"));
 				rs = pstmt.executeQuery();
-				rs.next();
-				String grade_name = rs.getString(1);
+				String grade_code = "";
+				if(rs.next()) {
+					grade_code = rs.getString(1);
+				}
 				
-				
-				sql = " update tbl_member set fk_grade_code = ? "
-					+ " where userid = ? ";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, grade_name);
-				pstmt.setString(2, (String)paraMap.get("userid"));
-				updateGrdaeResult = pstmt.executeUpdate();
-				
-				System.out.println("확인용 updateGrdaeResult : " + updateGrdaeResult);
-			}
+				System.out.println(grade_code);
+				if(grade_code != null ) {
+					sql = " update tbl_member set fk_grade_code = ? "
+						+ " where userid = ? ";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, grade_code);
+					pstmt.setString(2, (String)paraMap.get("userid"));
+					updateGrdaeResult = pstmt.executeUpdate();
+					
+					System.out.println("확인용 updateGrdaeResult : " + updateGrdaeResult);
+				}
+			}//end of n5
 			
 			if(n1*n2*n3*n4*n5*updateGrdaeResult > 0) {
 				conn.commit();
 				conn.setAutoCommit(true); //자동커밋
 				System.out.println(" n1*n2*n3*n4*n5*updateGrdaeResult : " + n1*n2*n3*n4*n5*updateGrdaeResult);
+				nSuccess = 1;
 			}
 			
 			
 		} catch(SQLException e) {
 			// rollback
+			e.printStackTrace();
 			conn.rollback();
 			conn.setAutoCommit(true); //자동커밋으로 바꾸어준다
-			nSuccess = 1;
+			nSuccess = 0;
+			
 		} finally {
 			close();
 		}
 		
 		return nSuccess;
 	}//end of orderAdd
+	
+	
+	
+	//주문한 제품에 대해 email 보내기시 email 내용에 넣을 주문한 제품번호들에 대한 제품정보를 얻어옴
+	@Override
+	public List<ProductVO> getOrderedProductList(String[] prod_codeArr) throws SQLException {
+		List<ProductVO> OrderedProdList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String prod_codeJoin = String.join("','", prod_codeArr);
+			prod_codeJoin = "'"+prod_codeJoin+"'";
+			
+			String sql = " select prod_name, prod_image"
+					   + " from tbl_product "
+					   + " where prod_code in ( "+prod_codeJoin+" ) ";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ProductVO pvo = new ProductVO();
+				pvo.setProd_name(rs.getString(1));
+				pvo.setProd_image(rs.getString(2));
+				OrderedProdList.add(pvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return OrderedProdList;
+	}//end of getOrderedProductList
 
 	
 	

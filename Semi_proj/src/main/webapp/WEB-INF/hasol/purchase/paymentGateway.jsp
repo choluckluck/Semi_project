@@ -33,7 +33,7 @@ $(document).ready(function() {
 
 		if ( rsp.success ) { // PC 데스크탑용
 			
-			window.opener.insertOrder('${requestScope.userid}','${requestScope.real_amount}');
+			window.opener.insertOrder();
 		    self.close();
 			
         } else {

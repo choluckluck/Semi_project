@@ -1,5 +1,7 @@
 package hyerin.order.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,25 +17,30 @@ import javax.sql.DataSource;
 
 import hyerin.member.model.MemberVO;
 import hyerin.product.model.ProductVO;
+import util.security.AES256;
+import util.security.SecretMyKey;
 
 public class OrderDAO implements InterOrderDAO {
 	private DataSource ds;  // DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool) 이다.  
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
-   
+	private AES256 aes;
    
 	// 생성자
 	public OrderDAO() {
 		try {
 			Context initContext = new InitialContext();
-			Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			ds = (DataSource)envContext.lookup("jdbc/semi");
-			  
-		          
+		    Context envContext  = (Context)initContext.lookup("java:/comp/env");
+		    ds = (DataSource)envContext.lookup("jdbc/semi");
+		    
+		    aes = new AES256(SecretMyKey.KEY);
+		
 		} catch(NamingException e) {
 			e.printStackTrace();
-		} 
+		} catch(UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
    
    // 사용한 자원을 반납하는 close() 메소드 생성하기 
@@ -281,7 +288,6 @@ public class OrderDAO implements InterOrderDAO {
 				
 			}
 			
-			
 		} finally {
 			close();
 		}
@@ -317,7 +323,7 @@ public class OrderDAO implements InterOrderDAO {
 				mvo.setName(rs.getString(3));
 				
 				//핸드폰 - 처리해주기
-				String mobile = rs.getString("mobile");
+				String mobile = aes.decrypt(rs.getString("mobile"));
 				String mobile1 = mobile.substring(0,3);
 				String mobile2 = mobile.substring(3,7);
 				String mobile3 = mobile.substring(7);
@@ -335,7 +341,8 @@ public class OrderDAO implements InterOrderDAO {
 				
 			}
 			
-			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+		     e.printStackTrace();
 		} finally {
 			close();
 		}
@@ -441,7 +448,7 @@ public class OrderDAO implements InterOrderDAO {
 			
 			
 		} finally {
-			
+			close();
 		}
 		
 		return result;
@@ -456,19 +463,24 @@ public class OrderDAO implements InterOrderDAO {
 		try {
 			conn = ds.getConnection();
 			
+			int n=0;
 			for(String order_code : order_codeArr) {
-				String sql = " delete tbl_order where order_code = ? ";
+				String sql = " delete tbl_order_detail where fk_order_code = ? ";
 				
 				pstmt = conn.prepareStatement(sql);
-				
 				pstmt.setString(1, order_code);
+				n = pstmt.executeUpdate();
 				
-				result = pstmt.executeUpdate();
+				if(n > 0) {
+					sql = " delete tbl_order where order_code = ? ";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, order_code);
+					result = pstmt.executeUpdate();
+				}
 			}
 			
-			
 		} finally {
-			
+			close();
 		}
 		
 		return result;
@@ -484,14 +496,22 @@ public class OrderDAO implements InterOrderDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " delete tbl_order where order_code = ? ";
+			int n = 0;
+			String sql = " delete tbl_order_detail where fk_order_code = ? ";
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, order_code);
-			result = pstmt.executeUpdate();
+			n = pstmt.executeUpdate();
 			
+			if(n > 0) {
+				sql = " delete tbl_order where order_code = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, order_code);
+				result = pstmt.executeUpdate();
+			}
 			
 		} finally {
-			
+			close();
 		}
 		
 		return result;
@@ -511,7 +531,7 @@ public class OrderDAO implements InterOrderDAO {
 					   + " from dual ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			rs.next();
 			
 			ordercode = rs.getString(1);
