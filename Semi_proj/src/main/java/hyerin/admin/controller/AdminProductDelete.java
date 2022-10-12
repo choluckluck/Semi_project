@@ -19,7 +19,7 @@ public class AdminProductDelete extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String method = request.getContextPath();
-		
+				
 		// get방식이라면 => 상품 1개만 삭제해준다
 		if("get".equalsIgnoreCase(method)) {
 			String prod_code = request.getParameter("prod_code");
@@ -73,7 +73,6 @@ public class AdminProductDelete extends AbstractController {
 			request.setAttribute("json", json);
 			super.setViewPage("/WEB-INF/hyerin/jsonView.jsp");
 		}
-		
 	}
 
 }
