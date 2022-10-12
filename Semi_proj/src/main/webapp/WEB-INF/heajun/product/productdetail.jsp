@@ -84,9 +84,7 @@ $(document).ready(function() {
          }
       } );// end of $("input#spinner").spinner({});------------- 
       
-      
-    
-      
+
 });//end of $(document).ready(function() {--------------------
 
 //Function Declaration
