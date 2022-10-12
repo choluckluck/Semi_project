@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -98,115 +102,79 @@
 	   </div>
 	   <div class="col-10">
 
-		<h3 style="margin-top:1px;">리뷰&문의 내역 관리</h3>
+		<h3 style="margin-top:1px;">리뷰 관리</h3>
 		<br><br>
 		
 		
 
-		  <h6 style="display:inline">분류 선택</h6>
-		    <select id="" name="" onchange="">
-			  <option value="">작성 일자별</option>
-			  <option value="">분류별</option>
-		    </select>		
-			
+		
 			
 		
 		
 	
 		<br><br>		
 		
-		  <table class="table table" style="text-align:center; width:90%">
+		  <table class="table table" style="text-align:left; width:90%">
 			<colgroup>
 				<col style="width:70px;">
-				<col style="width:135px;">
-				<col style="width:300px;">
-				<col style="width:84px;">
+				<col style="width:70px;">
+				<col style="width:200px;">
 				<col style="width:80px;">
 				<col style="width:55px;">
 			</colgroup>
 			<thead>
   			  <tr>
 				<th scope="col">번호</th>
-				<th scope="col">분류</th>
-				<th scope="col">제목</th>
-				<th scope="col">작성자</th>
+				<th scope="col">제품 번호</th>
+				<th scope="col" style="text-align:center">제목</th>
+				<th scope="col">별점</th>
 				<th scope="col">작성일</th>
-				<th scope="col">조회</th>
 			  </tr>
 			</thead>
 			
 			
 			<tbody style="font-size:12pt; height:40px;">
-				<tr>
-					<td>1</td>
-					<td>문의하기</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_re.gif" alt="답변" class="">&nbsp;&nbsp;<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>문의하기</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>
-				
-				<tr>
-					<td>1</td>
-					<td>문의하기</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_re.gif" alt="답변" class="">&nbsp;&nbsp;<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>
-				
-				<tr>
-					<td>1</td>
-					<td>문의하기</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>
-				
-				<tr>
-					<td>1</td>
-					<td>문의하기</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_re.gif" alt="답변" class="">&nbsp;&nbsp;<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>
-				
-				<tr>
-					<td>1</td>
-					<td>문의하기</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>				
+			<c:choose>
+				<c:when test="${not empty requestScope.reviewList}">					
+					<c:forEach var="rvo" items="${requestScope.reviewList}" varStatus="status">
+						
+						<tr>
+							<td>${rvo.rnum}</td>
+							<td>${rvo.fk_prod_code}</td>
+							<td style="text-align:center;">
+								<div class="btn" data-toggle="collapse" data-target="#demo" >${rvo.review_subject}</div>
+								<div id="demo" class="collapse" style="text-align:left">${rvo.review_contents}</div>
+							</td>
+
+
+							<td>
+
+
+								<c:if test="${rvo.review_grade == '1'}">★☆☆☆☆</c:if>
+								<c:if test="${rvo.review_grade == '2'}">★★☆☆☆</c:if>
+								<c:if test="${rvo.review_grade == '3'}">★★★☆☆</c:if>
+								<c:if test="${rvo.review_grade == '4'}">★★★★☆</c:if>
+								<c:if test="${rvo.review_grade == '5'}">★★★★★</c:if>
+							
+							
+							</td>
+							<td>${rvo.review_registerday}</td>
+						</tr>
+					</c:forEach>
+				</c:when>				
+				<c:otherwise>
+							<tr>
+								<td colspan="6">리뷰 내역이 없습니다.</td>
+							</tr>
+				</c:otherwise>
+			</c:choose>				
 		    </tbody>
 		  </table>
-	      
-	      <br>
-
-  <div style=" display: grid; place-items: center;">
-    <div style="inline">
-    
-	    <button type="button" class="btn btn-white"> << </button>
-	    <button type="button" class="btn btn-white"><</button>
-	    <button type="button" class="btn btn-outline-secondary">1</button>
-	    <button type="button" class="btn btn-outline-secondary">2</button>
-	    <button type="button" class="btn btn-outline-secondary">3</button>
-	    <button type="button" class="btn btn-white">></button>
-	    <button type="button" class="btn btn-white">>></button>
-	</div>
-  </div>
-	   <br><br>
+	   		  <nav class="my-5">
+			<div style="display: flex; width: 80%">
+				<ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>
+			</div>
+		  </nav>
 
 	
 

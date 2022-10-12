@@ -36,7 +36,7 @@
 
 
 <c:choose>
-	<c:when test="${not empty requestScope.recentOrderList and not empty sessionScope.likeList}">
+	<c:when test="${not empty requestScope.recentOrderList}">
 		<c:forEach var="rovo" begin="0" end="3" items="${requestScope.recentOrderList}">
 			<tr >
 				<td class="recentordertd">${rovo.orderdate}<br>

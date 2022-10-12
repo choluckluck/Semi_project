@@ -57,20 +57,41 @@ public class goCart extends AbstractController {
 			paraMap.put("fk_prod_size", fk_prod_size);
 			paraMap.put("userid", userid);
 			
-			InterCartDAO idao = new CartDAO();
+			InterCartDAO cdao = new CartDAO();
 			
+			//관심상품 테이블에 특정 제품이 존재하는지
+			int n = cdao.isExist(paraMap);
+			System.out.println(n);
 			
-			// 관심상품 테이블에서 특정 제품 장바구니 추가하기
-			int n = idao.goCart(paraMap);
+			if(n == 2) {
+				// 관심상품 테이블에서 특정 제품 장바구니 추가하기
+				int n1 = cdao.goCart(paraMap);
+				
+				JSONObject jsobj = new JSONObject();
+				jsobj.put("n", n1);
+				
+				String json = jsobj.toString();
+				request.setAttribute("json", json);
+				
+				super.setRedirect(false);
+				super.setViewPage("/WEB-INF/jsonview.jsp");
+			}
 			
-			JSONObject jsobj = new JSONObject();
-			jsobj.put("n", n);
+			// 관심상품 테이블에서 장바구니에 있는 데이터를 또 넣어주면 수량 + 1
+			else if ( n == 1) {
+				int n2 = cdao.updateCart(paraMap);
+				
+				JSONObject jsobj = new JSONObject();
+				jsobj.put("n", n2);
+				
+				String json = jsobj.toString();
+				request.setAttribute("json", json);
+				
+				super.setRedirect(false);
+				super.setViewPage("/WEB-INF/jsonview.jsp");
+				
+			}
 			
-			String json = jsobj.toString();
-			request.setAttribute("json", json);
-			
-			super.setRedirect(false);
-			super.setViewPage("/WEB-INF/jsonview.jsp");
 		}//end of else if	
 		
 	}
