@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -241,9 +239,59 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		      
 		      return result;      
 		}
-	
-	
 
-	
+	//이미지 가지고서 해당 제품의 이미지를 조회해오기 
+	@Override
+	public Product_imageVO selectImage(String prod_code) throws SQLException {
+
+		Product_imageVO ivo = new Product_imageVO();
 		
+		try {
+			
+			 conn = ds.getConnection();
+			
+			  
+			   String sql = "  select  product_image_code, fk_prod_code, product_image_file,prod_code\n"+
+					   "            from (   \n"+
+					   "                   select  I.product_image_code, I.fk_prod_code,  I.product_image_file , P.prod_code  \n"+
+					   "                   from tbl_product P  \n"+
+					   "                   join tbl_product_image I \n"+
+					   "                   on P.prod_code = I.fk_prod_code \n"+
+					   "                \n"+
+					   "              ) \n"+
+					   "                where prod_code = ? " ;
+	
+		   
+		     
+		     
+		     
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, prod_code);
+			 
+			 			 
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+					
+				 
+				    ivo.setFk_prod_code(rs.getString(1));
+					ivo.setProd_image_code(rs.getString(2));
+					ivo.setProduct_image_file(rs.getString(3));
+					
+				    ProductVO_HJ pvo3 = new ProductVO_HJ();
+				   
+				     pvo3.setProd_code(rs.getString(1));
+				
+					 ivo.setPvo3(pvo3);
+					
+					
+			 }// end of while(rs.next())-----------------------
+				
+		} finally {
+			close();
+		}		
+	
+		return ivo;
+	}
 }
