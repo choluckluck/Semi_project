@@ -169,11 +169,11 @@
 					<span style="color:white;">|</span>
 				</li>
 				<li class="mr-4">
-					<a id="main_flat" href = "<%=ctxPath%>/jihee/product/sideFL.sue" class="main_bar" onclick="functi(flat)">플랫/로퍼</a>
+					<a id="main_flat" href = "<%=ctxPath%>/jihee/product/productFLB.sue" class="main_bar" >플랫/로퍼</a>
 				</li>
 				<li class="mr-4">
 				
-					<a id="main_hill" href = "<%=ctxPath%>/jihee/product/productHp.sue?productSelect=pumps&productSelect_2=나나" class="main_bar" onclick="goSearch()">힐/펌프스</a>
+					<a id="main_hill" href = "<%=ctxPath%>/jihee/product/productHp.sue" class="main_bar" >힐/펌프스</a>
 					                                                       
 				</li>
 				<li class="mr-4">
@@ -198,9 +198,9 @@
 				 --%>
 			</ul>
 			<div class="real_subbar real_subbar4 w-100">
-				<span><a href="#">플랫</a></span>
-				<span><a href="#">로퍼</a></span>
-				<span><a href="#">블로퍼</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productFlat.sue">플랫</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productLoafer.sue">로퍼</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productBloafer.sue">블로퍼</a></span>
 			</div>
 			<div class="real_subbar real_subbar5 w-100">
 				<span><a href="<%=ctxPath%>/jihee/product/productHp4cm.sue">4~6cm</a></span>
@@ -209,19 +209,13 @@
 			<div class="real_subbar real_subbar6 w-100">
 				<span><a href="#">앵클1~6cm</a></span>
 				<span><a href="#">앵클1~6cm</a></span>
-				<span><a href="#">롱부츠</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productBoots.sue">롱부츠</a></span>
 			</div>
 			<div class="real_subbar real_subbar7 w-100">
-				<span><a href="#">캔버스</a></span>
-				<span><a href="#">골프화</a></span>
-				<span><a href="#">어글리 스니커즈</a></span>
-				<span><a href="#">스니커즈</a></span>
 			</div>
 			<div class="real_subbar real_subbar8 w-100">
-				<span><a href="#">슬링백 1cm~3cm</a></span>
-				<span><a href="#">슬링백 4cm~</a></span>
-				<span><a href="#">뮬 1cm~3cm</a></span>
-				<span><a href="#">뮬 4cm~</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productSlingback.sue">슬링백 1cm~4cm</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productMule.sue">뮬 4cm~</a></span>
 			</div>
 			<div class="real_subbar real_subbar9 w-100">
 				<span><a href="<%=ctxPath%>/hyerin/community/notice.sue">공지사항</a></span>

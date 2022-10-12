@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import hyerin.member.model.InterMemberDAO;
-import hyerin.member.model.MemberDAO;
 import seongmin.login.model.MemberVO;
 import hyerin.product.model.InterProductDAO;
 import hyerin.product.model.ProductDAO;
@@ -25,19 +23,29 @@ public class Purchase extends AbstractController {
 		// 임의로 userid, prodList를 정해준다
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
 		String userid = loginuser.getUserid();
-		String cart_codeJoin = "cart-0900,cart-0901,cart-0902";
-		String prod_codeJoin = "prod-0022,prod-0057,prod-0088";
-		String colorJoin = "green,red,brown";
-		String sizeJoin = "240,240,240";
-		String countJoin = "1,2,2";
-		String priceJoin = "59800,99800,59800"; //정상가
-		String salepriceJoin = "50000,79800,59800"; //판매가
-		String totalOnePriceJoin = "50000,159600,119600"; //판매가x수량
-		String deliveryfee = "0";
-		String pointJoin = "590,990,590";
-		String totalorderprice = "329200"; //배송비 제외
-		String totalprice = "329200"; //배송비 합쳐서
+		String cart_codeJoin = request.getParameter("cart_codeJoin");
+		String prod_codeJoin = request.getParameter("prodCodeJoin");
+		String colorJoin = request.getParameter("colorJoin");
+		String sizeJoin = request.getParameter("sizeJoin");
+		String countJoin = request.getParameter("countjoin");
+		String priceJoin = request.getParameter("priceJoin");
+		String salepriceJoin = request.getParameter("salepriceJoin");
+		String totalOnePriceJoin = request.getParameter("totalOnePriceJoin");
+		String deliveryfee = request.getParameter("deliveryfee");
+		String pointJoin = request.getParameter("pointJoin");
+		String totalorderprice = request.getParameter("totalorderprice");
+		
+		if(Integer.parseInt(totalorderprice) < 70000 ) {
+			deliveryfee = "2500";
+		}
+		
+		int int_totalprice = Integer.parseInt(totalorderprice) + Integer.parseInt(deliveryfee);
+		String totalprice = String.valueOf(int_totalprice);
+//		String totalprice = request.getParameter("totalPrice");
+		
+		System.out.println(prod_codeJoin);
 		
 		String[] prod_codeArr = prod_codeJoin.split("\\,");
 		String[] colorArr = colorJoin.split("\\,");
@@ -51,8 +59,8 @@ public class Purchase extends AbstractController {
 		
 		paraMap.put("userid", userid);
 		paraMap.put("prod_codeArr", prod_codeArr);
-		paraMap.put("colorArr", colorArr);
-		paraMap.put("sizeArr", sizeArr);
+		paraMap.put("prod_colorArr", colorArr);
+		paraMap.put("prod_sizeArr", sizeArr);
 		paraMap.put("countArr", countArr);
 		paraMap.put("salepriceArr", salepriceArr);
 		paraMap.put("pointArr", pointArr);
@@ -70,6 +78,8 @@ public class Purchase extends AbstractController {
 		viewMap.put("colorJoin", colorJoin);
 		viewMap.put("sizeJoin", sizeJoin);
 		viewMap.put("countJoin", countJoin);
+		viewMap.put("totalOnePriceJoin", totalOnePriceJoin);
+		
 		
 		viewMap.put("countArr", countArr);
 		viewMap.put("salepriceArr", salepriceArr);
@@ -80,12 +90,13 @@ public class Purchase extends AbstractController {
 		viewMap.put("totalprice", totalprice);
 		viewMap.put("pointJoin", pointJoin);
 		viewMap.put("priceJoin", priceJoin);
+		viewMap.put("salepriceJoin", salepriceJoin);
 		
 		
 		request.setAttribute("loginuser", loginuser);
 		request.setAttribute("pvoList", pvoList);
 		request.setAttribute("viewMap", viewMap);
-			
+		
 		super.setViewPage("/WEB-INF/hasol/purchase/purchase.jsp");
 
 	}

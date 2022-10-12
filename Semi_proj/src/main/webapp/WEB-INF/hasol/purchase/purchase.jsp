@@ -11,10 +11,37 @@
 <link rel="stylesheet" href="<%= ctxPath%>/css/hasol/style_purchase.css">
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 
+<style>
+	.loader {
+	  border: 16px solid #f3f3f3;
+	  border-radius: 50%;
+	  border-top: 16px solid gray;
+	  width: 80px;
+	  height: 80px;
+	  -webkit-animation: spin 2s linear infinite; /* Safari */
+	  animation: spin 2s linear infinite;
+	  
+	  position: fixed;
+	  top: 50%;
+	  left: 50%;	  
+	}
+	
+	/* Safari */
+	@-webkit-keyframes spin {
+	  0% { -webkit-transform: rotate(0deg); }
+	  100% { -webkit-transform: rotate(360deg); }
+	}
+	
+	@keyframes spin {
+	  0% { transform: rotate(0deg); }
+	  100% { transform: rotate(360deg); }
+	}
+</style>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	
+	$(".loader").hide();
 	const userpoint = "${requestScope.loginuser.point}";
 	//포인트입력 블러이벤트
 	$("#wishusepoint").blur(function(e){
@@ -77,23 +104,19 @@ $(document).ready(function(){
 		prod_name = prod_name.substr(0,5) + "..외";
 		const userid = "hyerin25";
 		
-		insertOrder();
-		<%-- 
 	    const url = "<%= request.getContextPath()%>/hasol/purchase/purchaseEnd.sue?userid="+userid+"&prod_name="+prod_name+"&real_amount="+totalPurchasePrice;
-		
 	    
 		window.open(url, "coinPurchaseEnd",
 				    "left=350px, top=100px, width=1000px, height=600px");
-		 --%>
 	 }
  }//end of goPurchase
 
  
  
- 
  // 결제 정보를 업데이트 해주기
  function insertOrder(){
 	
+	$(".loader").show();
 	//실결제구매금액
 	const real_amount = $("#real_amount").val();
 	const order_amount = "${requestScope.viewMap.totalprice}";
@@ -104,13 +127,22 @@ $(document).ready(function(){
 	}
 
 	const priceJoin = "${requestScope.viewMap.priceJoin}";
-	var priceArr = priceJoin.split(",");		
+	var priceArr = priceJoin.split(",");
 	var normal_amount = 0;
 	for(var i=0; i<priceArr.length; i++){
 		normal_amount += Number(priceArr[i]);
 	}
-	const discountamount = order_amount - normal_amount;
 	
+	const salepriceJoin = "${requestScope.viewMap.salepriceJoin}";
+	var salepriceArr = salepriceJoin.split(",");
+	var prod_price_amount = 0;
+	for(var i=0; i<salepriceArr.length; i++){
+		prod_price_amount += Number(salepriceArr[i]);
+	}
+	
+	
+	
+	const discountamount = normal_amount - prod_price_amount;
 	const deliveryfee = "${requestScope.viewMap.deliveryfee}";
 	
 	const prod_codeJoin = "${requestScope.viewMap.prod_codeJoin}";
@@ -118,25 +150,8 @@ $(document).ready(function(){
 	const sizeJoin = "${requestScope.viewMap.sizeJoin}";
 	const countJoin = "${requestScope.viewMap.countJoin}";
 	
-	/*
-     <form name="orderinsert">
-    	<input id="userid" type="text" name="userid" value="${requestScope.userid}"/>
-    	<input id="totalUserpoint" type="text" name="totalUserpoint" value=""/>
-    	<input id="totalRealamount" type="text" name="totalRealamount" value=""/>
-    	<input id="totalOrderamount" type="text" name="totalOrderamount" value=""/>
-    	<input id="pointUseamount" type="text" name="pointUseamount" value=""/>
-    	<input id="discountamount" type="text" name="discountamount" value=""/>
-    	<input id="deliveryfee" type="text" name="deliveryfee" value=""/>
-    	
-    	<input id="prod_code" type="text" name="prod_code" value=""/>
-    	<input id="order_buy_count" type="text" name="order_buy_count" value=""/>
-    	<input id="order_price" type="text" name="order_price" value=""/>
-    	<input id="prod_color" type="text" name="prod_color" value=""/>
-    	<input id="prod_size" type="text" name="prod_size" value=""/>
-    </form>
-	*/
-	
 	const frm = document.orderinsert;
+	frm.totalOnePriceJoin.value = "${requestScope.viewMap.totalOnePriceJoin}";
 	frm.totalRealamount.value = real_amount;
 	frm.totalOrderamount.value = order_amount;
 	frm.userusePoint.value = point_use_amount;
@@ -161,7 +176,7 @@ $(document).ready(function(){
 
 </head>
 <body>
-
+<div class="loader"></div>
 <!-- main -->
 	<div class="container">
 		<div class="pur_title pb-2">
@@ -330,7 +345,7 @@ $(document).ready(function(){
                             	<fmt:formatNumber value="${requestScope.viewMap.totalprice}" pattern="#,###"/>
                             	<span>원</span>
                             </span>
-                           	<input id="real_amount" type="text" value="${requestScope.viewMap.totalprice}"/>
+                           	<input id="real_amount" type="hidden" value="${requestScope.viewMap.totalprice}"/>
                             <br>
                             <br>
                             <p><input type="checkbox" id="agree_purchase"/><label for="agree_purchase" class="ml-2">결제정보를 확인하였으며, 구매진행에 동의합니다.</label></p>
@@ -344,7 +359,7 @@ $(document).ready(function(){
                             	<span>
                             		<span class="prod_point"></span>원
                             	</span>
-                            	<input type="text" id="totalProdpoint"/>
+                            	<input type="hidden" id="totalProdpoint"/>
                             </p>
                             <!-- <p class="p_tbl_pay_method"><b>회원적립금</b><span>0원</span></p> -->
                         </td>
@@ -353,19 +368,20 @@ $(document).ready(function(){
             </div>
         </div>
         <form name="orderinsert">
-        	<input id="userid" type="text" name="userid" value="${requestScope.loginuser.userid}"/>
-        	<input id="cart_code" type="text" name="cart_code" value="${requestScope.viewMap.cart_codeJoin}"/>
-        	<input id="userusePoint" type="text" name="userusePoint" value="0"/>
-        	<input id="prodPoint" type="text" name="prodPoint" value=""/>
-        	<input id="totalRealamount" type="text" name="totalRealamount" value=""/>
-        	<input id="totalOrderamount" type="text" name="totalOrderamount" value=""/>
+        	<input id="userid" type="hidden" name="userid" value="${requestScope.loginuser.userid}"/>
+        	<input id="cart_codeJoin" type="hidden" name="cart_codeJoin" value="${requestScope.viewMap.cart_codeJoin}"/>
+        	<input id="userusePoint" type="hidden" name="userusePoint" value="0"/>
+        	<input id="prodPoint" type="hidden" name="prodPoint" value=""/>
+        	<input id=totalOnePriceJoin type="hidden" name="totalOnePriceJoin" value=""/>
+        	<input id="totalRealamount" type="hidden" name="totalRealamount" value=""/>
+        	<input id="totalOrderamount" type="hidden" name="totalOrderamount" value=""/>
         	<input id="discountamount" type="text" name="discountamount" value=""/>
-        	<input id="deliveryfee" type="text" name="deliveryfee" value=""/>
-        	<input id="prod_code" type="text" name="prod_code" value=""/>
-        	<input id="order_buy_count" type="text" name="order_buy_count" value=""/>
-        	<input id="order_price" type="text" name="order_price" value=""/>
-        	<input id="prod_color" type="text" name="prod_color" value=""/>
-        	<input id="prod_size" type="text" name="prod_size" value=""/>
+        	<input id="deliveryfee" type="hidden" name="deliveryfee" value=""/>
+        	<input id="prod_code" type="hidden" name="prod_code" value=""/>
+        	<input id="order_buy_count" type="hidden" name="order_buy_count" value=""/>
+        	<input id="order_price" type="hidden" name="order_price" value=""/>
+        	<input id="prod_color" type="hidden" name="prod_color" value=""/>
+        	<input id="prod_size" type="hidden" name="prod_size" value=""/>
         </form>
     </div>
 

@@ -5,7 +5,6 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
 
 import common.controller.AbstractController;
 import jihee.product.model.*;
@@ -49,9 +48,13 @@ public class ProductHp extends AbstractController {
 				
 				paraMap.put("productHigh_3", productHigh_3);
 				
+				String productBest = "Best";
+				paraMap.put("Best", productBest);
+				
 				
 		//할인율
 		List<ProductVO> bestProductList = pdao.selectBestProduct(paraMap);
+		
 		
 		/*
 		 * for(ProductVO pvo : bestProductList) {
@@ -62,7 +65,7 @@ public class ProductHp extends AbstractController {
 		 * System.out.println(pvo.getDiscountPercent());
 		 * 
 		 * }// end of for----------------------------
-		 */
+		 */		 
 			
 		
 		request.setAttribute("bestProductList", bestProductList);
@@ -402,6 +405,8 @@ public class ProductHp extends AbstractController {
 				request.setAttribute("searchWord", searchWord);
 				
 				
+				
+				
 
 				// 3-3페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
 				int totalPage = pdao.getTotalPage(paraMap);
@@ -514,11 +519,11 @@ public class ProductHp extends AbstractController {
 		}
 		
 		if(searchPrice1 ==null) {
-			searchPrice1= "0";
+			searchPrice1= "";
 		}
 		
 		if(searchPrice2 ==null) {
-			searchPrice2= "5000000";
+			searchPrice2= "";
 		}
 		
 	

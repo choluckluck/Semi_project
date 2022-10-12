@@ -89,7 +89,7 @@ public class ProductDAO implements InterProductDAO {
 					 ")OD\n"+
 					 "ON R.fk_prod_code = OD.fk_prod_code\n"+
 					 " where ( prod_kind= ? or prod_kind= ? or prod_kind= ? ) \n" +
-					 " order by prod_order_count desc ";
+					 " order by ? ";
 
 		
 			 
@@ -105,10 +105,28 @@ public class ProductDAO implements InterProductDAO {
 			   String productType_3 = paraMap.get("productType_3");
 			   
 			//   System.out.println("productType_1"+productType_1);
+			   
+			   String BestNewSale = paraMap.get("Best");
+			   
+			   if (BestNewSale.equals("Best") ) {
+				   
+				   BestNewSale = "prod_order_count desc";
+			   }
+			   
+			   if (BestNewSale.equals("New") ) {
+				   
+				   BestNewSale = "prod_registerday desc";
+			   }
+			   
+			   
+			  // System.out.println("BestNewSale:"+BestNewSale);
 			 
 				pstmt.setString(1, productType_1);
 				pstmt.setString(2, productType_2);
 				pstmt.setString(3, productType_3);
+				pstmt.setString(4, BestNewSale);
+				
+				
 					
 					 
 				// SQL select 실행 및 데이터 가져오기 
@@ -415,7 +433,7 @@ public class ProductDAO implements InterProductDAO {
 		    String productHigh_2 = paraMap.get("productHigh_2");
 		    String productHigh_3 = paraMap.get("productHigh_3");
 		    
-		    System.out.println("productHigh_1 : " +productHigh_1);
+		    //System.out.println("productHigh_1 : " +productHigh_1);
 		   
 		   
 			// 위치홀더 넣어주기 

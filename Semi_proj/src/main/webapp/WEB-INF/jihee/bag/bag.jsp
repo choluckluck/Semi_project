@@ -75,14 +75,7 @@
          frm.submit();
       });
       
-      
-    //전체상품 주문 클릭시
-      $("button#orderAll").click(function(){
-         const frm = document.bag_form;
-         frm.action="<%= ctxPath%>/product/productNew.up";
-         frm.method = "get";
-         frm.submit();
-      });
+
     --%>
       $("li[name='shname']").click(function(){
          
@@ -98,13 +91,7 @@
        alert("하하하");  
       })
     
-    // 주문하기 클릭시
-      $("button#doOrder").click(function(){
-         const frm = document.bag_form;
-         frm.action="<%= ctxPath%>/product/productNew.up";
-         frm.method = "get";
-         frm.submit();
-      });
+   
       
 
       
@@ -292,6 +279,8 @@
      
 
       }//end fo goDel
+      
+      // == 선택상품 주문 데이터보내기 == //
 
       function goOrder(){
           
@@ -323,7 +312,7 @@
               const deliveryfee = $("input.deliveryfee").val();
               const prodPointArr = new Array();
               const totalorderprice = $("input.totalorderprice").val();
-               const totalOnePriceJoinArr = new Array(); // 판매가X수량
+              const totalOnePriceJoinArr = new Array(); // 판매가X수량
               
               
               for(var i=0; i<allCnt; i++){
@@ -388,8 +377,10 @@
                  const prodCodeJoin = prodCodeArr.join();
                  
                  
+                 
+                 
                     
-                    const colorJoin = prodColorArr.join();
+                   const colorJoin = prodColorArr.join();
                    const sizeJoin = pordSizeArr.join();
                   
                    const priceJoin = prodPriceArr.join(); // 정상가
@@ -397,10 +388,15 @@
                    const totalOnePriceJoin = totalOnePriceJoinArr.join();  //판매가x수량
                    
                    const pointJoin = prodPointArr.join(); 
+                   
+                   
+                   
+                   let sumtotalPrice = 0;
+                   for(var i=0; i<totalOnePriceJoinArr.length; i++){
+                      sumtotalPrice += Number(totalOnePriceJoinArr[i]);
+                   }
+                   
                 
-                 
-                 
-                 
                 /*  console.log("확인용 제품번호 : " + pnumjoin);
                  console.log("확인용 주문량 : " + countjoin);
                  console.log("확인용 prodCodeJoin: " + prodCodeJoin);
@@ -417,13 +413,15 @@
                  console.log("확인용 pointJoin : " + pointJoin);
                  console.log("확인용 totalorderprice : " + totalorderprice); */
                  
-                 const str_sumtotalPrice = totalPrice.toLocaleString("en"); // 자바스크립트에서 숫자 3자리마다 콤마를 찍어줌
+                 const str_sumtotalPrice = sumtotalPrice.toLocaleString("en"); // 자바스크립트에서 숫자 3자리마다 콤마를 찍어줌
                     
-              const bool = confirm("총주문액 : " + totalPrice + "원 \n결제하시겠습니까?");
+              const bool = confirm("총주문액 : " + sumtotalPrice + "원 \n결제하시겠습니까?");
                  
+              const frm = document.bag_form;
+              
                  if(bool){
 
-                    $.ajax({  
+                   <%--  $.ajax({  
                        url : "<%= request.getContextPath()%>/hasol/purchase/purchase.sue",
                        type : "post",
                        data : {"totalPrice":totalPrice,
@@ -455,12 +453,43 @@
                             alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
                          }
                        
-                    });
+                    }); --%>
+                  
+                   
+                    
+                    $('input[name=totalOnePriceJoin]').attr('value',totalOnePriceJoin);
+                    $('input[name="cart_codeJoin"]').attr('value',cart_codeJoin);
+                    $('input[name="countjoin"]').attr('value',countjoin);
+                    $('input[name="colorJoin"]').attr('value',colorJoin);
+                    $('input[name="sizeJoin"]').attr('value',sizeJoin);
+                    $('input[name="priceJoin"]').attr('value',priceJoin); 
+                    $('input[name="salepriceJoin"]').attr('value',salepriceJoin);
+                    $('input[name="pointJoin"]').attr('value',pointJoin);
+                    $('input[name="prodCodeJoin"]').attr('value',prodCodeJoin);
+					 $('input[name="totalorderprice"]').attr('value',sumtotalPrice);
+                    
+                  
+                
+                   
+                    
+                    console.log("totalOnePriceJoin:"+totalOnePriceJoin);
+                    
+                    frm.action="<%= ctxPath%>/hasol/purchase/purchase.sue";
+                    frm.method = "POST";
+                    frm.submit();
+                    
+                   
                     
                  }
               
                  
-                 
+                 else {
+                	 
+                	 alert("주문하기를 취소하셨습니다");
+                	 
+                	 
+                	 $(".chkboxpnum").prop("checked", false);
+                 }
                  
                     
                     
@@ -471,49 +500,54 @@
             
         }
       
-      
-      
-     /*  function goOrderPart() {
+      // == 전체상품 주문 데이터 == //
+      function allOrder() {
     	  
-    	
-         
-          const oqtyArr = $("input.qnty").eq(i).val();
-          const cartnoArr = $("input.cartno").eq(i).val()
-          const totalPrice = $("input.totalPrice").val();
+
+          $(".chkboxpnum").prop("checked", true);
           
-          
-          const prodCodeArr = new Array();
-          const pordSizeArr = new Array();  
-          const prodColorArr = new Array();
-          const prodPriceArr =new Array(); //정상가
-          const prodSalePriceArr = new Array(); //세일가
-          const deliveryfee = $("input.deliveryfee").val();
-          const prodPointArr = new Array();
-          const totalorderprice = $("input.totalorderprice").val();
-           const totalOnePriceJoinArr = new Array(); // 판매가X수량
-          
-          
-        
-                
-             
-                
-                
-                prodCodeArr.push( $("input.prodCode").eq(i).val() );
-                pordSizeArr.push( $("input.prodSize").eq(i).val() );
-                prodPriceArr.push( $("input.prodPrice").eq(i).val() );
-                prodSalePriceArr.push( $("input.prodSalePrice").eq(i).val() );
-             
-                prodPointArr.push( $("input.prodPoint").eq(i).val() );
-                
-                totalOnePriceJoinArr.push( $("input.totalOnePriceJoin").eq(i).val() );
-                prodColorArr.push( $("input.prodColor").eq(i).val() );
-                
-             }
-    	  
+          goOrder()
     	  
       }
- */
-    
+      
+      
+      //==전체선택== //
+      
+      function allSelect() {
+    	  
+
+          $(".chkboxpnum").prop("checked", true);
+      }
+      
+      
+      
+      
+      //==하나만 주문하기 ==// 
+      
+	 function goOrderPart(obj) {
+	    	  
+		   
+	     const index = $("button.oneOrder").index(obj);
+	    // alert(index);
+	     
+	     const checkt = $(".chkboxpnum").eq(index).prop("checked", true);  
+	    // alert(checkt)
+	     goOrder()
+	     
+	    
+	    }
+
+      
+ 	function goDelPart(obj){
+ 		
+ 		const checkCnt = $("input:checkbox[name='pnum']:checked").length;
+        
+        if(checkCnt < 1){
+           alert("삭제하실 제품을 선택하세요");
+           return;
+        }
+         
+ 	}
   
       
 </script>
@@ -546,7 +580,7 @@
             </colgroup>
                   <thead id="notice_thead">
                      <tr>
-                        <th name="bag_th" class="w-10" style="border-top:solid 1px black; border-bottom:solid 1px black;">전체선택</th>
+                        <th name="bag_th" class="w-10" style="border-top:solid 1px black; border-bottom:solid 1px black;" onclick="allSelect();">전체선택</th>
                         
                         <th colspan="2" name="bag_th" class="w-30" style="text-align:center; border-top:solid 1px black; border-bottom:solid 1px black;" >상품정보</th>
                         <th name="bag_th" class="w-20" style="border-top:solid 1px black; border-bottom:solid 1px black;">수량</th>
@@ -558,11 +592,20 @@
                      </tr>
                   </thead>
                   <tbody id="notice_tbody">
+                  <c:if test="${empty requestScope.cartList}">
+	               <tr>
+	                    <td colspan="8" align="center">
+	                      <span style="color: black; font-weight: bold;">
+	                         장바구니에 담긴 상품이 없습니다.
+	                      </span>
+	                    </td>   
+	               </tr>
+            		</c:if>   
                   
                   <!-- for each 시작 -->
                   <c:forEach var="cvo" items="${requestScope.cartList}" varStatus="status">
                      <tr style="vertical-align:middle; height : 150px; margin-top: 5%;">
-                        <td style="border:none;"> <input class="form-check-input" type="checkbox" value="" id="pnum" name="pnum" style="margin-left: 1%"></td>
+                        <td style="border:none;"> <input class="form-check-input chkboxpnum" type="checkbox" value="" id="pnum" name="pnum" style="margin-left: 1%"></td>
                         <td style="border:none;">
                        
                             
@@ -575,9 +618,9 @@
                                  <li name ="prod_name" id="prod_name"  style="cursor: pointer">${cvo.prod.prod_name}</li>
                                 <input type="hidden" class="pname" name="pname" value="${cvo.prod.prod_name}" /> 
                                  <li style="color:gray; margin-top: 2%;">[옵션: ${cvo.fk_prod_color}/${cvo.fk_prod_size}]</li>
-                                 <input type="hidden" class="prodCode" name="prodCode" value="${cvo.fk_prod_code}" /> 
-                                 <input type="hidden" class="prodColor" name="prodColor" value="${cvo.fk_prod_color}" /> 
-                                 <input type="hidden" class="prodSize" name="prodSize" value="${cvo.fk_prod_size}" /> 
+                                 <input type="hidden" class="prodCode" name="prodCodeJoin" value="${cvo.fk_prod_code}" /> 
+                                 <input type="hidden" class="prodColor" name="colorJoin" value="${cvo.fk_prod_color}" /> 
+                                 <input type="hidden" class="prodSize" name="sizeJoin" value="${cvo.fk_prod_size}" /> 
                                  
                                  <li>
                               
@@ -650,7 +693,7 @@
                               </button>
                               </span>
                               <span>
-                              <input class="qnty" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt; width: 30%;" name="qnty" id="qnty" value="${cvo.qnty}"/>
+                              <input class="qnty" name="countjoin" style="border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt; width: 30%;" name="qnty" id="qnty" value="${cvo.qnty}"/>
                                
                            </span>
                            <span>
@@ -659,22 +702,23 @@
                               </button>
                               </span>
                               <%-- 장바구니 테이블에서 특정제품의 현재주문수량을 변경하여 적용하려면 먼저 장바구니번호(시퀀스)를 알아야 한다 --%>
-                             <input type="hidden" class="cartno" name="cart_code" value="${cvo.cart_code}" /> 
+                             <input type="hidden" class="cartno" name="cart_codeJoin" value="${cvo.cart_code}" /> 
                            
                         </td>
                         <td style="border:none;">
                         <img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_product_point.gif" alt="적립금" style="margin-bottom:2px;">${cvo.prod.prod_point}
-                        <input type="hidden" class="prodPoint" name="prodPoint" value="${cvo.prod.prod_point}" /> 
+                        <input type="hidden" class="prodPoint" name="pointJoin" value="${cvo.prod.prod_point}" /> 
                         </td>
                         <td style="border:none;"><fmt:formatNumber value="${cvo.prod.prod_saleprice}" pattern="###,###"></fmt:formatNumber></td>
-                        <input type="hidden" class="prodSalePrice " name="prodSalePrice" value="${cvo.prod.prod_saleprice}" /> 
-                        <input type="hidden" class="prodPrice " name="prodPrice" value="${cvo.prod.prod_price}" /> 
+                        <input type="hidden" class="prodSalePrice " name="salepriceJoin" value="${cvo.prod.prod_saleprice}" /> 
+                        <input type="hidden" class="prodPrice " name="priceJoin" value="${cvo.prod.prod_price}" /> 
                         <td style="border:none;"><fmt:formatNumber value="${cvo.prod.totalPrice}" pattern="###,###"></fmt:formatNumber></td>
                         <input type="hidden" class="totalOnePriceJoin" name="totalOnePriceJoin" value="${cvo.prod.totalPrice}" /> 
+                       
                         
                         <td style="border:none;">
                         <div>
-                       <button type="button" id="doOrder" class="btn btn-gray" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goOrderPart();">주문하기</button>
+                       <button type="button" id="doOrder" class="btn btn-gray oneOrder" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goOrderPart(this);">주문하기</button>
                      </div>   
                      <div>
                         <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goHide()">관심상품</button>
@@ -694,12 +738,18 @@
                          <td colspan="7" style="text-align: right;"> 상품 <span name="sumprice_span"><fmt:formatNumber value="${requestScope.sumMap.SUMTOTALPRICE}" pattern="###,###" /></span> + 
                          배송비 
                          <span>
+                          <c:if test="${empty requestScope.cartList}">
+	             			<fmt:formatNumber value="0" pattern="###,###" />
+            		 	  </c:if> 
+            		 	  
+            		 	  <c:if test="${not empty requestScope.cartList}">
                          <c:if test="${requestScope.sumMap.SUMTOTALPRICE <= 70000}">
                          <fmt:formatNumber value="2500" pattern="###,###" />
                          </c:if>
                          <c:if test="${requestScope.sumMap.SUMTOTALPRICE >= 70000}">
                          <fmt:formatNumber value="0" pattern="###,###" />(무료)
                          </c:if>
+                          </c:if>
                          </span> 
                          <input type="hidden" class="totalorderprice" name="totalorderprice" value="${requestScope.sumMap.SUMTOTALPRICE}" /> 
                          <input type="hidden" class="deliveryfee" name="deliveryfee" value="${requestScope.deliveryfee}" /> 
@@ -707,6 +757,8 @@
                           = </td>
                          <td class="fw-bolder" style="font-size: 20px;"> <fmt:formatNumber value="${requestScope.totalSumPrice}" pattern="###,###" /></td>
                        <input type="hidden" class="totalPrice" name="totalPrice" value="${requestScope.totalSumPrice}" /> 
+                       <input type="hidden" class="sumtotalPrice" name="sumtotalPrice" value="" /> 
+                     
                      </tr> 
                   </tbody>
                </table>
@@ -739,12 +791,21 @@
       <p class="col-3"></p>
        <p class="col-1 fw-bolder"><fmt:formatNumber value="${requestScope.sumMap.SUMTOTALPRICE}" pattern="###,###" /></p>
        <p class="col-1">+</p>
-       <p class="col-1 fw-bolder"><c:if test="${requestScope.sumMap.SUMTOTALPRICE <= 70000}">
+       <p class="col-1 fw-bolder">
+       
+       					<c:if test="${empty requestScope.cartList}">
+	             			<fmt:formatNumber value="0" pattern="###,###" />
+            		 	  </c:if> 
+            		 	  
+            		  <c:if test="${not empty requestScope.cartList}">
+       					<c:if test="${requestScope.sumMap.SUMTOTALPRICE <= 70000}">
                          <fmt:formatNumber value="2500" pattern="###,###" />
                          </c:if>
                          <c:if test="${requestScope.sumMap.SUMTOTALPRICE >= 70000}">
                          <fmt:formatNumber value="0" pattern="###,###" />(무료)
+                         </c:if>
                          </c:if></p>
+                         
        <p class="col-1">=</p> 
        <p class="col-2 fw-bolder"> <fmt:formatNumber value="${requestScope.totalSumPrice}" pattern="###,###" /></p>    
        <p class="col-3"></p> 
@@ -761,7 +822,7 @@
         </div>
             
           <div class="col-lg-3" style="border:solid 1px #000033; display: flex; align-items: center; justify-content: center; background-color: #000033;">
-        <button class="btn btn-lg" id="orderAll" style="font-size:15pt; color:white; text-align:center;">전체상품 주문</button>
+        <button class="btn btn-lg" id="orderAll" style="font-size:15pt; color:white; text-align:center;" onclick="allOrder();">전체상품 주문</button>
         </div>
         <div class="col-lg-2"></div>
          <div class="col-lg-1"></div> 

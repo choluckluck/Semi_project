@@ -37,12 +37,13 @@ a:active {text-decoration: none; color: gray;}
 			<div id="sidecontent" style="text-align: left; padding: 20px;">
 						<div class="row">
 				<div class="col ">
-				<p class="fw-bolder" style="font-size: 30px">힐/펌프스</p>
+				<p class="fw-bolder" style="font-size: 30px">앵클/부츠</p>
 				</div>
 			</div>
 				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
-					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp4cm.sue" class="link" style="text-decoration: none; color: black;">4~6cm</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: gray;">7cm~</a><li>
+					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productHp4cm.sue" class="link" style="text-decoration: none; color: gray;">앵클 1~6cm</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue" class="link" style="text-decoration: none; color: gray;">앵클 7cm~</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productBoots.sue" class="link" style="text-decoration: none; color: black;">롱부츠</a><li>
 				</ul>
 				<br>
 			<div class="row">
@@ -71,7 +72,7 @@ a:active {text-decoration: none; color: gray;}
 				
 				<!-- 체크박스 색상 -->
 				<div class="color" style="padding: 0px;">
-				<p class="fw-bolder" >색상범주(코딩)</p>
+				<p class="fw-bolder" >색상범주</p>
 				
 				<div class="btn-group " role="group" aria-label="Basic checkbox toggle button group">
 					<div>
@@ -142,7 +143,7 @@ a:active {text-decoration: none; color: gray;}
 			<br><br>
 			
 			<div class="color" style="padding: 0px;">
-				<p class="fw-bolder" >사이즈(코딩)</p>
+				<p class="fw-bolder" >사이즈</p>
 		    </div>
 		    <div class="btn-group " role="group" aria-label="Basic checkbox toggle button group" >
 				<div>
@@ -185,7 +186,7 @@ a:active {text-decoration: none; color: gray;}
 			</div>
 				
 			<br><br>
-			<p><button type="button" class="btn btn-dark" style="color: white;" onclick="goSearch()">검색</button></p>	
+			<p><button type="button" class="btn " style="color: white; background-color: #172A41;" onclick="goSearch()">검색</button></p>	
 	
 			
 			
@@ -200,8 +201,8 @@ a:active {text-decoration: none; color: gray;}
 		 <div class="col-md-10" id="maininfo" align="center"> 
 		 
 			<div id="maincontent">
-		 <jsp:include page="4.productHpTop.jsp" /> 
-		 <jsp:include page="4.productHpBottom.jsp" /> 
+		 <jsp:include page="5.productAbTop.jsp" /> 
+		 <jsp:include page="5.productAbBottom.jsp" />
 		</div>
 	 </div>
 	 </div>
@@ -351,7 +352,7 @@ a:active {text-decoration: none; color: gray;}
 	function goSearch() {
 		
 		const frm = document.productHpFrm
-		frm.action = "productHp4cm.sue";
+		frm.action = "productBoots.sue";
 		frm.submit();
 		
 

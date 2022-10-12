@@ -54,7 +54,6 @@ public class MemberDAO implements InterMemberDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	//하트 클릭시 위시 처리 => 해당 유저의 위시상품을 불러온다
@@ -105,40 +104,51 @@ public class MemberDAO implements InterMemberDAO {
 			conn = ds.getConnection();
 			
 			String sql = " select ceil(count(*)/10) " +
-						 " from tbl_member ";
+						 " from tbl_member where userid != 'admin' ";
 				
 			String memberSort = paraMap.get("memberSort"); //all, fk_userid, prod_name, review_registerday 
 			String searchword = paraMap.get("searchword");
 			
+			if ("email".equals(memberSort)) {
+				searchword = aes.encrypt(searchword);
+			}
+			else if(searchword != null ) {
+				searchword = searchword.toLowerCase();
+			}
+			
 			//검색어를 입력한경우
 			if( searchword != null && !searchword.trim().isEmpty() ) {
 				//정렬이 선택되어있는 경우
-				if(!(memberSort == null || "all".equals(memberSort))) {
-					sql += " where "+ memberSort +" like '%'||?||'%' ";
+				if(!(memberSort == null || "all".equals(memberSort) )) {
+					sql += " and lower( "+ memberSort +" ) like '%'||?||'%' ";
 				}
 			}
+			
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			if( searchword != null && !searchword.trim().isEmpty() ) {
-				if(!(memberSort == null || "all".equals(memberSort))) {
+				if(!(memberSort == null || "all".equals(memberSort) )) {
 					pstmt.setString(1, searchword);
 				}
 			}
+			
+			System.out.println(aes.encrypt(searchword));
 			
 			rs = pstmt.executeQuery();
 			
 			rs.next();
 			
 			totalMemberPage = rs.getInt(1);
-			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+		     e.printStackTrace();
 		} finally {
 			close();
 		}
 		
 		
 		return totalMemberPage;
-	}
+	}//end of getTotalMemberPage
 	
 	
 	
@@ -154,12 +164,19 @@ public class MemberDAO implements InterMemberDAO {
 						"from\n"+
 						"(\n"+
 						"    select rownum as rno, userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, fk_grade_code, point, account_name, bank_name, account, registerday, status, idle\n"+
-						"    from (select * from tbl_member order by registerday desc )\n"+
+						"    from (select * from tbl_member where userid != 'admin' order by registerday desc )\n"+
 						")\n"+
 						"where rno between ? and ?";
 			
 			String memberSort = paraMap.get("memberSort"); //all, userid, name, email 
 			String searchword = paraMap.get("searchword");
+			
+			if ("email".equals(memberSort)) {
+				searchword = aes.encrypt(searchword);
+			}
+			else if(searchword != null ) {
+				searchword = searchword.toLowerCase();
+			}
 			
 			//검색어를 입력한경우
 			if( searchword != null && !searchword.trim().isEmpty() ) {
@@ -169,8 +186,8 @@ public class MemberDAO implements InterMemberDAO {
 							"from\n"+
 							"(\n"+
 							"    select rownum as rno, userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, fk_grade_code, point, account_name, bank_name, account, registerday, status, idle\n"+
-							"    from tbl_member\n"+
-							" where " + memberSort + " like '%'||?||'%' "+
+							"    from tbl_member "+
+							" where lower( " + memberSort + ") like '%'||?||'%' and userid != 'admin' "+
 							")\n"+
 							"where rno between ? and ?";
 				}
@@ -188,7 +205,7 @@ public class MemberDAO implements InterMemberDAO {
 			//검색어를 입력한경우
 			if( searchword != null && !searchword.trim().isEmpty() ) {
 				//정렬이 선택되어있는 경우
-				if(!(memberSort == null || "all".equals(memberSort))) {
+				if(!(memberSort == null || "all".equals(memberSort) )) {
 					pstmt.setString(1, searchword);
 					pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1));
 					pstmt.setInt(3, (currentShowPageNo*sizePerPage));
@@ -197,13 +214,13 @@ public class MemberDAO implements InterMemberDAO {
 			
 			rs = pstmt.executeQuery();
 			
+			System.out.println(sql);
 			
 			while(rs.next()) {
 				MemberVO mvo = new MemberVO();
 				
-				
 				//핸드폰 - 처리해주기
-				String mobile = rs.getString("mobile");
+				String mobile = aes.decrypt(rs.getString(4));
 				String mobile1 = mobile.substring(0,3);
 				String mobile2 = mobile.substring(3,7);
 				String mobile3 = mobile.substring(7);
@@ -212,7 +229,7 @@ public class MemberDAO implements InterMemberDAO {
 				
 				mvo.setUserid(rs.getString(1));
 				mvo.setName(rs.getString(2));
-				mvo.setEmail(rs.getString(3));
+				mvo.setEmail(aes.decrypt(rs.getString(3)));
 				mvo.setMobile(mobile);
 				mvo.setPostcode(rs.getString(5));
 				mvo.setAddress(rs.getString(6));
@@ -232,14 +249,15 @@ public class MemberDAO implements InterMemberDAO {
 				mvoList.add(mvo);
 
 			}
-			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+		     e.printStackTrace();
 		} finally {
 			close();
 		}
 		
 		
 		return mvoList;
-	}
+	}//end of selectPaginMember
 	
 	
 	
@@ -257,7 +275,7 @@ public class MemberDAO implements InterMemberDAO {
 			
 			String sql = " select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, fk_grade_code, point, account_name, bank_name, account, to_char(registerday,'yyyy-mm-dd') as registerday, marketing_yn " +
 						 " from tbl_member "+
-						 " where userid = ? ";
+						 " where userid = ? and userid != 'admin' ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userid);
@@ -265,15 +283,15 @@ public class MemberDAO implements InterMemberDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
+				System.out.println(rs.getString("mobile"));
 				
 				//핸드폰 - 처리해주기
-				String mobile = aes.decrypt(rs.getString("mobile"));
+				String mobile = aes.decrypt(rs.getString(4));
 				String mobile1 = mobile.substring(0,3);
 				String mobile2 = mobile.substring(3,7);
 				String mobile3 = mobile.substring(7);
 				
 				mobile = mobile1 + "-" + mobile2 + "-" + mobile3;
-				
 				
 				mvo.setUserid(rs.getString(1));
 				mvo.setName(rs.getString(2));

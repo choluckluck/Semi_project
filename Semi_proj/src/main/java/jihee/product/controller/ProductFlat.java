@@ -12,7 +12,7 @@ import jihee.product.model.*;
 
 
 
-public class ProductNew extends AbstractController {
+public class ProductFlat extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -26,29 +26,34 @@ public class ProductNew extends AbstractController {
 		
 		//1-1 종류 넘겨주기
 		
-				String productType_1 = "ankle";
+				String productType_1 = "flat";
 				paraMap.put("productType_1", productType_1);
 				
-				String productType_2 = "loafer";
+				String productType_2 = "나나";
 				paraMap.put("productType_2", productType_2);
 				
-				String productType_3 = "mule";
+				String productType_3 = "나나";
 				paraMap.put("productType_3", productType_3);
 				
 				
-				String productHigh_1 ="10";
+				String productHigh_1 ="1";
 				
 				paraMap.put("productHigh_1", productHigh_1);
 				
-				String productHigh_2 ="2";
+				String productHigh_2 ="나나";
 				
 				paraMap.put("productHigh_2", productHigh_2);
 				
-				String productHigh_3 ="3.5";
+				String productHigh_3 ="나나";
 				
 				paraMap.put("productHigh_3", productHigh_3);
 				
-			
+				String productBest = "Best";
+				paraMap.put("Best", productBest);
+		//할인율
+		List<ProductVO> bestProductList = pdao.selectBestProduct(paraMap);
+		
+		
 		/*
 		 * for(ProductVO pvo : bestProductList) {
 		 * 
@@ -61,7 +66,8 @@ public class ProductNew extends AbstractController {
 		 */		 
 			
 		
-
+		request.setAttribute("bestProductList", bestProductList);
+		
 		
 		
 		
@@ -344,7 +350,7 @@ public class ProductNew extends AbstractController {
 		
 		
 		if (selectItem == null) {
-			selectItem = "newItem";
+			selectItem = "popularityitem";
 		}
 		
 		paraMap.put("selectItem", selectItem);
@@ -540,7 +546,7 @@ public class ProductNew extends AbstractController {
 				
 			}
 			else {
-				pageBar += "<li class='page-item'><a class='page-link' href='productNew.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"&searchPrice1="+searchPrice1+"&searchPrice2="+searchPrice2+"&selectItem="+selectItem+"'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='productFlat.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"&searchPrice1="+searchPrice1+"&searchPrice2="+searchPrice2+"&selectItem="+selectItem+"'>" + pageNo + "</a></li>";
 			}
 			loop++; // 1 2 3 4 5 6 7 8 9 10
 			pageNo++; // 1   2  3  4  5  6  7  8  9 10
@@ -558,8 +564,8 @@ public class ProductNew extends AbstractController {
 		// **** [다음][마지막] 만들기 **** //
 		
 		if( pageNo <= totalPage ) { //페이지가 totalPage보다 작거나 같을때만 (마지막 블럭 제외)  
-			pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"'>" + "[다음]</a></li>";
-			pageBar += "<li class='page-item'><a class='page-link' href='productHp.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"&searchWord="+searchWord+"'>" + "[마지막]</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='productFLB.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"'>" + "[다음]</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='productFLB.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"&searchWord="+searchWord+"'>" + "[마지막]</a></li>";
 		}
 		// **** [다음][마지막] 만들기 끝**** //
 		
@@ -573,7 +579,7 @@ public class ProductNew extends AbstractController {
 		// ******** === 페이지바 만들기 끝 === ******** //
 
 		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/jihee/prodouct/1.productNewSide.jsp");
+		super.setViewPage("/WEB-INF/jihee/prodouct/sideFL_flat.jsp");
 		
 
 	}

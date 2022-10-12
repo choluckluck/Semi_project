@@ -40,7 +40,7 @@ function goSearche() {
 		  <option value="popularityitem" selected >인기상품순</option>
 		  <option value="newItem">신상품순</option>
 		  <option value="lowPriceItem">낮은가격순</option>
-		  <option value="highPriceItehm">높은가격순</option>
+		  <option value="highPriceItehm">높은가격순</option>    
 		</select>
 		<!-- <p><button type="button" class="btn btn-dark" style="color: white ;" onclick="goSearch()">검색</button></p> -->
 		
@@ -77,7 +77,7 @@ function goSearche() {
 					</c:if>	
     				</p>
     				
-    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn btn-dark" style="color:white;">상세페이지</a>
+    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn" style="color:white; background-color: #003366;">상세페이지</a>
   				</div>
 		</div>
      </div>
