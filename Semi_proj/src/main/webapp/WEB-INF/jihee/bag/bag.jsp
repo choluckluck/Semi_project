@@ -537,15 +537,45 @@
 	    
 	    }
 
-      
- 	function goDelPart(obj){
- 		
- 		const checkCnt = $("input:checkbox[name='pnum']:checked").length;
-        
-        if(checkCnt < 1){
-           alert("삭제하실 제품을 선택하세요");
-           return;
-        }
+      //성택상품 삭제
+ 	function goDelPart(){
+
+       var checkCnt = $("input:checkbox[name=pnum]:checked").length;
+
+       if(checkCnt < 1) {
+           alert("삭제하실 제품을 선택하세요.");
+           return; // 종료 
+        }	
+       
+       else {
+            //// == 체크박스에서 체크된 value값(checked 속성이용) == ////
+            ///  == 체크가 된 것만 값을 읽어와서 배열에 넣어준다. /// 
+            var allCnt = $("input:checkbox[name=pnum]").length;
+            
+            var cart_code_Arr = new Array();
+             
+             for(var i=0; i<allCnt; i++) {
+            	 /* $("input:checkbox[name=pnum]").eq(i).prop("checked") */
+                if( $("input:checkbox[name='pnum']").eq(i).is(":checked") ) {
+                	cart_code_Arr.push( $("input:checkbox[name=pnum]").eq(i).val() ); 	
+               	}//end of if
+            }// end of for---------------------------
+               
+            for(var i=0; i<checkCnt; i++) {
+               console.log("확인용 관심상품코드 : " + cart_code_Arr[i] );
+            /*
+                    확인용 제품번호: 3, 주문량: 3, 장바구니번호 : 14, 주문금액: 30000, 포인트: 15
+                    확인용 제품번호: 56, 주문량: 2, 장바구니번호: 13, 주문금액: 2000000, 포인트 : 120 
+                    확인용 제품번호: 59, 주문량: 3, 장바구니번호: 11, 주문금액: 30000, 포인트 : 300    
+            */
+            }// end of for---------------------------
+            
+          
+            }//end of else   
+		       
+		       
+		      
+		 
          
  	}
   
@@ -605,7 +635,7 @@
                   <!-- for each 시작 -->
                   <c:forEach var="cvo" items="${requestScope.cartList}" varStatus="status">
                      <tr style="vertical-align:middle; height : 150px; margin-top: 5%;">
-                        <td style="border:none;"> <input class="form-check-input chkboxpnum" type="checkbox" value="" id="pnum" name="pnum" style="margin-left: 1%"></td>
+                        <td style="border:none;"> <input class="form-check-input chkboxpnum" type="checkbox" value="${cvo.prod.prod_code}" id="pnum" name="pnum" style="margin-left: 1%" ></td>
                         <td style="border:none;">
                        
                             
@@ -766,7 +796,7 @@
             </form>
             
             <div class="col-2" style="border:solid 1px gray; font-size:15pt; display: flex; align-items: center; justify-content: center;">
-         <button class="btn btn-lg" style="font-size:10pt; color:gray; text-align:center;">선택상품 삭제</button>
+         <button class="btn btn-lg" style="font-size:10pt; color:gray; text-align:center;" onclick=" goDelPart();">선택상품 삭제</button>
          </div>
          
          

@@ -12,7 +12,7 @@ import jihee.product.model.*;
 
 
 
-public class ProductAb extends AbstractController {
+public class ProductAnkle7cm extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -29,10 +29,10 @@ public class ProductAb extends AbstractController {
 				String productType_1 = "ankle";
 				paraMap.put("productType_1", productType_1);
 				
-				String productType_2 = "boots";
+				String productType_2 = "ankle2";
 				paraMap.put("productType_2", productType_2);
 				
-				String productType_3 = "ankle2";
+				String productType_3 = "나나";
 				paraMap.put("productType_3", productType_3);
 				
 				
@@ -40,11 +40,11 @@ public class ProductAb extends AbstractController {
 				
 				paraMap.put("productHigh_1", productHigh_1);
 				
-				String productHigh_2 ="8.5";
+				String productHigh_2 ="나나";
 				
 				paraMap.put("productHigh_2", productHigh_2);
 				
-				String productHigh_3 ="4";
+				String productHigh_3 ="나나";
 				
 				paraMap.put("productHigh_3", productHigh_3);
 				
@@ -549,7 +549,7 @@ public class ProductAb extends AbstractController {
 				
 			}
 			else {
-				pageBar += "<li class='page-item'><a class='page-link' href='productAb.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"&searchPrice1="+searchPrice1+"&searchPrice2="+searchPrice2+"&selectItem="+selectItem+"'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='productAnkle4cm.sue?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchWord="+searchWord+"&searchPrice1="+searchPrice1+"&searchPrice2="+searchPrice2+"&selectItem="+selectItem+"'>" + pageNo + "</a></li>";
 			}
 			loop++; // 1 2 3 4 5 6 7 8 9 10
 			pageNo++; // 1   2  3  4  5  6  7  8  9 10
@@ -582,7 +582,7 @@ public class ProductAb extends AbstractController {
 		// ******** === 페이지바 만들기 끝 === ******** //
 
 		//super.setRedirect(false);
-		super.setViewPage("/WEB-INF/jihee/prodouct/5.productAbSide.jsp");
+		super.setViewPage("/WEB-INF/jihee/prodouct/5.productAnkle7cm.jsp");
 		
 
 	}

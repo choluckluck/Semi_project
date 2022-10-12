@@ -887,7 +887,7 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 
-			String sql = "select prod_image, prod_name, prod_price, prod_point, prod_saleprice, Qnty, fk_userid, cart_code, fk_prod_code,  fk_prod_color, fk_prod_size \n"+
+			String sql = "select prod_image, prod_name, prod_price, prod_point, prod_saleprice, Qnty, fk_userid, cart_code, fk_prod_code,  fk_prod_color, fk_prod_size, prod_code \n"+
 					"from tbl_product\n"+
 					"join tbl_cart\n"+
 					"on prod_code = fk_prod_code\n"+
@@ -914,6 +914,7 @@ public class ProductDAO implements InterProductDAO {
 				String fk_prod_code = rs.getString("fk_prod_code");
 				String fk_prod_color = rs.getString("fk_prod_color");
 				String fk_prod_size = rs.getString("fk_prod_size");
+				String prod_code = rs.getString("prod_code");
 
 				
 				
@@ -922,6 +923,7 @@ public class ProductDAO implements InterProductDAO {
 				pvo.setProd_price(prod_price);
 				pvo.setProd_point(prod_point);
 				pvo.setProd_saleprice(prod_saleprice);
+				pvo.setProd_code(prod_code);
 				
 				pvo.setTotalPriceTotalPoint(qnty); 
 				
