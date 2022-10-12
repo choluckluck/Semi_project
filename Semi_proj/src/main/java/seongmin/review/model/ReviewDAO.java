@@ -185,13 +185,13 @@ public class ReviewDAO implements InterReviewDAO {
 				conn = ds.getConnection();
 
 
-				String sql = "select rnum, review_code, review_subject, review_contents, review_registerday, review_file_1, review_file_2, review_file_3, review_grade, fk_prod_code, fk_order_detail_code\n"+
+				String sql = "select rnum, review_code, review_subject, review_contents, review_registerday, review_file_1, review_file_2, review_file_3, review_grade, fk_prod_code, fk_order_detail_code, fk_userid \n"+
 						"from \n"+
 						"(\n"+
-						"select  rownum as rnum, review_code, review_subject, review_contents, review_registerday, review_file_1, review_file_2, review_file_3, review_grade, fk_prod_code, fk_order_detail_code\n"+
+						"select  rownum as rnum, review_code, review_subject, review_contents, review_registerday, review_file_1, review_file_2, review_file_3, review_grade, fk_prod_code, fk_order_detail_code, fk_userid \n"+
 						"from\n"+
 						"(\n"+
-						"select review_code, review_subject, review_contents, to_char(review_registerday, 'yyyy-mm-dd') as review_registerday, review_file_1, review_file_2, review_file_3, review_grade, fk_prod_code, fk_order_detail_code\n"+
+						"select review_code, review_subject, review_contents, to_char(review_registerday, 'yyyy-mm-dd') as review_registerday, review_file_1, review_file_2, review_file_3, review_grade, fk_prod_code, fk_order_detail_code, fk_userid \n"+
 						"from tbl_review R\n"+
 						"join tbl_member M\n"+
 						"on userid = fk_userid\n"+
@@ -226,6 +226,7 @@ public class ReviewDAO implements InterReviewDAO {
 					rvo.setReview_grade(rs.getString(9));
 					rvo.setFk_prod_code(rs.getString(10));
 					rvo.setFk_order_detail_code(rs.getString(11));
+					rvo.setFk_userid(rs.getString(12));
 					
 					// very Important
 

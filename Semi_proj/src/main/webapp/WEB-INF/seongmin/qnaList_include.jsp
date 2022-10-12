@@ -51,14 +51,11 @@
   }
 </style>
 
-
-		<h3 style="margin-top:1px;">문의내역 관리</h3>
-		<br><br>
-		
-	
+	<div style="width : 100%;">		
+		<h3 style="margin-top:1px;">문의</h3>
 		<br><br>		
 		
-		  <table class="table table" style="text-align:left; width:90%">
+		  <table class="table table" style="text-align:left;">
 			<colgroup>
 				<col style="width:70px;">
 				<col style="width:70px;">
@@ -101,11 +98,11 @@
 		    </tbody>
 		  </table>
 	   		  <nav class="my-5">
-			<div style="display: flex; width: 80%">
+			<div style="display: flex; width: 100%">
 				<ul class="pagination" style="margin: auto">${requestScope.pageBar2}</ul>
 			</div>
 		  		</nav>
-		 				 <div style="text-align:right;  width:90%;" class="">
+		 				 <div style="text-align:right;  width:100%;" class="">
 	    	            <button type="button" id="reivewWrite" style="background-color: black; color:white; border:solid 1px gray;">문의하기</button>
 	              </div>
-		      
+		</div>		      

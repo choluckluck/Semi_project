@@ -571,112 +571,13 @@ function goOrder() {
        </div> <!-- end of tabs -->
        
     <div id="prdreview" style="width:125%; margin: 0 auto; position:relative; top:300px;">	
-			 <jsp:include page="/WEB-INF/heajun/board/review.jsp"></jsp:include> 
+ 		<jsp:include page="/WEB-INF/seongmin/review_include.jsp"></jsp:include> 
+
       </div> 
       
       
-       <div id="prdQuestion" style="width:90%; margin: 0 auto; position:relative; top:500px;">			
-		  <h5 style="text-align:left;">상품 문의</h5>
-		  <table class="table table" style="text-align:center; width:100%">
-			<colgroup>
-				<col style="width:70px;">
-				<col style="width:135px;">
-				<col style="width:300px;">
-				<col style="width:84px;">
-				<col style="width:80px;">
-				<col style="width:55px;">
-			</colgroup>
-			<thead>
-  			  <tr>
-				<th scope="col">번호</th>
-				<th scope="col">분류</th>
-				<th scope="col">제목</th>
-				<th scope="col">작성자</th>
-				<th scope="col">작성일</th>
-				<th scope="col">조회</th>
-			  </tr>
-			</thead>
-			
-			
-			<tbody style="font-size:12pt; height:40px;">
-				<tr>
-					<td>1</td>
-					<td>취소 / 변경	</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_re.gif" alt="답변" class="">&nbsp;&nbsp;<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>취소 / 변경	</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>
-				
-				<tr>
-					<td>1</td>
-					<td>문의하기</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_re.gif" alt="답변" class="">&nbsp;&nbsp;<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>
-				
-				<tr>
-					<td>1</td>
-					<td>문의하기</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>
-				
-				<tr>
-					<td>1</td>
-					<td>문의하기</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_re.gif" alt="답변" class="">&nbsp;&nbsp;<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>
-				
-				<tr>
-					<td>1</td>
-					<td>문의하기</td>
-					<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">상품문의</button></td>
-					<td>김*****</td>
-					<td>2022-09-14</td>
-					<td>8</td>
-				</tr>				
-		    </tbody>
-		  </table>
-		  
-		  <div style="float:right">
-	    	  <button type="button" style="background-color: #172A41; color:white; border:solid 1px gray;">상품문의하기</button>
-	      </div>
-	      	      
-	      <br>
-
-		  <div style=" display: grid; place-items: center;">
-		    <div style="inline">
-		    
-			    <button type="button" class="btn btn-white"></button>
-			    <button type="button" class="btn btn-white"></button>
-			    <button type="button" class="btn btn-outline-secondary">1</button>
-			    <button type="button" class="btn btn-outline-secondary">2</button>
-			    <button type="button" class="btn btn-outline-secondary">3</button>
-			    <button type="button" class="btn btn-white">></button>
-			    <button type="button" class="btn btn-white">>></button>
-			</div>
-		  </div>			
-		</div>	
-			
-			
-		
-						  			  
+     <div id="prdQuestion" style="width:90%; margin: 0 auto; position:relative; top:500px;">					
+ 		<jsp:include page="/WEB-INF/seongmin/qnaList_include.jsp"></jsp:include> 					  			  
 	 </div>
 
 	
