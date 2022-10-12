@@ -29,7 +29,7 @@
 			<%-- 장바구니 --%>
   	<c:choose>
 		<c:when test="${not empty sessionScope.loginuser}">   
-			<a href="#" class="header_search_contents"><img src="<%= request.getContextPath()%>/images/hyerin/cart.png" width="30px" /></a>
+			<a href="<%= request.getContextPath()%>/jihee/bag/bag.sue" class="header_search_contents"><img src="<%= request.getContextPath()%>/images/hyerin/cart.png" width="30px" /></a>
     	</c:when>
     		
     	<c:otherwise>

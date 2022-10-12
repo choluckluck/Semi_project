@@ -16,29 +16,33 @@ public class ProductVO_HJ {
 	 private int prod_saleprice; // 상품 할인가격
 	 private String prod_description; // 상품 설명
 	 private int prod_point; // 상품 포인트
-	 private ProductDetailVO pvo;        // 상품VO 
 	 
+	private ProductDetailVO pdvo;
+	
+	
 	 public ProductVO_HJ() {}
 	 
-	 
-	public ProductVO_HJ(String prod_code, String prod_name, String prod_kind, String prod_image, String prod_high,
-			int prod_price, String prod_registerday, String md_pick_yn, int prod_saleprice, String prod_description,
-			int prod_point) {
-		
-		this.prod_code = prod_code;
-		this.prod_name = prod_name;
-		this.prod_kind = prod_kind;
-		this.prod_image = prod_image;
-		this.prod_high = prod_high;
-		this.prod_price = prod_price;
-		this.prod_registerday = prod_registerday;
-		this.md_pick_yn = md_pick_yn;
-		this.prod_saleprice = prod_saleprice;
-		this.prod_description = prod_description;
-		this.prod_point = prod_point;
-	}
 	
 	
+//	public ProductVO_HJ(String prod_code, String prod_name, String prod_kind, String prod_image, String prod_high,
+//		int prod_price, String prod_registerday, String md_pick_yn, int prod_saleprice, String prod_description,
+//		int prod_point, ProductDetailVO prod_detail) {
+//		this.prod_code = prod_code;
+//		this.prod_name = prod_name;
+//		this.prod_kind = prod_kind;
+//		this.prod_image = prod_image;
+//		this.prod_high = prod_high;
+//		this.prod_price = prod_price;
+//		this.prod_registerday = prod_registerday;
+//		this.md_pick_yn = md_pick_yn;
+//		this.prod_saleprice = prod_saleprice;
+//		this.prod_description = prod_description;
+//		this.prod_point = prod_point;
+//		this.prod_detail= prod_detail;
+//	}
+
+
+
 	public String getProd_code() {
 		return prod_code;
 	}
@@ -107,22 +111,27 @@ public class ProductVO_HJ {
 	}
 
 
-	public ProductDetailVO getPvo() {
-		return pvo;
+
+	public ProductDetailVO getPdvo() {
+		return pdvo;
 	}
 
 
-	public void setPvo(ProductDetailVO pvo) {
-		this.pvo = pvo;
-	}
-	
-	 
 
-	 //////////////////////////
-	 
-	
-	 
-	
+	public void setPdvo(ProductDetailVO pdvo) {
+		this.pdvo = pdvo;
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 	 
 	   

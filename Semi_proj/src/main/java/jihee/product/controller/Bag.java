@@ -50,17 +50,23 @@ public class Bag extends AbstractController {
 			
 			
 			
-			
 			int totalSumPrice = Integer.parseInt(sumMap.get("SUMTOTALPRICE") );
 			
 			int deliveryfee = 0;
 			//System.out.println("totalSumprice:" + totalSumPrice);
 			
 
-			if (totalSumPrice <= 70000) {
+			if (totalSumPrice <= 70000 && !(cartList.isEmpty()) ) {
 				
 				totalSumPrice = totalSumPrice + 2500;
 				deliveryfee = 2500;
+			}
+			
+			if (totalSumPrice <= 70000 && cartList.isEmpty()) {
+				totalSumPrice = totalSumPrice + 0;
+				deliveryfee = 0;
+				System.out.println("cartList:"  + cartList);
+				
 			}
 			
 			//System.out.println("totalSumPrice :" + totalSumPrice);
