@@ -88,10 +88,10 @@
 		
 		
 		//체크박스 하나라도 해제되면 전체 해제되게 만들기
-		$("input[name=checkQna]").click(function() {
-			const total = $("input[name=checkQna]").length;
+		$("input[name='checkQna']").click(function() {
+			const total = $("input[name='checkQna']").length;
 			console.loge("tota;l:"+total);
-			const checked = $("input[name=checkQna]:checked").length;
+			const checked = $("input[name='checkQna']:checked").length;
 			console.loge("checkd:"+checked);
 
 			if(total != checked) { $("#chxAll").prop("checked", false); }
