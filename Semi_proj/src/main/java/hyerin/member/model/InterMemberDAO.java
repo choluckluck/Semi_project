@@ -23,7 +23,7 @@ public interface InterMemberDAO {
 
 
 	// 페이징 처리한 검색이 있는, 또는 없는 회원목록 조회(select)
-	List<MemberVO> selectPaginMember(Map<String, String> paraMap) throws SQLException;
+	List<MemberVOhr> selectPaginMember(Map<String, String> paraMap) throws SQLException;
 	
 	
 	
@@ -32,7 +32,7 @@ public interface InterMemberDAO {
 
 	
 	//회원정보를 조회하기
-	MemberVO selectEditUserInfo(String userid) throws SQLException;
+	MemberVOhr selectEditUserInfo(String userid) throws SQLException;
 
 	//userid에 해당하는 회원을 탈퇴처리하기 (update)
 	int upateUserStatus(String userid) throws SQLException;
@@ -46,7 +46,7 @@ public interface InterMemberDAO {
 	
 	
 	// 유저정보 불러오기
-	MemberVO getMemberDetail(String userid) throws SQLException;
+	MemberVOhr getMemberDetail(String userid) throws SQLException;
 	
 	
 }

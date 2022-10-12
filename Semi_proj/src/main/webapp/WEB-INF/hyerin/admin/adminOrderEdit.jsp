@@ -148,9 +148,10 @@
 							<option value="반품">반품</option>
 						</select>
 					</td>
+					<td class="pt-1"><button type="button" class="black" style="width:60px; height: 30px;" onclick="updateOrderState();">적용</button></td>
 				</tr>
 				<tr>
-					<td colspan="4"><button type="button" class="black" style="width:100px; height: 30px;" onclick="updateOrderState();">주문상태적용</button></td>
+					<td colspan="4"></td>
 				</tr>
 			</table>
 			<table id="register_table" class="col-5 register_table" style="height:20px;">

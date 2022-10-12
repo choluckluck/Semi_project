@@ -1,6 +1,6 @@
 package hyerin.member.model;
 
-public class MemberVO {
+public class MemberVOhr {
 	private String userid; 
 	private String name; 
 	private String pwd;

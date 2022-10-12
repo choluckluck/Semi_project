@@ -15,7 +15,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import hyerin.member.model.MemberVO;
+import hyerin.member.model.MemberVOhr;
 import hyerin.product.model.ProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
@@ -317,7 +317,7 @@ public class OrderDAO implements InterOrderDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				MemberVO mvo = new MemberVO();
+				MemberVOhr mvo = new MemberVOhr();
 				ovo.setOrder_code(rs.getString(1));
 				mvo.setUserid(rs.getString(2));
 				mvo.setName(rs.getString(3));

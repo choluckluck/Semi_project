@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
-import hyerin.member.model.MemberVO;
+import hyerin.member.model.MemberVOhr;
 import hyerin.product.model.InterProductDAO;
 import hyerin.product.model.ProductDAO;
 import hyerin.product.model.ProductDetailVO;

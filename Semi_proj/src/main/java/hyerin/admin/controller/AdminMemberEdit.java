@@ -7,7 +7,8 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import hyerin.member.model.InterMemberDAO;
 import hyerin.member.model.MemberDAO;
-import hyerin.member.model.MemberVO;
+import hyerin.member.model.MemberVOhr;
+import seongmin.login.model.MemberVO;
 
 public class AdminMemberEdit extends AbstractController {
 
@@ -46,7 +47,7 @@ public class AdminMemberEdit extends AbstractController {
 				InterMemberDAO mdao = new MemberDAO();
 				
 				//회원정보를 조회하기
-				MemberVO mvo = mdao.selectEditUserInfo(userid);
+				MemberVOhr mvo = mdao.selectEditUserInfo(userid);
 				
 				
 				request.setAttribute("mvo", mvo);

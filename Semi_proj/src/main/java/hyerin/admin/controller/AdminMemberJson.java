@@ -57,7 +57,7 @@ public class AdminMemberJson extends AbstractController {
 		
 		
 		// 페이징 처리한 검색이 있는, 또는 없는 회원목록 조회(select)
-		List<MemberVO> mvoList = mdao.selectPaginMember(paraMap);
+		List<MemberVOhr> mvoList = mdao.selectPaginMember(paraMap);
 		
 
 		
@@ -117,7 +117,7 @@ public class AdminMemberJson extends AbstractController {
 		jsonArr.put(jsonObj);
 		
 		if(mvoList.size() > 0) {
-			for(MemberVO mvo : mvoList){
+			for(MemberVOhr mvo : mvoList){
 				JSONObject jsonObj2 = new JSONObject();
 				jsonObj2.put("userid", mvo.getUserid());
 				jsonObj2.put("name", mvo.getName());

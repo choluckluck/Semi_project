@@ -1,6 +1,6 @@
 package hyerin.order.model;
 
-import hyerin.member.model.MemberVO;
+import hyerin.member.model.MemberVOhr;
 import hyerin.product.model.ProductVO;
 
 public class OrderVO {
@@ -18,7 +18,7 @@ public class OrderVO {
 	
 	private ProductVO pvo;
 	private OrderDetailVO odvo;
-	private MemberVO mvo;
+	private MemberVOhr mvo;
 	
 	
 	
@@ -30,10 +30,10 @@ public class OrderVO {
 	public void setDelivery_fee(int delivery_fee) {
 		this.delivery_fee = delivery_fee;
 	}
-	public MemberVO getMvo() {
+	public MemberVOhr getMvo() {
 		return mvo;
 	}
-	public void setMvo(MemberVO mvo) {
+	public void setMvo(MemberVOhr mvo) {
 		this.mvo = mvo;
 	}
 	public String getFk_order_state_name() {
