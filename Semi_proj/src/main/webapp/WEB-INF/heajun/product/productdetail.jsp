@@ -64,6 +64,12 @@ table#code{
 position:relative;
 right:35px;
 }
+
+.form-select{
+ border-color: #e6e6e6;
+ border-radius:5px;
+ width:12px;
+}
 </style>
 
 
@@ -92,103 +98,84 @@ $(document).ready(function() {
 	   
 });//end of $(document).ready(function() {--------------------
 
+	
 //Function Declaration
+
+function checkCart() {
+   
+   // === 주문량에 대한 유효성 검사하기 === //
+    
+    const frm = document.cartFrm;
+    const regExp = /^[0-9]+$/; // 숫자만 체크하는 정규표현식
+    const qnty = frm.qnty.value; 
+    const bool = regExp.test(qnty);
+    
+    if(!bool) {
+       // 숫자 이외의 값이 들어온 경우 
+       alert("수량은 1개 이상이어야 합니다.");
+       frm.qnty.value = "1";
+       frm.qnty.focus();
+       return; // 종료
+    }
+    
+    // 문자형태로 숫자로만 들어온 경우
+    if( Number(qnty) < 1 ) {
+       alert("수량은 1개 이상이어야 합니다.");
+       frm.qnty.value = "1";
+       frm.qnty.focus();
+       return; // 종료
+    }
+}
+
+
+// 관심상품 바로가기
+function goWish() {
+   
+   checkCart();
+   
+   const frm = document.cartFrm;
+      frm.method = "POST";
+      frm.action = "<%=request.getContextPath()%>/heajun/product/addWish.sue";
+      frm.submit();
+
+}
+
+
+// 장바구니 바로가기
 function goCart() {
-	   
-	   // === 주문량에 대한 유효성 검사하기 === //
-	   const frm = document.cartFrm;
-	   
-	   const regExp = /^[0-9]+$/; // 숫자만 체크하는 정규표현식
-	   const qnty = frm.qnty.value; 
-	   const bool = regExp.test(qnty);
-	   
-	   if(!bool) {
-		   // 숫자 이외의 값이 들어온 경우 
-		   alert("장바구니 수량은 1개 이상이어야 합니다.");
-		   frm.qnty.value = "1";
-		   frm.qnty.focus();
-		   return; // 종료
-	   }
-	   
-	   // 문자형태로 숫자로만 들어온 경우
-	   if( Number(qnty) < 1 ) {
-		   alert("장바구니 수량은 1개 이상이어야 합니다.");
-		   frm.qnty.value = "1";
-		   frm.qnty.focus();
-		   return; // 종료
-	   }
-	   // 주문개수가 1개 이상인 경우
-	   frm.method = "POST";
-	   frm.action = "<%= request.getContextPath()%>/jihee/bag/bag.sue";
-	   
-	   frm.submit();
-	   
+      
+      checkCart();
+      
+      // 주문개수가 1개 이상인 경우
+      const frm = document.cartFrm;
+      frm.method = "POST";
+      frm.action = "<%=request.getContextPath()%>/heajun/product/addCart.sue";
+      frm.submit();
+      
 }// end of function goCart()------------------------------ 
 
 
 function goOrder() {
-	   
-	   // === 주문량에 대한 유효성 검사하기 === //
-	   const frm = document.cartFrm;
-	   
-	   const regExp = /^[0-9]+$/; // 숫자만 체크하는 정규표현식
-	   const qnty = frm.qnty.value; 
-	   const bool = regExp.test(qnty);
-	   
-	   if(!bool) {
-		   // 숫자 이외의 값이 들어온 경우 
-		   alert("주문개수는 1개 이상이어야 합니다.");
-		   frm.qnty.value = "1";
-		   frm.qnty.focus();
-		   return; // 종료
-	   }
-	   
-	   // 문자형태로 숫자로만 들어온 경우
-	   if( Number(qnty) < 1 ) {
-		   alert("주문개수는 1개 이상이어야 합니다.");
-		   frm.qnty.value = "1";
-		   frm.qnty.focus();
-		   return; // 종료
-	   }
-	   // 주문개수가 1개 이상인 경우
-	   frm.method = "POST";
-	   frm.action = "<%= request.getContextPath()%>/hasol/purchase/purchase.sue";
-	   
-	   frm.submit();
-	   
-}// end of function goOrder()------------------------------ 
 
-function goInterest() {
-	   
-	   // === 주문량에 대한 유효성 검사하기 === //
-	   const frm = document.cartFrm;
-	   
-	   const regExp = /^[0-9]+$/; // 숫자만 체크하는 정규표현식
-	   const qnty = frm.qnty.value; 
-	   const bool = regExp.test(qnty);
-	   
-	   if(!bool) {
-		   // 숫자 이외의 값이 들어온 경우 
-		   alert("관심상품에 담을 수 있는 수량은 1개 이상이어야 합니다.");
-		   frm.qnty.value = "1";
-		   frm.qnty.focus();
-		   return; // 종료
-	   }
-	   
-	   // 문자형태로 숫자로만 들어온 경우
-	   if( Number(qnty) < 1 ) {
-		   alert("관심상품에 담을 수 있는 수량은 이상이어야 합니다.");
-		   frm.qnty.value = "1";
-		   frm.qnty.focus();
-		   return; // 종료
-	   }
-	   // 주문개수가 1개 이상인 경우
-	   frm.method = "POST";
-	   frm.action = "<%= request.getContextPath()%>/seongmin/member/interestPrd.sue";
-	   
-	   frm.submit();
-	   
-}// end of function goInterest()------------------------------ 
+   checkCart();
+   
+   // 주문개수가 1개 이상인 경우
+   const frm = document.cartFrm;
+   
+   let totalPrice = Number("${requestScope.pvo2.prod_price}")*Number($("input#spinner").val()); // 정가 * 수량
+   let sumtotalPrice = Number("${requestScope.pvo2.prod_saleprice}")*Number($("input#spinner").val()); // 판매가 * 수량
+   let sumtotalpoint = Number("${requestScope.pvo2.prod_point}")*Number($("input#spinner").val()); // 포인트 * 수량
+      
+   frm.totalPrice.value=totalPrice;
+   frm.sumtotalPrice.value=sumtotalPrice;
+   frm.sumtotalpoint.value=sumtotalpoint;
+   
+   frm.method = "POST";
+      frm.action = "<%=request.getContextPath()%>/heajun/product/directOrder.sue";
+   frm.submit();
+
+}// end of function goOrder()------------------------------
+	
 
 </script>
 
@@ -236,7 +223,6 @@ function goInterest() {
 				
 				
 
-   
 			<%-- ==== 장바구니담기 또는 바로주문하기 폼 value="${pvo.prod_code}"==== --%>
 		    <form name="cartFrm">
 		    
@@ -279,20 +265,24 @@ function goInterest() {
 				 
 
 				     	    
-			    <ul class="Productdetail list-unstyled mt-6" style="margin-left:80px ; >
+			    <ul class="Productdetail list-unstyled mt-6" style="margin-left:80px; >
 			    	<li >
-			        	<label style="margin-left:80px; for="spinner"><strong>주문수량&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
+			        	<label style="margin-left:80px; for="spinner" ><strong>주문수량&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></label>
 	  					<input id="spinner" name="qnty" value="1" style="width: 25px; ">
 					</li>
 					<li class="my-5 mx5" >
-						<button type ="button" id="button2"  class="buttons border btn btn-outline-secondary  " onclick="goInterest();  ">♡</button>
+						<button type ="button" id="button2"  class="buttons border btn btn-outline-secondary  " onclick="goWish();  ">♡</button>
 						<button type ="button" id="button"   class="buttons border btn btn-outline-secondary  col-4"  onclick="goCart();">장바구니</button>
 						<button type ="button" id="button3"  class="buttons border btn btn-outline-secondary  col-4" onclick="goOrder();">바로구매</button>
 					</li>
 					
 				</ul>
-				<input type="hidden" id="prod_code" value="${requestScope.prod_code}"/>
-				
+				  <input type="hidden" id="prod_code" name="prod_code" value="${requestScope.pvo2.prod_code}" />				
+				  <input type="hidden" name="totalPrice" value=""/>
+                  <input type="hidden" name="sumtotalPrice" value=""/>
+                  <input type="hidden" name="sumtotalpoint" value=""/>
+                  <input type="hidden" name="price" value="${requestScope.pvo2.prod_price}"/>
+                  <input type="hidden" name="saleprice" value="${requestScope.pvo2.prod_saleprice}"/>
 				
 				
 			</form>	
@@ -324,13 +314,19 @@ function goInterest() {
 
 						           
 		  
-
-    <div class="row" style="margin-top:120px; " >
-		 <c:forTokens var="product_image_file" items="${requestScope.ivo.product_image_file}" delims=",">
-		    <img src="<%= ctxPath%>/images/product/${product_image_file}" style="margin: 0 auto; width:90%; height:90%; object-fit:cover; position:relative;" alt="...">
-	     </c:forTokens>  
-    </div>  
- 
+		<%-- 상품 상세 이미지 보여주기 시작 --%>
+	    <div class="row" style="margin-top:120px; " >
+			 <c:forTokens var="product_image_file" items="${requestScope.ivo.product_image_file}" delims=",">
+			    <img src="<%= ctxPath%>/images/product/${product_image_file}" style="margin: 0 auto; width:90%; height:90%; object-fit:cover; position:relative;" alt="...">
+		     </c:forTokens>  
+	    </div>  
+ 		<%-- 고정적 이미지 --%>
+        <div class="row" style="margin-top:120px; " >
+ 			 <img src="<%= ctxPath%>/images/heajun/Pdetailimage1.jpg"style="margin: 0 auto; width:90%; height:90%; object-fit:cover; position:relative;" alt="..."> 
+	     
+	           <img src="<%= ctxPath%>/images/heajun/Pdetailimage2.jpg" style="margin: 0 auto; width:90%; height:90%; object-fit:cover; position:relative;" alt="..."> 
+	     </div>  
+  
 		  
 		  
 		  
@@ -558,9 +554,9 @@ function goInterest() {
 		  </div>
        </div> <!-- end of tabs -->
        
-     <div id="prdreview" style="width:125%; margin: 0 auto; position:relative; top:300px;">	
+    <div id="prdreview" style="width:125%; margin: 0 auto; position:relative; top:300px;">	
 			 <jsp:include page="/WEB-INF/heajun/board/review.jsp"></jsp:include> 
-      </div>
+      </div> 
       
       
        <div id="prdQuestion" style="width:90%; margin: 0 auto; position:relative; top:500px;">			
