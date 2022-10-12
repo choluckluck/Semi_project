@@ -6,21 +6,28 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import hyerin.member.model.MemberVOhr;
 import hyerin.product.model.InterProductDAO;
 import hyerin.product.model.ProductDAO;
 import hyerin.product.model.ProductDetailVO;
 import hyerin.product.model.ProductVO;
+import hyerin.util.HyerinUtil;
 
 public class AdminProductListJson extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String method = request.getMethod();
+		String gobackUrl = HyerinUtil.getCurrentURL(request);
+		
+				
 		InterProductDAO pdao = new ProductDAO();
 		
 		// select 박스의 상품종류대로 상품정보를 가져온다
@@ -141,7 +148,6 @@ public class AdminProductListJson extends AbstractController {
 			String json = jsonArr.toString();
 			request.setAttribute("json", json);
 			
-			
 		}//end of if
 		else {
 			
@@ -152,8 +158,7 @@ public class AdminProductListJson extends AbstractController {
 		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/hyerin/jsonView.jsp");
-		
-		
+				
 		
 	}
 

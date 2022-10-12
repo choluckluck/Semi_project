@@ -81,7 +81,7 @@ public class ProductSearchJson extends AbstractController {
 		}
 		
 		while( !(loop > blockSize || pageNo > totalPage) ) { //loop가 blocksize보다 커지면 탈출
-			if(pageNo == Integer.parseInt(currentShowPageNo)) {
+			if(pageNo == Integer.parseInt(currentPageNo)) {
 				pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
 				
 			}

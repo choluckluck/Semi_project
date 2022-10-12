@@ -3,6 +3,7 @@
  <% 
  	String ctxPath = request.getContextPath(); 
  %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,7 +128,6 @@
 						</button>
 					</a>
 			</form>
-
 	<%@ include file="/WEB-INF/hyerin/mypage.jsp" %>		
 
 
@@ -190,6 +190,11 @@
 				<li style="float:right; position: relative; right: 20px;">
 					<a id="main_community" href = "<%=ctxPath%>/hyerin/community/notice.sue" class="main_bar">커뮤니티</a>
 				</li>
+				<c:if test="${sessionScope.loginuser != null and sessionScope.loginuser.userid eq 'admin'}">
+					<li style="float:right; position: relative; right: 40px;">
+						<a id="main_admin" href="<%=ctxPath%>/hyerin/admin/adminProductList.sue" class="main_bar">관리자</a>
+					</li>
+				</c:if>
 				<%--
 				<li class="mr-4">
 					<a id="main_sandle" href = "<%=ctxPath%> class="main_bar">샌들</a>
@@ -207,8 +212,8 @@
 				<span><a href="<%=ctxPath%>/jihee/product/productHp7cm.sue">7cm</a></span>
 			</div>
 			<div class="real_subbar real_subbar6 w-100">
-				<span><a href="#">앵클1~6cm</a></span>
-				<span><a href="#">앵클1~6cm</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productAnkle4cm.sue">앵클1~6cm</a></span>
+				<span><a href="<%=ctxPath%>/jihee/product/productAnkle7cm.sue">앵클1~6cm</a></span>
 				<span><a href="<%=ctxPath%>/jihee/product/productBoots.sue">롱부츠</a></span>
 			</div>
 			<div class="real_subbar real_subbar7 w-100">

@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
-import hyerin.product.model.InterProductDAO;
-import hyerin.product.model.ProductDAO;
 import hyerin.review.model.InterReviewDAO;
 import hyerin.review.model.ReviewDAO;
 import hyerin.util.HyerinUtil;
@@ -79,7 +77,7 @@ public class AdminProductReviewDeleteJson extends AbstractController {
 			request.setAttribute("json", json);
 			super.setViewPage("/WEB-INF/hyerin/jsonView.jsp");
 		}
-		
+				
 	}
 
 }

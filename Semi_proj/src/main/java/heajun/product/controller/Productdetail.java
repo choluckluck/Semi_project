@@ -1,6 +1,6 @@
 package heajun.product.controller;
 
-import java.util.List;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +9,7 @@ import common.controller.AbstractController;
 import heajun.product.model.InterProductDetailDAO;
 import heajun.product.model.ProductDetailDAO;
 import heajun.product.model.ProductVO_HJ;
+import heajun.product.model.Product_imageVO;
 
 public class Productdetail extends AbstractController {
 
@@ -35,7 +36,7 @@ public class Productdetail extends AbstractController {
 						
 							ProductVO_HJ pvo2 = pdao.selectProductOption(prod_code);   
 							
-							
+							Product_imageVO ivo = pdao.selectImage(prod_code);
 							
 							if(pvo == null) {
 								// GET 방식이므로 사용자가 웹브라우저 주소창에서 장난쳐서 존재하지 않는 제품번호를 입력한 경우
@@ -56,6 +57,7 @@ public class Productdetail extends AbstractController {
 								//request.setAttribute("prod_code", prod_code);
 								request.setAttribute("pvo", pvo);  // 제품의 정보
 								request.setAttribute("pvo2",pvo2); // 옵션가져오기
+								request.setAttribute("ivo", ivo);//이미지 가져오기
 								//super.setRedirect(false);
 								super.setViewPage("/WEB-INF/heajun/product/productdetail.jsp");
 							
@@ -73,6 +75,5 @@ public class Productdetail extends AbstractController {
 		     super.setViewPage("/WEB-INF/heajun/product/productdetail.jsp");
 				
 	}
-	
 
 }

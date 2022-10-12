@@ -149,6 +149,8 @@
 				        <span style="margin-left:5px;"><fmt:formatNumber value="${requestScope.paraMap.totalOrderamount}" pattern="#,###"/></span>원
 				        &nbsp;+&nbsp;배송비 
 				        <span style="margin-left:5px;"><fmt:formatNumber value="${requestScope.paraMap.deliveryfee}" pattern="#,###"/></span>원
+				        &nbsp;-&nbsp;포인트사용액 
+				        <span style="margin-left:5px;"><fmt:formatNumber value="${requestScope.paraMap.userusePoint}" pattern="#,###"/></span>원
 				        &nbsp;=&nbsp; 합계
 				        <span style="font-weight:bold; margin-left:5px;"><fmt:formatNumber value="${requestScope.paraMap.totalRealamount}" pattern="#,###"/>원</span>
 			        </td>

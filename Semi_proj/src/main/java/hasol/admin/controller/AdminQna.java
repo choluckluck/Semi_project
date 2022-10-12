@@ -13,19 +13,20 @@ import hasol.admin.model.J_InterQnaDAO;
 import hasol.admin.model.J_QnaDAO;
 import hasol.admin.model.J_QnaVO;
 import hasol.member.model.J_MemberVO;
+import seongmin.login.model.MemberVO;
 
 public class AdminQna extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+	
+		super.goBackURL(request);
 		
-		/*		
 		// == 로그인하지 않았다면 조회가 불가능 ==
 		if(!super.checkLogin(request)){
 			
 			String message = "로그인을 하세요.";
-            String loc = "javascript:history.back()";
+			String loc = request.getContextPath()+"/hyerin/login/login.sue";
             
             request.setAttribute("message", message);
             request.setAttribute("loc", loc);
@@ -39,7 +40,7 @@ public class AdminQna extends AbstractController {
 		else {
 			
 			HttpSession session = request.getSession();
-			J_MemberVO loginuser = (J_MemberVO)session.getAttribute("loginuser");
+			MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
 			if(!"admin".equals(loginuser.getUserid())) { // 관리자가 아닌 일반 사용자가 로그인한 경우
 				
@@ -55,11 +56,11 @@ public class AdminQna extends AbstractController {
 			}
 			else { // 관리자로 로그인한 경우
 				
-				
+			super.setViewPage("/WEB-INF/hyerin/admin/adminQna.jsp");	
+		
+			}
 		
 		}
-		*/
-		super.setViewPage("/WEB-INF/hyerin/admin/adminQna.jsp");
-	}
 
+	}
 }

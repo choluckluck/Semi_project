@@ -21,8 +21,8 @@
 	}
 	
 	.notice_th{
-		border-top : solid 1px black;
-		border-bottom: solid 1px black;
+		border-top : solid 1px #003333;
+		border-bottom: solid 1px #003333;
 		font-weight: normal;
 	}
 	
@@ -59,8 +59,8 @@
 	
 	/* noticeWrtie.jsp */
 	.black{
-		background-color: black;
-		border: solid 1px black;
+		background-color: #003333;
+		border: solid 1px #003333;
 		color: white;
 		font-size: 10pt;
 		height: 50px;
@@ -68,7 +68,7 @@
 	}
 	.white{
 		background-color: white;
-		border: solid 1px black;
+		border: solid 1px #003333;
 		font-size: 10pt;
 		height: 50px;
 		width: 100px;
@@ -76,10 +76,10 @@
 	
 	/* noticeView.jsp */
 	#Viewother_post_table > tr:first-child > td{
-		border-bottom: solid 1px black;
+		border-bottom: solid 1px #003333;
 	}
 	#Viewother_post_table > tr > td:first-child{
-		border-right: solid 1px black;
+		border-right: solid 1px #003333;
 	}
 	
 	span#previous_post:hover, span#next_post:hover{

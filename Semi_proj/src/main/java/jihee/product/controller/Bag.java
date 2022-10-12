@@ -35,6 +35,30 @@ public class Bag extends AbstractController {
 		   InterProductDAO pdao = new ProductDAO();
 		   
 
+			String productType_1 = "pumps";
+			paraMap.put("productType_1", productType_1);
+			
+			String productType_2 = "ankle";
+			paraMap.put("productType_2", productType_2);
+			
+			String productType_3 = "mule";
+			paraMap.put("productType_3", productType_3);
+			
+			
+			String productHigh_1 ="3.5";
+			
+			paraMap.put("productHigh_1", productHigh_1);
+			
+			String productHigh_2 ="7";
+			
+			paraMap.put("productHigh_2", productHigh_2);
+			
+			String productHigh_3 ="4";
+			
+			paraMap.put("productHigh_3", productHigh_3);
+			
+			String productBest = "Best";
+			paraMap.put("Best", productBest);
 
 		   
 		   List<cartVO> cartList = new ArrayList<>();
@@ -47,6 +71,12 @@ public class Bag extends AbstractController {
 			Map<String, String> sumMap = pdao.selectCartSumPrice(loginuser.getUserid());
 			
 			request.setAttribute("sumMap", sumMap);
+			
+			//캐러셀이미지 불러오기
+			
+			List<ProductVO> bestProductList = pdao.selectBestProduct(paraMap);
+
+			request.setAttribute("bestProductList", bestProductList);
 			
 			
 			
@@ -82,8 +112,7 @@ public class Bag extends AbstractController {
 				
 				String cart_code = request.getParameter("cart_code");
 				String quantity = request.getParameter("quantity");
-				
-				
+
 				
 			}
 		   

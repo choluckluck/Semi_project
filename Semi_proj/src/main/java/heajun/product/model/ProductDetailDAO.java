@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -154,96 +152,58 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 
 	
 
-	//위시리스트에 값보내기
+	//이미지 가지고서 해당 제품의 이미지를 조회해오기 
 	@Override
-	public int addWish(String userid , String prod_code , String prod_color, String prod_size) throws SQLException {
-		
-		int result = 0;
-	      
-	      try {
-	         conn = ds.getConnection();
-	     
-		            
-	         String sql = " insert into tbl_like(like_code, fk_userid, fk_prode_code,  fk_prode_color ,fk_prod_size) "
-		               + " values(seq_like_code.nextval, ?, ?, ?, ? ) ";
-		            
-	            pstmt.setString(1, userid );
-	            pstmt.setString(2, prod_code);
-	            pstmt.setString(3, prod_color);
-	            pstmt.setString(4, prod_size);
-	            
-		            result = pstmt.executeUpdate();
-	      } finally {
-		         close();
-		      }
-		      
-		      return result;		
-		}  
-		      
-	
+	public Product_imageVO selectImage(String prod_code) throws SQLException {
 
-	//장바구니에 값 보내기
-	@Override
-	public int addCart(String userid , String prod_code, String prod_color, String prod_size, String qnty) throws SQLException {
+		Product_imageVO ivo = new Product_imageVO();
 		
-		int result = 0;
-		
-	      try {
-	         conn = ds.getConnection();
-	          
-	         String sql = " select cart_code "
-	                  + " from tbl_cart "
-	                  + " where fk_userid = ? and fk_prode_code = ? ";
-	         
-	         pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, userid);
-	         pstmt.setString(2, prod_code);
-	         pstmt.setString(3, prod_color);
-	         pstmt.setString(4, prod_size);
-	         pstmt.setString(5, qnty);
-	         
-	         rs = pstmt.executeQuery();
-	         
-	         
-	         if(rs.next()) {
-		            // 어떤 제품을 추가로 장바구니에 넣고자 하는 경우 
-		            
-		            int cart_code = rs.getInt("cart_code");
-		            
-		            sql = " update tbl_cart set qnty = qnty + ? "
-		               + " where cart_code = ? ";
-		            
-		            pstmt = conn.prepareStatement(sql);
-		            pstmt.setInt(1, Integer.parseInt(qnty));
-		            pstmt.setInt(2, cart_code);
-		            
-		            result = pstmt.executeUpdate();
-		         }
-	         
-	         else {
-	         
-	            sql = " insert into tbl_cart(cart_code, fk_userid , fk_prod_code, qnty, fk_prod_color , fk_prod_size) "
-	               + " values(seq_cart_code.nextval,  ?, ?, ?, ? ) ";
-	            
-	            pstmt = conn.prepareStatement(sql);
-	            pstmt.setString(1, userid );
-	            pstmt.setString(2, prod_code);
-	            pstmt.setInt(3, Integer.parseInt(qnty));
-	            pstmt.setString(4, prod_color);
-	            pstmt.setString(5, prod_size);
-	            
-	            result =  pstmt.executeUpdate();
-	          }
-	         
-	         } finally {
-		         close();
-		      }
-		      
-		      return result;      
-		}
+		try {
+			
+			 conn = ds.getConnection();
+			
+			  
+			   String sql = "  select  product_image_code, fk_prod_code, product_image_file,prod_code\n"+
+					   "            from (   \n"+
+					   "                   select  I.product_image_code, I.fk_prod_code,  I.product_image_file , P.prod_code  \n"+
+					   "                   from tbl_product P  \n"+
+					   "                   join tbl_product_image I \n"+
+					   "                   on P.prod_code = I.fk_prod_code \n"+
+					   "                \n"+
+					   "              ) \n"+
+					   "                where prod_code = ? " ;
 	
+		   
+		     
+		     
+		     
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, prod_code);
+			 
+			 			 
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+					
+				 
+				    ivo.setFk_prod_code(rs.getString(1));
+					ivo.setProd_image_code(rs.getString(2));
+					ivo.setProduct_image_file(rs.getString(3));
+					
+				    ProductVO_HJ pvo3 = new ProductVO_HJ();
+				   
+				     pvo3.setProd_code(rs.getString(1));
+				
+					 ivo.setPvo3(pvo3);
+					
+					
+			 }// end of while(rs.next())-----------------------
+				
+		} finally {
+			close();
+		}		
 	
-
-	
-		
+		return ivo;
+	}
 }

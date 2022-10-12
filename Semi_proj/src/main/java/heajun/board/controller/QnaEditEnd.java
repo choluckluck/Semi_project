@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 import heajun.board.model.InterQnaDAO;
-import heajun.board.model.QnaDAO;
-import heajun.board.model.QnaVO;
+import heajun.board.model.QnaDAO_HJ;
+import heajun.board.model.QnaVO_HJ;
 
 public class QnaEditEnd extends AbstractController {
 
@@ -17,17 +17,17 @@ public class QnaEditEnd extends AbstractController {
 	         if("post".equalsIgnoreCase(method)) { // 수정할 글내용과 제목등을 적고 수정하기버튼을 눌러야 POST로 들어올 수 있다.
 	            
 	        	 String qna_code = request.getParameter("qna_code");
-	             String fk_member_code = request.getParameter("fk_member_code");
+	             String fk_userid = request.getParameter("fk_userid");
 	             String category = request.getParameter("category");
 	             String subject = request.getParameter("subject");
 	             String contents = request.getParameter("contents");
 	             String registerday = request.getParameter("registerday");
 		        
-	            InterQnaDAO qdao = new QnaDAO();
-	           	int n = qdao.updateBoard(fk_member_code, category , subject, contents, qna_code );
+	            InterQnaDAO qdao = new QnaDAO_HJ();
+	           	int n = qdao.updateBoard(fk_userid, category , subject, contents, qna_code );
 	           	
 	            request.setAttribute("qna_code",qna_code); 
-	            request.setAttribute("fk_member_code",fk_member_code); 
+	            request.setAttribute("fk_userid",fk_userid); 
 	            request.setAttribute("category",category); 
 	            request.setAttribute("subject",subject); 
 	            request.setAttribute("contents", contents);
@@ -39,7 +39,7 @@ public class QnaEditEnd extends AbstractController {
 
 		            if(n==1) {// update 성공
 		            	
-		            	QnaVO qvo = qdao.updateEnd(fk_member_code, category , subject, contents, qna_code ,registerday);
+		            	QnaVO_HJ qvo = qdao.updateEnd(fk_userid, category , subject, contents, qna_code ,registerday);
 		            	
 		            	message = "글 수정 성공!!";
 		            	request.setAttribute("qvo", qvo);

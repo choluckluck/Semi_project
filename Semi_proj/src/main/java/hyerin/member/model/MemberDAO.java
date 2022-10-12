@@ -154,8 +154,8 @@ public class MemberDAO implements InterMemberDAO {
 	
 	// 페이징 처리한 검색이 있는, 또는 없는 회원목록 조회(select)
 	@Override
-	public List<MemberVO> selectPaginMember(Map<String, String> paraMap) throws SQLException {
-		List<MemberVO> mvoList = new ArrayList<>();
+	public List<MemberVOhr> selectPaginMember(Map<String, String> paraMap) throws SQLException {
+		List<MemberVOhr> mvoList = new ArrayList<>();
 		
 		try {
 			conn = ds.getConnection();
@@ -217,7 +217,7 @@ public class MemberDAO implements InterMemberDAO {
 			System.out.println(sql);
 			
 			while(rs.next()) {
-				MemberVO mvo = new MemberVO();
+				MemberVOhr mvo = new MemberVOhr();
 				
 				//핸드폰 - 처리해주기
 				String mobile = aes.decrypt(rs.getString(4));
@@ -267,8 +267,8 @@ public class MemberDAO implements InterMemberDAO {
 	
 	// 회원정보 조회하기
 	@Override
-	public MemberVO selectEditUserInfo(String userid) throws SQLException {
-		MemberVO mvo = new MemberVO();
+	public MemberVOhr selectEditUserInfo(String userid) throws SQLException {
+		MemberVOhr mvo = new MemberVOhr();
 		
 		try {
 			conn = ds.getConnection();
@@ -383,8 +383,8 @@ public class MemberDAO implements InterMemberDAO {
 	
 	// 유저정보 불러오기
 	@Override
-	public MemberVO getMemberDetail(String userid) throws SQLException {
-		MemberVO mvo = new MemberVO();
+	public MemberVOhr getMemberDetail(String userid) throws SQLException {
+		MemberVOhr mvo = new MemberVOhr();
 		
 		try {
 			conn = ds.getConnection();
