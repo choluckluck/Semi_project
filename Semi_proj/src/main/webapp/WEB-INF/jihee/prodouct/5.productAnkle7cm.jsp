@@ -42,7 +42,7 @@ a:active {text-decoration: none; color: gray;}
 			</div>
 				<ul style="list-style: none; text-align: left; padding:0px; font-size: 17px; color:gray;">
 					<li class="fw-bolder"> <a href="<%=ctxPath%>/jihee/product/productAnkle4cm.sue" class="link" style="text-decoration: none; color: gray;">앵클 1~6cm</a><li>
-					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productAnkle7cm.sue" class="link" style="text-decoration: none; color: gray;">앵클 7cm~</a><li>
+					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productAnkle7cm.sue" class="link" style="text-decoration: none; color: black;">앵클 7cm~</a><li>
 					<li class="fw-bolder"><a href="<%=ctxPath%>/jihee/product/productBoots.sue" class="link" style="text-decoration: none; color: gray;">롱부츠</a><li>
 				</ul>
 				<br>
@@ -202,7 +202,7 @@ a:active {text-decoration: none; color: gray;}
 		 
 			<div id="maincontent">
 		 <jsp:include page="5.productAbTop.jsp" /> 
-		 <jsp:include page="5.productAbBottom.jsp" /> 
+		 <jsp:include page="5.productAbBottom.jsp" />
 		</div>
 	 </div>
 	 </div>
@@ -352,7 +352,7 @@ a:active {text-decoration: none; color: gray;}
 	function goSearch() {
 		
 		const frm = document.productHpFrm
-		frm.action = "productAb.sue";
+		frm.action = "productAnkle7cm.sue";
 		frm.submit();
 		
 

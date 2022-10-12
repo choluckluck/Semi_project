@@ -117,8 +117,7 @@ public class AdminMemberJson extends AbstractController {
 		jsonArr.put(jsonObj);
 		
 		if(mvoList.size() > 0) {
-			
-			{
+			for(MemberVO mvo : mvoList){
 				JSONObject jsonObj2 = new JSONObject();
 				jsonObj2.put("userid", mvo.getUserid());
 				jsonObj2.put("name", mvo.getName());
