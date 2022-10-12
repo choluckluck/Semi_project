@@ -40,7 +40,7 @@
 		<c:forEach var="rovo" begin="0" end="3" items="${requestScope.recentOrderList}">
 			<tr >
 				<td class="recentordertd">${rovo.orderdate}<br>
-				<a class="orderview" href="#">${rovo.order_code}</a></td>
+				[<a class="orderview" href="#">${rovo.order_code}</a>]</td>
 				<%--<%=request.getContextPath()/seongmin/member/orderDetail.sue--%>				
 				<td class="recentordertd"><a href=""><div><img id="recentorderimg" src="<%=request.getContextPath() %>/images/product/${rovo.pvo.prod_image}"></div></a></td>
 				<td class="recentordertd"style="text-align: left">

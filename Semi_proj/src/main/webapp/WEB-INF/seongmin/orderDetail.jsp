@@ -3,6 +3,8 @@
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 <%
     String ctxPath = request.getContextPath();
@@ -310,11 +312,11 @@
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">우편번호</td>
-				<td scope="col"><span>${loginuser.postcode}</span></td>
+				<td scope="col">(<span>${loginuser.postcode}</span>)</td>
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">주소</td>
-				<td scope="col"><span>${loginuser.address}  ${loginuser.detailaddress} ${loginuser.extraaddress}</span></td>
+				<td scope="col"><span>${loginuser.address}  ${loginuser.detailaddress} (${loginuser.extraaddress})</span></td>
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">일반전화</td>
@@ -322,7 +324,7 @@
 			  </tr>
 	      	  <tr>
 				<td scope="col" style="font-weight:bold; color:gray;">휴대전화</td>
-				<td scope="col"><span>${loginuser.mobile}</span></td>
+				<td scope="col"><span>${ fn:substring(sessionScope.loginuser.mobile, 0, 3)}-${ fn:substring(sessionScope.loginuser.mobile, 3, 7)}-${ fn:substring(sessionScope.loginuser.mobile, 7, 11)}</span></td>
 	      	  <tr >
 				<td scope="col" style="font-weight:bold; color:gray;">배송메시지</td>
 				<td scope="col" style="vertical-align:middle;"><span >경비실 앞에 놔주세요.</span></td>

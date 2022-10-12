@@ -96,24 +96,23 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 
 	// 옵션 선택을 위한 해당 상품의 옵션 정보가져오기 
 	@Override
-	public List<ProductVO_HJ> selectProductOption(String prod_code) throws SQLException {
+	public ProductVO_HJ selectProductOption(String prod_code) throws SQLException {
 
-		List<ProductVO_HJ> option = new ArrayList<>();
+		ProductVO_HJ pvo2 = new ProductVO_HJ();
 		
 		
 		try {
 			conn = ds.getConnection();
 			
-			   String sql = " select prod_code, prod_name, prod_kind,  prod_image, prod_high, prod_price, prod_registerday, md_pick_yn, prod_saleprice, prod_description, prod_point, prod_color, prod_size, prod_stock , fk_userid ,qnty "+
-					   "		            from (  " +
-					   "		                   select prod_code, prod_name, prod_kind,  prod_image, prod_high, prod_price, prod_registerday, md_pick_yn, prod_saleprice, prod_description, prod_point, prod_color, prod_size, prod_stock ,fk_userid ,qnty "+
-					   "		                   from tbl_product P  " +
-					   "		                   join tbl_prod_detail O  " +
-					   "		                   on P.prod_code = O.fk_prod_code " +
-					   "		                   join tbl_cart C  "+
-					   "		                   on O.fk_prod_code = C.fk_prod_code  "+
-					   "		                  ) V  " +
-					   "		                where prod_code = ?  " ;
+			  String sql = " select prod_code, prod_name, prod_kind,  prod_image, prod_high, prod_price, prod_registerday, md_pick_yn, prod_saleprice, prod_description, prod_point, prod_color, prod_size\n"+
+					  "            from (   \n"+
+					  "                   select P.prod_code, P.prod_name, P.prod_kind,  P.prod_image, P.prod_high, P.prod_price, P.prod_registerday, P.md_pick_yn, P.prod_saleprice, P.prod_description, P.prod_point, O.prod_color, O.prod_size \n"+
+					  "                   from tbl_product P  \n"+
+					  "                   join option_detail O \n"+
+					  "                   on P.prod_code = O.prod_code \n"+
+					  "                \n"+
+					  "              ) \n"+
+					  "                where prod_code = ? ";         
 					
 			
 			
@@ -122,45 +121,34 @@ public class ProductDetailDAO implements InterProductDetailDAO {
 		
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()) {
+			if(rs.next()) {
 				
-				
-				ProductVO_HJ pvo = new ProductVO_HJ();
-				
-				 pvo.setProd_code(rs.getString(1));
-				 pvo.setProd_name(rs.getString(2));
-				 pvo.setProd_kind(rs.getString(3));
-				 pvo.setProd_image(rs.getString(4));
-				 pvo.setProd_high(rs.getString(5));
-				 pvo.setProd_price(rs.getInt(6));
-				 pvo.setProd_registerday(rs.getString(7));
-				 pvo.setMd_pick_yn(rs.getString(8));
-				 pvo.setProd_saleprice(rs.getInt(9));
-				 pvo.setProd_description(rs.getString(10));
-				 pvo.setProd_point(rs.getInt(11));
+				pvo2.setProd_code(rs.getString(1));
+				pvo2.setProd_name(rs.getString(2));
+				pvo2.setProd_kind(rs.getString(3));
+				pvo2.setProd_image(rs.getString(4));
+				pvo2.setProd_high(rs.getString(5));
+				pvo2.setProd_price(rs.getInt(6));
+				pvo2.setProd_registerday(rs.getString(7));
+				pvo2.setMd_pick_yn(rs.getString(8));
+				pvo2.setProd_saleprice(rs.getInt(9));
+				pvo2.setProd_description(rs.getString(10));
+				pvo2.setProd_point(rs.getInt(11));
 				 
-				 ProductDetailVO ovo = new ProductDetailVO();
+				 ProductDetailVO pdvo = new ProductDetailVO();
 				 
-				 ovo.setProd_color(rs.getString(12));
-				 ovo.setProd_size(rs.getString(13));
-				 ovo.setProd_stock(rs.getInt(14));
+				 pdvo.setProd_color(rs.getString(12));
+				 pdvo.setProd_size(rs.getString(13));
 				
-				 pvo.setFk_prod_code(ovo);
-				
-				  CartVO_HJ cvo = new CartVO_HJ();
-				    cvo.setFk_userid(rs.getString(15));
-				    cvo.setQnty(rs.getInt(16));
-				    
-				    ovo.setFK_prod_code(cvo);
-				    
-				option.add(pvo);
+				 pvo2.setPdvo(pdvo);
+				 
 			}// end of while(rs.next())-----------------------
 			
 		} finally {
 			close();
 		}		
 	
-		return option;
+		return pvo2;
 	}
 
 

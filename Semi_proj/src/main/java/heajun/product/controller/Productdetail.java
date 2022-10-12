@@ -15,7 +15,7 @@ public class Productdetail extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			     
-		//super.goBackURL(request);
+		super.goBackURL(request);
 		
 		String method = request.getContextPath();
 		
@@ -33,9 +33,7 @@ public class Productdetail extends AbstractController {
 							// 제품번호를 가지고서 해당 제품의 정보를 조회해오기
 							ProductVO_HJ pvo = pdao.selectProduct(prod_code);// 상품정보 가져오기
 						
-							
-							List<ProductVO_HJ> option = pdao.selectProductOption(prod_code);   
-							
+							ProductVO_HJ pvo2 = pdao.selectProductOption(prod_code);   
 							
 							
 							
@@ -57,7 +55,7 @@ public class Productdetail extends AbstractController {
 								// 제품이 있는 경우 
 								//request.setAttribute("prod_code", prod_code);
 								request.setAttribute("pvo", pvo);  // 제품의 정보
-								request.setAttribute("option",option); // 옵션가져오기
+								request.setAttribute("pvo2",pvo2); // 옵션가져오기
 								//super.setRedirect(false);
 								super.setViewPage("/WEB-INF/heajun/product/productdetail.jsp");
 							
@@ -75,5 +73,6 @@ public class Productdetail extends AbstractController {
 		     super.setViewPage("/WEB-INF/heajun/product/productdetail.jsp");
 				
 	}
+	
 
 }

@@ -67,9 +67,9 @@
 		
 		$("a.orderview").click(function(e){
 			const orderCode = $(e.target).html();
-			alert(orderCode);
+//			alert(orderCode);
 			$("#ord_code").val(orderCode);
-			alert($("#ord_code").val());
+//			alert($("#ord_code").val());
 			$("#orderViewFrm").submit();
 		});
 

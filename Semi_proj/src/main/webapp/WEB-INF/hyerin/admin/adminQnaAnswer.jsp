@@ -31,12 +31,60 @@
 	<%-- jQueryUI CSS--%>
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
 	<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
+	
+	
 	<script>
-		$(document).ready(function(){
+	   // Function Declaration
+	   function check() {
+		   console.log("여기 오긴해 ?");
+		   let confirm = false;
+		   let subject = $("input#subject").val();
+		   let contents = $("textarea#contents").val();
+		   
+		   while (!confirm) {
+			   if(subject.length == 0) {
+				   alert("제목을 입력해 주세요!");
+				   confirm = false;
+				   console.log("제목no");
+				   break;
+			   }
+			   else {
+				   confirm = true;
+				   console.log("제목yes");
+				   
+				   if(contents.length == 0) {
+					   alert("글 내용을 입력해 주세요!");
+					   confirm = false;
+					   console.log("내용no");
+					   break;
+				   }
+				   else {
+					   confirm = true;
+					   console.log("내용yes");
+				   }
+		   		}
+				
+				goSubmit();
+		   } // end of while
+
+	   }
+		  
+	   
+
+		function goSubmit() {
+		
+			if (confirm("정말 등록하시겠습니까??") == true){    //확인
 			
+			  const frm = document.qnaAnswer_form;
+			  frm.action = "adminQnaAnswerEnd.sue";
+			  frm.method = "POST";
+			  frm.submit();
 			
+			}else{   //취소
 			
-		});
+			    return false;
+			}
+	   }
 	</script>
 	
 </head>
@@ -49,19 +97,19 @@
 				<table id="notice_write" class="table table-condensed mt-4" style="font-size:10pt;">
 					<tr>
 						<td class="col-1 align-middle">제목</td>
-						<td class="col-11"><input name="subject" type="text" class="form-control" placeholder="제목을 입력하세요"/></td>
+						<td class="col-11"><input name="subject" id ="subject" type="text" class="form-control" placeholder="제목을 입력하세요"/></td>
 					</tr>
 					<tr>
 						<td colspan="2" class="clear">
-							<textarea id="answer_contents" class="form-control w-100" style="height:300px;"></textarea>
+							<textarea id="contents" name="contents" class="form-control w-100" style="height:300px;"></textarea>
 			            </td>
 	           		</tr>
 				</table>
+				<div class="my-2">
+					<span><button id="qnaAnswer_reset" type="reset" class="float-right mr-2 white" style="height:40px;">취소</button></span>
+					<span><button id="qnaAnswer_submit" type="button" class="float-right mr-2 black" style="height:40px;" onClick="check()">등록</button></span>
+				</div>
 			</form>
-			<div class="my-2">
-				<span><button id="qnaAnswer_reset" type="reset" class="float-right mr-2 white" style="height:40px;">취소</button></span>
-				<span><button id="qnaAnswer_submit" type="button" class="float-right mr-2 black" style="height:40px;">등록</button></span>
-			</div>
 		</div>
 		<div class="col-1"></div>
 	</div>
