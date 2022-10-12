@@ -15,22 +15,6 @@
 	});//end of ready
 	
 	
-	// function delcaration
-	<%-- 
-	function wish_heart(prod_code){
-		//만약 DB의 관심상품에 있으면 => 빨간색으로
-		const frm = document.wish_heart_frm;
-		frm.action = "<%= ctxPath%>/main.sue";
-		$("")
-		frm.submit();
-		
-		if("${requestScope.heart_result}" == "Y"){
-			alert("예");
-			//const wish_heart_img = $("#"+prod_code+"_img");
-			//wish_heart_img.attr({src:"<%= ctxPath%>/images/hyerin/red_heart.png"});
-		} 
-	}//end of wish_heart
- --%>
 </script>
 
 <%-- 메인 캐러셀 --%>
@@ -76,7 +60,7 @@
 	    		<tr>
 	    			<c:forEach var="best_pvo" items="${requestScope.best_pvoList}" begin="0" end="3" step="1">
 						<td width="20%" class="pr-1">
-							<a href="#" style="text-decoration: none; color: black;">
+							<a href="<%= ctxPath%>/heajun/product/productdetail.sue?prod_code=${best_pvo.prod_code}" style="text-decoration: none; color: black;">
 								<img src="<%= ctxPath%>/images/product/${best_pvo.prod_image}" width="100%"/>
 								<div class="mt-3">
 									<span style="float:left;">
@@ -85,15 +69,6 @@
 										</c:forTokens>
 									</span>
 									<span style="float:right; font-size:9pt;">리뷰 ${best_pvo.prod_review_count}개</span>
-									<%-- 
-									<form name="wish_heart_frm">
-										<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-											<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
-										</label>
-										<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-										<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
-									</form>
-									 --%>
 									<div class="pt-3" style="clear:both">${best_pvo.prod_name} <span>(${best_pvo.prod_high}cm)</span></div>
 									<div class="pt-1 pb-5">
 										<c:if test="${not empty best_pvo.prod_saleprice}">
@@ -106,7 +81,6 @@
 											<span><fmt:formatNumber value="${best_pvo.prod_price}" pattern="#,###"/></span>
 										</c:if>
 									</div>
-									
 								</div>
 							</a>
 						</td>
@@ -119,7 +93,7 @@
 				<tr>
 	    			<c:forEach var="best_pvo" items="${requestScope.best_pvoList}" begin="4" end="7" step="1">
 						<td width="20%" class="pr-1">
-							<a href="#" style="text-decoration: none; color: black;">
+							<a href="<%= ctxPath%>/heajun/product/productdetail.sue?prod_code=${best_pvo.prod_code}" style="text-decoration: none; color: black;">
 								<img src="<%= ctxPath%>/images/product/${best_pvo.prod_image}" width="100%"/>
 								<div class="mt-3">
 									<span style="float:left;">
@@ -128,15 +102,6 @@
 										</c:forTokens>
 									</span>
 									<span style="float:right; font-size:9pt;">리뷰 ${best_pvo.prod_review_count}개</span>
-									<%-- 
-									<form name="wish_heart_frm">
-										<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-											<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
-										</label>
-										<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-										<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
-									</form>
-									 --%>
 									<div class="pt-3" style="clear:both">${best_pvo.prod_name} <span>(${best_pvo.prod_high}cm)</span></div>
 									<div class="pt-1 pb-5">
 										<c:if test="${not empty best_pvo.prod_saleprice}">
@@ -176,7 +141,7 @@
 			<tr>
 				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="0" end="3" step="1">
 					<td width="20%" class="pr-1">
-						<a href="#" style="text-decoration: none; color: black;">
+						<a href="<%= ctxPath%>/heajun/product/productdetail.sue?prod_code=${new_pvo.prod_code}" style="text-decoration: none; color: black;">
 							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
@@ -185,15 +150,6 @@
 									</c:forTokens>
 								</span>
 								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
-								<%-- 
-								<form name="wish_heart_frm">
-									<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-										<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
-									</label>
-									<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-									<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
-								</form>
-								 --%>
 								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
 									<c:if test="${not empty new_pvo.prod_saleprice}">
@@ -214,7 +170,7 @@
 			<tr>
 				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="4" end="7" step="1">
 					<td width="20%" class="pr-1">
-						<a href="#" style="text-decoration: none; color: black;">
+						<a href="<%= ctxPath%>/heajun/product/productdetail.sue?prod_code=${new_pvo.prod_code}" style="text-decoration: none; color: black;">
 							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
@@ -223,15 +179,6 @@
 									</c:forTokens>
 								</span>
 								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
-								<%-- 
-								<form name="wish_heart_frm">
-									<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-										<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
-									</label>
-									<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-									<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
-								</form>
-								 --%>
 								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
 									<c:if test="${not empty new_pvo.prod_saleprice}">
@@ -252,7 +199,7 @@
 			<tr>
 				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="8" end="11" step="1">
 					<td width="20%" class="pr-1">
-						<a href="#" style="text-decoration: none; color: black;">
+						<a href="<%= ctxPath%>/heajun/product/productdetail.sue?prod_code=${new_pvo.prod_code}" style="text-decoration: none; color: black;">
 							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
@@ -261,15 +208,6 @@
 									</c:forTokens>
 								</span>
 								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
-								<%-- 
-								<form name="wish_heart_frm">
-									<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-										<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
-									</label>
-									<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-									<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
-								</form>
-								 --%>
 								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
 									<c:if test="${not empty new_pvo.prod_saleprice}">
@@ -290,7 +228,7 @@
 			<tr>
 				<c:forEach var="new_pvo" items="${requestScope.new_pvoList}" begin="12" end="15" step="1">
 					<td width="20%" class="pr-1">
-						<a href="#" style="text-decoration: none; color: black;">
+						<a href="<%= ctxPath%>/heajun/product/productdetail.sue?prod_code=${new_pvo.prod_code}" style="text-decoration: none; color: black;">
 							<img src="<%= ctxPath%>/images/product/${new_pvo.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
@@ -299,15 +237,6 @@
 									</c:forTokens>
 								</span>
 								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
-								<%-- 
-								<form name="wish_heart_frm">
-									<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-										<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
-									</label>
-									<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-									<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
-								</form>
-								 --%>
 								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
 									<c:if test="${not empty new_pvo.prod_saleprice}">
@@ -338,7 +267,7 @@
 			<tr>
 				<c:forEach var="md_pvo" items="${requestScope.md_pvoList}">
 					<td width="20%" class="pr-1">
-						<a href="#" style="text-decoration: none; color: black;">
+						<a href="<%= ctxPath%>/heajun/product/productdetail.sue?prod_code=${md_pvo.prod_code}" style="text-decoration: none; color: black;">
 							<img src="<%= ctxPath%>/images/product/${md_pvo.prod_image}" width="100%"/>
 							<div class="mt-3">
 								<span style="float:left;">
@@ -347,15 +276,6 @@
 									</c:forTokens>
 								</span>
 								<span style="float:right; font-size:9pt;">리뷰 ${md_pvo.prod_review_count}개</span>
-								<%-- 
-								<form name="wish_heart_frm">
-									<label for="${best_pvo.prod_code}_chx" onclick="wish_heart('${best_pvo.prod_code}');" style="float:right; position:relative; bottom:50px; left:20px;">
-										<img id="${best_pvo.prod_code}_img" src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px;">
-									</label>
-									<input type="checkbox" id="${best_pvo.prod_code}_chx" name="${best_pvo.prod_code}_chx" style="display:none;"/>
-									<input type="hidden" name="${best_pvo.prod_code}_likeCheck" value=""/>
-								</form>
-								 --%>
 								<div class="pt-3" style="clear:both">${md_pvo.prod_name} <span>(${md_pvo.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
 									<c:if test="${not empty md_pvo.prod_saleprice}">

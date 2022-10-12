@@ -31,7 +31,6 @@ public class Main extends AbstractController {
 		//Best => 주문순 많은 순으로 상품을 불러온다
 		List<ProductVO> best_pvoList = pdao.selectBestProduct();
 		
-		
 		//New arrival => 새로운 등록순으로 상품을 불러온다
 		List<ProductVO> new_pvoList = pdao.selectNewProduct();
 		
