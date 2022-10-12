@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import common.controller.AbstractController;
 import heajun.product.model.InterProductDetailDAO;
 import heajun.product.model.ProductDetailDAO;
-import heajun.product.model.ProductDetailVO;
 import heajun.product.model.ProductVO_HJ;
 
 public class Productdetail extends AbstractController {
@@ -16,23 +15,26 @@ public class Productdetail extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			     
-		//super.goBackURL(request);
+		super.goBackURL(request);
 		
 		String method = request.getContextPath();
 		
 			
 			String prod_code = request.getParameter("prod_code"); // 상품번호
-			String prod_detail_code = request.getParameter("prod_detail_code"); // 상품번호
+			
+			
 			
 			
 			InterProductDetailDAO pdao = new ProductDetailDAO();
+			
 			
 						
 						try {
 							// 제품번호를 가지고서 해당 제품의 정보를 조회해오기
 							ProductVO_HJ pvo = pdao.selectProduct(prod_code);// 상품정보 가져오기
 						
-							List<ProductDetailVO> option = pdao.selectProductOption(prod_detail_code); // 옵션 선택을 위한 해당 상품의 옵션 정보가져오기 
+							ProductVO_HJ pvo2 = pdao.selectProductOption(prod_code);   
+							
 							
 							
 							if(pvo == null) {
@@ -51,9 +53,9 @@ public class Productdetail extends AbstractController {
 							}
 							else {
 								// 제품이 있는 경우 
+								//request.setAttribute("prod_code", prod_code);
 								request.setAttribute("pvo", pvo);  // 제품의 정보
-								request.setAttribute("option",option); // 옵션가져오기
-								
+								request.setAttribute("pvo2",pvo2); // 옵션가져오기
 								//super.setRedirect(false);
 								super.setViewPage("/WEB-INF/heajun/product/productdetail.jsp");
 							
@@ -71,5 +73,6 @@ public class Productdetail extends AbstractController {
 		     super.setViewPage("/WEB-INF/heajun/product/productdetail.jsp");
 				
 	}
+	
 
 }

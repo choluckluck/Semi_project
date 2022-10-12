@@ -19,7 +19,6 @@ public class AdminQna extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		System.out.println("왔당!");
 		
 		/*		
 		// == 로그인하지 않았다면 조회가 불가능 ==

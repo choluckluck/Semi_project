@@ -70,9 +70,10 @@ public class J_QnaDAO implements J_InterQnaDAO {
 		String searchWord = paraMap.get("searchWord"); 
 		String searchMin = paraMap.get("qna_search_min");
 		String searchMax = paraMap.get("qna_search_max");
+		String answer_yn = paraMap.get("answer_yn");
 		
 		System.out.println("searchMin: " + searchMin);
-		System.out.println("searchMin: " + searchMax);
+		System.out.println("searchMax: " + searchMax);
 		
 		try {
 			
@@ -88,17 +89,25 @@ public class J_QnaDAO implements J_InterQnaDAO {
 	        	  if(searchWord != null &&  !searchWord.trim().isEmpty() ) {
 	                  sql += " and " +colname+ " like '%'|| ? || '%' ";
 	        	  }   
-	          }    
+	          }
+	          
+	          // 답변 여부를 선택했다면
+	          if(!"All".equals(answer_yn)) {
+	        	  sql += "and answer_yn = '"+ answer_yn +"'";
+	          }
+	          
+	          // --------------------------------------------------------
 	          
 	          pstmt = conn.prepareStatement(sql);
+	          System.out.println(sql);
 	          
 	          // 검색 키워드가 있다면
 		      if(!"All".equals(colname)) {
 		    	  if(searchWord != null &&  !searchWord.trim().isEmpty() ) {
-		    		  pstmt.setString(1, searchMin);  
-	        	  }
+		    		  pstmt.setString(1, searchWord);
+	        	  } 
 		      }
-
+		      
 	          
 	          rs = pstmt.executeQuery();
 	        
@@ -120,10 +129,11 @@ public class J_QnaDAO implements J_InterQnaDAO {
 		List<J_QnaVO> QnaList = new ArrayList<>();
 		
 		System.out.println("dao 옴");
-		String colname = paraMap.get("sarchType");
+		String colname = paraMap.get("searchType");
 		String searchWord = paraMap.get("searchWord"); 
 		String searchMin = paraMap.get("qna_search_min");
 		String searchMax = paraMap.get("qna_search_max");
+		String answer_yn = paraMap.get("answer_yn");
 		int currentPageNo = Integer.parseInt(paraMap.get("currentPageNo"));
 		int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 		
@@ -161,24 +171,31 @@ public class J_QnaDAO implements J_InterQnaDAO {
                   sql += " and " +colname+ " like '%'|| ? || '%' " ;  
         	}
        	
+        	// 답변 여부가 있다면
+       	 	if(!"All".equals(answer_yn)) {
+	        	  sql += "and answer_yn = '"+ answer_yn +"'";
+	        }
+       	 	
         	sql += "        ) V\n"+
         		   ") T\n" +
       			   " where RNO between ? and ?"+
-        		   " order by qregisterday desc";			
+        		   " order by qregisterday desc";
+        	
+        	// -----------------------------------------------------------------
         	
 			pstmt = conn.prepareStatement(sql);
 			
 			// 검색 키워드가 있다면
 	        if(!"0".equals(searchWord) &&  !searchWord.trim().isEmpty() ) {
-		        	pstmt.setString(1, searchWord);	 
-		        	pstmt.setInt(2, (currentPageNo*sizePerPage) - (sizePerPage - 1));
-		  			pstmt.setInt(3, (currentPageNo*sizePerPage));
+	        	pstmt.setString(1, searchWord);
+        		pstmt.setInt(2, (currentPageNo*sizePerPage) - (sizePerPage - 1));
+        		pstmt.setInt(3, (currentPageNo*sizePerPage));
 	        }
 	        // 검색 키워드가 없다면
         	else {
-    		    pstmt.setInt(1, (currentPageNo*sizePerPage) - (sizePerPage - 1));
-  			    pstmt.setInt(2, (currentPageNo*sizePerPage));
-        	}
+        		pstmt.setInt(1, (currentPageNo*sizePerPage) - (sizePerPage - 1));
+        		pstmt.setInt(2, (currentPageNo*sizePerPage));
+	        }
 	        
 	        rs = pstmt.executeQuery();
 	        
@@ -210,5 +227,59 @@ public class J_QnaDAO implements J_InterQnaDAO {
 		
 		return QnaList;
 	}
+	
+	@Override
+	public int deleteOneQna(String qna_code) throws SQLException {
+		int n = 0;
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_qna "
+						+ " where qna_code = ? ";
+		
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, qna_code);
+			
+			n = pstmt.executeUpdate();	
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}//end of deleteOneQna
+	
+	
+	//해당하는 상품들을 삭제해준다
+	@Override
+	public int deleteMultiQna(Map<String, String[]> paraMap) throws SQLException {
+		int n = 0;
+		
+		try {
+			String[] qna_codeArr = paraMap.get("qna_codeArr");
+			
+			conn = ds.getConnection();
+			
+			for(String qna_code : qna_codeArr) {
+					
+				String sql = " delete tbl_qna "
+						   + " where qna_code = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, qna_code);
+				
+				n = pstmt.executeUpdate();
+			
+			}//end of for
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}//end of deleteMultiQna
+
 
 }

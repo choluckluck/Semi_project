@@ -21,7 +21,17 @@ public class ProductVO {
 	 private String prod_point; // 상품포인트
 	 private String shipfee;
 	 
-	 public String getShipfee() {
+
+	private LikeVO lvo;
+	 
+	 
+	 public LikeVO getLvo() {
+		return lvo;
+	}
+	public void setLvo(LikeVO lvo) {
+		this.lvo = lvo;
+	}
+	public String getShipfee() {
 		return shipfee;
 	}
 	public void setShipfee(String shipfee) {
@@ -30,6 +40,7 @@ public class ProductVO {
 	private String md_pick_yn; //메인노출여부
 	 
 	 private ProductDetailVO pdvo;
+	 
 	 private OrderDetailVO odvo;
 	
 	public OrderDetailVO getOdvo() {

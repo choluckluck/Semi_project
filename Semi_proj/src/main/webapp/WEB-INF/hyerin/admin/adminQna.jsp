@@ -3,6 +3,7 @@
 <%
     String ctxPath = request.getContextPath();
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 <style>
@@ -85,13 +86,35 @@
 		
 		goSearch();
 		
+		
+		//체크박스 하나라도 해제되면 전체 해제되게 만들기
+		$("input[name='checkQna']").click(function() {
+			const total = $("input[name='checkQna']").length;
+			console.loge("tota;l:"+total);
+			const checked = $("input[name='checkQna']:checked").length;
+			console.loge("checkd:"+checked);
+
+			if(total != checked) { $("#chxAll").prop("checked", false); }
+			else { $("#chxAll").prop("checked", true); }
+		});
+		   
+
+		
+		//체크박스 체크 이벤트
+		$("#chxAll").click(function(){
+			var bool = $(this).is(":checked");
+			$("input[name='checkQna']").prop("checked", bool);
+		});
+		
 	});
 	
 	
 	
 	// 답변하기 팝업
-	function qna_answer(){
-		const url = "<%= ctxPath%>/hasol/admin/adminQnaAnswer.sue";
+	<%-- function qna_answer(){
+		
+		const qcode = $("button#QnaAnswer").val();
+		const url = "<%= ctxPath%>/hasol/admin/adminQnaAnswer.sue?qcode="'+prod_code+'";
 		
 		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
 		
@@ -105,25 +128,8 @@
 				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
 		
 	}
+	 --%>
 	
-	// 답변수정하기 팝업
-	function qna_answerEdit(){
-		
-		// 나의 정보 수정하기 팝업창 띄우기
-		const url = "<%= ctxPath%>/hasol/admin/adminQnaAnswer.sue";
-		
-		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
-		
-		const pop_width = 800; //팝업 px은 생략가능 (더하기 할 경우 => 생략)
-		const pop_height = 600;
-		const pop_left = Math.ceil( (window.screen.width - pop_width)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
-		const pop_top = Math.ceil( (window.screen.height - pop_height)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
-		
-		
-		window.open(url, "qnaAnswer",
-				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
-		
-	}
 	
 	
 	// "검색" 버튼 클릭
@@ -136,6 +142,7 @@
 		let searchWord = $("#searchWord").val().trim();
 		let qna_search_min = $("#qna_search_min").val();
 		let qna_search_max = $("#qna_search_max").val();
+		let answer_yn = $("#answer_yn").val();
 		
 		console.log(qna_search_min);
 		
@@ -148,7 +155,8 @@
 					"searchWord": searchWord,
 					"qna_search_min" : qna_search_min,
 					"qna_search_max" : qna_search_max,
-					"currentPageNo" : currentPageNo },
+					"currentPageNo" : currentPageNo,
+					"answer_yn" : answer_yn},
 			dataType: "JSON",
 			success: function(json){
 				
@@ -171,7 +179,7 @@
 							   		'</td>'+
 								    '<td height="160px" class="admin_qna_tbody text-center">'+item.prod_code+'</td>'+
 								    '<td class="admin_qna_tbody" >'+
-									   '<img id="'+item.prod_image+'" class="ml-4" height="100px" src="<%= ctxPath%>/images/product/'+item.prod_kind+'/'+item.prod_image+'">'+
+									   '<img id="'+item.prod_image+'" class="ml-4" height="100px" src="<%= ctxPath%>/images/product/'+item.prod_image+'">'+
 									   '<span class="ml-2">'+item.prod_name+'</span>'+
 							   	    '</td>' +
 								    '<td class="text-center admin_qna_tbody">'+item.category+'</td>'+
@@ -182,10 +190,10 @@
 								    '<td class="text-center admin_qna_tbody">'+item.registerday+'</td>'+
 								    '<td class="text-center admin_qna_tbody">'+item.answer_yn+'</td>'+
 								    '<td class="text-center admin_qna_tbody">'+
-									   '<button type="button" class="white admin_answer_btn" onclick="qna_answer();">답변</button>'+
-									   '<button type="button" class="white admin_answer_btn" onclick="qna_answerEdit();">답변수정</button>'+
+									   '<button type="button" class="white admin_answer_btn" id="QnaAnswer" name="QnaAnswer" value="'+item.qna_code+'" onclick="qna_answer();">답변</button>'+
+									   '<button type="button" class="white admin_answer_btn" id="QnaAnswer_edit" name="QnaAnswer_edit" value="'+item.qna_code+'" onclick="qna_answerEdit();">답변수정</button>'+
 								    '</td>'+
-								    '<td class="text-center admin_qna_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;">삭제</button></td>'+
+								    '<td class="text-center admin_qna_tbody"><button id="admin_productDelete_btn" type="button" class="black" style="width:90%; height:30px;" onclick="qna_delete(\''+item.prod_code+'\')">삭제</button></td>'+
 							    '</tr>';
 						}
 						
@@ -205,12 +213,85 @@
 		});				
 	}
 	
+	// 답변 여부로 문의 글 정렬
+	function goSort(num) {
+		goSearch();
+	}
 	
 	
 	
+	// 상품을 삭제하는 함수
+	function qna_delete(qna_code){
+		if(confirm("상품번호 " + qna_code + "를 삭제하시겠습니까?") == true){
+			//비동기방식으로 qna_delete에 해당하는 상품을 삭제하기
+			$.ajax({
+				url : "<%= ctxPath%>/hasol/admin/adminQnaDelete.sue",
+				type: "get",
+				data:{"qna_code":qna_code},
+				dataType:"JSON",
+				success:function(json){
+					
+					alert(json.message);
+					goSearch($("#currentPageNo").val());
+					
+				},
+				
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});// end of ajax
+			
+		} else{
+			return false;
+		}
+	}
 	
-	// Function Declaration
-	
+	//선택된 상품들을 모두 삭제하는 함수
+	function qna_deleteMulti(){
+		const checkCnt = $("input:checkbox[name='checkQna']:checked").length;
+		 if(checkCnt < 1){
+			 alert("삭제할 상품을 선택해주세요.");
+			 return;
+		 }
+		 else{
+			
+			const allCnt = $("input:checkbox[name='checkQna']").length;
+			const qna_codeArr = new Array();
+			
+			for(var i=0; i<allCnt; i++){
+			 
+				if($("input:checkbox[name='checkQna']").eq(i).is(":checked")){
+					qna_codeArr.push( $("input:checkbox[name='checkQna']").eq(i).val() );
+				}
+			}//end of for
+			
+			const qna_codeJoin = qna_codeArr.join();
+			//console.log(qna_codeJoin);
+			
+			const bool = confirm("QnA코드 " + qna_codeJoin + "을 모두 삭제하시겠습니까?");
+			if(bool){
+				
+				$.ajax({
+					url : "<%= ctxPath%>/hasol/admin/adminQnaDelete.sue",
+					type : "post",
+					data : {"qna_codeJoin" : qna_codeJoin},
+					dataType : "json",
+					success : function(json){
+						alert(json.message);
+						goSearch($("#currentPageNo").val());
+					},
+					error : function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+					
+					
+				});//end of ajax
+				
+			}
+			
+			 
+		 }
+	}//end of product_deleteMulti
 
 </script>
 
@@ -220,41 +301,39 @@
 		<div id="productqna" style="width:100%;">
 		
 		<!-- 여기 검색 창 옆으로 가게 하기.. -->
-			<div class="w-100" style="font-weight:bold;">
-			<span class="mr-3 mt-1" style="font-size:20pt;">문의관리</span>
-				<form name="qnaSearchFrm" class="mt-3" style="width:100%; display:flex; flex-decoration:column; justify-content: betweeen-space;">
-				<div>
+			<div class="w-100" style="font-weight:bold; display:flex; justify-content: space-between;">
+			<span class="mr-3 mt-1 w-50" style="font-size:20pt;">문의관리</span>
+			<form name="qnaSearchFrm" class="mt-3" style="width:100%;">
+				<div style="float:right; margin-bottom: 10px;">
 					<input type="text" id="qna_search_min" class="qna_search" name="qna_search_min" placeholder="날짜"/>
 					~
 					<input type="text" id="qna_search_max" class="qna_search" name="qna_search_max" placeholder="날짜"/>
-				</div>
-				<div>
-					<select class="productqna_sort" id="searchType" >
-						<option value="All" selected>전체</option>
-						<option value="fk_userid">회원명</option>
-						<option value="qna_code">문의번호</option>
-						<option value="fk_prod_code">상품코드</option>
+					<select class="productqna_sort" id="searchType" name="searchTpye" >
+						<option value="All" <c:if test="${searchType=='All'}">${'selected'}</c:if>>전체</option>
+						<option value="fk_userid" <c:if test="${searchType=='fk_userid'}">${'selected'}</c:if>>회원명</option>
+						<option value="qna_code" <c:if test="${searchType=='qna_code'}">${'selected'}</c:if>>문의번호</option>
+						<option value="fk_prod_code" <c:if test="${searchType=='fk_prod_code'}">${'selected'}</c:if>>상품코드</option>
 					</select>
 					<input type="text" class="ml-1" id="searchWord"  placeholder="검색 유형을 선택해 주세요" />
 					<button type="button" id="qna_search_btn" name="qna_search_btn" onclick="goSearch()" style="border:none; background-color: transparent;">
 						<img src="<%= ctxPath%>/images/hyerin/search_icon.png" width="25px"/>
 					</button>
 				</div>
-				</form>
+			</form>
 			</div>
 			<form name="admin_qna_frm" >
 				<div>
-					<select class="mt-1 mr-2 productqna_sort" style="float: right;" id="searchType_yn" >
-						<option value="All" selected>전체</option>
-						<option value="답변완료">답변완료</option>
-						<option value="답변대기">답변대기</option>
+					<select class="mt-1 mr-2 productqna_sort" style="float: right; margin-bottom: 10px;" id="answer_yn" name="answer_yn" onChange="goSort()">
+						<option value="All"<c:if test="${answer_yn=='All'}">${'selected'}</c:if>>전체</option>
+						<option value="Y" <c:if test="${answer_yn=='Y'}">${'selected'}</c:if>>답변완료</option>
+						<option value="N" <c:if test="${answer_yn=='N'}">${'selected'}</c:if>>답변대기</option>
 					</select>
 				</div>
 				<div id="admin_qnaList">						
 					<table id="admin_qna" class="mt-4 w-100" style="font-size:10pt; border-right:none; border-left:none;">
 						<thead>
 							<tr>
-								<th width="5%" class="admin_qna_th text-center" ><input type="checkbox" id=""/></th>
+								<th width="5%" class="admin_qna_th text-center" ><input type="checkbox" id="chxAll"/></th>
 								<th width="5%" height="50px" class="admin_qna_th text-center">No</th>
 								<th width="15%" class="admin_qna_th text-center">상품정보</th>
 								<th width="10%" class="admin_qna_th text-center">카테고리</th>
@@ -271,7 +350,7 @@
 					</table>
 				</div>
 				<div class="mt-3" style="clear:both;">
-					<span><button type="button" id="" class="black" style="height:30px;">선택삭제</button></span>
+					<span><button type="button" id="" class="black" style="height:30px;" onClick="qna_deleteMulti()" >선택삭제</button></span>
 				</div>
 				<!-- 페이지 바 -->
 				<nav id ="pageBar"> </nav>
