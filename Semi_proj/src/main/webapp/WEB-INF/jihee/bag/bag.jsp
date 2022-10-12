@@ -309,7 +309,7 @@
               const prodColorArr = new Array();
               const prodPriceArr =new Array(); //정상가
               const prodSalePriceArr = new Array(); //세일가
-              const deliveryfee = $("input.deliveryfee").val();
+              let deliveryfee = $("input.deliveryfee").val();
               const prodPointArr = new Array();
               const totalorderprice = $("input.totalorderprice").val();
               const totalOnePriceJoinArr = new Array(); // 판매가X수량
@@ -396,6 +396,16 @@
                       sumtotalPrice += Number(totalOnePriceJoinArr[i]);
                    }
                    
+                   
+                   if (sumtotalPrice <= 70000 ) {
+                	   
+                	   deliveryfee = 2500;
+                   }
+                   
+                   else if ( sumtotalPrice >= 70000 ) {
+                	   
+                	   deliveryfee = 0;
+                   }
                 
                 /*  console.log("확인용 제품번호 : " + pnumjoin);
                  console.log("확인용 주문량 : " + countjoin);
@@ -414,7 +424,9 @@
                  console.log("확인용 totalorderprice : " + totalorderprice); */
                  
                  const str_sumtotalPrice = sumtotalPrice.toLocaleString("en"); // 자바스크립트에서 숫자 3자리마다 콤마를 찍어줌
-                    
+                 
+               
+                 
               const bool = confirm("총주문액 : " + sumtotalPrice + "원 \n결제하시겠습니까?");
                  
               const frm = document.bag_form;
@@ -578,6 +590,43 @@
 		 
          
  	}
+      
+ 	$(document).on("click", ".modalop", function () {
+    	  
+    	  var cart_code = $(this).data('code');
+    	  
+    	  //alert("cart_code: " + cart_code);
+    	 
+    	  $.ajax({
+  			url:"<%= request.getContextPath()%>/jihee/bag/bag.sue",
+  			type: "POST",
+  		    data:{ "cart_code":cart_code
+  		    	  },  
+  		    dataType:"JSON",
+  		    success:function(json) {
+  		    	
+  				   console.log(json);
+  				   console.log(typeof json); // object
+  				
+  				/*
+  			       var str_json = JSON.stringify(json); // JSON 객체를 string 타입으로 변경시켜주는 것.
+  				   console.log(typeof str_json);  // string
+  			       console.log(str_json);
+  			   /*
+  			       var obj_json = JSON.parse(str_json); // JSON 모양으로 되어진 string 을 실제  JSON 객체로 변경시켜주는 것.
+  			       console.log(typeof obj_json);  // object
+  			       console.log(obj_json);
+  			    */
+  		  },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+  		    });
+    	  
+      });
+      
+ 
+      
   
       
 </script>
@@ -656,7 +705,7 @@
                                  <li>
                               
                                  <!-- Button trigger modal -->
-                           <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"  style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
+                           <button type="button" class="btn btn-outline-secondary btn-sm modalop" data-bs-toggle="modal" data-bs-target="#exampleModal" data-code="${cvo.cart_code}" style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
                            옵션변경
                            </button>
                         </li>
