@@ -1093,7 +1093,7 @@ public class ProductDAO implements InterProductDAO {
 		
 	}
 
-	//장바구니 글 작성하기
+	//공지사항 글 작성하기
 	@Override
 	public int updateNotice(String subject, String board_content ,String userid) throws SQLException {
 		
