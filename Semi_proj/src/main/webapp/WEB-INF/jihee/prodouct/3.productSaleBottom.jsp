@@ -48,7 +48,7 @@ function goSearche() {
 	
 	
 	<div>
-		<p class="fw-bolder" style="text-align: left; font-size: 25px; padding-bottom: 30px;">Sale</p>
+		<p class="fst-normal" style="text-align: left; font-size: 25px; padding-bottom: 30px;">Sale</p>
 	</div>
 	
 

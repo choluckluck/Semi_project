@@ -127,7 +127,7 @@
 		<%-- header logo --%>
 		<div id="header_logo_container" class="container-fluid pr-4" style="height: 120px; width:70%; cursor:pointer;">
 			<div class="text-center" style="height:120px;">
-				<img src="<%= ctxPath%>/images/hyerin/main_logo.png" alt="Logo" style="width:15%; position:relative; top:20px;" class="logo">
+				<img src="<%= ctxPath%>/images/jihee/슈샵2.png" alt="Logo" style="width:17%; position:relative; top:20px;" class="logo">
 			</div>
 		</div>
 		<%-- 검색, 마이페이지, 장바구니 --%>
