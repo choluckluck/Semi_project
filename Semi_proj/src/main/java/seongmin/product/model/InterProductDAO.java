@@ -14,6 +14,7 @@ public interface InterProductDAO {
 
 	List<String> getprod_info(Map<String, String> paraMap) throws SQLException;
 
+	List<String> getprod_info2(Map<String, String> paraMap) throws SQLException;
 	
 
 }

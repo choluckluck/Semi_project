@@ -9,9 +9,15 @@
 	$(document).ready (function(){
 		
 
+		
+		
+		
+		
+		
+		
 	});
 	
-	function reviewshow() {
+	function qnashow() {
 		
 //		alert("sdfsd");
 		$(this).parent().find(".collapse").hide();		
@@ -19,23 +25,26 @@
 
 	}
 
-	// === 나의 정보 수정하기 === //
+	// === qna 작성하기 === //
 	function qnawrite(){
-		// 나의 정보 수정하기 팝업창 띄우기
-		const url = "<%= request.getContextPath()%>/member/memberEdit.up?userid="+userid;
+		// 나의 정보 수정하기 팝업창 띄우기		
+
+		if(${sessionScope.loginuser == null} ) {
+			alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+			location.href="<%=request.getContextPath() %>/hyerin/login/login.sue"		
+		}
 		
-		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
+		else {
+			alert("문의 페이지로 이동합니다.");
+			
+			const qnaForm = document.qnaForm;
+			qnaForm.action="<%=request.getContextPath() %>/heajun/board/qna_write.sue";
+			qnaForm.method = "GET";
+			qnaForm.submit(); 
+		}
 		
-		const pop_width = 800; //팝업 px은 생략가능 (더하기 할 경우 => 생략)
-		const pop_height = 650;
-		const pop_left = Math.ceil( (window.screen.width - pop_width)/2 ); // Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
-		const pop_top = Math.ceil( (window.screen.height - pop_height)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
-		
-		
-		window.open(url, "memberEdit",
-				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
-		
-	}//end of goEditPersonal
+			
+	}//end of qnawrite()
 
 	
 	
@@ -51,7 +60,7 @@
   }
 </style>
 
-	<div style="width : 100%;">		
+	<div style="width : 85%; margin:0 auto;">		
 		<h3 style="margin-top:1px;">문의</h3>
 		<br><br>		
 		
@@ -83,7 +92,10 @@
 						<tr>
 							<td>${qvo.rnum}</td>
 							<td>${qvo.category}</td>
-							<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_re.gif" alt="답변" class="">&nbsp;&nbsp;<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">${qvo.subject}</button></td>
+							<td style="text-align:left;">
+								<div class="btn" data-toggle="collapse" data-target="#demo${status.index}" onclick="qnashow()">${qvo.subject}</div>
+								<div id="demo${status.index}" class="collapse" style="text-align:left">${qvo.contents}</div>			
+							</td>
 							<td>${qvo.fk_userid }</td>
 							<td>${qvo.registerday}</td>
 						</tr>
@@ -97,13 +109,18 @@
 			</c:choose>				
 		    </tbody>
 		  </table>
-		  		 				 <div style="text-align:right;  width:100%;" class="">
-	    	            <button type="button" id="reivewWrite" style="background-color: black; color:white; border:solid 1px gray;">문의하기</button>
+		  		  <div style="text-align:right;  width:100%;" class="">
+	    	            <button type="button" id="qnaWrite" style="background-color: black; color:white; border:solid 1px gray;" onclick="qnawrite()">문의하기</button>
 	              </div>
 	   		  <nav class="my-5">
 			<div style="display: flex; width: 100%">
 				<ul class="pagination" style="margin: auto">${requestScope.pageBar2}</ul>
 			</div>
 		  		</nav>
+		  		
+<form name="qnaForm">
+	<input type="hidden" id="fk_prod_code" name="fk_prod_code" value="${requestScope.pvo2.prod_code}" />   
+	<input type="hidden" id="fk_userid" name="fk_userid" value="${sessionScope.loginuser.userid}" />   
+</form>
 
 		</div>		      
