@@ -112,6 +112,8 @@ public class Bag extends AbstractController {
 				
 				String cart_code = request.getParameter("cart_code");
 				String quantity = request.getParameter("quantity");
+				
+				
 
 				
 			}

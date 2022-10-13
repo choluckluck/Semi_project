@@ -129,6 +129,47 @@ public class ProductDAO implements InterProductDAO {
 			return oList;
 
 		}
+
+
+
+
+		@Override
+		public List<String> getprod_info(Map<String, String> paraMap) throws SQLException {
+			List<String> prod_info = new ArrayList<>();
+			
+			
+			try {
+				conn = ds.getConnection();
+
+				String sql = "select prod_name, prod_image, order_detail_code\n"+
+						"from tbl_product\n"+
+						"join tbl_order_detail\n"+
+						"on prod_code = fk_prod_code\n"+
+						"where prod_code = ? ";
+				
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("prod_code"));
+
+				rs = pstmt.executeQuery();
+
+				if (rs.next()) {
+					prod_info.add(rs.getString(1));
+					prod_info.add(rs.getString(2));
+					prod_info.add(rs.getString(3));
+					
+				} // end of while
+				
+			} catch (SQLException e){
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			
+			return prod_info;
+			
+		}
 		
 }
 		

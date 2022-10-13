@@ -243,6 +243,79 @@ public class ReviewDAO implements InterReviewDAO {
 			return reviewList;
 		}
 
+		@Override
+		public int reviewRegister(Map<String, String> paraMap) throws SQLException {
+			
+			int n = 0;
+			
+			try {
+				conn = ds.getConnection();
+				conn.setAutoCommit(true);
+				
+				String sql = "insert into tbl_review\n"+
+						"values('rev-'||lpad(seq_review_code.nextval, 4, 0), ?, ?, ?, sysdate, null, null, null, ?, ?, ?)";
+				
+				pstmt = conn.prepareStatement(sql);
+	
+				
+				pstmt.setString(1, paraMap.get("userid"));
+				pstmt.setString(2, paraMap.get("review_subject"));
+				pstmt.setString(3, paraMap.get("review_contents"));
+				pstmt.setString(4, paraMap.get("review_grade"));
+				pstmt.setString(5, paraMap.get("prod_code"));
+				pstmt.setString(6, paraMap.get("order_detail_code"));
+							
+				n = pstmt.executeUpdate();				
+				
+			} catch (SQLException e) {
+				conn.rollback();
+				conn.setAutoCommit(true); //자동커밋으로 바꾸어준다
+				
+			} finally {
+				close();
+			}
+			
+			return n;
+		}
+
+		@Override
+		public int checkReview(Map<String, String> paraMap) throws SQLException {
+
+			int n = 0;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = "select *\n"+
+						"from tbl_review\n"+
+						"where fk_order_detail_code = ? ";
+				
+				
+				
+				pstmt = conn.prepareStatement(sql);
+	
+				pstmt.setString(1, paraMap.get("order_detail_code"));
+							
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) { // 값이 있으면
+					n = 1;
+				}
+				else {
+					n = 2;
+					
+				}
+				
+				
+			} 	finally {
+			
+				close();
+			}
+			
+			return n;
+			
+		}
+
 
 		
 		
