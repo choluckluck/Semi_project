@@ -309,7 +309,7 @@
               const prodColorArr = new Array();
               const prodPriceArr =new Array(); //정상가
               const prodSalePriceArr = new Array(); //세일가
-              const deliveryfee = $("input.deliveryfee").val();
+              let deliveryfee = $("input.deliveryfee").val();
               const prodPointArr = new Array();
               const totalorderprice = $("input.totalorderprice").val();
               const totalOnePriceJoinArr = new Array(); // 판매가X수량
@@ -396,6 +396,16 @@
                       sumtotalPrice += Number(totalOnePriceJoinArr[i]);
                    }
                    
+                   
+                   if (sumtotalPrice <= 70000 ) {
+                	   
+                	   deliveryfee = 2500;
+                   }
+                   
+                   else if ( sumtotalPrice >= 70000 ) {
+                	   
+                	   deliveryfee = 0;
+                   }
                 
                 /*  console.log("확인용 제품번호 : " + pnumjoin);
                  console.log("확인용 주문량 : " + countjoin);
@@ -414,7 +424,9 @@
                  console.log("확인용 totalorderprice : " + totalorderprice); */
                  
                  const str_sumtotalPrice = sumtotalPrice.toLocaleString("en"); // 자바스크립트에서 숫자 3자리마다 콤마를 찍어줌
-                    
+                 
+               
+                 
               const bool = confirm("총주문액 : " + sumtotalPrice + "원 \n결제하시겠습니까?");
                  
               const frm = document.bag_form;
@@ -572,13 +584,13 @@
             
           
             }//end of else   
-		       
-		       
-		      
+    
 		 
          
  	}
-  
+      
+	  
+
       
 </script>
 
@@ -656,65 +668,14 @@
                                  <li>
                               
                                  <!-- Button trigger modal -->
-                           <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"  style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
+                           <button type="button" class="btn btn-outline-secondary btn-sm modalop" data-bs-toggle="modal" data-bs-target="#exampleModal" data-code="${cvo.cart_code}" style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
                            옵션변경
                            </button>
+                         
                         </li>
                      </ul>   
                      
-                           <!-- Modal -->
-                           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                             <div class="modal-dialog">
-                               <div class="modal-content">
-                                 <div class="modal-header" style="background-color: navy;">
-                                   <h6 class="modal-title" id="exampleModalLabel" style="color: white;">옵션변경</h6>
-                                   <button type="button" class="btn-close-outline-light" data-bs-dismiss="modal" aria-label="Close" ></button>
-                                 </div>
-                                 <div class="modal-body">
-                                  <ul>
-                                     <li class="fw-bolder">${cvo.prod.prod_name}</li>
-                                     <li>[옵션: ${cvo.fk_prod_color}/${cvo.fk_prod_size}]</li>
-                                  </ul>
-                                  
-                                  <hr style=" background: black; height: 1px; background: black; border : 0px;">
-                                  <ul>
-                                     <li class="fw-bolder">상품옵션</li>
-                                     
-                                     <li style="margin-top: 1%;"> 
-                                     <div class="row">
-                                     <p class="col-md-2 fst-normal"> COLOR</p> 
-                                        <select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
-                                         <option selected>색상변경</option>
-                                         <option value="1">One</option>
-                                         <option value="2">Two</option>
-                                         <option value="3">Three</option>
-                                       </select>
-                                    </div>   
-                                     </li>
-                                     
-                                     <li style="margin-top: 1%;"> 
-                                     <div class="row">
-                                     <p class="col-md-2 fst-normal"> SIZE</p> 
-                                        <select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
-                                         <option selected>Open this select menu</option>
-                                         <option value="1">One</option>
-                                         <option value="2">Two</option>
-                                         <option vlue="3">Three</option>
-                                       </select>
-                                    </div>   
-                                     </li>                              
-                                  </ul>   
-                                 <div>             
-                               </div>      
-                                 </div>
-                                 <div class="modal-footer">
-                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                   <button type="button" class="btn btn-primary">Save changes</button>
-                                 </div>
-                               </div>
-                             </div>
-                           </div>
-                            <!-- Modal 끝 -->                         
+                                              
                               
                         </td>
                         <td style="border:none;">
@@ -761,6 +722,60 @@
                      </tr>
                      </c:forEach>
                      <!-- 상품 한행 끝 -->
+                     
+                      <!-- Modal -->
+                           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                             <div class="modal-dialog">
+                               <div class="modal-content">
+                                 <div class="modal-header" style="background-color: navy;">
+                                   <h6 class="modal-title" id="exampleModalLabel" style="color: white;">옵션변경</h6>
+                                   <button type="button" class="btn-close-outline-light" data-bs-dismiss="modal" aria-label="Close" ></button>
+                                 </div>
+                                 <div class="modal-body">
+                                  <ul>
+                                     <li class="fw-bolder">${requestScope.cartModalList.prod.prod_name}</li>
+                                     <li>[옵션: ${requestScope.cartModalList.fk_prod_color}/${requestScope.cartModalList.fk_prod_size}]</li>
+                                  </ul>
+                                  
+                                  <hr style=" background: black; height: 1px; background: black; border : 0px;">
+                                  <ul>
+                                     <li class="fw-bolder">상품옵션</li>
+                                     
+                                     <li style="margin-top: 1%;"> 
+                                     <div class="row">
+                                     <p class="col-md-2 fst-normal"> COLOR</p> 
+                                        <select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
+                                         <option selected>색상변경</option>
+                                         <option value="1">One</option>
+                                         <option value="2">Two</option>
+                                         <option value="3">Three</option>
+                                       </select>
+                                    </div>   
+                                     </li>
+                                     
+                                     <li style="margin-top: 1%;"> 
+                                     <div class="row">
+                                     <p class="col-md-2 fst-normal"> SIZE</p> 
+                                        <select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
+                                         <option selected>Open this select menu</option>
+                                         <option value="1">One</option>
+                                         <option value="2">Two</option>
+                                         <option vlue="3">Three</option>
+                                       </select>
+                                    </div>   
+                                     </li>                              
+                                  </ul>   
+                                 <div>             
+                               </div>      
+                                 </div>
+                                 <div class="modal-footer">
+                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                   <button type="button" class="btn btn-primary">Save changes</button>
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
+                            <!-- Modal 끝 -->     
 
 
 

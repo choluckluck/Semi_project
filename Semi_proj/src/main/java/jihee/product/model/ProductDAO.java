@@ -1027,7 +1027,75 @@ public class ProductDAO implements InterProductDAO {
 		
 		return sumMap;
 	}
+
+	//장바구니 모달 목록 가져오기
+	@Override
+	public List<cartVO> selectCartListOne(Map<String, String> paraMap)throws SQLException {
+		
+		List<cartVO> cartList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "select prod_image, prod_name, prod_price, prod_point, prod_saleprice, Qnty, fk_userid, fk_prod_code,  fk_prod_color, fk_prod_size\n"+
+					"from tbl_product \n"+
+					"join tbl_cart \n"+
+					"on prod_code = fk_prod_code\n"+
+					"where cart_code = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("cart_code"));
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ProductVO pvo = new ProductVO();
+				
+				String prod_image = rs.getString("prod_image");
+				String prod_name = rs.getString("prod_name");
+				int prod_price = rs.getInt("prod_price");
+				int prod_point = rs.getInt("prod_point");
+				int prod_saleprice = rs.getInt("prod_saleprice");
+				int qnty = rs.getInt("qnty");
+				String fk_userid = rs.getString("fk_userid");
+				String fk_prod_code = rs.getString("fk_prod_code");
+				String fk_prod_color = rs.getString("fk_prod_color");
+				String fk_prod_size = rs.getString("fk_prod_size");
+			
+
+				pvo.setProd_image(prod_image);
+				pvo.setProd_name(prod_name);
+				pvo.setProd_price(prod_price);
+				pvo.setProd_point(prod_point);
+				pvo.setProd_saleprice(prod_saleprice);
+				
+				pvo.setTotalPriceTotalPoint(qnty); 
+				
+				cartVO cvo = new cartVO();
+				cvo.setFk_userid(fk_userid);
+				cvo.setFk_prod_code(fk_prod_code);
+				cvo.setQnty(qnty);
+				cvo.setFk_prod_color(fk_prod_color);
+				cvo.setFk_prod_size(fk_prod_size);
+				cvo.setProd(pvo);	
+				
+				cartList.add(cvo);
+				
+				
+				
+			} // end of while
+
+		} finally {
+			close();
+		}
+
+		return cartList;
+		
+	}
+
+
 	
+
 	
 	
 
