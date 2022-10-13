@@ -81,14 +81,12 @@ public class ProductDAO implements InterProductDAO {
 			
 			String sql = " select like_code "
 					   + " from tbl_like "
-					   + " where fk_userid = ? and fk_prod_code = ? "
-					   + " and fk_prod_color = ? and fk_prod_size = ?";
+					   + " where fk_userid = ? and fk_prod_code = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userid);
 			pstmt.setString(2, prod_code);
-			pstmt.setString(3, prod_color);
-			pstmt.setString(4, prod_size);
+	
 			
 			rs = pstmt.executeQuery();
 			
