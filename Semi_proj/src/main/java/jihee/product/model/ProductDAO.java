@@ -1093,6 +1093,35 @@ public class ProductDAO implements InterProductDAO {
 		
 	}
 
+	//장바구니 글 작성하기
+	@Override
+	public int updateNotice(String subject, String board_content ,String userid) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+		
+		String sql = " insert into tbl_notice( NOTICE_CODE ,fk_userid, NOTICE_SUBJECT , NOTICE_CONTENTS , NOTICE_COUNT , NOTICE_REGISTERDAY ) "
+				+ " values(seq_notice_code.nextval, ?, ?, ?, 0, sysdate) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userid);
+			pstmt.setString(2, subject);
+			pstmt.setString(3, board_content);
+			
+			result = pstmt.executeUpdate();
+		
+			
+		} finally {
+			close();
+		}
+		
+		return result;		
+	
+	}
+
 
 	
 

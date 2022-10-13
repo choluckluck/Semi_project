@@ -96,6 +96,10 @@ public interface InterProductDAO {
 	//주문한 제품에 대해 email 보내기시 email 내용에 넣을 주문한 제품번호들에 대한 제품정보를 얻어옴
 	List<ProductVO> getOrderedProductList(String[] prod_codeArr) throws SQLException;
 
+
+	//퀵뷰 관심상품 개수 알아오기
+	int likeProdCount(String userid) throws SQLException;
+
 	
 	
 	

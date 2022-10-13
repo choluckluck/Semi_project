@@ -81,6 +81,19 @@
 		
 		///////////////////////////////////////////////////////////////////////////
 
+		//스크롤 상단으로 이동		
+	
+		  $('#go-top').click(function (e) {
+			 // $('html, body').animate({scrollTop:0}, '1000'); //부드럽게 이동하려면
+			  $('html, body').scrollTop( 0);
+			
+		  });
+		  
+		//스크롤 하단으로 이동	  
+	  $("#go-bottom").click(function(){
+			$('html, body').scrollTop( $(document).height() );
+		});
+		  
 	});//end of ready
 	
 	
@@ -103,7 +116,7 @@
 	function functi(html){
 		alert(html);
 	}
-	
+
 	</script>
 </head>
 <body>
@@ -133,23 +146,23 @@
 
 
 		</span> 
+		
 		<%-- 퀵뷰 --%>
-		<div id="quickView" style="width:60px; height:230px; background-color:#172A41; position:fixed; bottom:50px; right:30px; z-index:100;">
-			<div id="" type="button" style="text-align:center; margin-top:20px;">
-			   <img src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px">
+		 <c:if test="${sessionScope.loginuser != null}">
+		<div id="quickView" style="width:60px; height:190px; background-color:#172A41; position:fixed; bottom:50px; right:30px; z-index:100;">
+			<div id="<%=ctxPath%>/seongmin/member/interestPrd.sue" type="button" style="text-align:center; margin-top:20px;">
+			   <a href=""><img src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px"></a>
 			   <br>
-			   <span style="font-size:10pt; color:#ff99bb;">11개</span>
+			   <span style="font-size:10pt; color:#ff99bb;">${requestScope.QlikeProdCount}개</span>
 			</div>
-			<div  id="" type="button" style="text-align:center; margin-top:20px;">
-			   <img src="<%= ctxPath%>/images/hyerin/timer.png" width="22px" class="" alt="..." style="">
+			<div type="button" style="text-align:center; margin-top:20px;" id="go-top">
+			    <img src="<%= ctxPath%>/images/hyerin/up_arrow.png" width="15px" class="" alt="..." style="">
 			</div>
-			<div  id="" type="button" style="text-align:center; margin-top:20px;">
-			   <a href="#"><img src="<%= ctxPath%>/images/hyerin/up_arrow.png" width="15px" class="" alt="..." style=""></a>
-			</div>
-			<div  id="" type="button" style="text-align:center; margin-top:20px;">
-			   <a href=""><img src="<%= ctxPath%>/images/hyerin/down_arrow.png" width="15px" class="" alt="..." style=""></a>
+			<div  id="go-bottom" type="button" style="text-align:center; margin-top:20px;">
+			   <img src="<%= ctxPath%>/images/hyerin/down_arrow.png" width="15px" class="" alt="..." style="">
 			</div>
 		 </div>
+		 </c:if>
 	</div>
 	
 	<%-- nav bar --%>	
@@ -188,7 +201,7 @@
 					<a id="main_sling" href = "<%=ctxPath%>/jihee/product/productSm.sue" class="main_bar">슬링백/뮬</a>
 				</li>
 				<li style="float:right; position: relative; right: 20px;">
-					<a id="main_community" href = "<%=ctxPath%>/hyerin/community/notice.sue" class="main_bar">커뮤니티</a>
+					<a id="main_community" href = "<%=ctxPath%>/heajun/community/notice.sue" class="main_bar">커뮤니티</a>
 				</li>
 				<c:if test="${sessionScope.loginuser != null and sessionScope.loginuser.userid eq 'admin'}">
 					<li style="float:right; position: relative; right: 40px;">
@@ -223,7 +236,7 @@
 				<span><a href="<%=ctxPath%>/jihee/product/productMule.sue">뮬 4cm~</a></span>
 			</div>
 			<div class="real_subbar real_subbar9 w-100">
-				<span><a href="<%=ctxPath%>/hyerin/community/notice.sue">공지사항</a></span>
+				<span><a href="<%=ctxPath%>/heajun/community/notice.sue">공지사항</a></span>
 			</div>
 			<%--
 			<div class="real_subbar real_subbar9 w-100">

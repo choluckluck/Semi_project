@@ -8,7 +8,7 @@ import common.controller.AbstractController;
 import heajun.community.model.*;
 import heajun.community.model.NoticeDAO;
 import heajun.community.model.NoticeVO;
-import heajun.member.model.MemberVO;
+import seongmin.login.model.MemberVO;
 
 public class NoticeView extends AbstractController {
 
