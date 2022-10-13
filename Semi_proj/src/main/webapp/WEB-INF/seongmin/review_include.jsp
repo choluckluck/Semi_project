@@ -140,12 +140,16 @@ let isRegistered = false;
 			window.open(url, "reviewrite",
 					    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
 			} --%>
-			alert("리뷰 작성 페이지로 이동합니다.");
-			const reviewForm = document.reviewForm;
-			reviewForm.action="<%=request.getContextPath() %>/heajun/board/review_write.sue";
-			reviewForm.method = "GET";
-			reviewForm.submit(); 
-
+			const bool = confirm("리뷰 작성 페이지로 이동하시겠습니까?");
+			if(bool) {
+				const reviewForm = document.reviewForm;
+				reviewForm.action="<%=request.getContextPath() %>/heajun/board/review_write.sue";
+				reviewForm.method = "GET";
+				reviewForm.submit(); 
+			}
+			else {
+				return;
+			}
 	}		
 		
 		else if (${sessionScope.loginuser != null} && isOrderOK == false && isRegistered == true) {

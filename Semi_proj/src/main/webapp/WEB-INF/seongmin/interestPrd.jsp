@@ -163,9 +163,15 @@
 				                  location.href = "interestPrd.sue"; // 관심상품 보기는 페이징처리를 안함.
 				               }
 				               else if(json.n == 2) {
-					            	  alert(prod_name + " 해당 상품이 장바구니에 있으므로, 수량을 추가합니다.")
-					                  location.href = "interestPrd.sue"; // 관심상품 보기는 페이징처리를 안함.
-					               }
+					            	  const bool2 = confirm(prod_name + " 해당 상품이 장바구니에 있습니다. 수량을 추가하시겠습니까?");
+					            	  
+					            	  if(bool2) {
+					                 	 location.href = "interestPrd.sue"; // 관심상품 보기는 페이징처리를 안함.
+					            	  }
+					            	  else {
+					            		  return false;
+					            	  }
+					           }
 				            },
 				            error: function(request, status, error){
 				               alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);

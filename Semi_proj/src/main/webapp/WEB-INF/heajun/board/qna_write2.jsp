@@ -130,7 +130,7 @@ button#gowrite {
 				
 				alert("문의 등록이 완료되었습니다.");
  				var myQnaFrm = document.myQnaFrm;
- 				myQnaFrm.action = "<%= ctxPath%>/seongmin/member/qnaResult.sue";
+ 				myQnaFrm.action = "<%= ctxPath%>/seongmin/member/qnaResult2.sue";
  				myQnaFrm.method = "post";
  				myQnaFrm.submit();
  			});
@@ -148,11 +148,11 @@ button#gowrite {
 	});
 	
 	function showimage() {
-		let prod_image = $("select[name=prod_image]").val();
-//		alert(prod_code);
-		const imghtml = '<img id="reviewimg" alt="" src="<%= ctxPath%>/images/product/'+prod_image+'">';
-//		alert(imghtml);
-		$("div.prod_info").html(imghtml);
+<%-- 		let prod_image = $("select[name=prod_image]").val();
+		alert(prod_code);
+ 		const imghtml = '<img id="reviewimg" alt="" src="<%= ctxPath%>/images/product/'+prod_image+'">';
+		alert(imghtml);
+		$("div.prod_info").html(imghtml); --%>
 	
 	}
 	
@@ -181,36 +181,14 @@ button#gowrite {
 					<td class="col-1 subject infoData">분류</td>
 					<td class="col-11">
 						<select name="category" style="width:height:40px" onchange="">
-							<option value="prod" selected >product </option>
-							<option value="e/r">e/r</option>
-							<option value="c/c">c/c</option>
-							<option value="a/s">a/s</option>
+							<option value="prod" selected >제품 문의 </option>
+							<option value="e/r">교환/반품</option>
+							<option value="c/c">취소/변경</option>
+							<option value="a/s">as 문의</option>
 						</select>
 					</td>					
 				</tr>
 			   
-				<tr>
-			      <td class="col-1 subject infoData">제품명</td>
-			      <td>
-				      <select name="prod_image" onchange="showimage()">
-				      		<option value="-">-</option>				      
-				      	<c:forEach var="rovo" items="${requestScope.prod_infoList2}" varStatus="status">
-				      		<option value="${rovo.prod_image}">${rovo.prod_name}</option>
-				        </c:forEach>
-
-				      </select>
-				      <br>
-				      <div class="prod_info"></div>
-				      
-			      </td>
-			      
-			      
-<%-- 			      <td style="text-align: left;">
-			      	  <div style="display:inline-block; width:150px; " ><img id="reviewimg" alt="" src="<%= ctxPath%>/images/product/${requestScope.prod_image}"/></div>
-				      <div style=" font-size:15pt; margin-top:20px;">${requestScope.prod_name}</div>
-				      <input type="hidden" name="prod_code" id="prod_code" class=" form-control" style="width:30%" value="${requestScope.prod_code}" readonly/>
-			      </td>  --%>
-				</tr>			   
 				<tr>
 				</tr>			   
 				<tr>

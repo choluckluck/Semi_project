@@ -27,7 +27,7 @@ public class QnaRegister2 extends AbstractController {
 		String fk_prod_code = request.getParameter("fk_prod_code");
 	
 		Map<String, String> paraMap = new HashMap<>();
-		paraMap.put("fk_prod_code", fk_prod_code);
+//		paraMap.put("fk_prod_code", fk_prod_code);
 		paraMap.put("userid", userid);
 		InterProductDAO pdao = new ProductDAO();
 		
