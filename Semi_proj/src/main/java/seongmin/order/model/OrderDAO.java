@@ -527,4 +527,40 @@ public class OrderDAO implements InterOrderDAO {
 		
 	}
 
+	@Override
+	public int isOrder(Map<String, String> paraMap) throws SQLException {
+		int n = 0;
+		try {
+			conn = ds.getConnection();
+
+			String sql = "SELECT fk_prod_code, fk_userid\n"+
+					"from tbl_order O\n"+
+					"join tbl_order_detail D\n"+
+					"on order_code = fk_order_code\n"+
+					"where fk_userid = ? and fk_prod_code = ? ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("fk_userid"));
+			pstmt.setString(2, paraMap.get("fk_prod_code"));
+			
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				n= 1;				
+			} // end of while
+			
+			else {
+				n = 2;
+			}
+			
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return n;
+	}
+
 }

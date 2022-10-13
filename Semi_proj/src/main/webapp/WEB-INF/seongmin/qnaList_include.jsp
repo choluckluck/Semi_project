@@ -97,12 +97,13 @@
 			</c:choose>				
 		    </tbody>
 		  </table>
+		  		 				 <div style="text-align:right;  width:100%;" class="">
+	    	            <button type="button" id="reivewWrite" style="background-color: black; color:white; border:solid 1px gray;">문의하기</button>
+	              </div>
 	   		  <nav class="my-5">
 			<div style="display: flex; width: 100%">
 				<ul class="pagination" style="margin: auto">${requestScope.pageBar2}</ul>
 			</div>
 		  		</nav>
-		 				 <div style="text-align:right;  width:100%;" class="">
-	    	            <button type="button" id="reivewWrite" style="background-color: black; color:white; border:solid 1px gray;">문의하기</button>
-	              </div>
+
 		</div>		      

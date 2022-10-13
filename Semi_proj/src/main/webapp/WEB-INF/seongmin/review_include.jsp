@@ -56,11 +56,90 @@
 
 <script type="text/javascript">
 
+let isOrderOK = false;
+
 	$(document).ready (function(){
+
+		
+		   $.ajax({
+			   url:"<%= request.getContextPath()%>/seongmin/member/isOrder.sue",
+			   type:"GET",
+			   data:{"fk_userid":"${sessionScope.loginuser.userid}",
+				     "fk_prod_code":"${requestScope.pvo2.prod_code}" },
+			   dataType:"JSON",
+			   
+			   async:false, // 동기처리
+		   //  async:true,  // 비동기처리(기본값임)
+			   
+			   success:function(json) {
+				   // json ==> {isOrder:true} 또는 {isOrder:false}
+				   isOrderOK = json.isOrder;
+				// json.isOrder 값이 true  이면 로그인한 사용자가 해당 제품을 구매한 경우이고
+			   	// json.isOrder 값이 false 이면 로그인한 사용자가 해당 제품을 구매하지 않은 경우이다.
+			   },
+			   error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			   }
+		   });
+		
+		$("button#reivewWrite").click(function(e){
+//			alert("하하");
+			reviewwrite();
+			
+			
+		}) //end of $("button#reivewWrite").click(function(e)
+		
 		
 
 	});
 	
+	function reviewwrite(){
+		// 리뷰 쓰기 페이지로 이동
+		
+		if(${sessionScope.loginuser != null} && isOrderOK == true ) {
+	<%-- 		const url = "<%= request.getContextPath()%>/heajun/board/review_write.sue?userid="+"${sessionScope.loginuser.userid}";
+			
+			//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
+			
+			const pop_width = 800; //팝업 px은 생략가능 (더하기 할 경우 => 생략)
+			const pop_height = 650;
+			const pop_left = Math.ceil( (window.screen.width - pop_width)/2 ); // Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
+			const pop_top = Math.ceil( (window.screen.height - pop_height)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
+			
+			
+			window.open(url, "reviewrite",
+					    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
+			} --%>
+			alert("리뷰 작성 페이지로 이동합니다.");
+			const reviewForm = document.reviewForm;
+			reviewForm.action="<%=request.getContextPath() %>/heajun/board/review_write.sue";
+			reviewForm.method = "GET";
+			reviewForm.submit(); 
+
+	}		
+		
+		else if (${sessionScope.loginuser != null} && isOrderOK == false ) {
+			alert("리뷰는 해당 제품을 구매한 회원에 한하여 작성 가능합니다. ");
+			return;
+		}
+	
+		else {
+			alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+			location.href="<%=request.getContextPath() %>/hyerin/login/login.sue"
+		}
+		
+	}//end of goEditPersonal
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	// 토글 하나만 보여주는 함수.	
 	function reviewshow() {
 		
 //		alert("sdfsd");
@@ -69,10 +148,7 @@
 
 	}
 
-	function goreviewwrite() {
-		
-		location.href:"<%= request.getContextPath()%>/heajun/board/review_write.sue"
-	}
+
 
 	</script>
 
@@ -131,7 +207,7 @@
 		  </table>
 		  
 		  			 <div style="text-align:right;  width:100%;" class="">
-	    	            <button type="button" id="reivewWrite" style="background-color: black; color:white; border:solid 1px gray;" onclick=" goreviewwrite()">상품후기쓰기</button>
+	    	            <button type="button" id="reivewWrite" style="background-color: black; color:white; border:solid 1px gray;">상품후기쓰기</button>
 	          </div>
 	</div>
 	
@@ -143,8 +219,9 @@
 				<ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>
 			</div>
 		  </nav>
-
-	
-
+<form name="reviewForm">
+	<input type="hidden" id="fk_prod_code" name="fk_prod_code" value="${requestScope.pvo2.prod_code}" />   
+	<input type="hidden" id="fk_prod_code" name="fk_userid" value="${sessionScope.loginuser.userid}" />   
+</form>
 
 

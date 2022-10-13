@@ -9,7 +9,10 @@ public interface InterProductDAO {
 	
 	List<ProductVO> interestList(Map<String, String> paraMap) throws SQLException;
 
-	List<ProductVO> orderDetailList(String order_code);
+	List<ProductVO> orderDetailList(String order_code) throws SQLException;
+
+
+	List<String> getprod_info(Map<String, String> paraMap) throws SQLException;
 
 	
 
