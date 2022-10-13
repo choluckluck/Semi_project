@@ -66,57 +66,88 @@ public class J_QnaDAO implements J_InterQnaDAO {
 		
 		int totalPage = 0;
 
-		String colname = paraMap.get("sarchType");
+		String searchType = paraMap.get("searchType");
 		String searchWord = paraMap.get("searchWord"); 
 		String searchMin = paraMap.get("qna_search_min");
 		String searchMax = paraMap.get("qna_search_max");
 		String answer_yn = paraMap.get("answer_yn");
 		
-		System.out.println("searchMin: " + searchMin);
-		System.out.println("searchMax: " + searchMax);
-		
 		try {
 			
 			conn = ds.getConnection();
 			
-			String sql = "select ceil(count(*)/10)\n"+
-					" from tbl_qna\n"+
-					" where fk_userid != 'admin'\n" +
-					" and to_char(registerday,'yyyy-mm-dd') between '"+searchMin+"' and '"+searchMax+"'";
+			String sql = "select ceil(count(*)/5)\n"
+						+ "from\r\n"
+						+ "(     \r\n"
+						+ "    select rownum AS RNO, qcode, qcategory, quserid, qsubject, qregisterday, qanswer, prod_name, prod_code, prod_kind, pimage, phigh    \r\n"
+						+ "    from    \r\n"
+						+ "    (        \r\n"
+						+ "        select A.qna_code qcode\r\n"
+						+ "        , A.category qcategory\r\n"
+						+ "        , A.fk_userid quserid\r\n"
+						+ "        , A.subject qsubject\r\n"
+						+ "        , A.registerday qregisterday\r\n"
+						+ "        , A.answer_yn qanswer\r\n"
+						+ "        , B.prod_name prod_name             \r\n"
+						+ "        , B.prod_code prod_code             \r\n"
+						+ "		 , B.prod_kind prod_kind		\r\n"
+						+ "        , B.prod_image pimage         \r\n"
+						+ "        , B.prod_high phigh        \r\n"
+						+ "        from tbl_qna A\r\n"
+						+ "        join tbl_product B        \r\n"
+						+ "        on A.fk_prod_code = B.prod_code    \r\n"
+						+ " where fk_userid != 'admin' ";
 			
-			System.out.println(colname);
-	          // 검색 키워드가 있다면
-	          if(colname != null) {
-	        	  if(searchWord != null &&  !searchWord.trim().isEmpty() ) {
-	                  sql += " and " +colname+ " like '%'|| ? || '%' ";
-	        	  }   
-	          }
-	          // 답변 여부를 선택했다면
-	          if(!"All".equals(answer_yn)) {
-	        	  sql += "and answer_yn = '"+ answer_yn +"'";
-	          }
-	          
-	          // --------------------------------------------------------
-	          
-	          pstmt = conn.prepareStatement(sql);
-	          System.out.println(sql);
-	          
-	          // 검색 키워드가 있다면
-		      if(colname != null) {
-		    	  if(searchWord != null &&  !searchWord.trim().isEmpty() ) {
-		    		  pstmt.setString(1, searchWord);
-	        	  } 
-		      }
-		      
-	          
-	          rs = pstmt.executeQuery();
-	        
-	          rs.next();
-	          
-	          totalPage = rs.getInt(1);
-
+			//날짜검색이 있는 경우
+			if(!"".trim().equals(searchMax)||!"".trim().equals(searchMin)) {
+				//searchmin이 데이터가 없는 경우
+				if("".trim().equals(searchMin)) {
+					sql += " and (to_char(A.registerday,'yyyy-mm-dd') between '"+searchMin+"' and to_char(sysdate,'yyyy-mm-dd') )";
+					//검색어 조건이 있는 경우
+					if(!"".equals(searchType)) {
+						sql += " and "+searchType+ " like '%'|| ? || '%' ";
+					}
+				}
+				else {
+					sql += "and ( A.registerday between to_date( '"+searchMin+"' ) and sysdate )";
+					//검색어 조건이 있는 경우
+					if(!"".equals(searchType)) {
+						sql += " and "+searchType+ " like '%'|| ? || '%' ";
+					}
+				}
+			}
+			//날짜검색이 없는 경우
+			else {
+				//검색어 조건이 있는 경우
+				if(!"".equals(searchType)) {
+					sql += " and "+searchType+ " like '%'|| ? || '%' ";
+				}
+			}
 			
-		 }finally {
+			// 답변 여부가 있다면
+			if(!"All".equals(answer_yn)) {
+			  sql += " and answer_yn = '"+ answer_yn +"'";
+			}
+			
+			sql += " ) V "
+					+ " ) T ";
+			
+			// --------------------------------------------------------
+  
+			pstmt = conn.prepareStatement(sql);
+			System.out.println("토탈페이지 sql : " + sql);
+			  //날짜검색이 있는 경우
+			if(!"".equals(searchType)) {
+				pstmt.setString(1, searchWord);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			  
+			totalPage = rs.getInt(1);
+			
+		 } finally {
 	          close();
 	     }
 		
@@ -128,7 +159,7 @@ public class J_QnaDAO implements J_InterQnaDAO {
 	public List<J_QnaVO> pagingQna(Map<String, String> paraMap) throws Exception {
 		List<J_QnaVO> QnaList = new ArrayList<>();
 		
-		String colname = paraMap.get("searchType");
+		String searchType = paraMap.get("searchType");
 		String searchWord = paraMap.get("searchWord"); 
 		String searchMin = paraMap.get("qna_search_min");
 		String searchMax = paraMap.get("qna_search_max");
@@ -137,8 +168,7 @@ public class J_QnaDAO implements J_InterQnaDAO {
 		int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 		
 		System.out.println(currentPageNo);
-		
-		System.out.println("searchType:" + colname);
+		System.out.println("searchType:" + searchType);
 		System.out.println("searchWord:" + searchWord);
 		
 		try {
@@ -164,20 +194,28 @@ public class J_QnaDAO implements J_InterQnaDAO {
 					"        , B.prod_high phigh        \n"+
 					"        from tbl_qna A\n"+
 					"        join tbl_product B        \n"+
-					"        on A.fk_prod_code = B.prod_code    \n" +
-					"		 where to_char(A.registerday,'yyyy-mm-dd') between '"+searchMin+"' and '"+searchMax+"'";
-			System.out.println(searchWord);
-			// 검색 키워드가 있다면
-        	if(!"0".equals(searchWord) &&  !searchWord.trim().isEmpty() ) {
-                  sql += " and " +colname+ " like '%'|| ? || '%' " ;  
-        	}
-       	
-        	// 답변 여부가 있다면
-       	 	if(!"All".equals(answer_yn)) {
-	        	  sql += "and answer_yn = '"+ answer_yn +"'";
-	        }
-       	 	
-        	sql += "        ) V\n"+
+					"        on A.fk_prod_code = B.prod_code    \n"+
+					" where fk_userid != 'admin' ";
+			
+			//날짜검색이 있는 경우
+			if(!"".trim().equals(searchMax) ||!"".trim().equals(searchMin)) {
+				if("".trim().equals(searchMin)) {
+					sql += " and ( A.registerday between to_date( '"+searchMin+"' ) and sysdate )";
+				}
+				else {
+					sql += " and ( A.registerday between to_date( '"+searchMin+"' ) and to_date( '"+searchMax+"') ) ";
+				}
+			}
+			//검색어 조건이 있는 경우
+			if(!"".equals(searchType)) {
+				sql += " and "+searchType+ " like '%'|| ? || '%' ";
+			}
+			// 답변 여부가 있다면
+			if(!"All".equals(answer_yn)) {
+			  sql += " and answer_yn = '"+ answer_yn +"'";
+			}
+			sql += " order by registerday desc"+
+					"        ) V\n"+
         		   ") T\n" +
       			   " where RNO between ? and ?"+
         		   " order by qregisterday desc";
@@ -186,18 +224,17 @@ public class J_QnaDAO implements J_InterQnaDAO {
         	
 			pstmt = conn.prepareStatement(sql);
 			
-			// 검색 키워드가 있다면
-	        if(!"0".equals(searchWord) &&  !searchWord.trim().isEmpty() ) {
-	        	pstmt.setString(1, searchWord);
-        		pstmt.setInt(2, (currentPageNo*sizePerPage) - (sizePerPage - 1));
+			//검색어 조건이 있는 경우
+			if(!"".equals(searchType)) {
+				pstmt.setString(1, searchWord);
+				pstmt.setInt(2, (currentPageNo*sizePerPage) - (sizePerPage - 1));
         		pstmt.setInt(3, (currentPageNo*sizePerPage));
-	        }
-	        // 검색 키워드가 없다면
-        	else {
-        		pstmt.setInt(1, (currentPageNo*sizePerPage) - (sizePerPage - 1));
+			}
+			else {
+				pstmt.setInt(1, (currentPageNo*sizePerPage) - (sizePerPage - 1));
         		pstmt.setInt(2, (currentPageNo*sizePerPage));
-	        }
-	        
+			}
+			
 	        rs = pstmt.executeQuery();
 	        
 	        while(rs.next()) {

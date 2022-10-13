@@ -177,15 +177,15 @@
 								${requestScope.mvo.registerday}
 							</td>
 						</tr>
-						<tr class="pb-5">
+						<!-- <tr class="pb-5">
 							<td class="font-weight-bold align-baseline">문자전송</td>
 							<td>
 								<textarea class="register_input w-100" style="height:100px;" ></textarea>
 								<button type="button" id="join_btn" class="black" style="width:100%;" onclick="sendMessage();">전송</button>
 							</td>
-						</tr>
+						</tr> -->
 						<tr>
-							<td colspan="2" class="pb-5"><button type="button" id="cancel_btn" class="white" style="width:100%;" onclick="window.close()">닫기</button></td>
+							<td colspan="2" class="pt-5 pb-5"><button type="button" id="cancel_btn" class="white" style="width:100%;" onclick="window.close()">닫기</button></td>
 						</tr>
 					</table>
 			</form>

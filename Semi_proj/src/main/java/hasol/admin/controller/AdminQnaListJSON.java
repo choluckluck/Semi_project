@@ -26,10 +26,10 @@ public class AdminQnaListJSON extends AbstractController {
 		J_InterQnaDAO qdao = new J_QnaDAO();
 		
 		String searchType = request.getParameter("searchType");				// 답변 여부 분류
-		String qna_search_min = request.getParameter("qna_search_min");		// 기간 시작
-		String qna_search_max = request.getParameter("qna_search_max");		// 기간 끝
+		String qna_search_min = request.getParameter("qna_search_min");//초기치 null		// 기간 시작
+		String qna_search_max = request.getParameter("qna_search_max");//초기치 null		// 기간 끝
 		String currentPageNo = request.getParameter("currentPageNo");	// 현재 사용자가 보고있는 페이지
-		String sizePerPage = "10";		// 페이지 당 표시될 글 목록 수
+		String sizePerPage = "5";		// 페이지 당 표시될 글 목록 수
 		String searchWord = request.getParameter("searchWord");
 		String answer_yn = request.getParameter("answer_yn");
 		
@@ -50,13 +50,22 @@ public class AdminQnaListJSON extends AbstractController {
 			currentPageNo ="1";
 		}
 		
+		/////////////////////////////////////////////////////////////////////
+		
+		if(searchType == null || "All".equals(searchType)) {searchType = "";}
+		if(searchWord == null) {searchWord = "";}
+		if(qna_search_min == null) {qna_search_min = "";}
+		if(qna_search_max == null) {qna_search_max = "";}
+		
+		/////////////////////////////////////////////////////////////////////
+		
 		// 날짜 값 예외 처리
 		Date date = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
-		String today = df.format(date);
-		if (qna_search_min == "" ) qna_search_min = today;
-		if (qna_search_max == "" ) qna_search_max = today;
+//		String today = df.format(date);
+//		if (qna_search_min == "" ) qna_search_min = today;
+//		if (qna_search_max == "" ) qna_search_max = today;
 		
 		// 답변 여부 값 예외 처리
 		if(answer_yn == null) answer_yn = "All";
@@ -74,9 +83,6 @@ public class AdminQnaListJSON extends AbstractController {
 		
 		// 조회해올 상품의 총 페이지 수 구하기
 		int totalPage = qdao.getTotalPage(paraMap);
-		System.out.println("totalPage:" +totalPage);
-		
-		
 		
 		// 총 페이지 수에 대한 오류 방지
 		if ( Integer.parseInt(currentPageNo) > totalPage ) {
@@ -94,17 +100,6 @@ public class AdminQnaListJSON extends AbstractController {
 		int loop = 1; //loop는 1부터 증가하여 1개 블럭을 이루는 페이지번호의 개수(지금은 10개) 까지만 증가하는 용도
 		int pageNo = ( (Integer.parseInt(currentPageNo) - 1)/blockSize ) * blockSize + 1;
 		
-		/////////////////////////////////////////////////////////////////////
-		
-		if(searchType == null) {
-			searchType = "";
-		}
-		
-		if(searchWord == null) {
-			searchWord = "";
-		}
-				
-		/////////////////////////////////////////////////////////////////////
 		
 		if(pageNo != 1) {
 			pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch(1)'><i class='fas fa-angle-double-left'></i></a></li>";
@@ -128,7 +123,7 @@ public class AdminQnaListJSON extends AbstractController {
 			pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch("+totalPage+")'><i class='fas fa-angle-double-right'></i></a></li>";
 		}
 
-		System.out.println(pageBar);
+		System.out.println("pageBar" + pageBar);
 		
 		// JSON 응답하기(데이터 반환)
 		JSONArray jsonArr = new JSONArray();

@@ -79,8 +79,8 @@
 		    $(".qna_search").datepicker();                    
 
 		    //From의 초기값을 오늘 날짜로 설정
-		    $("input#qna_search_min").datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-		    $("input#qna_search_max").datepicker('setDate', 'today');
+		    //$("input#qna_search_min").datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+		   // $("input#qna_search_max").datepicker('setDate', 'today');
 		   
 		});
 		
@@ -89,7 +89,6 @@
 
 		
 	});
-	
 	
 	
 	<%-- // 답변하기 팝업
@@ -127,7 +126,11 @@
 		let qna_search_max = $("#qna_search_max").val();
 		let answer_yn = $("#answer_yn").val();
 		
-		console.log(qna_search_min);
+		
+		console.log(qna_search_min);		
+		console.log(qna_search_max);
+		console.log(searchType);
+		
 		
 		let currentPageNo = num;
 		$("#currentPageNo").val(currentPageNo);
@@ -319,7 +322,7 @@
 					<input type="text" id="qna_search_max" class="qna_search" name="qna_search_max" placeholder="날짜"/>
 					<select class="productqna_sort" id="searchType" name="searchTpye" >
 						<option value="All" <c:if test="${searchType=='All'}">${'selected'}</c:if>>전체</option>
-						<option value="fk_userid" <c:if test="${searchType=='fk_userid'}">${'selected'}</c:if>>회원명</option>
+						<option value="fk_userid" <c:if test="${searchType=='fk_userid'}">${'selected'}</c:if>>아이디</option>
 						<option value="qna_code" <c:if test="${searchType=='qna_code'}">${'selected'}</c:if>>문의번호</option>
 						<option value="fk_prod_code" <c:if test="${searchType=='fk_prod_code'}">${'selected'}</c:if>>상품코드</option>
 					</select>
@@ -346,7 +349,7 @@
 								<th width="5%" height="50px" class="admin_qna_th text-center">No</th>
 								<th width="18%" class="admin_qna_th text-center">상품정보</th>
 								<th width="10%" class="admin_qna_th text-center">카테고리</th>
-								<th width="5%" class="admin_qna_th text-center">회원명</th>
+								<th width="5%" class="admin_qna_th text-center">아이디</th>
 								<th width="25%" class="admin_qna_th text-center">제목</th>
 								<th width="12%" class="admin_qna_th text-center">작성일자</th>
 								<th width="10%" class="admin_qna_th text-center">답변상태</th>
