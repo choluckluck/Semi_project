@@ -28,8 +28,8 @@
 </script>
 
 <div id="registerwrite_container" class="container-fluid row mt-5">
-	<div class="col-3"></div>
-	<div class="col-6">
+	<div class="col-4"></div>
+	<div class="col-4">
 		<table id="idfindResult_table" class="container mb-5">
 			<tr>
 				<td colspan="4" id="idfind_text">

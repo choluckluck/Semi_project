@@ -56,19 +56,12 @@
 	
 
 	
-	
-// ----------------------- declare function ----------------------- 
 
-	
-	// 이메일 정규식 체크
-	function emailCheck() {
-		
-	}
 	
 </script>
 <div id="registerwrite_container" class="container-fluid row mt-5">
-	<div class="col-3"></div>
-	<div class="col-6">
+	<div class="col-4"></div>
+	<div class="col-4">
 	
 		<form name="idfind_form">
 			<table id="idfind_table" class="container mb-5">
@@ -86,7 +79,7 @@
 					<td><div class = "emailFind">이메일</div></td>
 					<td>
 						<div class = "emailFind">
-						<input type="text" id="idfind_email" name="idfind_email" class="idfind_input_text" placeholder="abc@naver.ocm"/></div>
+						<input type="text" id="idfind_email" name="idfind_email" class="idfind_input_text" placeholder="abc@naver.com"/></div>
 					</td>
 				</tr>
 				

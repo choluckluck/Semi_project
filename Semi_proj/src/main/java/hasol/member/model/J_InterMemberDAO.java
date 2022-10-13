@@ -14,8 +14,13 @@ public interface J_InterMemberDAO {
 	// 아이디 중복 찾기 검사
 	boolean idDuplicateCheck(String userid) throws SQLException;
 
-
-	// 아이디 찾기 (이메일)
+	// 아이디 찾기
 	String idFind(Map<String, String> paraMap) throws SQLException;
+
+	// 비밀번호 찾기 전 유저 검사
+	boolean isUserExist(Map<String, String> paraMap) throws SQLException;
+
+	// 비밀번호 변경
+	int pwdUpdate(Map<String, String> paraMap) throws SQLException;
 
 }

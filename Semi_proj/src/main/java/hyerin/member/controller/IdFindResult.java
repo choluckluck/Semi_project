@@ -19,27 +19,25 @@ String method = request.getMethod();
 		
 		if("POST".equalsIgnoreCase(method)) { 
 			String name = request.getParameter("idfind_name");
-			String email = request.getParameter("idfind_email");
+			System.out.println("name:"+name);
 			
+			String email = request.getParameter("idfind_email");
+			System.out.println("email:"+email);
 			
 			J_InterMemberDAO mdao = new J_MemberDAO();
 			
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("name", name);
 			paraMap.put("email", email);
+			 
+			String userid = mdao.idFind(paraMap);
+			System.out.println("userid:" + userid);
+			/*
+			 * if(userid != null) { request.setAttribute("userid", userid); } else {
+			 * request.setAttribute("userid", "존재하지 않습니다."); }
+			 */
 			
-			if (paraMap.get("email") != null) {	
-				String userid = mdao.idFind(paraMap);
-			}
-			
-		
-			if(userid != null) {
-				request.setAttribute("userid", userid);
-			}
-			else {
-				request.setAttribute("userid", "존재하지 않습니다.");
-			}
-			
+			request.setAttribute("userid", userid);
 			request.setAttribute("name", name);
 			request.setAttribute("email", email);
 			

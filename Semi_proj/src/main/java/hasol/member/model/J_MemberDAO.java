@@ -147,6 +147,8 @@ public class J_MemberDAO implements J_InterMemberDAO {
 	      return isExists;
 	}
 
+	
+	// ID 찾기
 	@Override
 	public String idFind(Map<String, String> paraMap) throws SQLException{
 		String userid = null;
@@ -154,7 +156,7 @@ public class J_MemberDAO implements J_InterMemberDAO {
 	      try {
 	         conn = ds.getConnection();
 	         
-	         String sql = " select userid "
+	         String sql = " select userid"
 	                  + " from tbl_member "
 	                  + " where status = 1 and name = ? and email = ? ";
 	         
@@ -162,10 +164,13 @@ public class J_MemberDAO implements J_InterMemberDAO {
 	         pstmt.setString(1, paraMap.get("name") );
 	         pstmt.setString(2, aes.encrypt(paraMap.get("email") ));
 	         
+	         String check = aes.encrypt(paraMap.get("email"));
+	         System.out.println("check:" +check);
+	         
 	         rs = pstmt.executeQuery();
 	         
 	         if(rs.next()) {
-	            userid = rs.getString(1);
+	        	userid = rs.getString(1);
 	         }
 	         
 	      } catch(GeneralSecurityException | UnsupportedEncodingException e) {
@@ -175,6 +180,63 @@ public class J_MemberDAO implements J_InterMemberDAO {
 	      }
 	      
 	      return userid;
+	}
+
+	// 사용자 존재하는지 조회
+	@Override
+	public boolean isUserExist(Map<String, String> paraMap) throws SQLException {
+		boolean isUserExist = false;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select userid "
+	                  + " from tbl_member "
+	                  + " where status = 1 and userid = ? and email = ? and name= ?";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, paraMap.get("userid") );
+	         pstmt.setString(2, aes.encrypt(paraMap.get("email") ));
+	         pstmt.setString(3, paraMap.get("name"));
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         isUserExist = rs.next();
+	         
+	      } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      
+	      return isUserExist;
+	}
+
+	
+	// 비밀번호 변경
+	@Override
+	public int pwdUpdate(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " update tbl_member set pwd = ?, LAST_PWD_CHANGE_DATE = sysdate "
+	                  + " where userid = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, Sha256.encrypt(paraMap.get("pwd")) ); // 암호를 SHA256 알고리즘으로 단방향 암호화 시켜서 갱신해준다.
+	         pstmt.setString(2, paraMap.get("userid") );
+	         
+		      
+	         result = pstmt.executeUpdate();
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return result;
 	}
 
 
