@@ -24,6 +24,8 @@ public class Logout extends AbstractController {
 		
 		super.setRedirect(true);		
 		if(goBackURL != null) {
+			goBackURL =  request.getContextPath() + goBackURL;
+			
 			super.setViewPage(goBackURL);
 		}
 		else {
