@@ -99,9 +99,16 @@ $(document).ready(function() {
 	   
 	   //color를 변경하면 사이즈를 알아오는 에이젝스
 	   $("#prod_color").change(function(){
-		   const color = $(this).val();
-		   goSelectSize(color);
-	   })
+		   
+		   if($(this).val() == "컬러"){
+			   $("#prod_size").html("<option selected>사이즈</option>")
+		   }
+		   else{
+			   const color = $(this).val();
+			   goSelectSize(color);
+		   }
+		   
+	   });
 	   
 	 
 	   
@@ -118,13 +125,15 @@ function checkCart() {
     const regExp = /^[0-9]+$/; // 숫자만 체크하는 정규표현식
     const qnty = frm.qnty.value; 
     const bool = regExp.test(qnty);
+    let checkbool = false;
     
     if(!bool) {
        // 숫자 이외의 값이 들어온 경우 
        alert("수량은 1개 이상이어야 합니다.");
        frm.qnty.value = "1";
        frm.qnty.focus();
-       return; // 종료
+       checkbool = true;
+       return checkbool; // 종료
     }
     
     // 문자형태로 숫자로만 들어온 경우
@@ -132,15 +141,34 @@ function checkCart() {
        alert("수량은 1개 이상이어야 합니다.");
        frm.qnty.value = "1";
        frm.qnty.focus();
-       return; // 종료
+       checkbool = true;
+       return checkbool; // 종료
     }
-}
+
+	if($("#prod_color").val()== "컬러"){
+		alert("색상을 선택해주세요.");
+		$("#prod_color").focus();
+		checkbool = true;
+        return checkbool; // 종료
+	}
+	 
+	if($("#prod_size").val()=="사이즈"){
+		alert("사이즈를 선택해주세요.");
+		$("#prod_size").focus();
+		checkbool = true;
+        return checkbool; // 종료
+	}
+ 
+}//end of checkCart
 
 
 // 관심상품 바로가기
 function goWish() {
    
-   checkCart();
+	const check = checkCart();
+	if(check){
+		return;
+	}
    
    const frm = document.cartFrm;
       frm.method = "POST";
@@ -153,21 +181,25 @@ function goWish() {
 // 장바구니 바로가기
 function goCart() {
       
-      checkCart();
-      
-      // 주문개수가 1개 이상인 경우
-      const frm = document.cartFrm;
-      frm.method = "POST";
-      frm.action = "<%=request.getContextPath()%>/heajun/product/addCart.sue";
-      frm.submit();
+	const check = checkCart();
+	if(check){
+		return;
+	}
+	// 주문개수가 1개 이상인 경우
+	const frm = document.cartFrm;
+	frm.method = "POST";
+	frm.action = "<%=request.getContextPath()%>/heajun/product/addCart.sue";
+	frm.submit();
       
 }// end of function goCart()------------------------------ 
 
 
 function goOrder() {
-
-   checkCart();
-   
+	
+   const check = checkCart();
+   if(check){
+	  return;
+   }
    // 주문개수가 1개 이상인 경우
    const frm = document.cartFrm;
    
@@ -194,7 +226,6 @@ function goOrder() {
    frm.method = "POST";
    frm.action = "<%=request.getContextPath()%>/hasol/purchase/purchase.sue";
    frm.submit();
-
 }// end of function goOrder()------------------------------
 	
 
@@ -217,17 +248,8 @@ function goSelectSize(pcolor){
 				$.each(json2, function(index, item){
 					sizehtml += '<option value="'+item.psize+'">'+item.psize+'</option>';
 				});//end of $.each
-				
 				// 해당 컬러의 사이즈 옵션값을 넣어준다
 				$("#prod_size").html(sizehtml);
-				
-				/* 
-				<select  class="pvoList form-select" id="prod_size" name="prod_size" style="width: 250px; font-size:15px; margin-left:1px; height:30px; ">      
-				<c:forTokens var="prod_size" items="${requestScope.pvo2.pdvo.prod_size}" delims=",">
-					<option value="${prod_size}">${prod_size}</option>   
-				</c:forTokens>  
-			</select>
-				 */
 				
 			}
 			
@@ -361,10 +383,9 @@ function goSelectSize(pcolor){
 	</div>
 </div>  
 
-<%-- 
 <div id="prdreview" style="width:125%; margin: 0 auto;">	
 	<jsp:include page="/WEB-INF/seongmin/review_include.jsp"></jsp:include> 
 </div> 
 <jsp:include page="/WEB-INF/seongmin/qnaList_include.jsp"></jsp:include> 
- --%>
+
 <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include> 
