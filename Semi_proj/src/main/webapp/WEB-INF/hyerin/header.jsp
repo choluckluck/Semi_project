@@ -31,6 +31,7 @@
 	<script>
 	$(document).ready(function(){
 		//header_search 입력박스는 처음에 안보이게 한다
+		/* 
 		$("input#header_search").hide();
 		
 		$("input#header_search").keyup((e)=>{
@@ -38,7 +39,7 @@
 				productSearch();
 			}
 		});
-		
+		 */
 		// 
 		$("button#header_search_btn").click(function(){
 			const input_text = $("input#header_search").val().trim();
@@ -133,6 +134,7 @@
 		<%-- 검색, 마이페이지, 장바구니 --%>
 		<span style="float: right; position:relative; bottom: 100px; right: 20px;"> 
 			<%-- 검색 --%>
+			<%-- 
 			<form name="header_search_form" style="display:inline-block; margin-right: 20px;" class="header_search_contents">
 					<input type="text" id="header_search" name="prod_name"/>
 					<a id="a_header_search_btn" href="#">
@@ -141,6 +143,7 @@
 						</button>
 					</a>
 			</form>
+			 --%>
 	<%@ include file="/WEB-INF/hyerin/mypage.jsp" %>		
 
 

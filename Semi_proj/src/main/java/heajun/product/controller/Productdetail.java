@@ -34,6 +34,11 @@ public class Productdetail extends AbstractController {
 			
 			String prod_code = request.getParameter("prod_code"); // 상품번호
 			
+			//리뷰개수 조인
+			hyerin.review.model.InterReviewDAO rdaoH = new hyerin.review.model.ReviewDAO();
+			String reviewCount = rdaoH.getReviewCount(prod_code);
+			request.setAttribute("reviewCount", reviewCount);
+			
 			
 			String sizePerPage1 = "10";
 			String sizePerPage2 = "10";

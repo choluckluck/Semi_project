@@ -357,13 +357,13 @@ function goSelectSize(pcolor){
 <!-- 상품정보, 리뷰, 상품문의-->
 <div class="row container-fluid" style="text-align:center; font-size:12pt; height:60px; border-bottom:solid 1px #d9d9d9;">
 	<div class="col-4" style="padding:10px;  color:gray; ">
-		<a href="#" style="color:gray; text-decoration:none;">상품정보</a>
+		<a style="color:gray; text-decoration:none;">상품정보</a>
 	</div>
 	<div class="col-4" style="padding:10px; ">
-		<a href="#" style="color:gray; text-decoration:none;">리뷰(<span id=""></span>)</a>
+		<a style="color:gray; text-decoration:none;">리뷰(<span id="">${requestScope.reviewCount}</span>)</a>
 	</div>
 	<div class="col-4" style="padding:10px; ">
-		<a href="#" style="color:gray; text-decoration:none;">상품문의</a>
+		<a style="color:gray; text-decoration:none;">상품문의</a>
 	</div>	
 </div>
 
@@ -383,9 +383,9 @@ function goSelectSize(pcolor){
 	</div>
 </div>  
 
-<div id="prdreview" style="width:125%; margin: 0 auto;">	
+<div id="prdreview" style="width:90%; position:relative; left: 95px;">	
 	<jsp:include page="/WEB-INF/seongmin/review_include.jsp"></jsp:include> 
-</div> 
+</div>
 <jsp:include page="/WEB-INF/seongmin/qnaList_include.jsp"></jsp:include> 
 
 <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include> 

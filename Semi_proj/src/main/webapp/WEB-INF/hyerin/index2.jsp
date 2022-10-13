@@ -25,12 +25,12 @@
 		<c:when test="${empty sessionScope.loginuser}">
 			<span><a class="mx-2" href="<%= request.getContextPath()%>/hyerin/login/login.sue" style="text-decoration:none; font-size:10pt; color: gray;">로그인</a></span> 
  			<span><a class="mx-2" href="<%= request.getContextPath()%>/hyerin/member/agreement.sue" style="text-decoration:none; font-size:10pt; color: gray;">회원가입</a></span>
-			<span><a class="mx-2"href="#" style="text-decoration:none; font-size:10pt; color: gray;">고객센터</a></span>
+			<%--<span><a class="mx-2"href="#" style="text-decoration:none; font-size:10pt; color: gray;">고객센터</a></span>--%>
     	</c:when>
     	<c:otherwise>
 			<span style="text-decoration:none; font-size:10pt; color: gray;">${sessionScope.loginuser.name} 님 환영합니다.</span> 
 			<span><a class="mx-2" onclick="goLogOut();" style="cursor:pointer; text-decoration:none; font-size:10pt; color: gray;">로그아웃</a></span>
-			<span><a class="mx-2"href="#" style="text-decoration:none; font-size:10pt; color: gray;">고객센터</a></span>
+			<%--<span><a class="mx-2"href="#" style="text-decoration:none; font-size:10pt; color: gray;">고객센터</a></span> --%>
     	</c:otherwise>
     </c:choose>	
 		</div>

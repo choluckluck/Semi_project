@@ -190,7 +190,7 @@ let isRegistered = false;
 
 	</script>
 
-	<div style="width : 70%; margin-left : 80px;">		
+	<div style="width : 96%;" >		
 		<h3 style="margin-top:1px;">상품 리뷰</h3>
 		
 		  <table class="table table" style="text-align:left; border-bottom:solid 1px gray;">

@@ -22,5 +22,8 @@ public interface InterReviewDAO {
 	//해당하는 리뷰들을 삭제해준다
 	int deleteMultiReview(Map<String, String[]> paraMap) throws SQLException;
 
+	//해당 상품의 리뷰개수를 알아온다
+	String getReviewCount(String prod_code) throws SQLException;
+
 	
 }

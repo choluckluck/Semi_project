@@ -234,5 +234,32 @@ public class ReviewDAO implements InterReviewDAO {
 		return result;
 	}//end of deleteMultiReview
 	
+	
+	
+	
+	//상품코드에 해당하는 리뷰개수를 알아온다
+	@Override
+	public String getReviewCount(String prod_code) throws SQLException {
+		String count = "0";
+		
+		try {
+			conn = ds.getConnection();
+			String sql = " select count(*) from tbl_review where fk_prod_code = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, prod_code);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getString(1);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return count;
+	}//end of getReviewCount
+	
 
 }
