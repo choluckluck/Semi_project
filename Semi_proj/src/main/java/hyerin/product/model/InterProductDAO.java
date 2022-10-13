@@ -95,6 +95,12 @@ public interface InterProductDAO {
 	
 	//주문한 제품에 대해 email 보내기시 email 내용에 넣을 주문한 제품번호들에 대한 제품정보를 얻어옴
 	List<ProductVO> getOrderedProductList(String[] prod_codeArr) throws SQLException;
+	
+	//pcode에 해당하는 제품의 컬러를 알아온다
+	List<String> getProductColor(String pcode) throws SQLException;
+	
+	//cart_code에 해당하는 카트의 컬러, 사이즈를 업데이트해줌
+	int updateCartOption(String cart_code, String fk_prod_color, String fk_prod_size) throws SQLException;
 
 	
 	
