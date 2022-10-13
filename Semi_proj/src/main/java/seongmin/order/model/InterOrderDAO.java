@@ -29,6 +29,8 @@ public interface InterOrderDAO {
 	List<OrderVO> totalOrderList(String order_code) throws SQLException;
 
 	int isOrder(Map<String, String> paraMap) throws SQLException;
+
+	int isRegistered(Map<String, String> paraMap) throws SQLException;
 	
 	
 }

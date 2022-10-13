@@ -57,9 +57,9 @@
 <script type="text/javascript">
 
 let isOrderOK = false;
+let isRegistered = false;
 
 	$(document).ready (function(){
-
 		
 		   $.ajax({
 			   url:"<%= request.getContextPath()%>/seongmin/member/isOrder.sue",
@@ -69,7 +69,7 @@ let isOrderOK = false;
 			   dataType:"JSON",
 			   
 			   async:false, // 동기처리
-		   //  async:true,  // 비동기처리(기본값임)
+		    //  async:true,  // 비동기처리(기본값임)
 			   
 			   success:function(json) {
 				   // json ==> {isOrder:true} 또는 {isOrder:false}
@@ -82,6 +82,36 @@ let isOrderOK = false;
 			   }
 		   });
 		
+		   
+		   
+		   
+		   
+		   $.ajax({
+			   url:"<%= request.getContextPath()%>/seongmin/member/isRegistered.sue",
+			   type:"GET",
+			   data:{"fk_userid":"${sessionScope.loginuser.userid}",
+				     "fk_prod_code":"${requestScope.pvo2.prod_code}" },
+			   dataType:"JSON",
+			   
+			//   async:false, // 동기처리
+		     async:true,  // 비동기처리(기본값임)
+			   
+			   success:function(json1) {
+				   // json1 ==> {isOrder:true} 또는 {isOrder:false}
+				   isRegistered = json1.isRegistered;
+				// json.isOrder 값이 true  이면 로그인한 사용자가 해당 제품을 구매한 경우이고
+			   	// json.isOrder 값이 false 이면 로그인한 사용자가 해당 제품을 구매하지 않은 경우이다.
+			   },
+ 			   error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		   } 
+		   
+		   });
+				   
+		   
+		   
+		   
+		   
 		$("button#reivewWrite").click(function(e){
 //			alert("하하");
 			reviewwrite();
@@ -96,7 +126,7 @@ let isOrderOK = false;
 	function reviewwrite(){
 		// 리뷰 쓰기 페이지로 이동
 		
-		if(${sessionScope.loginuser != null} && isOrderOK == true ) {
+		if(${sessionScope.loginuser != null} && isOrderOK == true && isRegistered == true) {
 	<%-- 		const url = "<%= request.getContextPath()%>/heajun/board/review_write.sue?userid="+"${sessionScope.loginuser.userid}";
 			
 			//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
@@ -118,11 +148,16 @@ let isOrderOK = false;
 
 	}		
 		
-		else if (${sessionScope.loginuser != null} && isOrderOK == false ) {
+		else if (${sessionScope.loginuser != null} && isOrderOK == false && isRegistered == true) {
 			alert("리뷰는 해당 제품을 구매한 회원에 한하여 작성 가능합니다. ");
 			return;
 		}
-	
+
+		else if (${sessionScope.loginuser != null} && isOrderOK == true && isRegistered == false) {
+			alert("해당 제품에 대한 리뷰를 이미 작성하셨습니다. ");
+			return;
+		}
+		
 		else {
 			alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
 			location.href="<%=request.getContextPath() %>/hyerin/login/login.sue"
@@ -145,7 +180,6 @@ let isOrderOK = false;
 //		alert("sdfsd");
 		$(this).parent().find(".collapse").hide();		
 		$(this).next().show();
-
 	}
 
 
@@ -221,7 +255,7 @@ let isOrderOK = false;
 		  </nav>
 <form name="reviewForm">
 	<input type="hidden" id="fk_prod_code" name="fk_prod_code" value="${requestScope.pvo2.prod_code}" />   
-	<input type="hidden" id="fk_prod_code" name="fk_userid" value="${sessionScope.loginuser.userid}" />   
+	<input type="hidden" id="fk_userid" name="fk_userid" value="${sessionScope.loginuser.userid}" />   
 </form>
 
 

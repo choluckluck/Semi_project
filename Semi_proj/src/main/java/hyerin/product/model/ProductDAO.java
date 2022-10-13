@@ -1241,7 +1241,9 @@ public class ProductDAO implements InterProductDAO {
 			String sql = " select prod_name, prod_image"
 					   + " from tbl_product "
 					   + " where prod_code in ( "+prod_codeJoin+" ) ";
+			
 			pstmt = conn.prepareStatement(sql);
+			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -1257,6 +1259,38 @@ public class ProductDAO implements InterProductDAO {
 		
 		return OrderedProdList;
 	}//end of getOrderedProductList
+
+	//퀵뷰 관심상품 개수 알아오기
+	@Override
+	public int likeProdCount(String userid) throws SQLException {
+		
+		int likeProdCount = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select count(*)\n"+
+					"from tbl_like\n"+
+					"where fk_userid = ? \n"+
+					"group by fk_userid ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				likeProdCount = rs.getInt(1) ;
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return likeProdCount;
+	}
 
 	
 	

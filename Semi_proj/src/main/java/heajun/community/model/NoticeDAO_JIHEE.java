@@ -61,7 +61,7 @@ public class NoticeDAO_JIHEE implements InterNoticeDAO_JIHEE {
 	      try {
 	         conn = ds.getConnection();
 	         
-	         String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
+	         String sql = " select notice_code, fk_userid, notice_subject, notice_contents, notice_count, to_char(notice_registerday, 'yyyy-mm-dd') as notice_registerday, notice_file_1, notice_file_2, notice_file_3 "
 	                  	+ " from tbl_notice " 
 	                    + " where notice_code = ? ";
 	         
@@ -79,7 +79,7 @@ public class NoticeDAO_JIHEE implements InterNoticeDAO_JIHEE {
 	               nvo.setNotice_subject(rs.getString(3));
 	               nvo.setNotice_contents(rs.getString(4));
 	               nvo.setNotice_count(rs.getInt(5));
-	             
+	               nvo.setNotice_registerday(rs.getString(6));
 
 	           }
 	         

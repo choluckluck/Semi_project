@@ -394,9 +394,9 @@
 						<c:forEach var="pvo" items="${requestScope.likeList1}" varStatus="status">
 						  <tr>
 						 	<td class="tbl_td"><input type="checkbox" name = "like_code" class="chkboxprod_code" id="" value="${pvo.lvo.like_code}"/></td>
-					 		<td class="tbl_td"><a href=# ><img id="likeimg" src="<%=request.getContextPath() %>/images/product/${pvo.prod_image}"></a></td>
+					 		<td class="tbl_td"><a href="<%=request.getContextPath() %>/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}" ><img id="likeimg" src="<%=request.getContextPath() %>/images/product/${pvo.prod_image}"></a></td>
 					 		<td class="tbl_td" style="text-align:left">
-					 			<a name="prd_name${status.index}" class = "prod_name" href="/product/detail.html?product_no=3833&amp;cate_no=28" value="${pvo.prod_name}">${pvo.prod_name}</a><br><br>
+					 			<a name="prd_name${status.index}" class = "prod_name" href="<%=request.getContextPath() %>/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}" value="${pvo.prod_name}">${pvo.prod_name}</a><br><br>
 					 			색상 : <span>${pvo.pdvo.prod_color}</span>&nbsp;&nbsp; 사이즈 : [<span>${pvo.pdvo.prod_size}</span>mm]
 					 		</td>
 					 		<td name="prd_price${status.index}" class="tbl_td testzz" value="${pvo.prod_price}"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/>원</td>

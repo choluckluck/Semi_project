@@ -40,10 +40,23 @@
 			   location.href="<%= ctxPath%>/heajun/community/noticeView.sue?notice_code="+notice_code+"&goBackURL=${requestScope.goBackURL}";
 			 		   
 		   });
-				   
+				  
+		 <%-- //커뮤니티사이드바_문의하기 클릭 이벤트
+			$("div#notice_write").click(function(){
+				location.href="<%= ctxPath%>/heajun/community/noticeWrite.sue";
+			}); --%>
 		
 	});
 	
+	function goWrite() {
+		   
+		   
+		   const frm = document.noticeFrm;
+		      frm.method = "POST";
+		      frm.action = "<%=request.getContextPath()%>/heajun/community/noticeWrite.sue";
+		      frm.submit();
+
+		}
 </script>
 
 <div class="row container-fluid mt-5">
@@ -73,11 +86,11 @@
 			   <tbody>
 		             <c:forEach var="nvo" items="${requestScope.noticeList}">
 		             	<tr class="noticeList">
-		             	    <td width="15%" height="50px" class="notice_code text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_code}</td>
-		             	    <td width="15%" height="50px" class=" text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_subject}</td>
-		             	    <td width="15%" height="50px" class=" text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.fk_userid}</td>
-		             	    <td width="15%" height="50px" class=" text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_registerday}</td>
-		             	    <td width="15%" height="50px" class=" text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_count}</td>
+		             	    <td width="15%" style="cursor:" height="50px" class="notice_code text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_code}</td>
+		             	    <td width="15%" style="cursor:pointer;  height="50px" class=" text-center" style="font-weight:normal;   border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_subject}</td>
+		             	    <td width="15%" style="cursor:" height="50px" class=" text-center" style="font-weight:normal;  border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.fk_userid}</td>
+		             	    <td width="15%" style="cursor:" height="50px" class=" text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_registerday}</td>
+		             	    <td width="15%" style="cursor:" height="50px" class=" text-center" style="font-weight:normal; border-top:solid 1px black; border-bottom: solid 1px black ">${nvo.notice_count}</td>
 		             	</tr>
 		             </c:forEach>
 		        </tbody>
@@ -87,13 +100,15 @@
 				
 				   
 			</table>
-		
-		<div style="text-align:right;" class="my-5"><button type="button" id="notice_write" class="black" style="width:150px; height:40px; href="<%=ctxPath%>/heajun/community/noticeWrite.sue">글쓰기</button></div>
+		<c:if test="${sessionScope.loginuser != null and sessionScope.loginuser.userid == 'admin'}">
+		<div style="text-align:right;" class="my-5"><button type="button" id="notice_write" class="black" style="width:150px; height:40px;" onclick="goWrite()";>글쓰기</button></div>
+		</c:if>  	
 			<nav class="my-5">
 		    	<div style="display: flex; width: 80%">
 		    		<ul class="pagination" style="margin: auto">${requestScope.pageBar}</ul>
 		    	</div>
             </nav>
+       
             
             
 		</form>
