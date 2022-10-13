@@ -96,6 +96,13 @@ $(document).ready(function() {
 	   } );// end of $("input#spinner").spinner({});------------- 
 	   
 	   
+	   
+	   //color를 변경하면 사이즈를 알아오는 에이젝스
+	   $("#prod_color").change(function(){
+		   const color = $(this).val();
+		   goSelectSize(color);
+	   })
+	   
 	 
 	   
 });//end of $(document).ready(function() {--------------------
@@ -164,32 +171,94 @@ function goOrder() {
    // 주문개수가 1개 이상인 경우
    const frm = document.cartFrm;
    
-   let totalPrice = Number("${requestScope.pvo2.prod_price}")*Number($("input#spinner").val()); // 정가 * 수량
-   let sumtotalPrice = Number("${requestScope.pvo2.prod_saleprice}")*Number($("input#spinner").val()); // 판매가 * 수량
-   let sumtotalpoint = Number("${requestScope.pvo2.prod_point}")*Number($("input#spinner").val()); // 포인트 * 수량
-      
-   frm.totalPrice.value=totalPrice;
-   frm.sumtotalPrice.value=sumtotalPrice;
-   frm.sumtotalpoint.value=sumtotalpoint;
+   let totalOnePriceJoin = Number("${requestScope.pvo2.prod_saleprice}")*Number($("#spinner").val()); // 판매가 * 수량
+   let deliveryfee = 2500;
+         if(Number(totalOnePriceJoin) > 70000) { deliveryfee = 0;}
+         else { deliveryfee = 2500;}
+   let pointJoin = Number("${requestScope.pvo2.prod_point}")*Number($("#spinner").val()); // 포인트 * 수량
+   let countjoin = Number($("#spinner").val());
+   let totalprice = Number("totalOnePricejoin") + Number("deliveryfee");
+   let sizeJoin = $("#prod_size").val();
+   let colorJoin = $("#prod_color").val();
+   
+   frm.totalOnePriceJoin.value=totalOnePriceJoin;
+   frm.deliveryfee.value=deliveryfee;
+   frm.pointJoin.value=pointJoin;
+   frm.countjoin.value=countjoin;
+   frm.totalorderprice.value=totalOnePriceJoin;
+   frm.totalprice.value=totalprice;
+   frm.sizeJoin.value=sizeJoin;
+   frm.colorJoin.value=colorJoin;
+   
    
    frm.method = "POST";
-      frm.action = "<%=request.getContextPath()%>/heajun/product/directOrder.sue";
+   frm.action = "<%=request.getContextPath()%>/hasol/purchase/purchase.sue";
    frm.submit();
 
 }// end of function goOrder()------------------------------
 	
 
+//사이즈를 알아오는 에이젝스
+function goSelectSize(pcolor){
+	
+	const pcode = "${requestScope.pvo2.prod_code}";
+	
+	$.ajax({
+		url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListSizeJson.sue",
+		type: "get",
+		data:{"pcode":pcode,
+			  "pcolor":pcolor},
+		dataType:"JSON",
+		success:function(json2){
+			
+			if(json2.length > 0){
+			
+				var sizehtml = '';
+				$.each(json2, function(index, item){
+					sizehtml += '<option value="'+item.psize+'">'+item.psize+'</option>';
+				});//end of $.each
+				
+				// 해당 컬러의 사이즈 옵션값을 넣어준다
+				$("#prod_size").html(sizehtml);
+				
+				/* 
+				<select  class="pvoList form-select" id="prod_size" name="prod_size" style="width: 250px; font-size:15px; margin-left:1px; height:30px; ">      
+				<c:forTokens var="prod_size" items="${requestScope.pvo2.pdvo.prod_size}" delims=",">
+					<option value="${prod_size}">${prod_size}</option>   
+				</c:forTokens>  
+			</select>
+				 */
+				
+			}
+			
+		},
+		error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	});// end of ajax
+
+}//end of goSelectSize;
+
+
+
+
 </script>
 
 <form name="cartFrm">
-	<input type="hidden" id="prod_code" name="prod_code" value="${requestScope.pvo2.prod_code}" />				
-	<input type="hidden" name="totalPrice" value=""/>
-	<input type="hidden" name="sumtotalPrice" value=""/>
-	<input type="hidden" name="sumtotalpoint" value=""/>
-	<input type="hidden" name="price" value="${requestScope.pvo2.prod_price}"/>
-	<input type="hidden" name="saleprice" value="${requestScope.pvo2.prod_saleprice}"/>
-</form>
-
+	<input type="hidden" name="prodCodeJoin" value="${requestScope.pvo2.prod_code}" />            
+	<input type="hidden" name="prod_code" value="${requestScope.pvo2.prod_code}" />
+	<input type="hidden" name="colorJoin" value=""/>
+	<input type="hidden" name="sizeJoin" value=""/>
+	<input type="hidden" name="countjoin" value=""/>
+	<input type="hidden" name="priceJoin" value="${requestScope.pvo2.prod_price}"/>
+	<input type="hidden" name="salepriceJoin" value="${requestScope.pvo2.prod_saleprice}"/>
+	<input type="hidden" name="totalOnePriceJoin" value=""/>
+	<input type="hidden" name="deliveryfee" value=""/>
+	<input type="hidden" name="pointJoin" value=""/>
+	<input type="hidden" name="totalorderprice" value=""/>
+	<input type="hidden" name="totalprice" value=""/>
+	
+	
 <div class="row container-fluid" style="font-size: 12pt; margin:50px 0;  padding:0;">
 	<div class="col-1"></div>
 	<div class="col-3">
@@ -226,7 +295,8 @@ function goOrder() {
 			<tr height="50px">
 				<td>COLOR</td>
 				<td>
-					<select class="pvoList form-select" name="prod_color" style="width: 250px; font-size:15px; margin-left:1px; height:30px;">    
+					<select class="pvoList form-select" id="prod_color" name="prod_color" style="width: 250px; font-size:15px; margin-left:1px; height:30px;">    
+						<option selected>컬러</option>
 						<c:forTokens var="prod_color" items="${requestScope.pvo2.pdvo.prod_color}" delims=",">
 							<option value="${prod_color}">${prod_color}</option>   
 						</c:forTokens>  
@@ -236,10 +306,8 @@ function goOrder() {
 			<tr height="50px">
 				<td>SIZE</td>
 				<td>
-					<select  class="pvoList form-select" name="prod_size" style="width: 250px; font-size:15px; margin-left:1px; height:30px; ">      
-						<c:forTokens var="prod_size" items="${requestScope.pvo2.pdvo.prod_size}" delims=",">
-							<option value="${prod_size}">${prod_size}</option>   
-						</c:forTokens>  
+					<select  class="pvoList form-select" id="prod_size" name="prod_size" style="width: 250px; font-size:15px; margin-left:1px; height:30px; ">      
+						<option selected>사이즈</option>
 					</select>
 				</td>
 			</tr>
@@ -260,8 +328,8 @@ function goOrder() {
 			</tr>
 		</table>
 	</div>
-	
 </div>
+</form>
 
 <div style="height:50px; clear:both;"></div>
 <!-- 상품정보, 리뷰, 상품문의-->
@@ -282,7 +350,7 @@ function goOrder() {
 <div class="row container-fluid" style="margin-top:120px;">
 	<c:forTokens var="product_image_file" items="${requestScope.ivo.product_image_file}" delims=",">
 		<div class="col-12" align="center">
-			<img src="<%= ctxPath%>/images/product/${product_image_file}" style="margin: 0 auto; width:50%; object-fit:cover; position:relative;" alt="...">
+			<img src="<%= ctxPath%>/images/product/${product_image_file}" style="margin: 0 auto; width:40%; object-fit:cover; position:relative;" alt="...">
 		</div>
 	</c:forTokens>
 	<div class="col-12" align="center">
@@ -293,9 +361,10 @@ function goOrder() {
 	</div>
 </div>  
 
-
+<%-- 
 <div id="prdreview" style="width:125%; margin: 0 auto;">	
 	<jsp:include page="/WEB-INF/seongmin/review_include.jsp"></jsp:include> 
 </div> 
 <jsp:include page="/WEB-INF/seongmin/qnaList_include.jsp"></jsp:include> 
+ --%>
 <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include> 
