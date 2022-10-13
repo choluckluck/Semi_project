@@ -1148,7 +1148,7 @@ public class ProductDAO implements InterProductDAO {
 			}//end of cart_codeJoin != null
 			
 			// 바로주문을 한 경우
-			if(paraMap.get("cart_codeJoin") == null && n3==1 ) { 
+			if(((paraMap.get("cart_codeJoin") == null)||"".equals(paraMap.get("cart_codeJoin"))) && n3==1 ) { 
 				n4 = 1;
 				System.out.println("확인용 바로주문하기 n4 : " + n4);
 			}//end of cart_codeJoin == null
