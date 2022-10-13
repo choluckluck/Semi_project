@@ -33,9 +33,9 @@ public class AdminQnaListJSON extends AbstractController {
 		String searchWord = request.getParameter("searchWord");
 		String answer_yn = request.getParameter("answer_yn");
 		
-		System.out.println("searchType:" + searchType);
-		System.out.println("searchWord:" + searchWord);
-		System.out.println("answer:" + answer_yn);
+//		System.out.println("searchType:" + searchType);
+//		System.out.println("searchWord:" + searchWord);
+//		System.out.println("answer:" + answer_yn);
 		
 		// currentPage 예외 처리
 		if(currentPageNo == null) {
@@ -71,7 +71,6 @@ public class AdminQnaListJSON extends AbstractController {
 		paraMap.put("searchWord", searchWord);
 		paraMap.put("answer_yn", answer_yn);
 		
-
 		
 		// 조회해올 상품의 총 페이지 수 구하기
 		int totalPage = qdao.getTotalPage(paraMap);
@@ -88,16 +87,12 @@ public class AdminQnaListJSON extends AbstractController {
 		// 페이징 처리된 전체 상품, 검색 상품 목록 조회 
 		List<J_QnaVO> QnaList = qdao.pagingQna(paraMap);
 
-		System.out.println("QnaList:" + QnaList);
-		
 		// 페이징 바 만들기
 		String pageBar = "";
 		
 		int blockSize = 10; //blockSize는 블럭(토막)당 보여지는 페이지 번호의 개수
 		int loop = 1; //loop는 1부터 증가하여 1개 블럭을 이루는 페이지번호의 개수(지금은 10개) 까지만 증가하는 용도
 		int pageNo = ( (Integer.parseInt(currentPageNo) - 1)/blockSize ) * blockSize + 1;
-		
-		System.out.println("pageNo:"+pageNo);
 		
 		/////////////////////////////////////////////////////////////////////
 		
@@ -112,32 +107,28 @@ public class AdminQnaListJSON extends AbstractController {
 		/////////////////////////////////////////////////////////////////////
 		
 		if(pageNo != 1) {
-			System.out.println("페이지넘버 1 공간");
 			pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch(1)'><i class='fas fa-angle-double-left'></i></a></li>";
 			pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch("+(pageNo-1)+")'><i class='fas fa-angle-left'></i></a></li>";
 		}
 		
 		while( !(loop > blockSize || pageNo > totalPage) ) { //loop가 blocksize보다 커지면 탈출
 			if(pageNo == Integer.parseInt(currentPageNo)) {
-				System.out.println("페이지넘버 2 공간");
 				pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
 			}
 			else {
-				System.out.println("페이지넘버 2-1 공간");
+//				System.out.println("페이지넘버 2-1 공간");
 				pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch("+pageNo+")'>" + pageNo + "</a></li>";
 			}
 			loop++; // 1 2 3 4 5 6 7 8 9 10
 			pageNo++; // 1   2  3  4  5  6  7  8  9 10
-			System.out.println("페이지 목록이 10개 넘지 않거나, 페이지가 총 페이지 수보다(3) 크지 않을 때 도는 곳!");
 		}//end of while
 		
 		if( pageNo <= totalPage ) { //페이지가 totalPage보다 작거나 같을때만 (마지막 블럭 제외)  
-			System.out.println("페이지넘버 3 공간");
 			pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch("+pageNo+")'><i class='fas fa-angle-right'></i></a></li>";
 			pageBar += "<li class='page-item'><a class='page-link' href='javascript:goSearch("+totalPage+")'><i class='fas fa-angle-double-right'></i></a></li>";
-
 		}
 
+		System.out.println(pageBar);
 		
 		// JSON 응답하기(데이터 반환)
 		JSONArray jsonArr = new JSONArray();
@@ -185,7 +176,6 @@ public class AdminQnaListJSON extends AbstractController {
 			String json = jsonArr.toString();
 			request.setAttribute("json", json);
 			
-			System.out.println("json:" + json);
 		}
 		else {
 			String json = jsonArr.toString();

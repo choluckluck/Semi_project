@@ -151,10 +151,9 @@
 					$.each(json, function(index, item){
 						//index가 0인 경우 => 페이징처리를 위해 값 넣어주기
 						if(index == 0){
-							console.log(item.currentPageNo);
+							//console.log(item.currentPageNo);
 							$("#pageBar").html(item.pageBar);
 						}
-
 						else{
 							html += '<tr>'+
 							   		'<td class="admin_qna_tbody text-center" style="border-top:none;"> '+
@@ -189,9 +188,9 @@
 					//체크박스 하나라도 해제되면 전체 해제되게 만들기
 					$("#checkQna").click(function() {
 						const total = $("input#checkQna").length;
-						console.log("total:"+total);
+						//console.log("total:"+total);
 						const checked = $("input#checkQna:checked").length;
-						console.log("checkd:"+checked);
+						//console.log("checkd:"+checked);
 						
 						if(total != checked) { $("#chxAll").prop("checked", false); }
 						else { $("#chxAll").prop("checked", true); }
@@ -201,7 +200,7 @@
 					
 					//체크박스 체크 이벤트
 					$("#chxAll").click(function(){
-						console.log("여기와??");
+						//console.log("여기와??");
 						var bool = $(this).is(":checked");
 						$("input#checkQna").prop("checked", bool);
 					});

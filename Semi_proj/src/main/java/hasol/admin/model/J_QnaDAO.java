@@ -84,13 +84,13 @@ public class J_QnaDAO implements J_InterQnaDAO {
 					" where fk_userid != 'admin'\n" +
 					" and to_char(registerday,'yyyy-mm-dd') between '"+searchMin+"' and '"+searchMax+"'";
 			
+			System.out.println(colname);
 	          // 검색 키워드가 있다면
-	          if(!"All".equals(colname)) {
+	          if(colname != null) {
 	        	  if(searchWord != null &&  !searchWord.trim().isEmpty() ) {
 	                  sql += " and " +colname+ " like '%'|| ? || '%' ";
 	        	  }   
 	          }
-	          
 	          // 답변 여부를 선택했다면
 	          if(!"All".equals(answer_yn)) {
 	        	  sql += "and answer_yn = '"+ answer_yn +"'";
@@ -102,7 +102,7 @@ public class J_QnaDAO implements J_InterQnaDAO {
 	          System.out.println(sql);
 	          
 	          // 검색 키워드가 있다면
-		      if(!"All".equals(colname)) {
+		      if(colname != null) {
 		    	  if(searchWord != null &&  !searchWord.trim().isEmpty() ) {
 		    		  pstmt.setString(1, searchWord);
 	        	  } 
@@ -128,7 +128,6 @@ public class J_QnaDAO implements J_InterQnaDAO {
 	public List<J_QnaVO> pagingQna(Map<String, String> paraMap) throws Exception {
 		List<J_QnaVO> QnaList = new ArrayList<>();
 		
-		System.out.println("dao 옴");
 		String colname = paraMap.get("searchType");
 		String searchWord = paraMap.get("searchWord"); 
 		String searchMin = paraMap.get("qna_search_min");
@@ -136,6 +135,8 @@ public class J_QnaDAO implements J_InterQnaDAO {
 		String answer_yn = paraMap.get("answer_yn");
 		int currentPageNo = Integer.parseInt(paraMap.get("currentPageNo"));
 		int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+		
+		System.out.println(currentPageNo);
 		
 		System.out.println("searchType:" + colname);
 		System.out.println("searchWord:" + searchWord);
@@ -165,7 +166,7 @@ public class J_QnaDAO implements J_InterQnaDAO {
 					"        join tbl_product B        \n"+
 					"        on A.fk_prod_code = B.prod_code    \n" +
 					"		 where to_char(A.registerday,'yyyy-mm-dd') between '"+searchMin+"' and '"+searchMax+"'";
-
+			System.out.println(searchWord);
 			// 검색 키워드가 있다면
         	if(!"0".equals(searchWord) &&  !searchWord.trim().isEmpty() ) {
                   sql += " and " +colname+ " like '%'|| ? || '%' " ;  
