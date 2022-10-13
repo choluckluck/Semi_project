@@ -232,6 +232,40 @@ public class QnaDAO implements InterQnaDAO {
 			
 	}
 
+	@Override
+	public int qnaRegister(Map<String, String> paraMap) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			conn.setAutoCommit(true);
+			
+			String sql = "insert into tbl_qna\n"+
+					"values(seq_qna_code.nextval, ?, ?, ?, ?, sysdate, null, null, null, 'N', ?)";			
+			pstmt = conn.prepareStatement(sql);
+
+			
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setString(2, paraMap.get("category"));
+			pstmt.setString(3, paraMap.get("subject"));
+			pstmt.setString(4, paraMap.get("contents"));
+			pstmt.setString(5, paraMap.get("prod_code"));
+						
+			n = pstmt.executeUpdate();				
+			
+		} catch (SQLException e) {
+			conn.rollback();
+			conn.setAutoCommit(true); //자동커밋으로 바꾸어준다
+			
+		} finally {
+			close();
+		}
+		
+		return n;	
+		
+	}
+
 	
 	
 	

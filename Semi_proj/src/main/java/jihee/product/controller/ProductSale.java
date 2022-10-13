@@ -32,7 +32,7 @@ public class ProductSale extends AbstractController {
 				String productType_2 = "slingback";
 				paraMap.put("productType_2", productType_2);
 				
-				String productType_3 = "ankle";
+				String productType_3 = "ankle2";
 				paraMap.put("productType_3", productType_3);
 				
 				

@@ -129,9 +129,6 @@
 					<tr>
 						<td class="description_text" colspan="4"> <span id="login_idfind" style="cursor:pointer;">아이디찾기</span><span class="mx-2">|</span><span id="login_pwdfind"  style="cursor:pointer;">비밀번호찾기</span></td>
 					</tr>
-					<tr>
-						<td colspan="5" style="padding-bottom:100px;">이벤트이미지로고삽입</td>
-					</tr>
 					
 				</table>
 			</div>

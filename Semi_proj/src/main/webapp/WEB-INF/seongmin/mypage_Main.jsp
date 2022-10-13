@@ -98,22 +98,30 @@
 	   </div>	
 
 	   <div class="col-10">
+						
+	   	  
 	   	  
 	      <h3>${sessionScope.loginuser.name} 님, 안녕하세요. </h3>
-	      <h3>고객님은 [${sessionScope.loginuser.grade_code}] 등급입니다. </h3>
-	      <h6> 1원 이상 구매시 00%를 추가적립 받으실 수 있습니다.</h6>
+	      <h3>
+	      
+	      
+	   	  						<c:if test="${sessionScope.loginuser.grade_code == '1'}">고객님은 [WELCOME] 등급입니다.</c:if>
+								<c:if test="${sessionScope.loginuser.grade_code == '2'}">고객님은 [<span style="color:silver;">SILVER</span>] 등급입니다.</c:if>
+								<c:if test="${sessionScope.loginuser.grade_code == '3'}">고객님은 [<span style="color:gold;">GOLD</span>] 등급입니다.</c:if>
+								<c:if test="${sessionScope.loginuser.grade_code == '4'}">고객님은 [<span style="color:blue;">VIP</span>] 등급입니다.</c:if>
+	      
+	      </h3>
 	      <br><br>
 	      <div id=buttons>
-		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/point.sue'" ><div style="text-align:center; font-weight:bold">적립금</div><div style="text-align:center">${sessionScope.loginuser.point} 원</div></button>
-		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/coupon.sue'"><div style="text-align:center; font-weight:bold">쿠폰</div><div style="text-align:center">00개</div></button>
-		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/orderView.sue'"><div style="text-align:center; font-weight:bold">총 주문</div><div style="text-align:center"><fmt:formatNumber value="${requestScope.total_amount}" pattern="#,###"/>원 (${requestScope.total_count}회)</div></button>
+		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black"  ><div style="text-align:center; font-weight:bold">적립금</div><div style="text-align:center">${sessionScope.loginuser.point} 원</div></button>
+		      <button type="button" class="btn btn-white btn-lg col-3" style = "font-size: 15px; border:solid 1px black" onclick="location.href='<%=request.getContextPath() %>/seongmin/member/orderView.sue'"><div style="text-align:center; font-weight:bold">총 주문   (자세히보기)</div><div style="text-align:center"><fmt:formatNumber value="${requestScope.total_amount}" pattern="#,###"/>원 (${requestScope.total_count}회)</div></button>
 	      </div>
 	      <br><br>
 		      <div style="display:inline; font-size:13pt;">최근 주문 내역</div>
 		      <div style="display:inline; font-size:13pt; position:relative; left:71%;"><a class="prd" href="<%=request.getContextPath() %>/seongmin/member/orderView.sue">더보기 ▶</a></div>
 		  <br>
 		  <br>
- 			  
+ 			 
 		  <table class="table table" style="text-align:center; width:90%">
 			<colgroup>
 				<col style="width:210px;">

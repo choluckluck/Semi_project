@@ -13,6 +13,8 @@ public interface InterQnaDAO {
 	List<QnaVO> getqnaList_proddetail(Map<String, String> paraMap) throws SQLException;
 
 	int getTotalPage_qna(Map<String, String> paraMap) throws SQLException;
+
+	int qnaRegister(Map<String, String> paraMap) throws SQLException;
 	
 
 }

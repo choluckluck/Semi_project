@@ -102,6 +102,10 @@ public interface InterProductDAO {
 	//cart_code에 해당하는 카트의 컬러, 사이즈를 업데이트해줌
 	int updateCartOption(String cart_code, String fk_prod_color, String fk_prod_size) throws SQLException;
 
+
+	//퀵뷰 관심상품 개수 알아오기
+	int likeProdCount(String userid) throws SQLException;
+
 	
 	
 	

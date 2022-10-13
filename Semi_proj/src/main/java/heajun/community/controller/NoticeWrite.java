@@ -8,7 +8,8 @@ import common.controller.AbstractController;
 import heajun.community.model.InterNoticeDAO;
 import heajun.community.model.NoticeDAO;
 import heajun.community.model.NoticeVO;
-import heajun.member.model.MemberVO;
+import seongmin.login.model.MemberVO;
+
 
 
 public class NoticeWrite extends AbstractController {
@@ -21,7 +22,7 @@ public class NoticeWrite extends AbstractController {
 		 InterNoticeDAO ndao = new NoticeDAO();
 		 
 		    NoticeVO nvo = new NoticeVO();
-		   
+		  
 	  
 	      String userid = "admin";
 		  // 관리자 로그인 시에만 글 작성이 가능 하도록 한다 //
@@ -33,10 +34,10 @@ public class NoticeWrite extends AbstractController {
 	      // 관리자로 로그인 되었을 때
 	      if( loginuser != null && "admin".equals(loginuser.getUserid())) {
 	    	     
-	    	  ndao.noticeWrite(nvo);
+	    	 // ndao.noticeWrite(nvo);
 	    	   
 			  
-	    	   request.setAttribute("userid", userid);
+	    	  //request.setAttribute("userid", userid);
 	    	  super.setViewPage("/WEB-INF/heajun/community/noticeWrite.jsp");				
 	      }
 

@@ -32,5 +32,9 @@ public interface InterProductDAO {
 	//장바구니 모달창 목록 가져오기
 	List<cartVO> selectCartListOne(Map<String, String> paraMap)throws SQLException;
 
+	//공지사항 글 작성하기
+	int updateNotice(String subject, String board_content, String userid) throws SQLException;
+
+
 
 }

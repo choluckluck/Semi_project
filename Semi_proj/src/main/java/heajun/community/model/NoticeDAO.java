@@ -211,10 +211,18 @@ public class NoticeDAO  implements InterNoticeDAO{
 		try {
 	        conn = ds.getConnection();
 	        
-	        String sql = " select B.notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3  "+
-	        		"    from(select rownum rn, A.notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3  "+
-	        		"    from(select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3  from tbl_notice order by notice_code desc)A)B "+
-	        		"    where rn between ? and ? " ;
+	        String sql = "select notice_code, fk_userid, notice_subject, notice_contents, notice_count,  to_char(notice_registerday, 'yyyy-mm-dd') as notice_registerday , notice_file_1, notice_file_2, notice_file_3 \n"+
+	        		"from\n"+
+	        		"(\n"+
+	        		"select rownum as rn, notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday, notice_file_1, notice_file_2, notice_file_3 \n"+
+	        		"from\n"+
+	        		"(\n"+
+	        		"select notice_code, fk_userid, notice_subject, notice_contents, notice_count, notice_registerday , notice_file_1, notice_file_2, notice_file_3 \n"+
+	        		"from tbl_notice \n"+
+	        		"order by notice_registerday desc\n"+
+	        		") A\n"+
+	        		")B \n"+
+	        		"where rn between ? and ?";
 			
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));

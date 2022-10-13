@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String ctxPath = request.getContextPath();
 %>
@@ -10,12 +11,7 @@
 	$(document).ready(function(){
 		//로그인버튼 클릭이벤트
 		$("button#idfindResult_login").click(function(){
-			location.href="<%= ctxPath%>/hyerin/login/login.sue";
-			
-			/* const frm = document.idfind_form;
-			frm.action = "idFindResult.sue";
-			frm.method = "post";
-			frm.submit(); */
+			location.href="<%= ctxPath%>/hyerin/login/login.sue";	
 		});
 		
 		//비밀번호찾기 버튼 클릭이벤트
@@ -43,7 +39,7 @@
 			<tr>
 				<td>
 					<div>저희 쇼핑물을 이용해주셔서 감사합니다.</div>
-					<div>다음정보로 가입된 아이디가 총 !개 있습니다.</div>
+					<div>아래 정보를 확인해 주세요.</div>
 				</td>
 			</tr>
 			<tr>
@@ -52,19 +48,27 @@
 							<table width="100%">
 								<tr style="height:30px;">
 									<td width="25%">이름</td>
-									<td>이름</td>
+									<td>${requestScope.name}</td>
 								</tr>
 								<tr style="height:30px;">
-									<td>휴대폰번호</td>
-									<td>휴대폰번호</td>
+									<td>이메일</td>
+									<td>${requestScope.email}</td>
 								</tr>
-								<tr style="height:30px;">
-									<td colspan="2">
-										<input type="radio" id="id_result" name="id_result" class="agree_radio" checked disabled/>
-										<span id="id_result_value" name="id_result_value">!아이디값</span>
-										<span id="id_result_info" name="id_result_info">(!개인회원, !가입일자)</span>
-									</td>
-								</tr>
+								<c:choose>
+									<c:when test= "${empty requestScope.userid}">
+									<tr >
+										<td colspan="2" width="100%" style="padding-top: 15px;">※ 입력하신 정보로 조회된 회원 정보가 없습니다. </td>
+									</tr>
+									</c:when>
+									<c:otherwise>
+									<tr style="height:30px;">
+										<td colspan="2" style="padding-top: 15px;" >
+											<span id="id_result_value" name="id_result_value" style="color:blue;"> 조회된 ID: ${requestScope.userid}</span>
+											<!-- <span id="id_result_info" name="id_result_info">(!개인회원, !가입일자)</span> -->
+										</td>
+									</tr>
+									</c:otherwise>
+								</c:choose>
 							</table>
 						</div>
 					</td>				
