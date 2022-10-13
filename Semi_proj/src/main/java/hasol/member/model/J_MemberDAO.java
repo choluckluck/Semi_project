@@ -3,6 +3,7 @@ package hasol.member.model;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.sql.*;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -144,5 +145,37 @@ public class J_MemberDAO implements J_InterMemberDAO {
 	         close();
 	      }
 	      return isExists;
-	}   
+	}
+
+	@Override
+	public String idFind(Map<String, String> paraMap) throws SQLException{
+		String userid = null;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select userid "
+	                  + " from tbl_member "
+	                  + " where status = 1 and name = ? and email = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, paraMap.get("name") );
+	         pstmt.setString(2, aes.encrypt(paraMap.get("email") ));
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         if(rs.next()) {
+	            userid = rs.getString(1);
+	         }
+	         
+	      } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      
+	      return userid;
+	}
+
+
 }

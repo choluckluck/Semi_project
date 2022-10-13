@@ -43,7 +43,6 @@
 			<tr>
 				<td>
 					<div>저희 쇼핑물을 이용해주셔서 감사합니다.</div>
-					<div>다음정보로 가입된 아이디가 총 !개 있습니다.</div>
 				</td>
 			</tr>
 			<tr>
@@ -52,7 +51,7 @@
 							<table width="100%">
 								<tr style="height:30px;">
 									<td width="25%">이름</td>
-									<td>이름</td>
+									<td>${requestScope.mdao.name}</td>
 								</tr>
 								<tr style="height:30px;">
 									<td>휴대폰번호</td>
