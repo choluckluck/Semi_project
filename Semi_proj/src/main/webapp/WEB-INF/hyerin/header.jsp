@@ -150,8 +150,8 @@
 		<%-- 퀵뷰 --%>
 		 <c:if test="${sessionScope.loginuser != null}">
 		<div id="quickView" style="width:60px; height:190px; background-color:#172A41; position:fixed; bottom:50px; right:30px; z-index:100;">
-			<div id="<%=ctxPath%>/seongmin/member/interestPrd.sue" type="button" style="text-align:center; margin-top:20px;">
-			   <a href=""><img src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px"></a>
+			<div id="" style="text-align:center; margin-top:20px;">
+			   <a href="<%=ctxPath%>/seongmin/member/interestPrd.sue"><img src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px"></a>
 			   <br>
 			   <span style="font-size:10pt; color:#ff99bb;">${requestScope.QlikeProdCount}개</span>
 			</div>
