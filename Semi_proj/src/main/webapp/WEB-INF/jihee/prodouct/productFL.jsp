@@ -54,7 +54,7 @@ $(document).ready(function(){
 					<c:if test="${pvo.prod_saleprice eq pvo.prod_price}">
     				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
 					</c:if>	
-    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn " style="color:white; background-color: #003366;">상세페이지</a>
+    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link" style="color:white; background-color: #003366;"></a>
   				</div>
 		</div>
      </div>

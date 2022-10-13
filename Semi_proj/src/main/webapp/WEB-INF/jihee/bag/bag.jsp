@@ -66,46 +66,48 @@
     var data_prod_size="";
     var data_cart_code="";
     $("#cartoptionModal").on('show.bs.modal',function(e){
-	   	$("#cartmodal_colorselect").empty();
-	   	
-	   	data_prod_code = $(e.relatedTarget).data('prodcode');
-	   	data_prod_name = $(e.relatedTarget).data('prodname');
-	   	data_prod_color = $(e.relatedTarget).data('prodcolor');
-	   	data_prod_size = $(e.relatedTarget).data('prodsize');
-	   	data_cart_code = $(e.relatedTarget).data('cartcode');
-	   	
-	   	console.log(data_prod_size);
-	   	
-	   	$("#cartmodal_prod_name").text(data_prod_name);
-	   	$("#cartmodal_prod_color").text(data_prod_color);
-	   	$("#cartmodal_prod_size").text(data_prod_size);
-	   	$("#cartmodal_prod_code").val(data_prod_code);
-	   	$("#cartmodal_cart_code").val(data_cart_code);
-	   	
-	   	//컬러를 알아오는 에이젝스함수
-	   	getColor(data_prod_code, data_prod_color);
-	   	//사이즈를 알아오는 에이젝스함수
-	   	getSize(data_prod_code, data_prod_size);
-	   	
-	   	//컬러셀렉트 변경 이벤트 => 해당 사이즈를 알아온다
-	   	$("#cartmodal_colorselect").change(function(event){
-	   		$("#cartmodal_sizeselect").empty();
-	   		getSize(data_prod_code);
-	   		
-	   		$("#cartmodal_sizeselect:eq(0)").prop("selected",true);
-	   	});
-	   	
-	   	//옵션변경버튼 클릭이벤트
-	   	$("#cartmodal_optionupdate").off('click').on('click',function(evnet){
-	   		event.stopPropagation();
-	   		const updateconfirm = confirm("옵션을 변경하시겠습니까?");
-	   		if(updateconfirm){
-	   			updateCartOption(data_cart_code);
-	   		}	   		
-	   	});
-	});//end of modal event
+         $("#cartmodal_colorselect").empty();
+         
+         data_prod_code = $(e.relatedTarget).data('prodcode');
+         data_prod_name = $(e.relatedTarget).data('prodname');
+         data_prod_color = $(e.relatedTarget).data('prodcolor');
+         data_prod_size = $(e.relatedTarget).data('prodsize');
+         data_cart_code = $(e.relatedTarget).data('cartcode');
+         
+         console.log(data_prod_size);
+         
+         $("#cartmodal_prod_name").text(data_prod_name);
+         $("#cartmodal_prod_color").text(data_prod_color);
+         $("#cartmodal_prod_size").text(data_prod_size);
+         $("#cartmodal_prod_code").val(data_prod_code);
+         $("#cartmodal_cart_code").val(data_cart_code);
+         
+         //컬러를 알아오는 에이젝스함수
+         getColor(data_prod_code, data_prod_color);
+         //사이즈를 알아오는 에이젝스함수
+         getSize(data_prod_code, data_prod_size);
+         
+         //컬러셀렉트 변경 이벤트 => 해당 사이즈를 알아온다
+         $("#cartmodal_colorselect").change(function(event){
+            $("#cartmodal_sizeselect").empty();
+            getSize(data_prod_code);
+            
+            $("#cartmodal_sizeselect:eq(0)").prop("selected",true);
+         });
+         
+         //옵션변경버튼 클릭이벤트
+         $("#cartmodal_optionupdate").off('click').on('click',function(evnet){
+            event.stopPropagation();
+            const updateconfirm = confirm("옵션을 변경하시겠습니까?");
+            if(updateconfirm){
+               updateCartOption(data_cart_code);
+            }            
+         });
+         
+         
+   });//end of modal event
     
-	
+   
      $("li[name='shname']").click(function(){
          const frm = document.bag_form;
          frm.action="<%= ctxPath%>/product/productNew.up";
@@ -125,108 +127,121 @@
         
      });
      
+  
   });//$(document).ready(function(){})------
 
+  
+  function allCheckBox() {
+	   
+      var bool = $("#allCheckOrNone").is(":checked");
+      /*
+         $("#allCheckOrNone").is(":checked"); 은
+           선택자 $("#allCheckOrNone") 이 체크되어지면 true를 나타내고,
+           선택자 $("#allCheckOrNone") 이 체크가 해제되어지면 false를 나타내어주는 것이다.
+      */
+      
+      $(".chkboxpnum").prop("checked", bool);
+   }// end of function allCheckBox()-------------------------
    
    
 //모달창 컬러를 알아오는 에이젝스함수
 function getColor(updateProdcode, selectedColor){
 
-	$.ajax({
-			url : "<%=request.getContextPath() %>/jihee/bag/getMordaloptionColor.sue",
-			type : "get",
-			data:{"pcode":updateProdcode},
-			async: false,
-			dataType:"JSON",
-			success:function(json){
-				
-				var colorhtml = '';
-				$.each(json, function(index, item){
-					colorhtml += '<option>'+item.pcolor+'</option>';
-				});//end of $.each
-				
-				//colorselect창에 option을 더해준다
-				$("#cartmodal_colorselect").append(colorhtml);
-				$("#cartmodal_colorselect").val(selectedColor);
-				
-				
-			},
-		error: function(request, status, error){
-			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		}
-		 
-	 });//end of ajax
+   $.ajax({
+         url : "<%=request.getContextPath() %>/jihee/bag/getMordaloptionColor.sue",
+         type : "get",
+         data:{"pcode":updateProdcode},
+         async: false,
+         dataType:"JSON",
+         success:function(json){
+            
+            var colorhtml = '';
+            $.each(json, function(index, item){
+               colorhtml += '<option>'+item.pcolor+'</option>';
+            });//end of $.each
+            
+            //colorselect창에 option을 더해준다
+            $("#cartmodal_colorselect").append(colorhtml);
+            $("#cartmodal_colorselect").val(selectedColor);
+            
+            
+         },
+      error: function(request, status, error){
+         alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      }
+       
+    });//end of ajax
 }//end of getColor
 
 //모달창의 사이즈를 알아오는 에이젝스 함수
 function getSize(updateProdcode, selectedSize){
-	
-	updateProdcolor = $("#cartmodal_colorselect").val();
-	
-	$.ajax({
-		url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListSizeJson.sue",
-		type: "get",
-		data:{"pcode":updateProdcode,
-			  "pcolor":updateProdcolor},
-		dataType:"JSON",
-		success:function(json2){
-			
-			if(json2.length > 0){
+   
+   updateProdcolor = $("#cartmodal_colorselect").val();
+   
+   $.ajax({
+      url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListSizeJson.sue",
+      type: "get",
+      data:{"pcode":updateProdcode,
+           "pcolor":updateProdcolor},
+      dataType:"JSON",
+      success:function(json2){
+         
+         if(json2.length > 0){
 
-				var sizehtml = '';
-				$.each(json2, function(index, item){
-					if(index == 0){
-						sizehtml += '<option>'+item.psize+'</option>';
-					}
-					else{
-						sizehtml += '<option>'+item.psize+'</option>';
-					}
-				});//end of $.each
-				
-				// 해당 컬러의 사이즈 옵션값을 넣어준다
-				$("#cartmodal_sizeselect").html(sizehtml);
-				if(selectedSize != null){
-					$("#cartmodal_sizeselect").val(selectedSize).prop("checked",true);
-				}
-				//$("#cartmodal_sizeselect").val(selectedSize);
-				
-			}
-			
-		},
-		error: function(request, status, error){
-			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		} 
-	});// end of ajax
-	
+            var sizehtml = '';
+            $.each(json2, function(index, item){
+               if(index == 0){
+                  sizehtml += '<option>'+item.psize+'</option>';
+               }
+               else{
+                  sizehtml += '<option>'+item.psize+'</option>';
+               }
+            });//end of $.each
+            
+            // 해당 컬러의 사이즈 옵션값을 넣어준다
+            $("#cartmodal_sizeselect").html(sizehtml);
+            if(selectedSize != null){
+               $("#cartmodal_sizeselect").val(selectedSize).prop("checked",true);
+            }
+            //$("#cartmodal_sizeselect").val(selectedSize);
+            
+         }
+         
+      },
+      error: function(request, status, error){
+         alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      } 
+   });// end of ajax
+   
 }//end of getSize
 
 
 
 //해당 카트의 옵션을 변경해주는 이벤트
 function updateCartOption(updateCartcode){
-	
-	const updateColor = $("#cartmodal_colorselect").val();
-	const updateSize = $("#cartmodal_sizeselect").val();
-	
-	$.ajax({
-		url : "<%=request.getContextPath()%>/jihee/bag/updateCartOption.sue",
-		type: "get",
-		data:{"cart_code":updateCartcode,
-			  "fk_prod_color":updateColor,
-			  "fk_prod_size":updateSize},
-		dataType:"JSON",
-		success:function(json3){
-			if(json3.updateCartResult == 1){
-				alert("옵션이 변경되었습니다.");
-				
-				$("#cartoptionModal").modal("hide");
-				location.href = "javascript:history.go(0)";
-			}
-		},
-		error: function(request, status, error){
-			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		}
-	});// end of ajax
+   
+   const updateColor = $("#cartmodal_colorselect").val();
+   const updateSize = $("#cartmodal_sizeselect").val();
+   
+   $.ajax({
+      url : "<%=request.getContextPath()%>/jihee/bag/updateCartOption.sue",
+      type: "get",
+      data:{"cart_code":updateCartcode,
+           "fk_prod_color":updateColor,
+           "fk_prod_size":updateSize},
+      dataType:"JSON",
+      success:function(json3){
+         if(json3.updateCartResult == 1){
+            alert("옵션이 변경되었습니다.");
+            
+            $("#cartoptionModal").modal("hide");
+            location.href = "javascript:history.go(0)";
+         }
+      },
+      error: function(request, status, error){
+         alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      }
+   });// end of ajax
 };//end updateCartOption
    
    
@@ -520,13 +535,13 @@ function updateCartOption(updateCartcode){
                    
                    
                    if (sumtotalPrice <= 70000 ) {
-                	   
-                	   deliveryfee = 2500;
+                      
+                      deliveryfee = 2500;
                    }
                    
                    else if ( sumtotalPrice >= 70000 ) {
-                	   
-                	   deliveryfee = 0;
+                      
+                      deliveryfee = 0;
                    }
                 
                 /*  console.log("확인용 제품번호 : " + pnumjoin);
@@ -572,8 +587,8 @@ function updateCartOption(updateCartcode){
                              "totalorderprice":totalorderprice},
                        dataType : "json",
                        success : function(json){
-                    	   
-                    	   console.log(json.nSuccess);
+                          
+                          console.log(json.nSuccess);
                            // json은 {"nSuccess", 1} 또는 {"nSuccess", 0}
                            if(json.nSuccess == 1 ){
                               location.href= "<%= request.getContextPath()%>/shop/orderList.up";
@@ -600,7 +615,7 @@ function updateCartOption(updateCartcode){
                     $('input[name="salepriceJoin"]').attr('value',salepriceJoin);
                     $('input[name="pointJoin"]').attr('value',pointJoin);
                     $('input[name="prodCodeJoin"]').attr('value',prodCodeJoin);
-					 $('input[name="totalorderprice"]').attr('value',sumtotalPrice);
+                $('input[name="totalorderprice"]').attr('value',sumtotalPrice);
                     
                   
                 
@@ -618,11 +633,11 @@ function updateCartOption(updateCartcode){
               
                  
                  else {
-                	 
-                	 alert("주문하기를 취소하셨습니다");
-                	 
-                	 
-                	 $(".chkboxpnum").prop("checked", false);
+                    
+                    alert("주문하기를 취소하셨습니다");
+                    
+                    
+                    $(".chkboxpnum").prop("checked", false);
                  }
                  
                     
@@ -636,50 +651,43 @@ function updateCartOption(updateCartcode){
       
       // == 전체상품 주문 데이터 == //
       function allOrder() {
-    	  
+         
 
           $(".chkboxpnum").prop("checked", true);
           
           goOrder()
-    	  
+         
       }
       
       
-      //==전체선택== //
-      
-      function allSelect() {
-    	  
-
-          $(".chkboxpnum").prop("checked", true);
-      }
-      
+     
       
       
       
       //==하나만 주문하기 ==// 
       
-	 function goOrderPart(obj) {
-	    	  
-		   
-	     const index = $("button.oneOrder").index(obj);
-	    // alert(index);
-	     
-	     const checkt = $(".chkboxpnum").eq(index).prop("checked", true);  
-	    // alert(checkt)
-	     goOrder()
-	     
-	    
-	    }
+    function goOrderPart(obj) {
+            
+         
+        const index = $("button.oneOrder").index(obj);
+       // alert(index);
+        
+        const checkt = $(".chkboxpnum").eq(index).prop("checked", true);  
+       // alert(checkt)
+        goOrder()
+        
+       
+       }
 
       //성택상품 삭제
- 	function goDelPart(){
+    function goDelPart(){
 
        var checkCnt = $("input:checkbox[name=pnum]:checked").length;
 
        if(checkCnt < 1) {
            alert("삭제하실 제품을 선택하세요.");
            return; // 종료 
-        }	
+        }   
        
        else {
             //// == 체크박스에서 체크된 value값(checked 속성이용) == ////
@@ -689,10 +697,10 @@ function updateCartOption(updateCartcode){
             var cart_code_Arr = new Array();
              
              for(var i=0; i<allCnt; i++) {
-            	 /* $("input:checkbox[name=pnum]").eq(i).prop("checked") */
+                /* $("input:checkbox[name=pnum]").eq(i).prop("checked") */
                 if( $("input:checkbox[name='pnum']").eq(i).is(":checked") ) {
-                	cart_code_Arr.push( $("input:checkbox[name=pnum]").eq(i).val() ); 	
-               	}//end of if
+                   cart_code_Arr.push( $("input:checkbox[name=pnum]").eq(i).val() );    
+                  }//end of if
             }// end of for---------------------------
                
             for(var i=0; i<checkCnt; i++) {
@@ -707,66 +715,66 @@ function updateCartOption(updateCartcode){
           
             }//end of else   
     
-		 
+       
          
- 	}
+    }
       
 
 </script>
 
  <!-- Modal -->
-	<div class="modal fade" id="cartoptionModal" tabindex="-1"
-		aria-labelledby="cartoptionModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header" style="background-color: navy;">
-					<h6 class="modal-title" id="cartoptionModalLabel"
-						style="color: white;">옵션변경</h6>
-					<button type="button" class="btn-close-outline-light"
-						data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<input type="hidden" id="cartmodal_prod_code" value=""/>
-					<input type="hidden" id="cartmodal_cart_code" value=""/>
-					<ul>
-						<li id="cartmodal_prod_name" class="fw-bolder"></li>
-						<li>[옵션: <span id="cartmodal_prod_color"></span>/<span
-							id="cartmodal_prod_size"></span>]
-						</li>
-					</ul>
-					<hr style="background: black; height: 1px; background: black; border: 0px;">
-					<ul>
-						<li class="fw-bolder">상품옵션</li>
-						<li style="margin-top: 1%;">
-							<div class="row">
-								<p class="col-md-2 fst-normal">COLOR</p>
-								<select id="cartmodal_colorselect"
-									class="form-select form-select-sm col-md-9"
-									aria-label=".form-select-sm example">
-								</select>
-							</div>
-						</li>
-						<li style="margin-top: 1%;">
-							<div class="row">
-								<p class="col-md-2 fst-normal">SIZE</p>
-								<select id="cartmodal_sizeselect"
-									class="form-select form-select-sm col-md-9"
-									aria-label=".form-select-sm example">
-								</select>
-							</div>
-						</li>
-					</ul>
-					<div></div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
-					<button id="cartmodal_optionupdate" type="button" class="btn btn-primary" >옵션 변경</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modal 끝 -->     
+   <div class="modal fade" id="cartoptionModal" tabindex="-1"
+      aria-labelledby="cartoptionModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header" style="background-color: navy;">
+               <h6 class="modal-title" id="cartoptionModalLabel"
+                  style="color: white;">옵션변경</h6>
+               <button type="button" class="btn-close-outline-light"
+                  data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <input type="hidden" id="cartmodal_prod_code" value=""/>
+               <input type="hidden" id="cartmodal_cart_code" value=""/>
+               <ul>
+                  <li id="cartmodal_prod_name" class="fw-bolder"></li>
+                  <li>[옵션: <span id="cartmodal_prod_color"></span>/<span
+                     id="cartmodal_prod_size"></span>]
+                  </li>
+               </ul>
+               <hr style="background: black; height: 1px; background: black; border: 0px;">
+               <ul>
+                  <li class="fw-bolder">상품옵션</li>
+                  <li style="margin-top: 1%;">
+                     <div class="row">
+                        <p class="col-md-2 fst-normal">COLOR</p>
+                        <select id="cartmodal_colorselect"
+                           class="form-select form-select-sm col-md-9"
+                           aria-label=".form-select-sm example">
+                        </select>
+                     </div>
+                  </li>
+                  <li style="margin-top: 1%;">
+                     <div class="row">
+                        <p class="col-md-2 fst-normal">SIZE</p>
+                        <select id="cartmodal_sizeselect"
+                           class="form-select form-select-sm col-md-9"
+                           aria-label=".form-select-sm example">
+                        </select>
+                     </div>
+                  </li>
+               </ul>
+               <div></div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary"
+                  data-bs-dismiss="modal">닫기</button>
+               <button id="cartmodal_optionupdate" type="button" class="btn btn-primary" >옵션 변경</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Modal 끝 -->     
 
 
  
@@ -790,7 +798,9 @@ function updateCartOption(updateCartcode){
             </colgroup>
                   <thead id="notice_thead">
                      <tr>
-                        <th name="bag_th" class="w-10" style="border-top:solid 1px black; border-bottom:solid 1px black;" onclick="allSelect();">전체선택</th>
+                        <th name="bag_th" class="w-10" style="border-top:solid 1px black; border-bottom:solid 1px black;" onclick="allSelect();">
+       					<input type="checkbox" class="form-check-input" id="allCheckOrNone" onClick="allCheckBox();" style="position:relative; margin-left: 19%" />
+                        </th>
                         
                         <th colspan="2" name="bag_th" class="w-30" style="text-align:center; border-top:solid 1px black; border-bottom:solid 1px black;" >상품정보</th>
                         <th name="bag_th" class="w-20" style="border-top:solid 1px black; border-bottom:solid 1px black;">수량</th>
@@ -803,19 +813,19 @@ function updateCartOption(updateCartcode){
                   </thead>
                   <tbody id="notice_tbody">
                   <c:if test="${empty requestScope.cartList}">
-	               <tr>
-	                    <td colspan="8" align="center">
-	                      <span style="color: black; font-weight: bold;">
-	                         장바구니에 담긴 상품이 없습니다.
-	                      </span>
-	                    </td>   
-	               </tr>
-            		</c:if>   
+                  <tr>
+                       <td colspan="8" align="center">
+                         <span style="color: black; font-weight: bold;">
+                            장바구니에 담긴 상품이 없습니다.
+                         </span>
+                       </td>   
+                  </tr>
+                  </c:if>   
                   
                   <!-- for each 시작 -->
                   <c:forEach var="cvo" items="${requestScope.cartList}" varStatus="status">
                      <tr style="vertical-align:middle; height : 150px; margin-top: 5%;">
-                        <td style="border:none;"> <input class="form-check-input chkboxpnum" type="checkbox" value="${cvo.prod.prod_code}" id="pnum" name="pnum" style="margin-left: 1%" ></td>
+                        <td style="border:none;"> <input class="form-check-input chkboxpnum selectall" type="checkbox" value="${cvo.prod.prod_code}" id="pnum" name="pnum" style="margin-left: 1%" ></td>
                         <td style="border:none;">
                        
                             
@@ -836,10 +846,10 @@ function updateCartOption(updateCartcode){
                               
                                  <!-- Button trigger modal -->
                            <button type="button" class="btn btn-outline-secondary btn-sm modalop" data-bs-toggle="modal" data-bs-target="#cartoptionModal"
-                           		   data-prodcode="${cvo.fk_prod_code}" data-prodname="${cvo.prod.prod_name}" data-prodcolor="${cvo.fk_prod_color}" data-prodsize="${cvo.fk_prod_size}"
-                           		   data-cartcode="${cvo.cart_code}"
-                           		   style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt"
-                           		   >
+                                    data-prodcode="${cvo.fk_prod_code}" data-prodname="${cvo.prod.prod_name}" data-prodcolor="${cvo.fk_prod_color}" data-prodsize="${cvo.fk_prod_size}"
+                                    data-cartcode="${cvo.cart_code}"
+                                    style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt"
+                                    >
                            옵션변경
                            </button>
                          
@@ -901,10 +911,10 @@ function updateCartOption(updateCartcode){
                          배송비 
                          <span>
                           <c:if test="${empty requestScope.cartList}">
-	             			<fmt:formatNumber value="0" pattern="###,###" />
-            		 	  </c:if> 
-            		 	  
-            		 	  <c:if test="${not empty requestScope.cartList}">
+                         <fmt:formatNumber value="0" pattern="###,###" />
+                        </c:if> 
+                        
+                        <c:if test="${not empty requestScope.cartList}">
                          <c:if test="${requestScope.sumMap.SUMTOTALPRICE <= 70000}">
                          <fmt:formatNumber value="2500" pattern="###,###" />
                          </c:if>
@@ -955,12 +965,12 @@ function updateCartOption(updateCartcode){
        <p class="col-1">+</p>
        <p class="col-1 fw-bolder">
        
-       					<c:if test="${empty requestScope.cartList}">
-	             			<fmt:formatNumber value="0" pattern="###,###" />
-            		 	  </c:if> 
-            		 	  
-            		  <c:if test="${not empty requestScope.cartList}">
-       					<c:if test="${requestScope.sumMap.SUMTOTALPRICE <= 70000}">
+                      <c:if test="${empty requestScope.cartList}">
+                         <fmt:formatNumber value="0" pattern="###,###" />
+                        </c:if> 
+                        
+                    <c:if test="${not empty requestScope.cartList}">
+                      <c:if test="${requestScope.sumMap.SUMTOTALPRICE <= 70000}">
                          <fmt:formatNumber value="2500" pattern="###,###" />
                          </c:if>
                          <c:if test="${requestScope.sumMap.SUMTOTALPRICE >= 70000}">
@@ -998,38 +1008,38 @@ function updateCartOption(updateCartcode){
           
           <!-- 이미지부분 카드 시작 -->
     <div class="row">
-    	<div class="col-lg-2"></div>
-			<c:forEach var="pvo" items="${requestScope.bestProductList}" begin="0" end="2" step="1">
-			<div class="col-lg-3" id="sideinfo" style="margin-bottom: 5% 10%; ">
-		  		<div class="card" style="width: 16rem;">
-		  			<img src="<%= ctxPath%>/images/product/${pvo.prod_image}" class="card-img-top" alt="...">
-		  				<div class="card-body">
-		    				<div class="card-title" >
-		    				<c:forTokens var="color" items="${pvo.prod_color}" delims=",">
-		    				<span class="best_color" style="background-color: ${color};"> </span>      
-		    				</c:forTokens>
-		    				<span> &nbsp;&nbsp;&nbsp;&nbsp; 리뷰 ${pvo.prod_review_count} </span>
-		    				</div>
-		    				
-		    				<p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
-		    				<%-- <c:if test="${pvo.prod_price} == ${pvo.prod_saleprice}">
-		    					</c:if> --%>
-		    				<c:if test="${pvo.prod_saleprice ne pvo.prod_price}">
-			   				<span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
-		    				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span>
-							<span style="color: red; "> ${pvo.discountPercentBest}% </span>	</p>
-							</c:if>	
-							<c:if test="${pvo.prod_saleprice eq pvo.prod_price}">
-		    				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
-							</c:if>	
-		    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn " style="color:white; background-color: #172A41;">상세페이지</a>
-		  				</div>
-				</div>
-		     </div>
-		     </c:forEach>
-		   <div class="col-lg-1"></div>
-		</div>	
-		
+       <div class="col-lg-2"></div>
+         <c:forEach var="pvo" items="${requestScope.bestProductList}" begin="0" end="2" step="1">
+         <div class="col-lg-3" id="sideinfo" style="margin-bottom: 5% 10%; ">
+              <div class="card" style="width: 16rem;">
+                 <img src="<%= ctxPath%>/images/product/${pvo.prod_image}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <div class="card-title" >
+                      <c:forTokens var="color" items="${pvo.prod_color}" delims=",">
+                      <span class="best_color" style="background-color: ${color};"> </span>      
+                      </c:forTokens>
+                      <span> &nbsp;&nbsp;&nbsp;&nbsp; 리뷰 ${pvo.prod_review_count} </span>
+                      </div>
+                      
+                      <p class="card-text"><div class="fw-bolder">${pvo.prod_name} (${pvo.prod_high}cm) </div>
+                      <%-- <c:if test="${pvo.prod_price} == ${pvo.prod_saleprice}">
+                         </c:if> --%>
+                      <c:if test="${pvo.prod_saleprice ne pvo.prod_price}">
+                        <span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
+                      <span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span>
+                     <span style="color: red; "> ${pvo.discountPercentBest}% </span>   </p>
+                     </c:if>   
+                     <c:if test="${pvo.prod_saleprice eq pvo.prod_price}">
+                      <fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>
+                     </c:if>   
+                      <a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn " style="color:white; background-color: #172A41;">상세페이지</a>
+                    </div>
+            </div>
+           </div>
+           </c:forEach>
+         <div class="col-lg-1"></div>
+      </div>   
+      
       </div>
   
 
@@ -1046,6 +1056,5 @@ function updateCartOption(updateCartcode){
 <div style="margin-top: 10%">
 <jsp:include page="/WEB-INF/hyerin/footer.jsp"></jsp:include>
 </div>  
-
 
 

@@ -153,7 +153,7 @@
 			<div id="" style="text-align:center; margin-top:20px;">
 			   <a href="<%=ctxPath%>/seongmin/member/interestPrd.sue"><img src="<%= ctxPath%>/images/hyerin/white_heart.png" width="25px"></a>
 			   <br>
-			   <span style="font-size:10pt; color:#ff99bb;">${requestScope.QlikeProdCount}개</span>
+			   <span style="font-size:10pt; color:#ff99bb;">${requestScope.QlikeProdCount}</span>
 			</div>
 			<div type="button" style="text-align:center; margin-top:20px;" id="go-top">
 			    <img src="<%= ctxPath%>/images/hyerin/up_arrow.png" width="15px" class="" alt="..." style="">
