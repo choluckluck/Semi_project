@@ -15,6 +15,8 @@ public interface InterQnaDAO {
 	int getTotalPage_qna(Map<String, String> paraMap) throws SQLException;
 
 	int qnaRegister(Map<String, String> paraMap) throws SQLException;
+
+	int qnaRegister2(Map<String, String> paraMap) throws SQLException;
 	
 
 }

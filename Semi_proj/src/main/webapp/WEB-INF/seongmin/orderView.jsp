@@ -361,7 +361,7 @@
 	   </div> --%>
 
 	   <div class="col-12">	   
-		  <table class="table table" style="text-align:center; width:90%">
+		  <table class="table table" style="text-align:center; border-bottom:solid 1px gray; width:90%">
 			<colgroup>
 				<col style="width:75px;">
 				<col style="width:75px;">
