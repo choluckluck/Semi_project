@@ -36,7 +36,7 @@
 		
 		
 
-		   <h2 style="text-align:center;"><button type="button" id="mypagemain" style="border:none; background-color: white;">마이페이지</button></h2>
+		   <h2 style="text-align:left;"><button type="button" id="mypagemain" style="border:none; background-color: white;">마이페이지</button></h2>
 		    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 		    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
 			  <button id="orderView" type="button" class="btn btn-gray">주문조회</button>

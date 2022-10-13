@@ -88,7 +88,7 @@
 
 		
 	
-			alert("문의 페이지로 이동합니다.");
+//			alert("문의 페이지로 이동합니다.");
 			
 			const myQnaForm = document.myQnaForm;
 			myQnaForm.action="<%=request.getContextPath() %>/heajun/board/qna_write2.sue";

@@ -63,7 +63,7 @@ public class goCart extends AbstractController {
 			int n = cdao.isExist(paraMap);
 			System.out.println(n);
 			
-			if(n == 2) {
+			if(n == 2) { //존재하지 않음.
 				// 관심상품 테이블에서 특정 제품 장바구니 추가하기
 				int n1 = cdao.goCart(paraMap);
 				
@@ -79,8 +79,8 @@ public class goCart extends AbstractController {
 			
 			// 관심상품 테이블에서 장바구니에 있는 데이터를 또 넣어주면 수량 + 1
 			else if ( n == 1) {
-				int n2 = cdao.updateCart(paraMap);
-				
+				int n2 = 2;
+			
 				JSONObject jsobj = new JSONObject();
 				jsobj.put("n", n2);
 				

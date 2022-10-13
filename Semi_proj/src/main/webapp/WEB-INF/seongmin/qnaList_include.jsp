@@ -35,12 +35,19 @@
 		}
 		
 		else {
-			alert("문의 페이지로 이동합니다.");
+//			alert("문의 페이지로 이동합니다.");
+			const bool = confirm("문의 페이지로 이동하시겠습니까?");
 			
-			const qnaForm = document.qnaForm;
-			qnaForm.action="<%=request.getContextPath() %>/heajun/board/qna_write.sue";
-			qnaForm.method = "GET";
-			qnaForm.submit(); 
+			if(bool) {
+				const qnaForm = document.qnaForm;
+				qnaForm.action="<%=request.getContextPath() %>/heajun/board/qna_write.sue";
+				qnaForm.method = "GET";
+				qnaForm.submit(); 
+			}
+			
+			else {
+				return;
+			}
 		}
 		
 			
@@ -56,15 +63,14 @@
 
   table {
   	border-top : solid 1px gray;
-  	width:80%;
+  	width:100%;
   }
 </style>
 
-	<div style="width : 85%; margin:0 auto;">		
+	<div style="width : 88%; margin-left:5%; ">		
 		<h3 style="margin-top:1px;">문의</h3>
-		<br><br>		
 		
-		  <table class="table table" style="text-align:left;">
+		  <table class="table table" style="text-align:left; border-bottom:solid 1px gray;">
 			<colgroup>
 				<col style="width:70px;">
 				<col style="width:70px;">

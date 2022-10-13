@@ -173,10 +173,10 @@ button#gowrite {
 					<td class="col-1 subject infoData">분류</td>
 					<td class="col-11">
 						<select name="category" style="width:height:40px">
-							<option value="prod" selected >product </option>
-							<option value="e/r">e/r</option>
-							<option value="c/c">c/c</option>
-							<option value="a/s">a/s</option>
+							<option value="prod" selected >제품 문의 </option>
+							<option value="e/r">교환/반품</option>
+							<option value="c/c">취소/변경</option>
+							<option value="a/s">as 문의</option>
 						</select>
 					</td>					
 				</tr>

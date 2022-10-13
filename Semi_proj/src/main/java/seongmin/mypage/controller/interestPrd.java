@@ -69,6 +69,9 @@ public class interestPrd extends AbstractController {
 		   List<ProductVO> likeList1 = new ArrayList<>();
 		   likeList1 = odao.likeList1(paraMap);		   
 
+		   
+		   
+		   
 		   request.setAttribute("likeList1", likeList1);
 		   
 		   

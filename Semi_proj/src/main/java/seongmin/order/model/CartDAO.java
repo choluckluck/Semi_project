@@ -68,6 +68,17 @@ public class CartDAO implements InterCartDAO {
 			
 			result = pstmt.executeUpdate();
 			
+			if(result == 1) {
+				sql = "delete from tbl_like\n"+
+						"  where fk_userid = ? and fk_prod_code = ?";				
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setString(2, paraMap.get("fk_prod_code"));
+
+			result = pstmt.executeUpdate();
+			
 		} finally {
 			close();
 		}

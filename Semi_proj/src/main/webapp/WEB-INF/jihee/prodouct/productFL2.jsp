@@ -77,7 +77,7 @@ function goSearche() {
 					</c:if>	
     				</p>
     				
-    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link btn" style="color:white; background-color: #003366;">상세페이지</a>
+    				<a href='/Semi_proj/heajun/product/productdetail.sue?prod_code=${pvo.prod_code}' class="stretched-link" style="color:white; background-color: #003366;"></a>
   				</div>
 		</div>
      </div>
