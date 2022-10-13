@@ -584,50 +584,13 @@
             
           
             }//end of else   
-		       
-		       
-		      
+    
 		 
          
  	}
       
- 	$(document).on("click", ".modalop", function () {
-    	  
-    	  var cart_code = $(this).data('code');
-    	  
-    	  //alert("cart_code: " + cart_code);
-    	 
-    	  $.ajax({
-  			url:"<%= request.getContextPath()%>/jihee/bag/bag.sue",
-  			type: "POST",
-  		    data:{ "cart_code":cart_code
-  		    	  },  
-  		    dataType:"JSON",
-  		    success:function(json) {
-  		    	
-  				   console.log(json);
-  				   console.log(typeof json); // object
-  				
-  				/*
-  			       var str_json = JSON.stringify(json); // JSON 객체를 string 타입으로 변경시켜주는 것.
-  				   console.log(typeof str_json);  // string
-  			       console.log(str_json);
-  			   /*
-  			       var obj_json = JSON.parse(str_json); // JSON 모양으로 되어진 string 을 실제  JSON 객체로 변경시켜주는 것.
-  			       console.log(typeof obj_json);  // object
-  			       console.log(obj_json);
-  			    */
-  		  },
-		    error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-  		    });
-    	  
-      });
-      
- 
-      
-  
+	  
+
       
 </script>
 
@@ -708,62 +671,11 @@
                            <button type="button" class="btn btn-outline-secondary btn-sm modalop" data-bs-toggle="modal" data-bs-target="#exampleModal" data-code="${cvo.cart_code}" style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
                            옵션변경
                            </button>
+                         
                         </li>
                      </ul>   
                      
-                           <!-- Modal -->
-                           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                             <div class="modal-dialog">
-                               <div class="modal-content">
-                                 <div class="modal-header" style="background-color: navy;">
-                                   <h6 class="modal-title" id="exampleModalLabel" style="color: white;">옵션변경</h6>
-                                   <button type="button" class="btn-close-outline-light" data-bs-dismiss="modal" aria-label="Close" ></button>
-                                 </div>
-                                 <div class="modal-body">
-                                  <ul>
-                                     <li class="fw-bolder">${cvo.prod.prod_name}</li>
-                                     <li>[옵션: ${cvo.fk_prod_color}/${cvo.fk_prod_size}]</li>
-                                  </ul>
-                                  
-                                  <hr style=" background: black; height: 1px; background: black; border : 0px;">
-                                  <ul>
-                                     <li class="fw-bolder">상품옵션</li>
-                                     
-                                     <li style="margin-top: 1%;"> 
-                                     <div class="row">
-                                     <p class="col-md-2 fst-normal"> COLOR</p> 
-                                        <select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
-                                         <option selected>색상변경</option>
-                                         <option value="1">One</option>
-                                         <option value="2">Two</option>
-                                         <option value="3">Three</option>
-                                       </select>
-                                    </div>   
-                                     </li>
-                                     
-                                     <li style="margin-top: 1%;"> 
-                                     <div class="row">
-                                     <p class="col-md-2 fst-normal"> SIZE</p> 
-                                        <select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
-                                         <option selected>Open this select menu</option>
-                                         <option value="1">One</option>
-                                         <option value="2">Two</option>
-                                         <option vlue="3">Three</option>
-                                       </select>
-                                    </div>   
-                                     </li>                              
-                                  </ul>   
-                                 <div>             
-                               </div>      
-                                 </div>
-                                 <div class="modal-footer">
-                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                   <button type="button" class="btn btn-primary">Save changes</button>
-                                 </div>
-                               </div>
-                             </div>
-                           </div>
-                            <!-- Modal 끝 -->                         
+                                              
                               
                         </td>
                         <td style="border:none;">
@@ -810,6 +722,60 @@
                      </tr>
                      </c:forEach>
                      <!-- 상품 한행 끝 -->
+                     
+                      <!-- Modal -->
+                           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                             <div class="modal-dialog">
+                               <div class="modal-content">
+                                 <div class="modal-header" style="background-color: navy;">
+                                   <h6 class="modal-title" id="exampleModalLabel" style="color: white;">옵션변경</h6>
+                                   <button type="button" class="btn-close-outline-light" data-bs-dismiss="modal" aria-label="Close" ></button>
+                                 </div>
+                                 <div class="modal-body">
+                                  <ul>
+                                     <li class="fw-bolder">${requestScope.cartModalList.prod.prod_name}</li>
+                                     <li>[옵션: ${requestScope.cartModalList.fk_prod_color}/${requestScope.cartModalList.fk_prod_size}]</li>
+                                  </ul>
+                                  
+                                  <hr style=" background: black; height: 1px; background: black; border : 0px;">
+                                  <ul>
+                                     <li class="fw-bolder">상품옵션</li>
+                                     
+                                     <li style="margin-top: 1%;"> 
+                                     <div class="row">
+                                     <p class="col-md-2 fst-normal"> COLOR</p> 
+                                        <select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
+                                         <option selected>색상변경</option>
+                                         <option value="1">One</option>
+                                         <option value="2">Two</option>
+                                         <option value="3">Three</option>
+                                       </select>
+                                    </div>   
+                                     </li>
+                                     
+                                     <li style="margin-top: 1%;"> 
+                                     <div class="row">
+                                     <p class="col-md-2 fst-normal"> SIZE</p> 
+                                        <select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
+                                         <option selected>Open this select menu</option>
+                                         <option value="1">One</option>
+                                         <option value="2">Two</option>
+                                         <option vlue="3">Three</option>
+                                       </select>
+                                    </div>   
+                                     </li>                              
+                                  </ul>   
+                                 <div>             
+                               </div>      
+                                 </div>
+                                 <div class="modal-footer">
+                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                   <button type="button" class="btn btn-primary">Save changes</button>
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
+                            <!-- Modal 끝 -->     
 
 
 
