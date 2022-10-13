@@ -77,14 +77,14 @@ public class MemberDAO implements InterMemberDAO {
 			
 			String sql = " SELECT userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, \n" +
 					" birthday, fk_grade_code, point, account_name, bank_name, account, registerday, pwdchangegap, \n" +
-					" nvl(lastlogingap, trunc( months_between(sysdate, registerday) ) ) AS lastlogingap \n" +
+					" nvl(lastlogingap, trunc( months_between(sysdate, registerday) ) ) AS lastlogingap, status \n" +
 					" FROM \n" +
 					" (\n" +
 					" select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender \n" +
 					" , birthday, fk_grade_code, point, account_name, bank_name, account, to_char(registerday, 'yyyy-mm-dd') AS registerday \n" +
-					" , trunc( months_between(sysdate, last_pwd_change_date) ) AS pwdchangegap\n" +
+					" , trunc( months_between(sysdate, last_pwd_change_date) ) AS pwdchangegap, status \n" +
 					" from tbl_member\n" +
-					" where status = 1 and userid = ? and pwd = ? \n" +
+					" where userid = ? and pwd = ? \n" +
 					" ) M \n" +
 					" CROSS JOIN \n"+
 					" (\n " +
@@ -120,6 +120,7 @@ public class MemberDAO implements InterMemberDAO {
 				member.setBank_name(rs.getString(14));
 				member.setAccount(rs.getDouble(15));								
 				member.setRegisterday(rs.getString(16));
+				member.setStatus(rs.getInt(19));
 
 			
 				
