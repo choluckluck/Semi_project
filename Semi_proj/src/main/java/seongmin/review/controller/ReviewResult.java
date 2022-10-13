@@ -52,7 +52,7 @@ public class ReviewResult extends AbstractController {
 			if(n == 1 ) {
 				super.setViewPage("/heajun/product/productdetail.sue?prod_code="+prod_code);
 			}
-		
+			
 		
 		}
 	}

@@ -390,9 +390,9 @@
 								<td rowspan="" class="recentordertd">${rovo.orderdate}<br>
 								  [<a class="orderdetail" href="#">${rovo.order_code}</a>]
 								</td>
-								<td class="recentordertd"><a href="#"><div><img id="recentorderimg" src="<%=request.getContextPath() %>/images/product/${rovo.pvo.prod_image}"></div></a></td>
+								<td class="recentordertd"><a href="<%=request.getContextPath() %>/heajun/product/productdetail.sue?prod_code=${rovo.pvo.prod_code}"><div><img id="recentorderimg" src="<%=request.getContextPath() %>/images/product/${rovo.pvo.prod_image}"></div></a></td>
 								<td class="recentordertd"style="text-align: left">
-								<a class="prd" href="#">${rovo.pvo.prod_name}</a></td>
+								<a class="prd" href="<%=request.getContextPath() %>/heajun/product/productdetail.sue?prod_code=${rovo.pvo.prod_code}">${rovo.pvo.prod_name}</a></td>
 								<td class="recentordertd">${rovo.odvo.order_buy_count}</td>
 								<td class="recentordertd">
 								정가 : <fmt:formatNumber value="${rovo.odvo.order_price}" pattern="#,###"/>원<br>

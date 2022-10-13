@@ -8,29 +8,9 @@
     String ctxPath = request.getContextPath();
     //     /MyMVC
 %>  
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>장바구니</title>
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-<!-- Optional JavaScript -->
-<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
-
-<!-- jQueryUI CSS-->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
-<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-
-<!-- Font Awesome 5 Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
 
 <style type="text/css">
 
@@ -74,39 +54,181 @@
          frm.method = "get";
          frm.submit();
       });
-      
-
     --%>
-      $("li[name='shname']").click(function(){
-         
-          const frm = document.bag_form;
-          frm.action="<%= ctxPath%>/product/productNew.up";
-          frm.method = "get";
-          frm.submit();
-       });
-      
-     
-      
-      $("a#detail").click(e => {
-       alert("하하하");  
-      })
     
-   
-      
+    /*
+    data-prodcode="${cvo.cart_code}" data-prodname="${cvo.prod.prod_name}" data-prodcolor="${cvo.fk_prod_color}" data-prodsize="${cvo.fk_prod_size}"
+    */
+    
+    var data_prod_code="";
+    var data_prod_name="";
+    var data_prod_color="";
+    var data_prod_size="";
+    var data_cart_code="";
+    $("#cartoptionModal").on('show.bs.modal',function(e){
+	   	$("#cartmodal_colorselect").empty();
+	   	
+	   	data_prod_code = $(e.relatedTarget).data('prodcode');
+	   	data_prod_name = $(e.relatedTarget).data('prodname');
+	   	data_prod_color = $(e.relatedTarget).data('prodcolor');
+	   	data_prod_size = $(e.relatedTarget).data('prodsize');
+	   	data_cart_code = $(e.relatedTarget).data('cartcode');
+	   	
+	   	console.log(data_prod_size);
+	   	
+	   	$("#cartmodal_prod_name").text(data_prod_name);
+	   	$("#cartmodal_prod_color").text(data_prod_color);
+	   	$("#cartmodal_prod_size").text(data_prod_size);
+	   	$("#cartmodal_prod_code").val(data_prod_code);
+	   	$("#cartmodal_cart_code").val(data_cart_code);
+	   	
+	   	//컬러를 알아오는 에이젝스함수
+	   	getColor(data_prod_code, data_prod_color);
+	   	//사이즈를 알아오는 에이젝스함수
+	   	getSize(data_prod_code, data_prod_size);
+	   	
+	   	//컬러셀렉트 변경 이벤트 => 해당 사이즈를 알아온다
+	   	$("#cartmodal_colorselect").change(function(event){
+	   		$("#cartmodal_sizeselect").empty();
+	   		getSize(data_prod_code);
+	   		
+	   		$("#cartmodal_sizeselect:eq(0)").prop("selected",true);
+	   	});
+	   	
+	   	//옵션변경버튼 클릭이벤트
+	   	$("#cartmodal_optionupdate").off('click').on('click',function(evnet){
+	   		event.stopPropagation();
+	   		const updateconfirm = confirm("옵션을 변경하시겠습니까?");
+	   		if(updateconfirm){
+	   			updateCartOption(data_cart_code);
+	   		}	   		
+	   	});
+	});//end of modal event
+    
+	
+     $("li[name='shname']").click(function(){
+         const frm = document.bag_form;
+         frm.action="<%= ctxPath%>/product/productNew.up";
+         frm.method = "get";
+         frm.submit();
+      });
+     
+     
+     //공지사항 클릭 이벤트
+     $("div#notice_text").click(function(){
+        location.href="<%= ctxPath%>/community/notice.up";
+     });
+     
+     
+     // 타이틀 => 게시글 클릭이벤트
+     $("tbody > tr > td:nth-child(2)").click(function(){
+        
+     });
+     
+  });//$(document).ready(function(){})------
 
-      
-      //공지사항 클릭 이벤트
-      $("div#notice_text").click(function(){
-         location.href="<%= ctxPath%>/community/notice.up";
-      });
-      
-      
-      // 타이틀 => 게시글 클릭이벤트
-      $("tbody > tr > td:nth-child(2)").click(function(){
-         
-      });
-      
-   });//$(document).ready(function(){})-------
+   
+   
+//모달창 컬러를 알아오는 에이젝스함수
+function getColor(updateProdcode, selectedColor){
+
+	$.ajax({
+			url : "<%=request.getContextPath() %>/jihee/bag/getMordaloptionColor.sue",
+			type : "get",
+			data:{"pcode":updateProdcode},
+			async: false,
+			dataType:"JSON",
+			success:function(json){
+				
+				var colorhtml = '';
+				$.each(json, function(index, item){
+					colorhtml += '<option>'+item.pcolor+'</option>';
+				});//end of $.each
+				
+				//colorselect창에 option을 더해준다
+				$("#cartmodal_colorselect").append(colorhtml);
+				$("#cartmodal_colorselect").val(selectedColor);
+				
+				
+			},
+		error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+		 
+	 });//end of ajax
+}//end of getColor
+
+//모달창의 사이즈를 알아오는 에이젝스 함수
+function getSize(updateProdcode, selectedSize){
+	
+	updateProdcolor = $("#cartmodal_colorselect").val();
+	
+	$.ajax({
+		url : "<%=request.getContextPath()%>/hyerin/admin/adminProductListSizeJson.sue",
+		type: "get",
+		data:{"pcode":updateProdcode,
+			  "pcolor":updateProdcolor},
+		dataType:"JSON",
+		success:function(json2){
+			
+			if(json2.length > 0){
+
+				var sizehtml = '';
+				$.each(json2, function(index, item){
+					if(index == 0){
+						sizehtml += '<option>'+item.psize+'</option>';
+					}
+					else{
+						sizehtml += '<option>'+item.psize+'</option>';
+					}
+				});//end of $.each
+				
+				// 해당 컬러의 사이즈 옵션값을 넣어준다
+				$("#cartmodal_sizeselect").html(sizehtml);
+				if(selectedSize != null){
+					$("#cartmodal_sizeselect").val(selectedSize).prop("checked",true);
+				}
+				//$("#cartmodal_sizeselect").val(selectedSize);
+				
+			}
+			
+		},
+		error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		} 
+	});// end of ajax
+	
+}//end of getSize
+
+
+
+//해당 카트의 옵션을 변경해주는 이벤트
+function updateCartOption(updateCartcode){
+	
+	const updateColor = $("#cartmodal_colorselect").val();
+	const updateSize = $("#cartmodal_sizeselect").val();
+	
+	$.ajax({
+		url : "<%=request.getContextPath()%>/jihee/bag/updateCartOption.sue",
+		type: "get",
+		data:{"cart_code":updateCartcode,
+			  "fk_prod_color":updateColor,
+			  "fk_prod_size":updateSize},
+		dataType:"JSON",
+		success:function(json3){
+			if(json3.updateCartResult == 1){
+				alert("옵션이 변경되었습니다.");
+				
+				$("#cartoptionModal").modal("hide");
+				location.href = "javascript:history.go(0)";
+			}
+		},
+		error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		}
+	});// end of ajax
+};//end updateCartOption
+   
    
    //관심상품에 담고 장바구니에서는 없애주기 
    function goHide() {
@@ -165,6 +287,7 @@
                // {n:1}
                if(json.n == 1){
                   alert("주문수량이 변경되었습니다.");
+                  $("#cartoptionModal").hide();
                   location.href = "bag.sue"; //장바구니 목록을 보여준다.
                }
             },
@@ -281,7 +404,6 @@
       }//end fo goDel
       
       // == 선택상품 주문 데이터보내기 == //
-
       function goOrder(){
           
           
@@ -589,27 +711,72 @@
          
  	}
       
-      
 
-      
 </script>
 
-</head>
-<body>
-
-<jsp:include page="/WEB-INF/hyerin/header.jsp"></jsp:include>
-   
-   
+ <!-- Modal -->
+	<div class="modal fade" id="cartoptionModal" tabindex="-1"
+		aria-labelledby="cartoptionModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color: navy;">
+					<h6 class="modal-title" id="cartoptionModalLabel"
+						style="color: white;">옵션변경</h6>
+					<button type="button" class="btn-close-outline-light"
+						data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="cartmodal_prod_code" value=""/>
+					<input type="hidden" id="cartmodal_cart_code" value=""/>
+					<ul>
+						<li id="cartmodal_prod_name" class="fw-bolder"></li>
+						<li>[옵션: <span id="cartmodal_prod_color"></span>/<span
+							id="cartmodal_prod_size"></span>]
+						</li>
+					</ul>
+					<hr style="background: black; height: 1px; background: black; border: 0px;">
+					<ul>
+						<li class="fw-bolder">상품옵션</li>
+						<li style="margin-top: 1%;">
+							<div class="row">
+								<p class="col-md-2 fst-normal">COLOR</p>
+								<select id="cartmodal_colorselect"
+									class="form-select form-select-sm col-md-9"
+									aria-label=".form-select-sm example">
+								</select>
+							</div>
+						</li>
+						<li style="margin-top: 1%;">
+							<div class="row">
+								<p class="col-md-2 fst-normal">SIZE</p>
+								<select id="cartmodal_sizeselect"
+									class="form-select form-select-sm col-md-9"
+									aria-label=".form-select-sm example">
+								</select>
+							</div>
+						</li>
+					</ul>
+					<div></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+					<button id="cartmodal_optionupdate" type="button" class="btn btn-primary" >옵션 변경</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal 끝 -->     
 
 
  
    <div id="container2" style="margin-left: 5%;">
-      <p style="font-size: 30px; margin-top: 5%;" >장바구니</p>
+      <p style="font-weight: bold; font-size: 30px; margin-top: 5%; margin-left:20px;" >장바구니</p>
       <div class="row container-fluid" >    
       <div class=""></div>  
          <div id="contents" class="col-lg-11" >
             <form name="bag_form">
-               <div class="fst-normal" style="text-align: left; font-size: 20px;">JINNY KIM</div>   
+               <div class="fst-normal" style="text-align: left; font-size: 20px;"></div>   
                <table id="notice_list" class="table table-condensed mt-4" style="font-size:15px; border-collapse: collapse; vertical-align: middle;"> <%-- 글은 10개까지만 보여주고 그 이상은 다음페이지로 넘기기 --%>
                  <colgroup>
                <col style="width:70px;">
@@ -668,7 +835,11 @@
                                  <li>
                               
                                  <!-- Button trigger modal -->
-                           <button type="button" class="btn btn-outline-secondary btn-sm modalop" data-bs-toggle="modal" data-bs-target="#exampleModal" data-code="${cvo.cart_code}" style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt">
+                           <button type="button" class="btn btn-outline-secondary btn-sm modalop" data-bs-toggle="modal" data-bs-target="#cartoptionModal"
+                           		   data-prodcode="${cvo.fk_prod_code}" data-prodname="${cvo.prod.prod_name}" data-prodcolor="${cvo.fk_prod_color}" data-prodsize="${cvo.fk_prod_size}"
+                           		   data-cartcode="${cvo.cart_code}"
+                           		   style="padding: 1%px; margin-top: 2%; border:solid 1px gray; background-color:white; color:gray; margin:20px 0px; text-align:center; font-size:11pt"
+                           		   >
                            옵션변경
                            </button>
                          
@@ -712,9 +883,6 @@
                         <div>
                        <button type="button" id="doOrder" class="btn btn-gray oneOrder" style="background-color:gray; color:white; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goOrderPart(this);">주문하기</button>
                      </div>   
-                     <div>
-                        <button type="button" class="btn btn-gray" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goHide()">관심상품</button>
-                     </div>   
                      <div>   
                         <button type="button" class="btn btn-gray deleteBtn" style="border:solid 1px gray; color:gray; margin-bottom:2px; font-size:11pt; width:90px; text-align:center;" onclick="goDel(this);">삭제</button>
                    </div>
@@ -723,59 +891,7 @@
                      </c:forEach>
                      <!-- 상품 한행 끝 -->
                      
-                      <!-- Modal -->
-                           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                             <div class="modal-dialog">
-                               <div class="modal-content">
-                                 <div class="modal-header" style="background-color: navy;">
-                                   <h6 class="modal-title" id="exampleModalLabel" style="color: white;">옵션변경</h6>
-                                   <button type="button" class="btn-close-outline-light" data-bs-dismiss="modal" aria-label="Close" ></button>
-                                 </div>
-                                 <div class="modal-body">
-                                  <ul>
-                                     <li class="fw-bolder">${requestScope.cartModalList.prod.prod_name}</li>
-                                     <li>[옵션: ${requestScope.cartModalList.fk_prod_color}/${requestScope.cartModalList.fk_prod_size}]</li>
-                                  </ul>
-                                  
-                                  <hr style=" background: black; height: 1px; background: black; border : 0px;">
-                                  <ul>
-                                     <li class="fw-bolder">상품옵션</li>
-                                     
-                                     <li style="margin-top: 1%;"> 
-                                     <div class="row">
-                                     <p class="col-md-2 fst-normal"> COLOR</p> 
-                                        <select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
-                                         <option selected>색상변경</option>
-                                         <option value="1">One</option>
-                                         <option value="2">Two</option>
-                                         <option value="3">Three</option>
-                                       </select>
-                                    </div>   
-                                     </li>
-                                     
-                                     <li style="margin-top: 1%;"> 
-                                     <div class="row">
-                                     <p class="col-md-2 fst-normal"> SIZE</p> 
-                                        <select class="form-select form-select-sm col-md-9" aria-label=".form-select-sm example">
-                                         <option selected>Open this select menu</option>
-                                         <option value="1">One</option>
-                                         <option value="2">Two</option>
-                                         <option vlue="3">Three</option>
-                                       </select>
-                                    </div>   
-                                     </li>                              
-                                  </ul>   
-                                 <div>             
-                               </div>      
-                                 </div>
-                                 <div class="modal-footer">
-                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                   <button type="button" class="btn btn-primary">Save changes</button>
-                                 </div>
-                               </div>
-                             </div>
-                           </div>
-                            <!-- Modal 끝 -->     
+                       
 
 
 
@@ -933,7 +1049,3 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-</body>
-</html>

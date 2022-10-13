@@ -162,7 +162,7 @@
 		height: 40px;
 	}
 	
-	.idfind_input_text, .pwdfind_input_text{
+	.idfind_input_text, .pwdfind_input_text, .newpwd_input_text {
 		border: solid 1px #d9d9d9;
 		height: 40px;
 		width: 100%;

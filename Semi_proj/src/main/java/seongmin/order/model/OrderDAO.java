@@ -71,11 +71,11 @@ public class OrderDAO implements InterOrderDAO {
 		try {
 			conn = ds.getConnection();
 
-			String sql = "  select userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice \n"
+			String sql = "  select userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice, prod_code \n"
 					+ " from\n" + " (\n"
-					+ " select rownum as num, userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice \n"
+					+ " select rownum as num, userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice, prod_code \n"
 					+ " from\n"
-					+ " (select userid, to_char(orderdate,'yyyy-mm-dd') as orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice\n"
+					+ " (select userid, to_char(orderdate,'yyyy-mm-dd') as orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice, prod_code \n"
 					+ " from tbl_order\n" + "	left join\n" + "	tbl_member m\n" + "	on fk_userid = userid\n"
 					+ "	left join tbl_order_detail d\n" + "	on order_code = fk_order_code\n"
 					+ "	left join tbl_product p\n" + "	on fk_prod_code = p.prod_code\n"
@@ -129,6 +129,7 @@ public class OrderDAO implements InterOrderDAO {
 				pvo.setProd_image(rs.getString(7));
 				pvo.setProd_kind(rs.getString(9));
 				pvo.setProd_saleprice(rs.getString(10));
+				pvo.setProd_code(rs.getString(11));
 				ovo.setPvo(pvo);
 
 				OrderDetailVO odvo = new OrderDetailVO();
@@ -186,7 +187,7 @@ public class OrderDAO implements InterOrderDAO {
 		try {
 			conn = ds.getConnection();
 
-			String sql = "select prod_name, prod_price, prod_image, prod_kind \n" + "from\n" + "tbl_like\n"
+			String sql = "select prod_name, prod_price, prod_image, prod_kind, prod_code \n" + "from\n" + "tbl_like\n"
 					+ "join tbl_product\n" + "on fk_prod_code = prod_code\n" + "where fk_userid = ? ";
 
 			pstmt = conn.prepareStatement(sql);
@@ -200,6 +201,7 @@ public class OrderDAO implements InterOrderDAO {
 				lpvo.setProd_price(rs.getString(2));
 				lpvo.setProd_image(rs.getString(3));
 				lpvo.setProd_kind(rs.getString(4));
+				lpvo.setProd_code(rs.getString(5));
 
 				likeList.add(lpvo);
 			} // end of while
@@ -265,12 +267,12 @@ public class OrderDAO implements InterOrderDAO {
 		try {
 			conn = ds.getConnection();
 
-			String sql = "select userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice \n"+
+			String sql = "select userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice, prod_code \n"+
 					"					from\n"+
 					"                    (\n"+
-					"					select rownum, userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice\n"+
+					"					select rownum, userid, orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice, prod_code\n"+
 					"					from\n"+
-					"					(select userid, to_char(orderdate,'yyyy-mm-dd') as orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice \n"+
+					"					(select userid, to_char(orderdate,'yyyy-mm-dd') as orderdate, order_code, prod_name, order_buy_count, fk_order_state_name, prod_image, order_price, prod_kind, prod_saleprice, prod_code \n"+
 					"					from tbl_order\n"+
 					"                    left join\n"+
 					"                    tbl_member m\n"+
@@ -305,6 +307,7 @@ public class OrderDAO implements InterOrderDAO {
 				pvo.setProd_image(rs.getString(7));
 				pvo.setProd_kind(rs.getString(9));
 				pvo.setProd_saleprice(rs.getString(10));
+				pvo.setProd_code(rs.getString(11));
 				ovo.setPvo(pvo);
 
 				OrderDetailVO odvo = new OrderDetailVO();
@@ -551,6 +554,39 @@ public class OrderDAO implements InterOrderDAO {
 			} // end of while
 			
 			else {
+				n = 2;
+			}
+			
+		} catch (SQLException e){
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return n;
+	}
+
+	@Override
+	public int isRegistered(Map<String, String> paraMap) throws SQLException {
+		int n = 0;
+		try {
+			conn = ds.getConnection();
+
+			String sql = "select *\n"+
+					"from tbl_review\n"+
+					"where fk_userid = ? and fk_prod_code = ? ";			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("fk_userid"));
+			pstmt.setString(2, paraMap.get("fk_prod_code"));
+			
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) { //있으면
+				n= 1;				
+			} // end of while
+			
+			else { //없으면 
 				n = 2;
 			}
 			

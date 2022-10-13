@@ -74,6 +74,13 @@
 
 	});
 	
+	// 토글 하나만 보여주는 함수.	
+	function reviewshow() {
+		
+//		alert("sdfsd");
+		$(this).parent().find(".collapse").hide();		
+		$(this).next().show();
+	}
 
 
 	</script>
@@ -133,11 +140,14 @@
 						<tr>
 							<td>${qvo.rnum}</td>
 							<td>${qvo.category}</td>
-							<td style="text-align:left;"><img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_re.gif" alt="답변" class="">&nbsp;&nbsp;<img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_lock.gif"  class="">	    <button type="button" class="" style="border:none; background-color: white;">${qvo.subject}</button></td>
+							<td style="text-align:left;">
+								<div class="btn" data-toggle="collapse" data-target="#demo${status.index}" onclick="reviewshow()">${qvo.subject}</div>
+								<div id="demo${status.index}" class="collapse" style="text-align:left">${qvo.contents}</div>
+							</td>
 							<td>${sessionScope.loginuser.name }</td>
 							<td>${qvo.registerday}</td>
 						</tr>
-					</c:forEach>
+					</c:forEach>					
 				</c:when>				
 				<c:otherwise>
 							<tr>
@@ -149,7 +159,7 @@
 		  </table>
 	   		  <nav class="my-5">
 			<div style="display: flex; width: 80%">
-				<ul class="pagination" style="margin: auto">${requestScope.pageBar}</ul>
+				<ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>
 			</div>
 		  </nav>
 	      

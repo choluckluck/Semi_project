@@ -397,8 +397,8 @@
 					type : "post",
 					data : {"prod_codeJoin" : prod_codeJoin},
 					dataType : "json",
-					success : function(json){
-						alert(json.message);
+					success : function(json2){
+						alert(json2.message);
 						selectProduct($("#currentPage").val());
 					},
 					error : function(request, status, error){

@@ -1294,8 +1294,57 @@ public class ProductDAO implements InterProductDAO {
 
 	
 	
+	//상품상세페이지
+	
+	//pcode에 해당하는 제품의 컬러를 알아온다
+	@Override
+	public List<String> getProductColor(String pcode) throws SQLException {
+		List<String> colorList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			String sql = " select prod_color from tbl_prod_detail where fk_prod_code = ? group by prod_color ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pcode);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				colorList.add(rs.getString(1));
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return colorList;
+		
+	}//end of getProductColor
+
 	
 	
+	
+	//cart_code에 해당하는 카트의 컬러, 사이즈를 업데이트해줌
+	@Override
+	public int updateCartOption(String cart_code, String fk_prod_color, String fk_prod_size) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			String sql = " update tbl_cart set fk_prod_color = ?, fk_prod_size = ? where cart_code = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_prod_color);
+			pstmt.setString(2, fk_prod_size);
+			pstmt.setString(3, cart_code);
+			
+			result = pstmt.executeUpdate();
+		} finally {
+			close();
+		}
+		
+		return result;
+	}//end of updateCartOption
+
 	
 	
 
