@@ -83,6 +83,23 @@
 	}
 
 
+	function myQnawrite(){
+		// 나의 정보 수정하기 팝업창 띄우기		
+
+		
+	
+			alert("문의 페이지로 이동합니다.");
+			
+			const myQnaForm = document.myQnaForm;
+			myQnaForm.action="<%=request.getContextPath() %>/heajun/board/qna_write2.sue";
+			myQnaForm.method = "GET";
+			myQnaForm.submit(); 
+
+		
+			
+	}//end of qnawrite()
+
+	
 	</script>
 
 
@@ -111,7 +128,7 @@
 		<br><br>
 		
 		
-		
+		<form name = "myQnaForm">		
 		  <table class="table table" style="text-align:left; width:90%">
 			<colgroup>
 				<col style="width:70px;">
@@ -147,6 +164,8 @@
 							<td>${sessionScope.loginuser.name }</td>
 							<td>${qvo.registerday}</td>
 						</tr>
+							   	<input type="hidden" id="fk_userid" name="fk_userid" value="${sessionScope.loginuser.userid}" />   
+	   							<input type="hidden" id="fk_prod_code" name="fk_prod_code" value="${qvo.fk_prod_code}" />   	   					
 					</c:forEach>					
 				</c:when>				
 				<c:otherwise>
@@ -157,6 +176,11 @@
 			</c:choose>				
 		    </tbody>
 		  </table>
+		  		  <div style="text-align:right;  width:90%;" class="">
+	    	            <button type="button" id="myQnaWrite" style="background-color: black; color:white; border:solid 1px gray;" onclick="myQnawrite()">문의하기</button>
+	              </div>
+		  
+		  
 	   		  <nav class="my-5">
 			<div style="display: flex; width: 80%">
 				<ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>
@@ -166,9 +190,8 @@
 	      <br>
 
 	   <br><br>
-
+	  </form>
 	
-
 
 
 

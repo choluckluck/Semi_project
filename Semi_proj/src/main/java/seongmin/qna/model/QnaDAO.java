@@ -66,12 +66,12 @@ public class QnaDAO implements InterQnaDAO {
 			conn = ds.getConnection();
 
 
-			String sql = "select rnum, category, subject, contents, registerday\n"+
+			String sql = "select rnum, category, subject, contents, registerday, fk_prod_code \n"+
 					"from (\n"+
-					"select  rownum as rnum, category, subject, contents, registerday\n"+
+					"select  rownum as rnum, category, subject, contents, registerday, fk_prod_code \n"+
 					"from\n"+
 					"(\n"+
-					"select category, subject, contents, to_char(Q.registerday, 'yyyy-mm-dd') as registerday\n"+
+					"select category, subject, contents, to_char(Q.registerday, 'yyyy-mm-dd') as registerday, fk_prod_code \n"+
 					"from tbl_qna Q		join tbl_member M\n"+
 					"on userid = fk_userid\n"+
 					"where fk_userid = ? \n"+
@@ -99,6 +99,7 @@ public class QnaDAO implements InterQnaDAO {
 				qvo.setSubject(rs.getString(3));
 				qvo.setContents(rs.getString(4));
 				qvo.setRegisterday(rs.getString(5));
+				qvo.setFk_prod_code(rs.getString(6)); 
 				
 				
 				// very Important

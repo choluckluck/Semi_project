@@ -362,10 +362,10 @@
 			<div class="col-2" style="border:none; margin-left:280px; display: flex; align-items: center; justify-content: center;">
 			</div>
 	
-			<div class="col-2" style="border:solid 1px gray; margin-left:20px; display: flex; align-items: center; justify-content: center;">
+<!-- 			<div class="col-2" style="border:solid 1px gray; margin-left:20px; display: flex; align-items: center; justify-content: center;">
 			<button class="btn btn-lg" style="font-size:12pt; color:gray; text-align:center;" onclick="selectCartList()">장바구니 담기</button>
 			</div>
-	
+ -->	
 		</div>
 		<br>		
 		  <table class="table table" style="text-align:center; vertical-align:middle; width:90%">

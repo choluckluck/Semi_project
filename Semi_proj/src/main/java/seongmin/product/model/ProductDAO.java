@@ -209,6 +209,52 @@ public class ProductDAO implements InterProductDAO {
 			return prod_info;
 			
 		}
+
+
+		@Override
+		public List<ProductVO> getprod_info3(Map<String, String> paraMap) throws SQLException {
+			
+			List<ProductVO> prod_info = new ArrayList<>();
+			
+			
+			try {
+				conn = ds.getConnection();
+
+                String sql = "select fk_prod_code, prod_name, prod_image\n"+
+"                    from tbl_order_detail\n"+
+"                    join tbl_order\n"+
+"                    on fk_order_code = order_code\n"+
+"                    join tbl_product\n"+
+"                    on fk_prod_code = prod_code\n"+
+"                    where fk_userid = ? ";				
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("userid"));
+
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					ProductVO pvo = new ProductVO();
+					
+					pvo.setProd_code(rs.getString(1));
+					pvo.setProd_name(rs.getString(2));
+					pvo.setProd_image(rs.getString(3));
+					
+					prod_info.add(pvo);
+				} // end of while
+				
+			} catch (SQLException e){
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			
+			return prod_info;
+			
+			
+		
+		}
 		
 }
 		
