@@ -117,63 +117,10 @@
 		
 		
 	
-		<br><br>		
 		
-		  <table class="table table" style="text-align:left; width:90%">
-			<colgroup>
-				<col style="width:70px;">
-				<col style="width:70px;">
-				<col style="width:200px;">
-				<col style="width:80px;">
-				<col style="width:55px;">
-			</colgroup>
-			<thead>
-  			  <tr>
-				<th scope="col">번호</th>
-				<th scope="col">제품 번호</th>
-				<th scope="col" style="text-align:center">제목</th>
-				<th scope="col">별점</th>
-				<th scope="col">작성일</th>
-			  </tr>
-			</thead>
-			
-			
-			<tbody style="font-size:12pt; height:40px;">
-			<c:choose>
-				<c:when test="${not empty requestScope.reviewList}">					
-					<c:forEach var="rvo" items="${requestScope.reviewList}" varStatus="status">
-						
-						<tr>
-							<td>${rvo.rnum}</td>
-							<td>${rvo.fk_prod_code}</td>
-							<td style="text-align:center;">
-								<div class="btn" data-toggle="collapse" data-target="#demo" onclick="reviewshow()">${rvo.review_subject}</div>
-								<div id="demo" class="collapse" style="text-align:left">${rvo.review_contents}</div>
-							</td>
-							<td>
-								<c:if test="${rvo.review_grade == '1'}">★☆☆☆☆</c:if>
-								<c:if test="${rvo.review_grade == '2'}">★★☆☆☆</c:if>
-								<c:if test="${rvo.review_grade == '3'}">★★★☆☆</c:if>
-								<c:if test="${rvo.review_grade == '4'}">★★★★☆</c:if>
-								<c:if test="${rvo.review_grade == '5'}">★★★★★</c:if>							
-							</td>
-							<td>${rvo.review_registerday}</td>
-						</tr>
-					</c:forEach>
-				</c:when>				
-				<c:otherwise>
-							<tr>
-								<td colspan="6">리뷰 내역이 없습니다.</td>
-							</tr>
-				</c:otherwise>
-			</c:choose>				
-		    </tbody>
-		  </table>
-	   		  <nav class="my-5">
-			<div style="display: flex; width: 80%">
-				<ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>
-			</div>
-		  </nav>
+		
+   <jsp:include page="/WEB-INF/seongmin/review_include.jsp"></jsp:include> 
+
 
 	
 

@@ -29,4 +29,8 @@ public interface InterProductDAO {
 	//총합계 알아오기
 	Map<String, String> selectCartSumPrice(String userid) throws SQLException;
 
+	//장바구니 모달창 목록 가져오기
+	List<cartVO> selectCartListOne(Map<String, String> paraMap)throws SQLException;
+
+
 }

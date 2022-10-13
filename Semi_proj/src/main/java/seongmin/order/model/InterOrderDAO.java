@@ -24,9 +24,11 @@ public interface InterOrderDAO {
 
 	List<ProductVO> likeList1(Map<String, String> paraMap)  throws SQLException;
 
-	List<OrderVO> oderDetailList(String order_code);
+	List<OrderVO> oderDetailList(String order_code) throws SQLException;
 
-	List<OrderVO> totalOrderList(String order_code);
+	List<OrderVO> totalOrderList(String order_code) throws SQLException;
+
+	int isOrder(Map<String, String> paraMap) throws SQLException;
 	
 	
 }

@@ -71,14 +71,11 @@
 									<span style="float:right; font-size:9pt;">리뷰 ${best_pvo.prod_review_count}개</span>
 									<div class="pt-3" style="clear:both">${best_pvo.prod_name} <span>(${best_pvo.prod_high}cm)</span></div>
 									<div class="pt-1 pb-5">
-										<c:if test="${not empty best_pvo.prod_saleprice}">
-											<span class="mr-1">
-													<fmt:formatNumber value="${best_pvo.prod_saleprice}" pattern="#,###"/>
-											</span>
+										<span class="mr-1">
+											<fmt:formatNumber value="${best_pvo.prod_saleprice}" pattern="#,###"/>
+										</span>
+										<c:if test="${best_pvo.prod_saleprice ne best_pvo.prod_price}">
 											<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${best_pvo.prod_price}" pattern="#,###"/></span>
-										</c:if>
-										<c:if test="${empty best_pvo.prod_saleprice}">
-											<span><fmt:formatNumber value="${best_pvo.prod_price}" pattern="#,###"/></span>
 										</c:if>
 									</div>
 								</div>
@@ -104,14 +101,11 @@
 									<span style="float:right; font-size:9pt;">리뷰 ${best_pvo.prod_review_count}개</span>
 									<div class="pt-3" style="clear:both">${best_pvo.prod_name} <span>(${best_pvo.prod_high}cm)</span></div>
 									<div class="pt-1 pb-5">
-										<c:if test="${not empty best_pvo.prod_saleprice}">
-											<span class="mr-1">
-													<fmt:formatNumber value="${best_pvo.prod_saleprice}" pattern="#,###"/>
-											</span>
+										<span class="mr-1">
+											<fmt:formatNumber value="${best_pvo.prod_saleprice}" pattern="#,###"/>
+										</span>
+										<c:if test="${best_pvo.prod_saleprice ne best_pvo.prod_price}">
 											<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${best_pvo.prod_price}" pattern="#,###"/></span>
-										</c:if>
-										<c:if test="${empty best_pvo.prod_saleprice}">
-											<span><fmt:formatNumber value="${best_pvo.prod_price}" pattern="#,###"/></span>
 										</c:if>
 									</div>
 								</div>
@@ -152,14 +146,11 @@
 								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
 								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
-									<c:if test="${not empty new_pvo.prod_saleprice}">
-										<span class="mr-1">
-												<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
-										</span>
+									<span class="mr-1">
+										<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
+									</span>
+									<c:if test="${new_pvo.prod_saleprice ne new_pvo.prod_price}">
 										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
-									</c:if>
-									<c:if test="${empty new_pvo.prod_saleprice}">
-										<span><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
 									</c:if>
 								</div>
 							</div>
@@ -181,14 +172,11 @@
 								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
 								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
-									<c:if test="${not empty new_pvo.prod_saleprice}">
-										<span class="mr-1">
-												<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
-										</span>
+									<span class="mr-1">
+										<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
+									</span>
+									<c:if test="${new_pvo.prod_saleprice ne new_pvo.prod_price}">
 										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
-									</c:if>
-									<c:if test="${empty new_pvo.prod_saleprice}">
-										<span><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
 									</c:if>
 								</div>
 							</div>
@@ -210,14 +198,11 @@
 								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
 								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
-									<c:if test="${not empty new_pvo.prod_saleprice}">
-										<span class="mr-1">
-												<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
-										</span>
+									<span class="mr-1">
+										<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
+									</span>
+									<c:if test="${new_pvo.prod_saleprice ne new_pvo.prod_price}">
 										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
-									</c:if>
-									<c:if test="${empty new_pvo.prod_saleprice}">
-										<span><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
 									</c:if>
 								</div>
 							</div>
@@ -239,14 +224,11 @@
 								<span style="float:right; font-size:9pt;">리뷰 ${new_pvo.prod_review_count}개</span>
 								<div class="pt-3" style="clear:both">${new_pvo.prod_name} <span>(${new_pvo.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
-									<c:if test="${not empty new_pvo.prod_saleprice}">
-										<span class="mr-1">
-												<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
-										</span>
+									<span class="mr-1">
+										<fmt:formatNumber value="${new_pvo.prod_saleprice}" pattern="#,###"/>
+									</span>
+									<c:if test="${new_pvo.prod_saleprice ne new_pvo.prod_price}">
 										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
-									</c:if>
-									<c:if test="${empty new_pvo.prod_saleprice}">
-										<span><fmt:formatNumber value="${new_pvo.prod_price}" pattern="#,###"/></span>
 									</c:if>
 								</div>
 							</div>
@@ -278,14 +260,11 @@
 								<span style="float:right; font-size:9pt;">리뷰 ${md_pvo.prod_review_count}개</span>
 								<div class="pt-3" style="clear:both">${md_pvo.prod_name} <span>(${md_pvo.prod_high}cm)</span></div>
 								<div class="pt-1 pb-5">
-									<c:if test="${not empty md_pvo.prod_saleprice}">
-										<span class="mr-1">
-												<fmt:formatNumber value="${md_pvo.prod_saleprice}" pattern="#,###"/>
-										</span>
+									<span class="mr-1">
+										<fmt:formatNumber value="${md_pvo.prod_saleprice}" pattern="#,###"/>
+									</span>
+									<c:if test="${md_pvo.prod_saleprice ne md_pvo.prod_price}">
 										<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${md_pvo.prod_price}" pattern="#,###"/></span>
-									</c:if>
-									<c:if test="${empty md_pvo.prod_saleprice}">
-										<span><fmt:formatNumber value="${md_pvo.prod_price}" pattern="#,###"/></span>
 									</c:if>
 								</div>
 							</div>
