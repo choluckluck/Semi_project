@@ -8,6 +8,18 @@
 
 <script>
 	$(document).ready(function(){
+
+		if(${empty sessionScope.loginuser}){
+			//alert("헤헤헤");
+			
+			const loginUserid = localStorage.getItem('saveid');
+			
+			if( loginUserid != null ){
+				$("input#loginUserid").val(loginUserid);
+				$("input:checkbox[id='saveid']").prop("checked",true);
+			}
+			
+		};	
 		
 		//로그인 버튼 클릭이벤트
 		$("button#login_button").click(function(){
