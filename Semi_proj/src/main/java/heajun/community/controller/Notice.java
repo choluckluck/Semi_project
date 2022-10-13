@@ -14,7 +14,8 @@ public class Notice extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-				
+		super.goBackURL(request);
+		
 		InterNoticeDAO ndao = new NoticeDAO();
 		
 			    Map<String, String> paraMap = new HashMap<>();

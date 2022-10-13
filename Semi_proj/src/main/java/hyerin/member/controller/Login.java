@@ -79,13 +79,12 @@ public class Login extends AbstractController {
 					  super.setRedirect(true); // sendRedirect 방식으로 페이지 이동
 
 						// 로그인을 하면 시작페이지(index.up)로 가는 것이 아니라 로그인을 시도하려고 머물렀던 그 페이지로 가기 위한 것이다.
-						String goBackURL = (String) session.getAttribute("goBackURL"); // null 또는 경로
-
-						if (goBackURL != null) {
-							System.out.println("성공");
-							super.setViewPage(request.getContextPath() + goBackURL); // 이전페이지로 이동
-
-						} else {
+						String goBackURL = (String)session.getAttribute("goBackURL"); //null 또는 경로
+						
+						if(goBackURL != null) {	
+							super.setViewPage(request.getContextPath() + goBackURL); //이전페이지로 이동			
+						}
+						else {
 							System.out.println("성공");
 							super.setViewPage(request.getContextPath() + "/main.sue"); // 시작홈페이지로 이동
 						}					  

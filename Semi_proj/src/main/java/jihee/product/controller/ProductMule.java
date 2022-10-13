@@ -17,7 +17,8 @@ public class ProductMule extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
+		super.goBackURL(request);
+
 		InterProductDAO pdao = new ProductDAO();
 		
 		
