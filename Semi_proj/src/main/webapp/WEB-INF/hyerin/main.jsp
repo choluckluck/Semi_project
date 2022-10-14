@@ -50,7 +50,7 @@
 <%-- 메인 내용 --%>
 <div id="main_contents" style="margin:0; padding:0;" align="center" class="mb-5">
 	<%-- 베스트 --%>
-	<div height="100px;" align="center" style="font-size:25pt;" class="pt-5 pb-4">Best</div>
+	<div height="100px" align="center" style="font-size:25pt;" class="pt-5 pb-4">Best</div>
 	
 	<%-- 베스트 캐러셀 --%>
 	<div id="best_carousel" class="carousel carousel-dark  slide col-11" align="center" data-ride="carousel" data-interval="false">

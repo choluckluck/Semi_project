@@ -498,7 +498,7 @@ input[type='number']::-webkit-inner-spin-button {
 								<div id="id_approval" class="register_approval"> 사용 가능한 아이디입니다.</div>
 								<div id="idcheckResult" class="register_warning"></div>
 								<div id="id_warning" class="register_warning">아이디를 입력해주세요.</div>
-								<div id="id_warning2" class="register_warning">대문자/공백/특수문자가 포함되었거나, 숫자로 시작 또는 숫자로만 이루어진 아이디는 사용할 수 없습니다.</div> 
+								<div id="id_warning2" class="register_warning">대문자/공백/특수문자가 포함되었거나, 문자 또는 숫자로만 이루어진 아이디는 사용할 수 없습니다.</div> 
 								<div class="register_description">(영문소문자/숫자, 4~16자)</div>
 							</td>
 						</tr>
