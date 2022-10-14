@@ -110,7 +110,23 @@ $(document).ready(function() {
 		   
 	   });
 	   
-	 
+	   const price = Number("${requestScope.pvo2.prod_price}");
+	   const saleprice = Number("${requestScope.pvo2.prod_saleprice}");
+	   const discount = Number(price - saleprice);
+	   
+	   let discountrate = 0;
+	   if (price != saleprice){
+		  discountrate = Math.floor(( discount / price ) * 100);
+	   }
+	   
+	   let discountratehtml = '';
+	   if (discountrate != 0){
+		   discountratehtml = discountrate+'%';
+		   $("#discountrate").html(discountratehtml);
+	   }
+	   
+	   
+	   
 	   
 });//end of $(document).ready(function() {--------------------
 
@@ -300,6 +316,7 @@ function goSelectSize(pcolor){
 					<c:if test="${requestScope.pvo2.prod_saleprice ne requestScope.pvo2.prod_price}">
 						<span style="color:#bfbfbf; text-decoration: line-through;" class="ml-2"><fmt:formatNumber value="${requestScope.pvo2.prod_price}" pattern="#,###"/>원</span>
 					</c:if>
+					<span id="discountrate" class="ml-2" style="color:red; font-weight:bold;"></span>
 				</td>
 			</tr>
 			<tr height="40px">
@@ -321,7 +338,7 @@ function goSelectSize(pcolor){
 						<option selected>컬러</option>
 						<c:forTokens var="prod_color" items="${requestScope.pvo2.pdvo.prod_color}" delims=",">
 							<option value="${prod_color}">${prod_color}</option>   
-						</c:forTokens>  
+						</c:forTokens>
 					</select>
 				</td>
 			</tr>

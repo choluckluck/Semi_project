@@ -860,7 +860,7 @@ public class ProductDAO implements InterProductDAO {
 	public int deleteOneProduct(String prod_code) throws SQLException {
 		int n3 = 0;
 		try {
-			int n = 0;
+			int n = -1;
 			conn = ds.getConnection();
 			
 			String sql = " delete from tbl_prod_detail "
@@ -873,7 +873,7 @@ public class ProductDAO implements InterProductDAO {
 			n = pstmt.executeUpdate();
 			
 			//성공 시 tbl_product_image에 있는 정보도 지워준다
-			if (n == 1 || n==0) {
+			if (n >= 0) {
 				int n2 = 0;
 				
 				String sql2 = " delete tbl_product_image "
