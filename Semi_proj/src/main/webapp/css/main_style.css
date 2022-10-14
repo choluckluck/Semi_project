@@ -80,7 +80,7 @@ input[type='number']::-webkit-inner-spin-button {
 
 #header_search{
   border:none;
-  border-bottom: solid 1px black;
+  border-bottom: solid 1px #172A41;
 
 }
 
@@ -159,7 +159,7 @@ ul#nav_bar_category li {
 
 .real_subbar > span > a {
   text-decoration: none;
-  color: black;
+  color: #172A41;
 }
 
 .real_subbar9 > span{
