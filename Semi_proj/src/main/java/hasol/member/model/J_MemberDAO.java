@@ -165,7 +165,6 @@ public class J_MemberDAO implements J_InterMemberDAO {
 	         pstmt.setString(2, aes.encrypt(paraMap.get("email") ));
 	         
 	         String check = aes.encrypt(paraMap.get("email"));
-	         System.out.println("check:" +check);
 	         
 	         rs = pstmt.executeQuery();
 	         

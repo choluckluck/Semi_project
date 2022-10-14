@@ -38,7 +38,7 @@ public class AdminOrderEdit extends AbstractController {
 			if(!"admin".equals(loginuser.getUserid()) ) {
 				 // == 관리자(admin)가 아닌 일반사용자로 로그인했을 때는 조회가 불가능하도록 한다.
 				String message = "관리자 이외는 접근이 불가능합니다.";
-	            String loc = request.getContextPath() + "/hyerin/login/login.sue";
+				String loc = request.getContextPath() + "/main.sue";
 	            
 	            request.setAttribute("message", message);
 	            request.setAttribute("loc", loc);

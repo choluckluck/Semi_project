@@ -99,10 +99,6 @@ public class OrderDAO implements InterOrderDAO {
 				sql += " and order_state_code  = " + order_state + " \n ";
 			}
 
-			System.out.println(order_state);
-			System.out.println(startDate);
-			System.out.println(endDate);
-
 			sql += "  order by orderdate desc ) V " + " ) D " + " where num between ? and ? ";
 
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));

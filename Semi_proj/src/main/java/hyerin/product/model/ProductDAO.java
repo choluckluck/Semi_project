@@ -1190,7 +1190,6 @@ public class ProductDAO implements InterProductDAO {
 					grade_code = rs.getString(1);
 				}
 				
-				System.out.println(grade_code);
 				if(grade_code != null ) {
 					sql = " update tbl_member set fk_grade_code = ? "
 						+ " where userid = ? ";

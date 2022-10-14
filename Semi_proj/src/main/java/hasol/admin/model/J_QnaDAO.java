@@ -135,7 +135,6 @@ public class J_QnaDAO implements J_InterQnaDAO {
 			// --------------------------------------------------------
   
 			pstmt = conn.prepareStatement(sql);
-			System.out.println("토탈페이지 sql : " + sql);
 			  //날짜검색이 있는 경우
 			if(!"".equals(searchType)) {
 				pstmt.setString(1, searchWord);
@@ -166,10 +165,6 @@ public class J_QnaDAO implements J_InterQnaDAO {
 		String answer_yn = paraMap.get("answer_yn");
 		int currentPageNo = Integer.parseInt(paraMap.get("currentPageNo"));
 		int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
-		
-		System.out.println(currentPageNo);
-		System.out.println("searchType:" + searchType);
-		System.out.println("searchWord:" + searchWord);
 		
 		try {
 			

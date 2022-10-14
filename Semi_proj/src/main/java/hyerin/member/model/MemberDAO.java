@@ -133,7 +133,6 @@ public class MemberDAO implements InterMemberDAO {
 				}
 			}
 			
-			System.out.println(aes.encrypt(searchword));
 			
 			rs = pstmt.executeQuery();
 			
@@ -214,7 +213,6 @@ public class MemberDAO implements InterMemberDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			System.out.println(sql);
 			
 			while(rs.next()) {
 				MemberVOhr mvo = new MemberVOhr();
@@ -283,7 +281,6 @@ public class MemberDAO implements InterMemberDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
-				System.out.println(rs.getString("mobile"));
 				
 				//핸드폰 - 처리해주기
 				String mobile = aes.decrypt(rs.getString(4));
