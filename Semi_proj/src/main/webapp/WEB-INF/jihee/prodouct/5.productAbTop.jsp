@@ -49,7 +49,7 @@ $(document).ready(function(){
     				<c:if test="${pvo.prod_saleprice ne pvo.prod_price}">
 	   				<span><fmt:formatNumber value="${pvo.prod_saleprice}" pattern="###,###"></fmt:formatNumber></span>
     				<span style="color: #bfbfbf; text-decoration:line-through;"><fmt:formatNumber value="${pvo.prod_price}" pattern="#,###"/></span>
-					<span style="color: red; "> ${pvo.discountPercentBest}% </span>	</p>
+					<span style="color: red; "> ${pvo.discountPercent}% </span>	</p>
 					</c:if>	
 					<c:if test="${pvo.prod_saleprice eq pvo.prod_price}">
     				<fmt:formatNumber value="${pvo.prod_price}" pattern="###,###"></fmt:formatNumber></p>

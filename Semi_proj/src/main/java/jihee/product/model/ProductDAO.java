@@ -143,11 +143,11 @@ public class ProductDAO implements InterProductDAO {
 					pvo.setProd_image(rs.getString(4));
 					pvo.setProd_high(rs.getString(5));
 					pvo.setProd_color(rs.getString(6));
-					pvo.setProd_price(rs.getInt(7));
+					pvo.setProd_saleprice(rs.getInt(7));
 					pvo.setProd_registerday(rs.getString(8));
 					pvo.setProd_review_count(rs.getInt(9)); 
 					pvo.setProd_order_count(rs.getInt(10));
-					pvo.setProd_saleprice(rs.getInt(11));
+					pvo.setProd_price(rs.getInt(11));
 					bestProductList.add(pvo);
 					
 				}
