@@ -8,7 +8,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>우리꺼~~</title>
+	<title>SueShop</title>
 	
 	<%-- Bootstrap CSS --%>
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 

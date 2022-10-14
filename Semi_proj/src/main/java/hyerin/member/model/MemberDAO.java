@@ -415,4 +415,24 @@ public class MemberDAO implements InterMemberDAO {
 		return mvo;
 	}//end of getMemberDetail
 	
+	//세션에 저장되어있는 loginuser의 grade_code를 업데이트해준다
+	@Override
+	public MemberVOhr getUserGrade_code(String userid) throws SQLException {
+		MemberVOhr mvo = new MemberVOhr();
+		try {
+			conn = ds.getConnection();
+			String sql = " select fk_grade_code from tbl_member where userid = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				mvo.setGrade_code(rs.getString(1));
+			}
+			
+		} finally {
+			close();
+		}
+		return mvo;
+	}//end of getUserGrade_code
+	
 }
