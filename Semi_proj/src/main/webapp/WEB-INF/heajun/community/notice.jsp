@@ -101,7 +101,7 @@
 				   
 			</table>
 		<c:if test="${sessionScope.loginuser != null and sessionScope.loginuser.userid == 'admin'}">
-		<div style="text-align:right;" class="my-5"><button type="button" id="notice_write" class="black" style="width:150px; height:40px;" onclick="goWrite()";>글쓰기</button></div>
+		<div style="text-align:right;" class="my-5"><button type="button" id="notice_write" class="black" style="width:150px; height:40px; background-color: #172A41 ;" onclick="goWrite()";>글쓰기</button></div>
 		</c:if>  	
 			<nav class="my-5">
 		    	<div style="display: flex; width: 80%">
