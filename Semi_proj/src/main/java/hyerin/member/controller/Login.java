@@ -36,6 +36,8 @@ public class Login extends AbstractController {
 			paraMap.put("clientip", clientip);
 
 			InterMemberDAO mdao = new MemberDAO();
+						
+			
 			MemberVO loginuser = mdao.selectOneMember(paraMap);
 
 			if(loginuser != null) {
@@ -53,6 +55,20 @@ public class Login extends AbstractController {
 					
 					return; // 메소드 종료
 				} //end of if(loginuser.getIdle() == 1) 
+				
+				else if (loginuser.getStatus() == 0 ) {
+					String message = "탈퇴한 회원입니다. 새로 회원가입을 해주세요."; 
+					String loc = request.getContextPath()+"/hyerin/login/login.sue";
+					
+					request.setAttribute("message", message);
+					request.setAttribute("loc", loc);
+					
+					super.setRedirect(false);
+					super.setViewPage("/WEB-INF/msg.jsp");
+					return; // 메소드 종료
+				}
+				
+				
 				
 				  HttpSession session = request.getSession(); 
 				  // 메모리에 생성되어져 있는 session 을 불러오는 것이다.
