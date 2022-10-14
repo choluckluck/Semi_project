@@ -16,6 +16,9 @@ import hyerin.product.model.ProductDAO;
 import hyerin.product.model.ProductVO;
 import seongmin.login.model.MemberVO;
 import hyerin.member.controller.GoogleMail;
+import hyerin.member.model.InterMemberDAO;
+import hyerin.member.model.MemberDAO;
+import hyerin.member.model.MemberVOhr;
 
 public class PurchaseEndAfterInsertOrder extends AbstractController {
 
@@ -116,6 +119,11 @@ public class PurchaseEndAfterInsertOrder extends AbstractController {
 				
 				mail.sendmail_OrderFinish(loginuser.getEmail(), loginuser.getName(), emailContents);
 				
+				//세션에 저장되어있는 loginuser의 grade_code를 업데이트해준다
+				InterMemberDAO mdao = new MemberDAO();
+				MemberVOhr mvo = mdao.getUserGrade_code(loginuser.getUserid());
+				String newGradecode = mvo.getGrade_code();
+				loginuser.setGrade_code(newGradecode);
 				
 				//세션에 저장되어있는 loginuser의 point를 갱신
 				try {
@@ -124,6 +132,8 @@ public class PurchaseEndAfterInsertOrder extends AbstractController {
 				catch (NumberFormatException e) {
 					loginuser.setPoint(loginuser.getPoint() + Integer.parseInt(prodPoint) );
 				}
+				
+				
 				
 				// 주문정보를 불러와서 뿌려주기
 				List<ProductVO> pvoList = pdao.getOrderProductsInfo(paraMap);

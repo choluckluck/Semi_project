@@ -47,6 +47,11 @@ public interface InterMemberDAO {
 	
 	// 유저정보 불러오기
 	MemberVOhr getMemberDetail(String userid) throws SQLException;
+
+
+
+	//세션에 저장되어있는 loginuser의 grade_code를 업데이트해준다
+	MemberVOhr getUserGrade_code(String userid) throws SQLException;
 	
 	
 }
