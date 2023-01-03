@@ -1,48 +1,36 @@
-# Sue Shop
-쌍용강북교육센터 세미 프로젝트 3조
+# 👠 Sue Shop 👠
+- 프로젝트 선정 이유 : 사용자가 쉽게 접할 수 있는 쇼핑몰의 다양한 기능을 구현해 보기 위함
+- 프로젝트 목표
+1) 사용자가 쉽게 접할 기회가 많은 사이트를 구현
+2) 기본적인 기능을 구현하고 예외 케이스를 고려하며 개발
+
 
 <Br>
-<h3>🍀프로젝트 소개 🍀</h3>
-- HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하여 Spring Framework 의 MVC 패턴 기법을 적용한 커뮤니티 웹사이트
+<h3> 프로젝트 소개 </h3>
+- HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하여 JSP의 MVC 패턴 기법을 적용한 쇼핑몰 웹 사이트
 <br>
 
 ## 프로젝트 진행 기간
->  2022.11.4 ~ 2022.12.20
+>  2022.9.13 ~ 2022.10.14
 ![프로젝트 일정](https://user-images.githubusercontent.com/100989788/209290095-53f1ec11-fd7a-48b0-afc9-cba1d3ce5cea.png)
 
 ## 🌈개발환경
 
 - OS : Windows 10 , windows 11 <br>
-- FW : Spring Framework <br>
 - DB : Oracle18C
 - WAS : Apache Tomcat 9.0.65
-- Front-end : HTML5 / CSS / javascript / jQuery / AJAX 
-- Back-end : JDK 1.8 / JSP / JSTL 
-- Developer Tools : STS 3.9.12 / eXERD / SqlDeveloper 
-- GitHub
-
-<br>
-
-### ⚡Tech Stack⚡
-
-**Front-end**
-<br><br>
+- Front-end
 <img src="https://img.shields.io/badge/HTML5-00599C?style=flat-square&logo=HTML5&logoColor=white"/>
 <img src="https://img.shields.io/badge/CSS-A8B9CC?style=flat-square&logo=C&logoColor=white"/>
 <img src="https://img.shields.io/badge/javascript-F6C915?style=flat-square&logo=javascript&logoColor=white"/>
 <img src="https://img.shields.io/badge/jQuery-red?style=flat-square&logo=jQuery&logoColor=white"/>
 <img src="https://img.shields.io/badge/AJAX -black?style=flat-square&logo=AJAX &logoColor=white"/>
-
-	 
-
-**Back-end** 
-<br><br>
+- Back-end
 <img src="https://img.shields.io/badge/JDK 1.8-important?style=flat-square&logo=JDK &logoColor=white"/>
 <img src="https://img.shields.io/badge/JSP-yellowgreen?style=flat-square&logo=JSP&logoColor=white"/>
 <img src="https://img.shields.io/badge/JSTL-blue?style=flat-square&logo=JSTL&logoColor=white"/>
-<img src="https://img.shields.io/badge/Mybatis-brightgreen?style=flat-square&logo=JSTL&logoColor=white"/>
-<img src="https://img.shields.io/badge/Spring 5.3-green?style=flat-square&logo=JDK &logoColor=white"/>
-
+- Developer Tools : Eclips / eXERD / SqlDeveloper 
+- GitHub
 
 <br>
 
