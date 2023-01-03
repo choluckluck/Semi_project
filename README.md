@@ -12,19 +12,15 @@
 
 ## 프로젝트 진행 기간
 >  2022.9.13 ~ 2022.10.14
-![프로젝트 일정](https://user-images.githubusercontent.com/100989788/209290095-53f1ec11-fd7a-48b0-afc9-cba1d3ce5cea.png)
+![세미 일정](https://user-images.githubusercontent.com/109951309/210312656-8403f691-049d-4633-a5ca-85fc103fd174.png)
 
 ## 🌈개발환경
 
 - OS : Windows 10 , windows 11 <br>
 - DB : Oracle18C
 - WAS : Apache Tomcat 9.0.65
-- Front-end
-<img src="https://img.shields.io/badge/HTML5-00599C?style=flat-square&logo=HTML5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS-A8B9CC?style=flat-square&logo=C&logoColor=white"/> <img src="https://img.shields.io/badge/javascript-F6C915?style=flat-square&logo=javascript&logoColor=white"/> <img src="https://img.shields.io/badge/jQuery-red?style=flat-square&logo=jQuery&logoColor=white"/> <img src="https://img.shields.io/badge/AJAX -black?style=flat-square&logo=AJAX &logoColor=white"/>
-- Back-end
-<img src="https://img.shields.io/badge/JDK 1.8-important?style=flat-square&logo=JDK &logoColor=white"/>
-<img src="https://img.shields.io/badge/JSP-yellowgreen?style=flat-square&logo=JSP&logoColor=white"/>
-<img src="https://img.shields.io/badge/JSTL-blue?style=flat-square&logo=JSTL&logoColor=white"/>
+- Front-end : <img src="https://img.shields.io/badge/HTML5-00599C?style=flat-square&logo=HTML5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS-A8B9CC?style=flat-square&logo=C&logoColor=white"/> <img src="https://img.shields.io/badge/javascript-F6C915?style=flat-square&logo=javascript&logoColor=white"/> <img src="https://img.shields.io/badge/jQuery-red?style=flat-square&logo=jQuery&logoColor=white"/> <img src="https://img.shields.io/badge/AJAX -black?style=flat-square&logo=AJAX &logoColor=white"/>
+- Back-end : <img src="https://img.shields.io/badge/JDK 1.8-important?style=flat-square&logo=JDK &logoColor=white"/><img src="https://img.shields.io/badge/JSP-yellowgreen?style=flat-square&logo=JSP&logoColor=white"/> <img src="https://img.shields.io/badge/JSTL-blue?style=flat-square&logo=JSTL&logoColor=white"/>
 - Developer Tools : Eclips / eXERD / SqlDeveloper 
 - GitHub
 
