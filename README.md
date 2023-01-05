@@ -92,6 +92,7 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 - 문의/문의상품 관리
 ![관리자페이지-min](https://user-images.githubusercontent.com/109951309/210719249-3f7c0c27-2258-4479-b95b-58cca7d61b05.gif)
 
+<br><br>
 ### 마이페이지
 - 메인 : 고객의 등급, 적립금 및 주문 금액 노출, 최근 주문 내역 및 관심상품 간략히 노출
 ![마이페이지_메인](https://user-images.githubusercontent.com/113486287/210725291-cc7087a9-4c49-463e-b372-e59b8da2cd18.jpg)
