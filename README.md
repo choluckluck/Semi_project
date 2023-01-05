@@ -89,7 +89,7 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 - 상품목록/재고, 상품등록, 상품리뷰 조회 및 관리
 - 주문 조회/관리 및 배송상태 관리
 - 회원 조회 및 탈퇴관리
-- 문의/
+- 문의/문의상품 관리
 ![관리자페이지-min](https://user-images.githubusercontent.com/109951309/210719249-3f7c0c27-2258-4479-b95b-58cca7d61b05.gif)
 
 
