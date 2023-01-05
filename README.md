@@ -61,8 +61,11 @@ HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하�
 	
 ### 로그인 및 회원가입
 - 로그인: 로그인 및 아이디/비밀번호 찾기
-- 회원가입: 유효성 검사 및 회원가입
-![image](https://user-images.githubusercontent.com/111223575/210715204-bcd60a1e-cb30-418a-856b-61ad59e486da.png) ![image](https://user-images.githubusercontent.com/111223575/210715611-b530b8c5-1f99-40cb-958f-8faf7bf28c5d.png)
+<img src="https://user-images.githubusercontent.com/111223575/210715204-bcd60a1e-cb30-418a-856b-61ad59e486da.png" width="40%"/>
+
+- 회원가입: 유효성 검사 및 회원가입<br>
+<img src="https://user-images.githubusercontent.com/111223575/210717335-d59f5348-f6e2-4ffb-922e-cff49c977960.png" width="70%"/>
+
 
 <br><br>
 
