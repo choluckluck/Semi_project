@@ -1,5 +1,5 @@
 # 👠 Sue Shop 👠
-HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하여 JSP의 MVC 패턴 기법을 적용한 쇼핑몰 웹 사이트입니다 (⑅˃◡˂⑅)
+HTML, CSS, JAVASCRIPT, JAVA, OARCLE 등 프로그래밍 언어들을 활용하여 JSP&Servlet 을 바탕으로 쇼핑몰 웹 사이트입니다 (⑅˃◡˂⑅)
 <br>
 - **프로젝트 선정 이유** : 사용자가 쉽게 접할 수 있는 쇼핑몰의 다양한 기능을 구현해 보기 위함
 - **프로젝트 목표**
