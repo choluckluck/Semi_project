@@ -89,16 +89,12 @@ public class OrderDAO implements InterOrderDAO {
 			if (startDate != null && startDate != "") {
 				sql += " and '" + startDate + "' <= orderdate ";
 			}
-
 			if (endDate != null && endDate != "") {
 				sql += " and '" + endDate + "' >= orderdate ";
 			}
-
 			if (order_state != null && order_state != "" && !"all".equalsIgnoreCase(order_state)) {
-//					int order_state1 = Integer.parseInt(order_state);
 				sql += " and order_state_code  = " + order_state + " \n ";
 			}
-
 			sql += "  order by orderdate desc ) V " + " ) D " + " where num between ? and ? ";
 
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));

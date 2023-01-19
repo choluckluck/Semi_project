@@ -125,12 +125,14 @@
          <colgroup>
             <col style="width:70px;">
             <col style="width:70px;">
+            <col style="width:70px;">
             <col style="width:200px;">
             <col style="width:80px;">
             <col style="width:55px;">
          </colgroup>
          <thead>
              <tr>
+            <th scope="col"><input type="checkbox" /></th>
             <th scope="col">번호</th>
             <th scope="col">제품 번호</th>
             <th scope="col" style="text-align:center">제목</th>
@@ -146,6 +148,7 @@
                <c:forEach var="rvo" items="${requestScope.reviewList}" varStatus="status">
                   
                   <tr>
+                     <td><input type="checkbox"/></td>
                      <td>${rvo.rnum}</td>
                      <td>${rvo.fk_prod_code}</td>
                      <td style="text-align:center;">
@@ -171,6 +174,13 @@
          </c:choose>            
           </tbody>
         </table>
+        
+        		  <div style="text-align:right;  width:90%;" class="">
+	    	            <button type="button" id="qnaWrite" style="background-color: black; color:white; border:solid 1px gray;" onclick="qnawrite()">리뷰삭제</button>
+	              </div>
+        
+        
+        
               <nav class="my-5">
          <div style="display: flex; width: 80%">
             <ul class="pagination" style="margin: auto">${requestScope.pageBar1}</ul>

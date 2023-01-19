@@ -183,8 +183,6 @@ public class ProductDAO implements InterProductDAO {
 
 				String sql = "select prod_name, prod_image\n"+
 						"from tbl_product\n"+
-						"join tbl_order_detail\n"+
-						"on prod_code = fk_prod_code\n"+
 						"where prod_code = ? ";
 				
 				

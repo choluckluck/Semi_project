@@ -346,7 +346,7 @@
 					</c:when>				
 					<c:otherwise>
 						<tr style="vertical-align: middle">
-							<td colspan="5">최근 주문내역이 없습니다.</td>
+							<td colspan="5">관심상품 내역이 없습니다.</td>
 						</tr>
 					</c:otherwise>
 				</c:choose>				

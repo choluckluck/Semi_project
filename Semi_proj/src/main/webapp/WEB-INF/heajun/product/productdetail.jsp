@@ -277,6 +277,14 @@ function goSelectSize(pcolor){
 
 }//end of goSelectSize;
 
+	function goreviewpage() {
+		var offset = $("#quick").offset();
+		$('html, body').animate({scrollTop : offset.top}, 1000);
+//		alert("하하");
+
+	}
+
+
 
 
 
@@ -377,16 +385,16 @@ function goSelectSize(pcolor){
 		<a style="color:gray; text-decoration:none;">상품정보</a>
 	</div>
 	<div class="col-4" style="padding:10px; ">
-		<a style="color:gray; text-decoration:none;">리뷰(<span id="">${requestScope.reviewCount}</span>)</a>
+		<a style="color:gray; text-decoration:none; cursor:pointer;" onclick="goreviewpage()">리뷰(<span id="">${requestScope.reviewCount}</span>)</a>
 	</div>
 	<div class="col-4" style="padding:10px; ">
-		<a style="color:gray; text-decoration:none;">상품문의</a>
+		<a style="color:gray; text-decoration:none; cursor:pointer;" onclick="goreviewpage()">상품문의</a>
 	</div>	
 </div>
 
 <%-- 상품 상세 이미지 보여주기 시작 --%>
 
-<div class="row container-fluid" style="margin-top:120px;">
+<div id="" class="row container-fluid" style="margin-top:120px;">
 	<c:forTokens var="product_image_file" items="${requestScope.ivo.product_image_file}" delims=",">
 		<div class="col-12" align="center">
 			<img src="<%= ctxPath%>/images/product/${product_image_file}" style="margin: 0 auto; width:40%; object-fit:cover; position:relative;" alt="...">
@@ -399,7 +407,9 @@ function goSelectSize(pcolor){
 		<img src="<%= ctxPath%>/images/heajun/Pdetailimage2.jpg" style="margin: 0 auto; width:50%; object-fit:cover; position:relative;" alt="...">
 	</div>
 </div>  
+<div id = "quick">
 
+</div>
 <div id="prdreview" style="width:90%; position:relative; left: 95px;">	
 	<jsp:include page="/WEB-INF/seongmin/review_include.jsp"></jsp:include> 
 </div>

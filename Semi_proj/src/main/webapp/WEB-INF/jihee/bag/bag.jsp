@@ -301,7 +301,7 @@ function updateCartOption(updateCartcode){
             success : function(json){
                // {n:1}
                if(json.n == 1){
-                  alert("주문수량이 변경되었습니다.");
+//                  alert("주문수량이 변경되었습니다.");
                   $("#cartoptionModal").hide();
                   location.href = "bag.sue"; //장바구니 목록을 보여준다.
                }
@@ -358,7 +358,7 @@ function updateCartOption(updateCartcode){
              success : function(json){
                 // {n:1}
                 if(json.n == 1){
-                   alert("주문수량이 변경되었습니다.");
+//                   alert("주문수량이 변경되었습니다.");
                    location.href = "bag.sue"; //장바구니 목록을 보여준다.
                 }
              },

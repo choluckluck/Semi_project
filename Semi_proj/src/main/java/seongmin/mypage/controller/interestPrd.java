@@ -25,13 +25,15 @@ public class interestPrd extends AbstractController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");		
 		String userid = loginuser.getUserid();		
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("userid", userid);
+
+		
 		session.setAttribute("loginuser", loginuser);
 		
 		String sizePerPage = "5";
 		String currentShowPageNo = request.getParameter("currentShowPageNo");
 
-		Map<String, String> paraMap = new HashMap<>();
-		paraMap.put("userid", userid);
 		
 		
 		if(currentShowPageNo == null ) {
@@ -54,6 +56,8 @@ public class interestPrd extends AbstractController {
 
 
 		   InterOrderDAO odao = new OrderDAO();
+		   List<ProductVO> likeList1 = new ArrayList<>();
+		   likeList1 = odao.likeList1(paraMap);		   
 		   
 		   // 페이징 처리를 위해 검색이 있거나 없는 전체 관심상품에 대한 총 페이지 알아오기
 		   int totalPage = odao.getTotalPage1(paraMap);
@@ -66,8 +70,6 @@ public class interestPrd extends AbstractController {
 		   
 		   
 		   
-		   List<ProductVO> likeList1 = new ArrayList<>();
-		   likeList1 = odao.likeList1(paraMap);		   
 
 		   
 		   

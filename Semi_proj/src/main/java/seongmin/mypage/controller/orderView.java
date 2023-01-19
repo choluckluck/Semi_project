@@ -28,14 +28,19 @@ public class orderView extends AbstractController {
 		String userid = loginuser.getUserid();		
 		session.setAttribute("loginuser", loginuser);
 
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("userid", userid);
+
 		
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
 		String order_state = request.getParameter("order_state");
+
 		
+		paraMap.put("startDate", startDate);
+		paraMap.put("endDate", endDate);
+		paraMap.put("order_state", order_state);
 		
-		Map<String, String> paraMap = new HashMap<>();
-		paraMap.put("userid", userid);
 		
 		
 		/*
@@ -45,52 +50,33 @@ public class orderView extends AbstractController {
 		 */
 				
 		
-		paraMap.put("startDate", startDate);
-		paraMap.put("endDate", endDate);
-		paraMap.put("order_state", order_state);
 		
 		String sizePerPage = "5";
 		String currentShowPageNo = request.getParameter("currentShowPageNo");
-		
-		
+				
 		if(currentShowPageNo == null ) {
 			   currentShowPageNo = "1";
-		}
-		
-//		System.out.println(currentShowPageNo );
-
+		}		
 		   try {
 			     if(Integer.parseInt(currentShowPageNo) < 1) {
 			    	 currentShowPageNo = "1";
-			     }
-			   
+			     }			   
 		   } catch(NumberFormatException e) {
 			   currentShowPageNo = "1";
-		   }
-		   
+		   }		   
 		   paraMap.put("sizePerPage", sizePerPage);
 		   paraMap.put("currentShowPageNo", currentShowPageNo);
 
-		   InterOrderDAO odao = new OrderDAO();
-	   
 		   // 페이징 처리를 위해 검색이 있거나 없는 전체 주문에 대한 총 페이지 알아오기
+		   InterOrderDAO odao = new OrderDAO();	   
 		   int totalPage = odao.getTotalPage(paraMap);
-		   System.out.println(totalPage);
-	   
 		   if( Integer.parseInt(currentShowPageNo) > totalPage ) {
 			   currentShowPageNo = "1";
-		   }
-		     
-	
-		   List<OrderVO> recentOrderList = odao.recentOrderList(paraMap);
-		   
+		   }	
+		   List<OrderVO> recentOrderList = odao.recentOrderList(paraMap);		   
 		   List<OrderVO> rowspan = odao.rowspan(paraMap);
-		   System.out.println("하하");
 		
-		
-		
-		// 타입 : OrderVO
-		
+	
 		request.setAttribute("rowspan", rowspan);
 		request.setAttribute("recentOrderList", recentOrderList);
 		request.setAttribute("sizePerPage", sizePerPage);

@@ -191,8 +191,7 @@ button#gowrite {
               	 <tr>
 			      <td >내용&nbsp;</td>
 			      <td style="text-align: left;">
-			         <textarea name="contents" id="qna_contents" class="requiredInfo form-control" style="width:1000px; height:250px;"></textarea>
-			        
+			         <textarea name="contents" id="qna_contents" class="requiredInfo form-control" style="width:1000px; height:250px;"></textarea>			        
 			      </td>
 			   </tr>					
 			</table>

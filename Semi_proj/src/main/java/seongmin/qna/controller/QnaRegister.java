@@ -13,6 +13,7 @@ import common.controller.AbstractController;
 import seongmin.login.model.MemberVO;
 import seongmin.product.model.InterProductDAO;
 import seongmin.product.model.ProductDAO;
+import seongmin.product.model.ProductVO;
 
 public class QnaRegister extends AbstractController {
 

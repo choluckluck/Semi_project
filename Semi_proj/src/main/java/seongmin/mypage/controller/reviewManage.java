@@ -25,13 +25,14 @@ public class reviewManage extends AbstractController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		String userid = loginuser.getUserid();		
 		session.setAttribute("loginuser", loginuser);
-
-		String sizePerPage = "10";
-		String currentShowPageNo = request.getParameter("currentShowPageNo");
-		
 		Map<String, String> paraMap = new HashMap<>();
 		paraMap.put("userid", userid);
 		InterReviewDAO rdao = new ReviewDAO();
+
+		
+		String sizePerPage = "10";
+		String currentShowPageNo = request.getParameter("currentShowPageNo");
+		
 
 		if(currentShowPageNo == null ) {
 			   currentShowPageNo = "1";

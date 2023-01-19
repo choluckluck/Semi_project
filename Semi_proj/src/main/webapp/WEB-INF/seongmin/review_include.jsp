@@ -127,19 +127,6 @@ let isRegistered = false;
 		// 리뷰 쓰기 페이지로 이동
 		
 		if(${sessionScope.loginuser != null} && isOrderOK == true && isRegistered == true) {
-	<%-- 		const url = "<%= request.getContextPath()%>/heajun/board/review_write.sue?userid="+"${sessionScope.loginuser.userid}";
-			
-			//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
-			
-			const pop_width = 800; //팝업 px은 생략가능 (더하기 할 경우 => 생략)
-			const pop_height = 650;
-			const pop_left = Math.ceil( (window.screen.width - pop_width)/2 ); // Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
-			const pop_top = Math.ceil( (window.screen.height - pop_height)/2 ); //Math.ceil(1.5) => 2가 나옴 (1.5보다 큰 최소의 정수) Math.floor(1.5) => 1이 나옴 (1.5보다 작은 최대의 정수)
-			
-			
-			window.open(url, "reviewrite",
-					    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
-			} --%>
 			const bool = confirm("리뷰 작성 페이지로 이동하시겠습니까?");
 			if(bool) {
 				const reviewForm = document.reviewForm;
